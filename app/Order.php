@@ -1,6 +1,7 @@
 <?php namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use App\State;
 
 class Order extends Model {
 
@@ -36,10 +37,14 @@ class Order extends Model {
       return $shipstatus;
 	}
 	public function getTotalWithTaxAttribute(){
-		return (floatval($this->total)*0.0888)+floatval($this->total);
+		$state = State::where('abbr',$this->state)->first();
+		$tax = ((float)$state->tax)/100;
+		return ((float)$this->total*$tax)+(float)$this->total;
 	}
 	public function getTaxAttribute(){
-		return (floatval($this->total)*0.0888);
+		$state = State::where('abbr',$this->state)->first();
+		$tax = ((float)$state->tax)/100;
+		return (floatval($this->total)*$tax);
 	}
 	public function getInvoiceArrayAttribute(){
 		$ds = DIRECTORY_SEPARATOR;
