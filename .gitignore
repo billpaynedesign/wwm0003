@@ -1,0 +1,9 @@
+.DS_Store
+Thumbs.db
+/@eaDir
+/node_modules
+Homestead.yaml
+Homestead.json
+.env
+sftp-config.json
+wp-config.php

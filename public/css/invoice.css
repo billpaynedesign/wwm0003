@@ -1,0 +1,41 @@
+    .text-center{ text-align: center; }
+    .bold *{ font-weight: bold !important; }
+    .logo{
+        width: 150px;
+        height: auto;
+        float: left;
+    }
+    #header td{
+        font-size: 14px;
+        font-weight: normal;
+        padding: 0px 8px;
+    }
+    #header td{
+        font-size: 14px;
+        font-weight: normal;
+    }
+    #address td{
+        font-weight: bold;
+        padding: 1px 8px;
+    }
+    #product_table td{
+        padding: 4px;
+        font-size: 10px;
+        font-weight: normal;
+    }
+    #product_table{
+        margin-top: 15px;
+        margin-bottom: 15px;
+        font-size: 10px;
+    }
+    #product_table th{
+        padding: 4px 0;
+        font-size: 10px;
+        font-weight: bold;
+        background-color: #CCC;
+    }
+    p.footer{
+        width: 100%;
+        text-align: center;
+        margin-top: 15px;
+    }
