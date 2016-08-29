@@ -6,11 +6,11 @@
 @endsection
 @section('scripts')
 <script type="text/javascript">    
-
+var optionCount = 0;
 $(document).ready(function(){        
   var _attributes = new Array();
   var attributeLoaded = false;
-  var optionCount = 0;
+  
    
  
 
@@ -27,7 +27,7 @@ $(document).ready(function(){
           }
       } else if(_this.val() == 'attributeNew')
       {
-        var optionCount = 0;
+        optionCount = 0;
         if({!! $attributeNames !!})
         {
           if(attributeLoaded != false)
@@ -95,7 +95,7 @@ $(document).ready(function(){
             if(attributeLoaded == false)
             {//to know when there are previou instantiated html to delete before instantiating more html
               attributeLoaded = 'new_attribute';
-                var optionCount = 0;
+                optionCount = 0;
                 var html_end = "";
                 var html_begin = "";
                 html_begin = '<div class="option-group clearfix" name="{!! $attribute->name !!}"> <label for="name">Edit Attribute Name</label> <input type="text" class="form-control" id="name" name="name" placeholder="Attribute Name" value="{!! $attribute->name !!}"> </div> ';
@@ -155,7 +155,7 @@ var load_attribute = function(){
     @endforeach
   }
 };
-var optionCount = 0;
+//var optionCount = 0;
 function add_attribute(){
   var html = '<div  class="option-group clearfix" style="margin:0px 0px 80px 0px; border-top:none; "> <div class=" clearfix" style="margin:0px 0px 0px 0px; border-top:none; "> <label style="margin:10px 0px 5px 0px; "><strong>Attribute Option</strong></label> <input type="text" class="form-control" id="options" name="options[]" placeholder="Option Name" value=""> </div> <div class="clearfix" style="margin:0px 0px 0px 0px; "> <label style="margin:10px 0px 5px 0px; " for="options_prices">Option Price ($)</label> <input type="number" class="form-control" id="options_prices" name="options_prices[]" value="0" step="0.01" min="0" /> </div> <div class="clearfix" style="margin:0px 0px 0px 0px; "> <label style="margin:10px 0px 5px 0px; " for="options_msrp">Option MSRP ($)</label> <input type="number" class="form-control" id="options_msrp" name="options_msrp[]" value="0" step="0.01" min="0" /> </div> <div class="clearfix" style="margin:15px 0px 15px 0px; "> <input type="hidden" name="options_active['+ optionCount +']" id="'+ optionCount +'" value="off"> <input class="checkbox " style="margin:10px 0px 5px 0px; display: inline;" checked type="checkbox" id="'+ optionCount +'" name="options_active['+ optionCount +']" > <label class="" style="margin:10px 0px 5px 0px; display: inline;" for="options_active"> Is This Option Active?</label> </div> <div class="clearfix" style="margin:0px 0px 0px 0px; "> <a href="javascript:void(0);" class="pull-left btn btn-sm btn-danger" onclick="$(this).parent().parent().remove();"> <span class="glyphicon glyphicon-trash" aria-hidden="true"><label style="margin:0px 0px 0px 0px; "  class="" for="options_active">  Delete Option</label>  </span></a> </div> <div id="new_option_spot"> </div> </div>   ';
   optionCount += 1;
