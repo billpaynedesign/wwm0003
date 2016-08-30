@@ -76,7 +76,7 @@
 								<tr>
 									<td>{{ $userpricing->product->name }}</td>
 									<td>{{ $userpricing->product->price_string }}</td>
-									<td><input type="number" name="prices[{{ $userpricing->id }}]" value="{{ $userpricing->price?$userpricing->price:$userpricing->product->price }}"</td>
+									<td><input type="number" step="0.01" min="0" name="prices[{{ $userpricing->id }}]" value="{{ $userpricing->price?$userpricing->price:$userpricing->product->price }}"</td>
 									<td><input type="checkbox" name="delete[]" value="{{ $userpricing->id }}" /></td>
 								</tr>
 							@endforeach

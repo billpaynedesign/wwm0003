@@ -35,8 +35,10 @@
             <td>${{ \number_format($row->price,2) }}</td>
             <td>{{ $row->qty }}</td>
             <td>
+              <?php $sep = ''; ?>
               @foreach($row->options as $k => $v)
-                {{ $v.' ' }}
+                {{ $sep.$k.': '.$v }}
+                <?php $sel = ', '; ?>
               @endforeach
             </td>
             <td>${{ \number_format($row->subtotal,2) }}</td>

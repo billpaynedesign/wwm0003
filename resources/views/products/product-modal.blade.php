@@ -41,17 +41,12 @@
   </div>
   
   <div class="col-xs-12">
-    <p><strong>Description:</strong></p>
-    <p>{!! nl2br($product->description) !!}</p>
     <p><strong>Details:</strong></p>
+    <p>{!! nl2br($product->description) !!}</p>
+    <p><strong>Overview:</strong></p>
     <p>{!! nl2br($product->short_description) !!}</p>
     <p><strong>Admin Note:</strong></p>
     <p>{!! nl2br($product->note) !!}</p>
-    <?php $attributeOptions = $product->productAttributes()->active()->where('name','=',$attribute->name)->orderBy('id')->get(); ?>
-    @foreach($attributeOptions as $option)
-      <p>Attribute Option {{ $option->id }}: </p>
-      <p>{{ $option->option }} - ${{ $option->price }}.00</p>
-    @endforeach
     <p><strong>Picture:</strong></p>
     <img src="{{ asset($product->picture?'pictures/'.$product->picture:'images/noimg.gif') }}" class="pull-left" style="max-width: 250px;"/></h1>
   </div>

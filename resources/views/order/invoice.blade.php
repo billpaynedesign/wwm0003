@@ -82,8 +82,8 @@
             <td>{{ $order->transaction->address1.($order->transaction->address2?' '.$order->transaction->address2:'') }}</td>
           </tr>
           <tr>
-            <td>City,State:</td>
-            <td>{{ $order->transaction->city }},{{ $order->transaction->state }}</td>
+            <td>City, State:</td>
+            <td>{{ $order->transaction->city }}, {{ $order->transaction->state }}</td>
           </tr>
           <tr>
             <td>Country:</td>
@@ -157,12 +157,12 @@
         @endforeach
         <tr>
           <td colspan="5"></td>
-          <th bgcolor="#CCC" align="right"> State Tax + </th>
+          <th bgcolor="#CCC" align="right" style="padding-right:8px;"> State Tax + </th>
           <td style="text-align:center;">${{ \number_format($order->tax,2) }}</td>
         </tr>
         <tr>
           <td colspan="5"></td>
-          <th bgcolor="#CCC" align="right">Total</th>
+          <th bgcolor="#CCC" align="right" style="padding-right:8px;">Total</th>
           <td style="text-align:center;">${{ \number_format($order->total_with_tax,2) }}</td>
         </tr>
       </tbody>

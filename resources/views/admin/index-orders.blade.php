@@ -39,7 +39,7 @@
           <a href="{{ route('order-delete',$order->id) }}" class="btn btn-danger" title="Remove #{{ $order->id }}" onclick="return confirm('Are you sure you want to remove order: #{{ $order->id }}');">
             <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
           </a>
-          <button class="btn btn-default html-popover" data-toggle="popover" data-container="body" data-placement="left" data-trigger="click" data-content="{!! $order->invoice_html_list !!}"><span class="fa fa-files-o"></span></button>
+          <button class="btn btn-default html-popover" data-toggle="popover" data-container="body" data-placement="left" data-trigger="focus" data-content="{!! $order->invoice_html_list !!}"><span class="fa fa-files-o"></span></button>
         </td>
       </tr>
       @endforeach

@@ -7,7 +7,7 @@
 <div class="container main-container no-padding">
   <div class="col-xs-12 main-col">
     <h1>Order Information</h1>
-    <div class="col-md-6 col-xs-12">
+    <div id="order_information_table" class="col-md-6 col-xs-12">
       <table>
         <tr><th colspan="2">Shipping Information</th></tr>
         <tr>

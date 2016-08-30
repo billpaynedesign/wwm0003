@@ -95,7 +95,7 @@
                 </option>
               @foreach($attributeOptions as $option)
                 <option value="{{ $option->option }}" data-price="{{ \number_format($option->price,2) }}">
-                  {{ $option->option }} - ${{ $option->price }}.00
+                  {{ $option->option }} - ${{ number_format($option->price,2) }}
                 </option>
               @endforeach
             </select>
