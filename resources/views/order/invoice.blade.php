@@ -130,7 +130,8 @@
           <th bgcolor="#CCC">LotNum</th>
           <th bgcolor="#CCC">Expiry Date</th>
           <!-- <th bgcolor="#CCC">Option</th> -->
-          <th bgcolor="#CCC">Qty</th>
+          <th bgcolor="#CCC">Qty</th> 
+          <th bgcolor="#CCC">Options</th>
           <th bgcolor="#CCC">Backordered</th>
           <th bgcolor="#CCC">Price</th>
           <th bgcolor="#CCC">Total</th>
@@ -142,6 +143,7 @@
           <td style="text-align:center;">{{ $detail->expiration }}</td>
           <!-- <td></td> -->
           <td style="text-align:center;">{{ $detail->quantity }}</td>
+          <td style="text-align:center;">{{ $detail->options }}</td>
           <td style="text-align:center;">{{ $detail->backordered }}</td>
           @if($order->user)
             @if($order->user->product_price_check($detail->product->id))

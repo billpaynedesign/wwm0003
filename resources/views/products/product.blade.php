@@ -25,19 +25,41 @@
       var html;
       var final_price;
       $('.attribute_select').each(function(){
+        //var addative = parseFloat($(this).find(':selected').data('price'));
+        if(option == 0)
+        {
+
+
         option = option + parseFloat($(this).find(':selected').data('price'));
         if($(this).attr('id') == 'Color'){
           $('.option-swatch').removeClass('selected');
           $('[data-option="'+$(this).val()+'"]').addClass('selected');
         }
+      }
+        if(option > 0)
+        {
+          final_price = option;
+          if(price < msrp || final_price < msrp){
+            html = '<span class="strike-through"><s>$'+msrp + '</s><strong class="text-orange">  $'+final_price+'</strong></span>';
+          }
+          else{
+            html = '$'+final_price;
+          }
+
+          $('#price').html(html);
+          
+        }
       });
-      final_price = price + option;
+      return;
+      //Moved the rest of this function into the logic of if(option > 0 statement)
+      final_price = option;
       if(price < msrp || final_price < msrp){
-        html = '<span class="strike-through">$'+msrp+'.00</span><br/><strong class="text-orange">$'+final_price+'.00</strong>';
+        html = '<span style=".strike-through:{text-decoration:line-through;}" class="strike-through">$'+msrp + '</span><br/><strong class="text-orange">$'+final_price+'</strong>';
       }
       else{
-        html = '$'+final_price + '.00';
+        html = '$'+final_price;
       }
+
       $('#price').html(html);
     }
     });
@@ -71,9 +93,10 @@
       @else
         <p class="price">Your Price: <span id="price">{{ $product->price_string }}</span></p>
       @endif
+      </div>
       <form action="{{ route('add-to-cart') }}" method="post" role="form">
-        
-        <div class="col-md-4">
+          <div class="form-group row"> 
+          <div class="col-md-4">
           <label class="pull-right" style="font-size:12px;" for="quantity">QTY</label>
           </div>
           <div class="col-md-8">

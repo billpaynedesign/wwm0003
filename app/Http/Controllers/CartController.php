@@ -66,15 +66,29 @@ class CartController extends Controller {
 	    else{
 			$total = $product->price;
 	    }
+	    //dd($total);
 		if($product->discountAvailable){
 			$total -= $product->discount;
 		}
 		if($request->has('options')){
 			$attribute = array();
-			
+			//dd($request->input('options'));
 			foreach ($request->input('options') as $key => $option) {
+				//dd($option);
+				if($option == '')
+				{
+					
+				} else {
+
 				$attribute = ProductAttribute::where('product_id','=',$product->id)->where('name','=',$key)->where('option','=',$option)->first();
-				$total += $attribute->price;
+				}
+				//dd($attribute->price);
+				if($option != null)
+				{
+									$total = $attribute->price;
+									break;
+
+				}
 			}
 			
 			Cart::associate('App\Product')->add($product->id, $product->name, intval($request->input('quantity')), $total, $request->has('options')?$request->input('options'):array());
@@ -261,6 +275,19 @@ class CartController extends Controller {
 			$orderDetail->product_id = $item->id;
 			$orderDetail->quantity = $item->qty;
 			$orderDetail->subtotal = $item->subtotal;
+			$sep = "";
+
+            foreach($item->options as $k => $v)
+            {
+            	if($sep == '')
+            	{
+            		$sep = $v ==""?"":$k .': '. $v;
+            	} else {
+            		$sep = $v ==""?$sep:$sep .', '. $k .': '. $v;
+            	}
+            }
+              
+            $orderDetail->options = $sep;
 			$order->details()->save($orderDetail);
 		}
 

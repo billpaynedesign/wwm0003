@@ -113,13 +113,7 @@
               <td>{{ $detail->product->name }}</td>
               <td>{{ $detail->shipped?'Shipped':'Not Shipped' }}</td>
               <td>{{ $detail->quantity }}</td>
-              <td>
-                @if($detail->other)
-                  @foreach(explode(',',$detail->other) as $other)
-                    {{ explode(":",$other)[1].' ' }}
-                  @endforeach
-                @endif
-              </td>
+              <td>{{ $detail->options }}</td>
               <td>${{ \number_format($detail->subtotal,2) }}</td>
             </tr>
             @endforeach
