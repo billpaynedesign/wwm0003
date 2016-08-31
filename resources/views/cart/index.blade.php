@@ -35,19 +35,12 @@
             <td>${{ \number_format($row->price,2) }}</td>
             <td>{{ $row->qty }}</td>
             <td>
-              <?php 
-              $sep = ''; 
-             foreach($row->options as $k => $v)
-            {
-              if($sep == '')
-              {
-                $sep = $v ==""?"":$k .': '. $v;
-              } else {
-                $sep = $v ==""?$sep:$sep .', '. $k .': '. $v;
-              }
-            }
-            ?>
-            {{ $sep }}
+                <?php $sep = ''; ?>
+              @foreach($row->options as $k => $v)
+                {{ $sep.$k.': '.$v }}
+                <?php $sep = ', '; ?>
+              @endforeach
+
             </td>
             <td>${{ \number_format($row->subtotal,2) }}</td>
             <td>

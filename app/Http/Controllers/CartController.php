@@ -54,6 +54,7 @@ class CartController extends Controller {
 		return view('cart.index',compact('cart'));
 	}
 	public function add(Request $request){
+		//dd($request->all());
 		$product = Product::find($request->input('id'));
 	    if(Auth::check()){
 	        if(Auth::user()->product_price_check($request->input('id'))){
@@ -72,26 +73,30 @@ class CartController extends Controller {
 		}
 		if($request->has('options')){
 			$attribute = array();
+			$option_array = array();
 			//dd($request->input('options'));
 			foreach ($request->input('options') as $key => $option) {
 				//dd($option);
+				
 				if($option == '')
 				{
 					
 				} else {
+				$option_array[$key] = $option;
 
 				$attribute = ProductAttribute::where('product_id','=',$product->id)->where('name','=',$key)->where('option','=',$option)->first();
 				}
 				//dd($attribute->price);
+
 				if($option != null)
 				{
-									$total = $attribute->price;
-									break;
+					$total = $attribute->price;
+					
 
 				}
 			}
 			
-			Cart::associate('App\Product')->add($product->id, $product->name, intval($request->input('quantity')), $total, $request->has('options')?$request->input('options'):array());
+			Cart::associate('App\Product')->add($product->id, $product->name, intval($request->input('quantity')), $total, $request->has('options')?$option_array:array());
 		}
 		else{
 			Cart::associate('App\Product')->add($product->id, $product->name, intval($request->input('quantity')), $total);
