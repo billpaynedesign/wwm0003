@@ -280,8 +280,8 @@ class CartController extends Controller {
 			$orderDetail->product_id = $item->id;
 			$orderDetail->quantity = $item->qty;
 			$orderDetail->subtotal = $item->subtotal;
+			/*
 			$sep = "";
-
             foreach($item->options as $k => $v)
             {
             	if($sep == '')
@@ -291,8 +291,13 @@ class CartController extends Controller {
             		$sep = $v ==""?$sep:$sep .', '. $k .': '. $v;
             	}
             }
-              
-            $orderDetail->options = $sep;
+            */
+			$option = $sep = '';
+			foreach($row->options as $k => $v){
+				$option .= $sep.$k.': '.$v;
+				$sel = ', ';
+			}
+            $orderDetail->options = $option;
 			$order->details()->save($orderDetail);
 		}
 
