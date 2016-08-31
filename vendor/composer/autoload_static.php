@@ -1022,6 +1022,7 @@ class ComposerStaticInita864c481a4c3760e132aaf15a80c6e4b
         'Text_Renderer' => __DIR__ . '/..' . '/dompdf/dompdf/include/text_renderer.cls.php',
         'Text_Template' => __DIR__ . '/..' . '/phpunit/php-text-template/src/Template.php',
         'UpdateAddPurchaseOrderNumTransactionTable' => __DIR__ . '/../..' . '/database/migrations/2016_08_29_030451_update_add_purchase_order_num_transaction_table.php',
+        'UpdateAddRequireLicenseProductTable' => __DIR__ . '/../..' . '/database/migrations/2016_08_30_183336_update_add_require_license_product_table.php',
         'UsersTableSeeder' => __DIR__ . '/../..' . '/database/seeds/UsersTableSeeder.php',
         'Whoops\\Module' => __DIR__ . '/..' . '/filp/whoops/src/deprecated/Zend/Module.php',
         'Whoops\\Provider\\Zend\\ExceptionStrategy' => __DIR__ . '/..' . '/filp/whoops/src/deprecated/Zend/ExceptionStrategy.php',

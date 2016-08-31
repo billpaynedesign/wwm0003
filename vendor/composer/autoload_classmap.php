@@ -690,6 +690,7 @@ return array(
     'Text_Renderer' => $vendorDir . '/dompdf/dompdf/include/text_renderer.cls.php',
     'Text_Template' => $vendorDir . '/phpunit/php-text-template/src/Template.php',
     'UpdateAddPurchaseOrderNumTransactionTable' => $baseDir . '/database/migrations/2016_08_29_030451_update_add_purchase_order_num_transaction_table.php',
+    'UpdateAddRequireLicenseProductTable' => $baseDir . '/database/migrations/2016_08_30_183336_update_add_require_license_product_table.php',
     'UsersTableSeeder' => $baseDir . '/database/seeds/UsersTableSeeder.php',
     'Whoops\\Module' => $vendorDir . '/filp/whoops/src/deprecated/Zend/Module.php',
     'Whoops\\Provider\\Zend\\ExceptionStrategy' => $vendorDir . '/filp/whoops/src/deprecated/Zend/ExceptionStrategy.php',
