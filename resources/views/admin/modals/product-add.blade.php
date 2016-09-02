@@ -23,13 +23,27 @@
           <label for="item_number">Item #:</label>
           <input type="text" class="form-control" id="item_number" name="item_number" placeholder="Item #" />
         </div>
-        <div class="form-group">
-          <label for="msrp">MSRP:</label>
-          <input type="number" id="msrp" name="msrp" step="0.01" min="0" class="form-control" />
+        <div id="uom_groups">
+          <div class="uom_single">
+            <hr/>
+            <div class="form-group">
+              <label for="uom">Unit of Measure</label>
+              <input type="text" id="uom" name="uom[]" class="form-control" required />
+            </div>
+            <div class="form-group">
+              <label for="msrp">MSRP:</label>
+              <input type="number" id="msrp" name="msrp[]" step="0.01" min="0" class="form-control" required />
+            </div>
+            <div class="form-group">
+              <label for="price">Price:</label>
+              <input type="number" id="price" name="price[]" step="0.01" min="0" class="form-control" required />
+            </div>
+          </div>
         </div>
         <div class="form-group">
-          <label for="price">Price:</label>
-          <input type="number" id="price" name="price" step="0.01" min="0" class="form-control" />
+          <hr/>
+          <a class="btn btn-success" onclick="javascript:add_uom();"><span class="fa fa-plus"></span>&nbsp;Add Unit of Measure</a>
+          <hr/>
         </div>
         <div class="form-group">
           <label for="manufacturer">Manufacturer:</label>
@@ -46,12 +60,12 @@
           </label>
         </div>
         <div class="form-group">
-          <label for="productshortdescription">Short Description:</label>
-          <textarea class="form-control" id="productshortdescription" name="productshortdescription" placeholder="Short Description">{{ old('productshortdescription')?old('productshortdescription'):'' }}</textarea>
+          <label for="productshortdescription">Overview:</label>
+          <textarea class="form-control" id="productshortdescription" name="productshortdescription" placeholder="Overview">{{ old('productshortdescription')?old('productshortdescription'):'' }}</textarea>
         </div>
         <div class="form-group">
-          <label for="productdescription">Long Description:</label>
-          <textarea class="form-control" id="productdescription" name="productdescription" placeholder="Long Description">{{ old('productdescription')?old('productdescription'):'' }}</textarea>
+          <label for="productdescription">Details:</label>
+          <textarea class="form-control" id="productdescription" name="productdescription" placeholder="Details">{{ old('productdescription')?old('productdescription'):'' }}</textarea>
         </div>
         <div class="form-group">
           <label for="image">Product Picture:</label>

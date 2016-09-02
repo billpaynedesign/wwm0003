@@ -141,7 +141,13 @@ function parent_category_change(){
     $('#header').parent().removeClass('hide');
     $('#header_sec').parent().removeClass('hide');
   }
-}</script>
+}
+function add_uom(){
+  var html = '<div class="uom_single"> <hr/> <div class="form-group"> <button class="btn btn-danger" onclick="$(this).parent().parent().remove();"><span class="fa fa-trash"></span></button> </div> <div class="form-group"> <label for="uom">Unit of Measure</label> <input type="text" id="uom" name="uom[]" class="form-control" required /> </div> <div class="form-group"> <label for="msrp">MSRP:</label> <input type="number" id="msrp" name="msrp[]" step="0.01" min="0" class="form-control" required /> </div> <div class="form-group"> <label for="price">Price:</label> <input type="number" id="price" name="price[]" step="0.01" min="0" class="form-control" required /> </div> </div>'
+  $("#uom_groups").append(html);
+  return false;
+}
+</script>
 @stop
 
 @section('content')

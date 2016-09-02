@@ -46,25 +46,11 @@ Route::group(['prefix'=>'product'],function(){
 	    	Route::get('/import', ['uses'=>'ProductController@import','as' => 'product-import']);
 	    	Route::post('/import', ['uses'=>'ProductController@import_upload','as' => 'product-import-upload']);
 	    	Route::post('/import/preview', ['uses'=>'ProductController@import_preview','as' => 'product-import-preview']);
-	    	Route::get('/attribute/create/{id}', ['uses'=>'ProductController@attribute_create','as' => 'product-attribute-create']);
-	    	Route::post('/attribute/new', ['uses'=>'ProductController@attribute_new','as' => 'product-attribute-new']);
-	    	Route::get('/attribute/edit/{id}', ['uses'=>'ProductController@attribute_edit','as' => 'attribute-edit']);
-	    	Route::post('/attribute/update', ['uses'=>'ProductController@attribute_update','as' => 'attribute-update']);
-	    	Route::post('/attribute/delete',['uses'=>'ProductController@attribute_delete','as' => 'attribute-delete']);
-	    	Route::get('/attribute/toggle',['uses'=>'ProductController@toggleActive','as'=>'attribute-toggle']);
-
-
-	    	Route::get('/attribute/toggle/available', ['uses'=>'ProductController@toggle_available','as'=>'attribute-available']);
 			Route::get('/toggle/taxable', ['uses'=>'ProductController@toggle_taxable','as'=>'product-taxable']);
-			Route::get('/attribute/toggle/featured', ['uses'=>'ProductController@toggle_featured','as'=>'attribute-featured']);
-			Route::get('/attribute/toggle/discount', ['uses'=>'ProductController@toggle_discount','as'=>'attribute-discountAvailable']);
-
 			Route::get('/toggle/active', ['uses'=>'ProductController@toggleActive','as'=>'product-toggle-active']);
 			Route::get('/toggle/featured', ['uses'=>'ProductController@toggleFeatured','as'=>'product-toggle-featured']);
-
 			Route::get('/edit/{id}',['uses'=>'ProductController@edit','as'=>'product-edit']);
 			Route::post('/edit',['uses'=>'ProductController@update','as'=>'product-update']);
-
 			Route::post('/info/modal',['uses'=>'ProductController@infoModal','as'=>'product-info-modal']);
 		});
 	});
@@ -139,6 +125,7 @@ Route::group(['prefix'=>'user'],function(){
 	});
 });
 Route::resource('shipto','ShipToController');
+Route::resource('unit_of_measure','UnitOfMeasureController');
 Route::controllers([
 	'auth' => 'Auth\AuthController',
 	'password' => 'Auth\PasswordController',

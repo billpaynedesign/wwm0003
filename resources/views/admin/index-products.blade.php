@@ -43,9 +43,6 @@
           <button class="btn btn-info" data-toggle="modal" data-target="#order-info" title="{{ $product->name }} Product Information" onclick="product_information('{{ $product->id }}');">
             <span class="fa fa-info"></span>
           </button>
-          <a href="{{ route('product-attribute-create',$product->id) }}" class="btn btn-success" title="Add Attributes to {{ $product->name }}">
-            <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
-          </a>
           <a href="{{ route('product-edit',$product->id) }}" class="btn btn-warning" title="Edit {{ $product->name }}">
             <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
           </a>

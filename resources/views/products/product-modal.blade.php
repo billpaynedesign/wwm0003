@@ -2,7 +2,7 @@
   <div class="col-xs-12">
     <h1>{{ $product->name }}</h1>
     <p><strong>Information:</strong></p>
-    <div class="col-md-6 col-xs-12">
+    <div class="col-md-8 col-xs-12">
       <table class="table">
         <tr>
           <td>Category: </td>
@@ -11,14 +11,6 @@
         <tr>
           <td>Manufacturer: </td>
           <td>{{ $product->manufacturer }}</td>
-        </tr>
-        <tr>
-          <td>Price: </td>
-          <td>{{ $product->price_string }}</td>
-        </tr>
-        <tr>
-          <td>MSRP: </td>
-          <td>{{ $product->msrp_string }}</td>
         </tr>
         <tr>
           <td>Item Number: </td>
@@ -38,13 +30,34 @@
         </tr>
       </table>
     </div>
+    <div class="clearfix"></div>
+    <p><strong>Pricing:</strong></p>
+    <div class="col-md-8 col-xs-12">
+      <table class="table">
+        <tr>
+          <th>UOM</th>
+          <th>MSRP</th>
+          <th>Price</th>
+        </tr>
+        @if($product->units_of_measure)
+          @foreach($product->units_of_measure as $uom)
+            <tr>
+              <td>{{ $uom->name }}:</td>
+              <td>{{ $uom->msrp_string }}</td>
+              <td>{{ $uom->price_string }}</td>
+            </tr>
+          @endforeach
+        @endif
+      </table>
+    </div>
   </div>
+    <div class="clearfix"></div>
   
   <div class="col-xs-12">
-    <p><strong>Details:</strong></p>
-    <p>{!! nl2br($product->description) !!}</p>
     <p><strong>Overview:</strong></p>
     <p>{!! nl2br($product->short_description) !!}</p>
+    <p><strong>Details:</strong></p>
+    <p>{!! nl2br($product->description) !!}</p>
     <p><strong>Admin Note:</strong></p>
     <p>{!! nl2br($product->note) !!}</p>
     <p><strong>Picture:</strong></p>

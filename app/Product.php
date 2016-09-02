@@ -25,15 +25,8 @@ class Product extends Model implements SluggableInterface{
     public function user_price_check($user_id){
         return $this->user_price()->where('user_id',$user_id)->first();
     }
-    public function productAttributes(){
-    	return $this->hasMany('App\ProductAttribute');
-    }
-    public function uniqueAttributeNames(){
-    	$names = array();
-    	foreach($this->productAttributes as $attribute){
-    		$names[$attribute->name] = NULL;
-    	}
-    	return $names;
+    public function units_of_measure(){
+    	return $this->hasMany('App\UnitOfMeasure');
     }
     public function pictures(){
     	return $this->hasMany('App\Picture','key','id');
@@ -51,11 +44,29 @@ class Product extends Model implements SluggableInterface{
     public function reviews(){
         return $this->hasMany('App\Review');
     }
-    public function getPriceStringAttribute(){
-        return '$'.\number_format((float)$this->price,2);
+    public function getMinPriceAttribute(){
+        $min_uom = $this->units_of_measure()->orderBy('price','desc')->first();
+        if($min_uom){
+            return $min_uom->price;
+        }
+        else{
+            return false;
+        }
     }
-    public function getMsrpStringAttribute(){
-        return '$'.\number_format((float)$this->msrp,2);        
+    public function getMinPriceStringAttribute(){
+        return '$'.\number_format((float)$this->min_price,2);
+    }
+    public function getMinMsrpAttribute(){
+        $min_uom = $this->units_of_measure()->orderBy('msrp','desc')->first();
+        if($min_uom){
+            return $min_uom->msrp;
+        }
+        else{
+            return false;
+        }
+    }
+    public function getMinMsrpStringAttribute(){
+        return '$'.\number_format((float)$this->min_msrp,2);
     }
     public function scopeActive($query){
         return $query->where('active',1);

@@ -64,10 +64,10 @@ class Category extends Model implements SluggableInterface{
 	    }
     }
 	public function childProducts(){
-		$products = $this->products()->active()->get()->toArray();
+		$products = $this->products()->active()->get();
 		if($this->children->count()>0){
 			foreach ($this->children as $child) {
-				$products = array_merge($products, $child->childProducts());
+				$products = $products->merge($child->childProducts());
 			}
 		}
 		return $products;

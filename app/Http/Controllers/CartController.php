@@ -293,7 +293,7 @@ class CartController extends Controller {
             }
             */
 			$option = $sep = '';
-			foreach($row->options as $k => $v){
+			foreach($item->options as $k => $v){
 				$option .= $sep.$k.': '.$v;
 				$sel = ', ';
 			}
