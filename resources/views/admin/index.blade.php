@@ -2,7 +2,7 @@
 @extends('app')
 
 
-@section('title') {{{ $title }}} :: @parent @stop
+@section('title') Admin Dashboard :: @parent @stop
 
 @section('scripts')
 <script type="text/javascript">
@@ -147,6 +147,11 @@ function add_uom(){
   $("#uom_groups").append(html);
   return false;
 }
+function add_option(){
+  var html = '<div class="option_single"> <hr/> <div class="form-group"> <button class="btn btn-danger" onclick="$(this).parent().parent().remove();"><span class="fa fa-trash"></span></button> </div> <div class="form-group"> <label for="option_names">Option Name</label> <input type="text" id="option_names" name="option_names[]" class="form-control" required /> </div> </div>'
+  $("#option_groups").append(html);
+  return false;
+}
 </script>
 @stop
 
@@ -242,7 +247,7 @@ function add_uom(){
     <div role="tabpanel" class="tab-pane tab-pane-admin" id="orders">
       @include('admin.index-orders')
     </div>
-    <!-- ORDERS -->
+    <!-- BACKORDERS -->
     <div role="tabpanel" class="tab-pane tab-pane-admin" id="backorders">
       @include('admin.index-backorders')
     </div>
@@ -265,6 +270,7 @@ function add_uom(){
   @include('admin.modals.product-add')
   @include('admin.modals.category-add')
   @include('admin.modals.order-info')
+  @include('admin.modals.option-add')
 
   <div class="modal fade" id="order-status" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
     <div class="modal-dialog modal-lg">

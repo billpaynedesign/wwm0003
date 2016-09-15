@@ -19,8 +19,14 @@ class Product extends Model implements SluggableInterface{
 	'save_to'    => 'slug',
 	];
 
+    public function groups(){
+        return  $this->belongsToMany('App\ProductGroup','product_has_product_groups','product_id','product_group_id');
+    }
+    public function options(){
+        return $this->belongsToMany('App\Option','product_has_options','product_id','option_id');
+    }
     public function user_price(){
-        $this->hasMany('App\UserPricing', 'id', 'product_id', 'user_has_pricing');
+        return $this->hasMany('App\UserPricing', 'id', 'product_id', 'user_has_pricing');
     }
     public function user_price_check($user_id){
         return $this->user_price()->where('user_id',$user_id)->first();

@@ -7,8 +7,14 @@
   -->
 
   <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#add-inventory">
-    <span class="glyphicon glyphicon-barcode" aria-hidden="true"></span>&nbsp; Add Product
+    <span class="fa fa-barcode" aria-hidden="true"></span>&nbsp; Add Product
   </button>
+  <button type="button" class="btn btn-success" data-toggle="modal" data-target="#add-option">
+    <span class="fa fa-plus" aria-hidden="true"></span>&nbsp; Add Product Option
+  </button>
+  <a href="{{ route('group-product-select-group') }}" class="btn btn-info">
+    <span class="fa fa-sitemap" aria-hidden="true"></span>&nbsp; Group Products By Options
+  </a>
 </div>
 <div class="table-responsive">
   <table id="products_table" class="table table-striped table-hover tablesorter text-left">
@@ -20,8 +26,6 @@
         <th>Manufacturer</th>
         <th>Item #</th>
         <th>Available</th>
-        <!--<th>Taxable</th>-->
-        <!--<th>Featured</th>-->
         <th>Action</th>
       </tr>
     </thead>

@@ -585,6 +585,28 @@ a img {
 .product-details .checkbox label{
   font-size: 14px;
 }
+.product-nav-pills li{
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+.product-nav-pills li a,
+.product-nav-pills li a:focus,
+.product-nav-pills li a:visited,
+.product-nav-pills li a:hover{
+  color: #000;
+  text-align: left;
+  font-size: 14px;
+  line-height: 21px;
+  font-family: 'Open Sans', sans-serif;
+  border: 1px solid #ccc;
+}
+.product-nav-pills li.active a,
+.product-nav-pills li.active a:focus,
+.product-nav-pills li.active a:visited,
+.product-nav-pills li.active a:hover{
+  color: #fff;
+  background: #1a3f72;
+}
 .justified-list{
   display: inline-block;
   list-style: none;
@@ -631,7 +653,7 @@ input[type="number"].form-control{
   background: #1a3f72;
   background-color: #1a3f72;
   text-decoration: none;
-  border: 0;
+  border: 1px solid #1a3f72;
   margin-bottom: 0;
 }
 .btn-default.disabled{

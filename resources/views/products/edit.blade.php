@@ -112,8 +112,39 @@ function add_uom(){
           <label for="image">Item Picture</label>
           <input type="file" id="image" name="image">
           <p class="help-block">If no picture is chosen the existing product picture will be used.</p>
-
-
+        </div> 
+        @if(count($product->groups)>0)
+          <div class="form-group">
+            <hr/>
+            <h4>Product Groups</h4>
+            <table class="table table-striped table-hover table-bordered">
+              @foreach($product->groups as $product_group)
+                <tr>
+                  <td>{{ $product_group->option_group->name }}:</td>
+                  <td>
+                    <?php $first = '';
+                    foreach($product_group->products as $option_product):
+                      if($option = $product_group->option_group->options()->whereHas('products', function($query) use($option_product){ $query->where('product_id', $option_product->id); })->first()):
+                        if($option_product->id===$product->id):
+                          echo $first.'<u>'.$option->option.'</u>';
+                        else:
+                          echo $first.$option->option;
+                        endif;                        
+                      endif;
+                      $first = ', ';
+                    endforeach;
+                    ?>
+                  </td>
+                  <td>
+                    <a href="{{ route('option.edit',$product_group->id) }}" class="btn btn-warning"><span class="fa fa-edit"></span></a>
+                  </td>
+                </tr>
+              @endforeach
+            </table>
+            <hr/>
+          </div>
+        @endif
+        <div class="form-group">
           <input type="hidden" name="_token" value="{{ csrf_token() }}">
           <input type="hidden" name="id" value="{{ $product->id }}"/>
           <button type="submit" name="cancel" value="true" class="btn btn">Cancel</button>

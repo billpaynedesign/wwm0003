@@ -124,9 +124,27 @@ Route::group(['prefix'=>'user'],function(){
 		});
 	});
 });
-Route::resource('shipto','ShipToController');
-Route::resource('unit_of_measure','UnitOfMeasureController');
+//login admin routes
+Route::group(['middleware'=>'auth'],function(){
+	Route::group(['middleware'=>'admin'],function(){
+		Route::resource('shipto','ShipToController');
+		Route::resource('unit_of_measure','UnitOfMeasureController');
+		Route::resource('option','OptionGroupController');
+		Route::get('group/product/select/group',['uses'=>'OptionGroupController@group_product_select_group', 'as'=>'group-product-select-group']);
+		Route::post('group/product/select/products',['uses'=>'OptionGroupController@group_product_select_products', 'as'=>'group-product-select-products']);
+		Route::post('group/product/option/associate',['uses'=>'OptionGroupController@group_product_option_associate', 'as'=>'group-product-option-associate']);
+		Route::post('group/product/option/save',['uses'=>'OptionGroupController@group_product_option_save', 'as'=>'group-product-option-save']);
+		Route::post('group/product/option/{id}/add',['uses'=>'OptionGroupController@group_product_option_add','as'=>'group-product-option-add']);
+		Route::post('group/product/product/{id}/add',['uses'=>'OptionGroupController@group_product_product_add','as'=>'group-product-product-add']);
+		Route::post('group/product/{id}/delete',['uses'=>'OptionGroupController@group_product_delete','as'=>'group-product-option-delete']);
+	});
+});
 Route::controllers([
 	'auth' => 'Auth\AuthController',
 	'password' => 'Auth\PasswordController',
 ]);
+
+/*Event::listen('illuminate.query', function($query)
+{
+    var_dump($query);
+});*/

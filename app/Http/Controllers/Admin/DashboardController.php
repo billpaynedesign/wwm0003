@@ -8,6 +8,7 @@ use App\ProductAttribute;
 use App\Order;
 use App\OrderDetails;
 use App\Commands\CategoryHelper;
+use App\OptionGroup;
 
 class DashboardController extends AdminController {
     public function __construct()
@@ -16,7 +17,6 @@ class DashboardController extends AdminController {
     }
 	public function index()
 	{
-        $title = "Admin Dashboard";
         $categories = Category::all();
         $categoryHelper = new CategoryHelper($categories);
         $products = Product::all();
@@ -28,6 +28,8 @@ class DashboardController extends AdminController {
                         $query->where('backordered', '>', 0);
                     }])->get();
         $users = User::all();
-        return view('admin.index',  compact('title','products','categories','latest_products','orders', 'backorders','latest_orders','users','categoryHelper'));
+
+        $option_groups = OptionGroup::all();
+        return view('admin.index',  compact('option_groups','products','categories','latest_products','orders', 'backorders','latest_orders','users','categoryHelper'));
 	}
 }

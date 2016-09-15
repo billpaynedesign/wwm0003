@@ -17,14 +17,30 @@ $(document).ready(function(){
 @section('content')
 <div class="container main-container no-padding">
   <div class="col-md-8 col-xs-12 main-col">
-    <div class="col-md-4 col-xs-12 text-center">
-      @if($product->picture)
-      <img src="{{ asset('pictures/'.$product->picture) }}" class="img-responsive center-block" alt="{{ $product->name }}" />
-      @else
-      <img src="{{ asset('images/noimg.gif') }}" class="img-responsive center-block" alt="No Image Available" />
-      @endif  
+    <div class="col-md-6 col-xs-12 text-center">
+      <div class="form-group">
+        @if($product->picture)
+        <img src="{{ asset('pictures/'.$product->picture) }}" class="img-responsive" alt="{{ $product->name }}" />
+        @else
+        <img src="{{ asset('images/noimg.gif') }}" class="img-responsive" alt="No Image Available" />
+        @endif 
+      </div>
+      @if(count($product->groups)>0)
+        <div class="form-group">
+          @foreach($product->groups as $product_group)
+            <h4 class="text-left">{{ $product_group->option_group->name }}:</h4>
+            <ul class="nav nav-pills product-nav-pills">
+              @foreach($product_group->products as $option_product)
+                @if($option = $product_group->option_group->options()->whereHas('products', function($query) use($option_product){ $query->where('product_id', $option_product->id); })->first())
+                  <li class="{{ $option_product->id===$product->id?'active':'' }}"><a href="{{ route('product-show', $option_product->slug) }}">{{ $option->option }}</a></li>
+                @endif
+              @endforeach
+            </ul>
+          @endforeach
+        </div>
+      @endif
     </div>
-    <div class="col-md-8 col-xs-12 product-details">
+    <div class="col-md-6 col-xs-12 product-details">
 
       <h1>{{ $product->name }}</h1>
 
