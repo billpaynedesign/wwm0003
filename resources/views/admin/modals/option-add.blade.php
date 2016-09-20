@@ -27,7 +27,7 @@
 				</div>
 				<div class="modal-footer">
 					{!! csrf_field() !!}
-					<button type="button" class="btn" data-dismiss="modal">Close</button>
+					<button type="button" class="btn btn-cancel" data-dismiss="modal">Close</button>
 					<button type="submit" class="btn btn-default">Save changes</button>
 				</div>
 			</form>

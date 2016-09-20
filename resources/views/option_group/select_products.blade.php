@@ -25,7 +25,7 @@
 <div class="container-fluid main-container no-padding">
   <div class="col-xs-12 main-col">
     <h1>Add Products to Group by: {{ $option->name }}</h1>
-    <div class="col-md-6 col-xs-12">
+    <div class="col-lg-8 col-md-9 col-xs-12">
       <div class="table-responsive">
         <table id="products_table" class="table table-striped table-hover tablesorter text-left">
           <thead>
@@ -64,7 +64,7 @@
     </div>
     <form action="{{ route('group-product-option-associate') }}" method="POST" onsubmit="return validate_products();">
 
-      <div class="col-md-6 col-xs-12">
+      <div class="col-lg-4 col-md-3 col-xs-12">
         <div class="form-group">
           <table id="add_product_table" class="table table-striped table-hover" style="margin-top: 50px;">
             <thead class="text-left">
@@ -82,7 +82,7 @@
         <div class="form-group pull-right">
           {!! csrf_field() !!}
           <input type="hidden" name="option_group_id" value="{{ $option->id }}" />
-          <button type="submit" name="cancel" value="true" class="btn btn">Cancel</button>
+          <a href="{{ route('admin-dashboard') }}" class="btn btn-cancel">Cancel</a>
           <button type="submit" name="submit" value="true" class="btn btn-default">Submit</button>
         </div>
       </div>

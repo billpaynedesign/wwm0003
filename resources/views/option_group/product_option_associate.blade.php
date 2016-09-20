@@ -58,7 +58,7 @@
       <div class="form-group col-xs-12">
         {!! csrf_field() !!}
         <input type="hidden" name="option_group_id" value="{{ $option_group->id }}" />
-        <button type="submit" name="cancel" value="true" class="btn btn">Cancel</button>
+          <a href="{{ route('admin-dashboard') }}" class="btn btn-cancel">Cancel</a>
         <button type="submit" name="submit" value="true" class="btn btn-default">Submit</button>
       </div>
     </form>

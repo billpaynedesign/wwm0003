@@ -128,8 +128,9 @@ class OptionGroupController extends Controller
     }
 
     public function group_product_option_add(Request $request, $id){
+        $product_group = ProductGroup::find($id);
         $option = new Option;
-        $option->option_group_id = $id;
+        $option->option_group_id = $product_group->option_group_id;
         $option->option = $request->input('option_add');
         $option->save();
 
@@ -142,7 +143,9 @@ class OptionGroupController extends Controller
         }
         $product_group->products()->attach($request->input('add_product_id'));
         $option = Option::find($request->input('option_id'));
-        $option->products()->attach($request->input('add_product_id'));
+        if(!$option->products->contains($request->input('add_product_id'))){
+            $option->products()->attach($request->input('add_product_id'));
+        }
 
         return redirect()->route('option.edit', $id)->with(['success'=>'Product added successfully']);
     }

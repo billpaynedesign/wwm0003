@@ -95,7 +95,7 @@
             <p class="help-block text-danger">This group is full with every option available, if you need to add a product please delete one from this group or <a data-toggle="modal" href="#add-option">add another option</a> to this group first.</p>
           @endif
           {!! csrf_field() !!}
-          <button type="submit" name="cancel" value="true" class="btn btn">Cancel</button>
+          <a href="{{ route('admin-dashboard') }}" class="btn btn-cancel">Cancel</a>
           <a class="btn btn-success" data-toggle="modal" href='#add-product' {{ $can_add?'':'disabled' }}>Add Product</a>
           <a class="btn btn-info" data-toggle="modal" href="#add-option">Add Option</a>
           <button type="submit" name="submit" value="true" class="btn btn-default">Submit</button>
@@ -131,7 +131,7 @@
         </div>
         <div class="modal-footer">
           {!! csrf_field() !!}
-          <button type="button" class="btn" data-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-cancel" data-dismiss="modal">Close</button>
           <button type="type" class="btn btn-default">Save changes</button>
         </div>
       </form>
@@ -142,7 +142,7 @@
 <div class="modal fade" id="add-option">
   <div class="modal-dialog">
     <div class="modal-content">
-      <form action="{{ route('group-product-option-add', $product_group->option_group_id) }}" method="POST" role="form">
+      <form action="{{ route('group-product-option-add', $product_group->id) }}" method="POST" role="form">
         <div class="modal-header">
           <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
           <h4 class="modal-title">Add Option</h4>
@@ -155,7 +155,7 @@
         </div>
         <div class="modal-footer">
           {!! csrf_field() !!}
-          <button type="button" class="btn" data-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-cancel" data-dismiss="modal">Close</button>
           <button type="submit" class="btn btn-default">Save changes</button>
         </div>
       </form>
