@@ -58,49 +58,46 @@
   <div class="col-xs-12 main-col">
     <h1>Edit Product Group: {{ $product_group->option_group->name }}</h1>
     <div class="col-xs-12">
-      <form action="{{ route('group-product-select-products') }}" method="POST" >
-        <div class="form-group">
-          <table class="table table-striped table-hover table-border">
-            <thead>
-              <tr>
-                <th>Product</th>
-                <th>Category</th>
-                <th>Option</th>
-                <th>Delete?</th>
-              </tr>
-            </thead>
-            <tbody>
-              @foreach($product_group->products as $option_product)
-                @if($option = $product_group->option_group->options()->whereHas('products', function($query) use($option_product){ $query->where('product_id', $option_product->id); })->first())
-                  <tr>
-                    <td>{{ $option_product->name }}</td>
-                    <td>{{ $option_product->category?$option_product->category->name:'' }}</td>
-                    <td>{{ $option->option }}</td>
-                    <td>
-                      <form action="{{ route('group-product-option-delete', $product_group->id) }}" method="POST" onsubmit="return confirm('Are you sure you want to delete {{ $option_product->name }} from this group?');">
-                        <input type="hidden" name="product_id" value="{{ $option_product->id }}" />
-                        <input type="hidden" name="option_id" value="{{ $option->id }}" />
-                        {!! csrf_field() !!}
-                        <button type="submit" class="btn btn-danger"><span class="fa fa-trash"></span></button>
-                      </form>
-                    </td>
-                  </tr>
-                @endif
-              @endforeach
-            </tbody>
-          </table>
-        </div>
-        <div class="form-group">
-          @if(!$can_add)
-            <p class="help-block text-danger">This group is full with every option available, if you need to add a product please delete one from this group or <a data-toggle="modal" href="#add-option">add another option</a> to this group first.</p>
-          @endif
-          {!! csrf_field() !!}
-          <a href="{{ route('admin-dashboard') }}" class="btn btn-cancel">Cancel</a>
-          <a class="btn btn-success" data-toggle="modal" href='#add-product' {{ $can_add?'':'disabled' }}>Add Product</a>
-          <a class="btn btn-info" data-toggle="modal" href="#add-option">Add Option</a>
-          <button type="submit" name="submit" value="true" class="btn btn-default">Submit</button>
-        </div>
-      </form>
+      <div class="form-group">
+        <table class="table table-striped table-hover table-border">
+          <thead>
+            <tr>
+              <th>Product</th>
+              <th>Category</th>
+              <th>Option</th>
+              <th>Delete?</th>
+            </tr>
+          </thead>
+          <tbody>
+            @foreach($product_group->products as $option_product)
+              @if($option = $product_group->option_group->options()->whereHas('products', function($query) use($option_product){ $query->where('product_id', $option_product->id); })->first())
+                <tr>
+                  <td>{{ $option_product->name }}</td>
+                  <td>{{ $option_product->category?$option_product->category->name:'' }}</td>
+                  <td>{{ $option->option }}</td>
+                  <td>
+                    <form action="{{ route('group-product-option-delete', $product_group->id) }}" method="POST" onsubmit="return confirm('Are you sure you want to delete {{ $option_product->name }} from this group?');">
+                      <input type="hidden" name="product_id" value="{{ $option_product->id }}" />
+                      <input type="hidden" name="option_id" value="{{ $option->id }}" />
+                      {!! csrf_field() !!}
+                      <button type="submit" class="btn btn-danger"><span class="fa fa-trash"></span></button>
+                    </form>
+                  </td>
+                </tr>
+              @endif
+            @endforeach
+          </tbody>
+        </table>
+      </div>
+      <div class="form-group">
+        @if(!$can_add)
+          <p class="help-block text-danger">This group is full with every option available, if you need to add a product please delete one from this group or <a data-toggle="modal" href="#add-option">add another option</a> to this group first.</p>
+        @endif
+        {!! csrf_field() !!}
+        <a href="{{ route('admin-dashboard') }}" class="btn btn-cancel">Cancel</a>
+        <a class="btn btn-success" data-toggle="modal" href='#add-product' {{ $can_add?'':'disabled' }}>Add Product</a>
+        <a class="btn btn-info" data-toggle="modal" href="#add-option">Add Option</a>
+      </div>
     </div>
   </div>
 </div>
