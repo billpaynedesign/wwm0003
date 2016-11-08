@@ -43,7 +43,7 @@ class ApiSearchController  extends Controller {
 		$productsByNumber = Product::active()->where('item_number','=',strtoupper($query))->orderBy('name','asc')->take(5)->get(['slug','name','picture','item_number'])->toArray();
 		$productsByNumber = array_merge(Product::active()->where('item_number','=',strtolower($query))->orderBy('name','asc')->take(5)->get(['slug','name','picture','item_number'])->toArray(), $productsByNumber);
 		$categories = Category::active()->where('name','like','%'.$query.'%')->orderBy('name','asc')->take(5)->get(['slug','name','picture'])->toArray();
-		
+
 		// Normalize data
 		$products = $this->appendURL($products, 'product');
 		$productsByNumber = $this->appendURL($productsByNumber, 'product');
@@ -53,6 +53,7 @@ class ApiSearchController  extends Controller {
 		$productsByNumber = $this->appendValue($productsByNumber, 'item_number', 'class');
 		$categories = $this->appendValue($categories, 'category', 'class');
 
+		//replace name with the item number to normalize the api call
 		foreach ($productsByNumber as $k => $v) {
 			$productsByNumber[$k]['name'] = $v['item_number'];
 		}
@@ -69,7 +70,7 @@ class ApiSearchController  extends Controller {
 		foreach ($data as $key => & $item) {
 			$item[$element] = $type;
 		}
-		return $data;		
+		return $data;
 	}
 
 	public function appendURL($data, $prefix)
@@ -78,7 +79,7 @@ class ApiSearchController  extends Controller {
 		foreach ($data as $key => & $item) {
 			$item['url'] = url($prefix.'/'.$item['slug']);
 		}
-		return $data;		
+		return $data;
 	}
 	public function addProduct(Request $request){
 
@@ -91,7 +92,7 @@ class ApiSearchController  extends Controller {
 		$products = Product::active()->where('name','like','%'.$query.'%')->orderBy('name','asc')->take(5)->get(['id','slug','name','picture','item_number'])->toArray();
 		$productsByNumber = Product::active()->where('item_number','=',strtoupper($query))->orderBy('name','asc')->take(5)->get(['id','slug','name','picture','item_number'])->toArray();
 		$productsByNumber = array_merge(Product::active()->where('item_number','=',strtolower($query))->orderBy('name','asc')->take(5)->get(['id','slug','name','picture','item_number'])->toArray(), $productsByNumber);
-		
+
 		// Normalize data
 		$products = $this->appendID($products, 'product');
 		$productsByNumber = $this->appendID($productsByNumber, 'product');
@@ -115,6 +116,6 @@ class ApiSearchController  extends Controller {
 		foreach ($data as $key => & $item) {
 			$item['url'] = $item['id'];
 		}
-		return $data;		
+		return $data;
 	}
 }

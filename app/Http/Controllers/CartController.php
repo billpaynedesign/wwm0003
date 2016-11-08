@@ -54,53 +54,11 @@ class CartController extends Controller {
 		return view('cart.index',compact('cart'));
 	}
 	public function add(Request $request){
-		//dd($request->all());
 		$product = Product::find($request->input('id'));
-	    if(Auth::check()){
-	        if(Auth::user()->product_price_check($request->input('id'))){
-	        	$total = Auth::user()->product_price_check($request->input('id'))->price;
-	        }
-	        else{
-				$total = $product->price;
-	        }
-	    }
-	    else{
-			$total = $product->price;
-	    }
-	    //dd($total);
-		if($product->discountAvailable){
-			$total -= $product->discount;
-		}
-		if($request->has('options')){
-			$attribute = array();
-			$option_array = array();
-			//dd($request->input('options'));
-			foreach ($request->input('options') as $key => $option) {
-				//dd($option);
-				
-				if($option == '')
-				{
-					
-				} else {
-				$option_array[$key] = $option;
+		$uom = UnitOfMeasure::find($request->input('uom'));
+		$total = $uom->price;
 
-				$attribute = ProductAttribute::where('product_id','=',$product->id)->where('name','=',$key)->where('option','=',$option)->first();
-				}
-				//dd($attribute->price);
-
-				if($option != null)
-				{
-					$total = $attribute->price;
-					
-
-				}
-			}
-			
-			Cart::associate('App\Product')->add($product->id, $product->name, intval($request->input('quantity')), $total, $request->has('options')?$option_array:array());
-		}
-		else{
-			Cart::associate('App\Product')->add($product->id, $product->name, intval($request->input('quantity')), $total);
-		}
+		Cart::add($product->id, $product->name, intval($request->input('quantity')), $total, [$uom->name])->associate('App\Product');
 		if(session()->has('shipping') || !Auth::check()){
 			return back()->with('success','Added to your cart successfully');
 		}
@@ -180,7 +138,7 @@ class CartController extends Controller {
 			$order->details()->save($orderDetail);
 		}
 		*/
-		
+
 		return view('cart.payment',compact('order'));
 
 	}
@@ -250,7 +208,7 @@ class CartController extends Controller {
 			$authorize->cust_id = $order->user_id;
 
 			$authorize->amount = ($transaction->state=='FL')?$order->total+round($order->total * .065,2):$order->total;
-			
+
 			$response = $authorize->authorizeAndCapture();
 			if($response->approved){
 				$order->transactionStatus = 'Paid';
@@ -404,7 +362,7 @@ class CartController extends Controller {
 			$shipto = ShipTo::find($request->input('shipping_id'));
 		}
 		session()->put('shipping', $shipto);
-		
+
 		return redirect()->route('home')->with('success','Shipping set successfully.');
 	}
 }

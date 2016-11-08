@@ -75,7 +75,7 @@ class ProductController extends Controller {
 			$product->category_id = $request->input('category');
 			$product->item_number = $request->input('item_number');
 			$product->description = $request->input('productdescription');
-			$product->short_description = $request->input('short_description');
+			$product->short_description = $request->input('shortdescription');
 			$product->manufacturer = $request->input('manufacturer');
 			$product->active = $request->has('active')?1:0;
 			$product->has_lot_expiry = $request->has('has_lot_expiry')?1:0;

@@ -16,9 +16,9 @@
 
 	<link rel="icon" href="{{ asset('/favicon.ico') }}" type="favicon.icon"/>
 
-	<link href="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.1/css/bootstrap.min.css" rel="stylesheet">
+	<link href="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
 	<link href="{{ asset('/css/master.css') }}" rel="stylesheet">
-	<link href="//cdn.datatables.net/1.10.7/css/jquery.dataTables.min.css" rel="stylesheet">
+	<link href="//cdn.datatables.net/1.10.12/css/dataTables.bootstrap.min.css" rel="stylesheet">
 	<link href="{{ asset('/js/lightbox-bootstrap/ekko-lightbox.min.css') }}" rel="stylesheet">
 	<link href="{{ asset('/js/bootstrap-fileinput/css/fileinput.min.css') }}" rel="stylesheet">
 	<link href="{{ asset('/js/dropzone/basic.css') }}" rel="stylesheet">
@@ -32,8 +32,9 @@
 
 	<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
 	<script src="//cdnjs.cloudflare.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
-	<script src="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.1/js/bootstrap.min.js"></script>
-	<script src="//cdn.datatables.net/1.10.7/js/jquery.dataTables.min.js"></script>
+	<script src="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.6/js/bootstrap.min.js"></script>
+	<script src="//cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"></script>
+	<script src="//cdn.datatables.net/1.10.12/js/dataTables.bootstrap.min.js"></script>
 	<script src="{{ asset('/js/lightbox-bootstrap/ekko-lightbox.min.js') }}"></script>
 	<script src="{{ asset('/js/bootstrap-fileinput/js/fileinput.min.js') }}"></script>
 	<script src="{{ asset('/js/dropzone/dropzone.js') }}"></script>
