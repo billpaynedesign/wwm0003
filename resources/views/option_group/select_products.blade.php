@@ -51,7 +51,7 @@
                 {!! $product->active == 1?'<span class="glyphicon glyphicon-ok"></span>':'<span class="glyphicon glyphicon-remove"></span>' !!}
               </td>
               <td class="text-center">
-                <button type="button" class="btn btn-success" onclick="add_product('{{ $product->category?$product->category->name:'' }}','{{ $product->name }}', {{ $product->id }});">
+                <button type="button" class="btn btn-success" onclick="add_product('{{ $product->category?str_replace("'",'',$product->category->name):'' }}','{{ str_replace("'",'',$product->name) }}', {{ $product->id }});">
                   <span class="fa fa-angle-double-right"></span>
                 </button>
               </td>

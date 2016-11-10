@@ -155,7 +155,10 @@ class OptionGroupController extends Controller
         $product_group->products()->detach($request->input('product_id'));
         $option = Option::find($request->input('option_id'));
         $option->products()->detach($request->input('product_id'));
-
+        if(count($product_group->products)===0){
+            $product_group->delete();
+            return redirect()->route('admin-dashboard')->with(['tab'=>'products']);
+        }
         return redirect()->route('option.edit', $id)->with(['success'=>'Product deleted successfully']);
     }
 }
