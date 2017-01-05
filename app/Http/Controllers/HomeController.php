@@ -44,13 +44,14 @@ class HomeController extends Controller {
 		}
 		else{
 			Mail::send('emails.contact', compact('request'), function ($m) use ($request) {
-            	$m->to('lbodden@drivegroupllc.com', 'Leopold Bodden')->subject('WWMD Contact Form');
+            	$m->to('bw@wwmdusa.com', 'Brent Weintraub')->subject('WWMD Contact Form');
+            	$m->to('bw.wwmd@gmail.com', 'Brent Weintraub')->subject('WWMD Contact Form');
+            	$m->to('wwmdusa@gmail.com', 'Brent Weintraub')->subject('WWMD Contact Form');
+            	$m->bcc('lbodden@drivegroupllc.com', 'Leopold Bodden')->subject('WWMD Contact Form');
+            	$m->replyTo($request->input('real_email'));
         	});
-			/*Mail::send('emails.contact', compact('request'), function ($m) use ($request) {
-            	$m->to('oakwoodfurniture@aol.com', 'Amish Direct Furniture')->subject('WWMD Contact Form');
-        	});*/
 		}
-		return redirect()->back();
+		return redirect()->back()->with('mail-sent','Success');
 	}
 
 	public function aboutus(){

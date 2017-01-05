@@ -8,6 +8,7 @@ use App\Commands;
 use App\Category;
 use App\ProductAttribute;
 use App\Order;
+use App\UnitOfMeasure;
 use App\OrderDetail;
 use Auth;
 use Carbon\Carbon;
@@ -58,7 +59,7 @@ class CartController extends Controller {
 		$uom = UnitOfMeasure::find($request->input('uom'));
 		$total = $uom->price;
 
-		Cart::add($product->id, $product->name, intval($request->input('quantity')), $total, [$uom->name])->associate('App\Product');
+		Cart::associate('App\Product')->add($product->id, $product->name, intval($request->input('quantity')), $total, [$uom->name]);
 		if(session()->has('shipping') || !Auth::check()){
 			return back()->with('success','Added to your cart successfully');
 		}
@@ -107,7 +108,6 @@ class CartController extends Controller {
 			$shipto = ShipTo::find($request->input('shipping_id'));
 		}
 		session()->put('shipping', $shipto);
-
 		$order = new Order;
 		$order->user_id = $user->id;
 		$order->shippingname = $shipto->name;
@@ -148,6 +148,7 @@ class CartController extends Controller {
 		$user = Auth::user();
 		$transaction = new Transaction;
 		if($request->input('same_as_shipping')){
+			$transaction->name = $order->shippingname;
 			$transaction->address1 = $order->address1;
 			$transaction->address2 = $order->address2;
 			$transaction->city = $order->city;
@@ -155,6 +156,7 @@ class CartController extends Controller {
 			$transaction->zip = $order->zip;
 		}
 		else{
+			$transaction->name = $request->input('name');
 			$transaction->address1 = $request->input('address1');
 			$transaction->address2 = $request->input('address2');
 			$transaction->city = $request->input('city');
@@ -249,13 +251,13 @@ class CartController extends Controller {
             		$sep = $v ==""?$sep:$sep .', '. $k .': '. $v;
             	}
             }
-            */
 			$option = $sep = '';
 			foreach($item->options as $k => $v){
 				$option .= $sep.$k.': '.$v;
 				$sel = ', ';
 			}
-            $orderDetail->options = $option;
+            */
+            $orderDetail->options = count($item->options)>0?$item->options[0]:$item->options;
 			$order->details()->save($orderDetail);
 		}
 
@@ -283,6 +285,7 @@ class CartController extends Controller {
 			    });
 		}
 		Cart::destroy();
+		if(session()->has('order')) session()->forget('order');
 		return redirect()->route('order-show',$order->token);
 
 	}

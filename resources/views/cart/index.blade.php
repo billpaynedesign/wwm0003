@@ -31,17 +31,10 @@
           @foreach($cart as $row)
           <?php $product = App\Product::find($row->id); ?>
           <tr>
-            <td>{{ $row->name }}</td>
+            <td><a href="{{ route('product-show', $product->slug) }}">{{ $row->name }}</a></td>
             <td>${{ \number_format($row->price,2) }}</td>
             <td>{{ $row->qty }}</td>
-            <td>
-                <?php $sep = ''; ?>
-              @foreach($row->options as $k => $v)
-                {{ $sep.$k.': '.$v }}
-                <?php $sep = ', '; ?>
-              @endforeach
-
-            </td>
+            <td>{{ implode(',',$row->options->toArray()) }}</td>
             <td>${{ \number_format($row->subtotal,2) }}</td>
             <td>
               <button id="edit_button_{{ $row->rowid }}" class="btn btn-info" onclick="edit('{{ $row->rowid }}');" title="Edit Quantity">

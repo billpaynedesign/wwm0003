@@ -10,6 +10,7 @@
 
     return (c ? num.replace('.', c) : num).replace(new RegExp(re, 'g'), '$&' + (s || ','));
   };
+  var name = '{{ $order->shippingname }}';
   var address1 = '{{ $order->address1 }}';
   var address2 = '{{ $order->address2 }}';
   var city = '{{ $order->city }}';
@@ -50,6 +51,7 @@
     });
     $('#same-as-shipping').on('change',function(){
       if($(this).is(':checked')){
+        $('#name').val(name).prop('readonly',true);
         $('#address1').val(address1).prop('readonly',true);
         $('#address2').val(address2).prop('readonly',true);
         $('#city').val(city).prop('readonly',true);
@@ -70,6 +72,7 @@
         $('.fl_tax').removeClass('hide');
       }
       else{
+        $('#name').val('').prop('readonly',false);
         $('#address1').val('').prop('readonly',false);
         $('#address2').val('').prop('readonly',false);
         $('#city').val('').prop('readonly',false);
@@ -121,18 +124,18 @@
     @endif
     <div id="error_alert" class="alert alert-danger hide" role="alert"></div>
     <form action="{{ route('cart-checkout') }}" method="post" role="form" onsubmit="return validate_form();">
-      <div class="form-group">
+      <div class="form-group" style="display:none;">
         <div class="checkbox">
           <label for="purchase_order_check">
-            <input type="checkbox" id="purchase_order_check" name="purchase_order_check" /> Pay by Purchase Order
+            <input type="checkbox" id="purchase_order_check" name="purchase_order_check" checked="checked"/> Pay by Purchase Order
           </label>
         </div>
       </div>
-      <div id="purchase_order_group" class="form-group" style="display:none;">
+      <div id="purchase_order_group" class="form-group">
           <label for="purchase_order_number">Purchase Order Number</label>
         <input type="text" id="purchase_order_number" name="purchase_order_number" class="form-control" />
       </div>
-      <div id="card_group">
+      <div id="card_group" style="display:none;">
         <div class="form-group">
           <label for="card_num">Card Number</label>
           <input type="text" name="card_num" id="card_num" class="form-control" />
@@ -187,6 +190,10 @@
             <input id="same-as-shipping" type="checkbox" name="same_as_shipping" value="true"> Same as shipping
           </label>
         </div>
+      </div>
+      <div class="form-group">
+        <label for="name">Name:</label>
+        <input type="text" name="name" id="name" class="form-control" required/>
       </div>
       <div class="form-group">
         <label for="address1">Address Line 1:</label>

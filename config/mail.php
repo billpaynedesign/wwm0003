@@ -54,7 +54,7 @@ return [
     |
     */
 
-    'from' => ['address' => 'donotreply@amishdirectfurn.com', 'name' => 'Amish Direct Furniture'],
+    'from' => ['address' => 'donotreply@wwmdusa.com', 'name' => 'World Wide Medical Distributors'],
 
     /*
     |--------------------------------------------------------------------------

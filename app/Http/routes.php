@@ -126,8 +126,8 @@ Route::group(['prefix'=>'user'],function(){
 });
 //login admin routes
 Route::group(['middleware'=>'auth'],function(){
+	Route::resource('shipto','ShipToController');
 	Route::group(['middleware'=>'admin'],function(){
-		Route::resource('shipto','ShipToController');
 		Route::resource('unit_of_measure','UnitOfMeasureController');
 		Route::resource('option','OptionGroupController');
 		Route::get('group/product/select/group',['uses'=>'OptionGroupController@group_product_select_group', 'as'=>'group-product-select-group']);
