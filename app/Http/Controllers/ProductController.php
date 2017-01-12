@@ -63,8 +63,8 @@ class ProductController extends Controller {
 	public function edit($id){
 		$product = Product::find($id);
         $categories = Category::all();
-        $categoryHelper = new CategoryHelper($categories);
-		return view('products.edit',compact('product','categoryHelper'));
+        //$categoryHelper = new CategoryHelper($categories);
+		return view('products.edit',compact('product','categories'));
 	}
 	public function update(Request $request){
 		if($request->has('cancel')){
@@ -72,7 +72,6 @@ class ProductController extends Controller {
 		}else{
 			$product = Product::find($request->input('id'));
 			$product->name = $request->input('name');
-			$product->category_id = $request->input('category');
 			$product->item_number = $request->input('item_number');
 			$product->description = $request->input('productdescription');
 			$product->short_description = $request->input('shortdescription');
@@ -90,6 +89,8 @@ class ProductController extends Controller {
 				$product->picture = $filename;
 			}
 			$product->save();
+
+			$product->categories()->sync($request->input('category'));
 
 			if($request->has('uom')){
 				foreach($request->input('uom') as $uom_id => $name){
@@ -111,7 +112,7 @@ class ProductController extends Controller {
 				}
 			}
 
-			return redirect()->route('admin-dashboard')->with(['tab'=>'products','success'=>'Product updated successfully.']);
+			return redirect()->route('product-edit', $product->id)->with(['tab'=>'products','success'=>'Product updated successfully.']);
 		}
 	}
 	public function create(Request $request)
@@ -149,6 +150,7 @@ class ProductController extends Controller {
 				$product->picture = $filename;
 			}
 			$product->save();
+			$product->categories()->attach($request->input('category'));
 
 		return redirect()->route('admin-dashboard')->with(['tab'=>'products','success'=>'Product created successfully.']);
 	}

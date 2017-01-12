@@ -29,31 +29,33 @@
       <tbody>
         @if(count($cart)>0)
           @foreach($cart as $row)
-          <?php $product = App\Product::find($row->id); ?>
-          <tr>
-            <td><a href="{{ route('product-show', $product->slug) }}">{{ $row->name }}</a></td>
-            <td>${{ \number_format($row->price,2) }}</td>
-            <td>{{ $row->qty }}</td>
-            <td>{{ implode(',',$row->options->toArray()) }}</td>
-            <td>${{ \number_format($row->subtotal,2) }}</td>
-            <td>
-              <button id="edit_button_{{ $row->rowid }}" class="btn btn-info" onclick="edit('{{ $row->rowid }}');" title="Edit Quantity">
-                <span class="glyphicon glyphicon-edit"></span>
-              </button>
-              <form id="{{ $row->rowid }}" class="form-inline form hide pull-left" action="{{ route('cart-update') }}" method="post" role="form">
-                <input type="hidden" name="rowid" value="{{ $row->rowid }}" />
-                <div class="input-group">
-                  <input type="number" name="quantity" id="quantity" value="{{ $row->qty }}" class="form-control" min="1" max-width="5" />
-                  <span class="input-group-btn">
-                    <button type="submit" name="_token" value="{{ csrf_token() }}" class="btn btn-warning" title="Submit Quantity"><span class="glyphicon glyphicon-edit"></span></button>
-                  </span>
-                </div>
-              </form>
-              <a href="{{ route('cart-remove',$row->rowid) }}" class="btn btn-danger" onclick="return confirm('Are you sure you want to remove this item from the cart?');" title="Delete Item">
-                <span class="glyphicon glyphicon-remove"></span>
-              </a>
-            </td>
-          </tr>
+            <?php $product = App\Product::find($row->id); ?>
+            @if($product)
+              <tr>
+                <td><a href="{{ route('product-show', $product->slug) }}">{{ $row->name }}</a></td>
+                <td>${{ \number_format($row->price,2) }}</td>
+                <td>{{ $row->qty }}</td>
+                <td>{{ implode(',',$row->options->toArray()) }}</td>
+                <td>${{ \number_format($row->subtotal,2) }}</td>
+                <td>
+                  <button id="edit_button_{{ $row->rowid }}" class="btn btn-info" onclick="edit('{{ $row->rowid }}');" title="Edit Quantity">
+                    <span class="glyphicon glyphicon-edit"></span>
+                  </button>
+                  <form id="{{ $row->rowid }}" class="form-inline form hide pull-left" action="{{ route('cart-update') }}" method="post" role="form">
+                    <input type="hidden" name="rowid" value="{{ $row->rowid }}" />
+                    <div class="input-group">
+                      <input type="number" name="quantity" id="quantity" value="{{ $row->qty }}" class="form-control" min="1" max-width="5" />
+                      <span class="input-group-btn">
+                        <button type="submit" name="_token" value="{{ csrf_token() }}" class="btn btn-warning" title="Submit Quantity"><span class="glyphicon glyphicon-edit"></span></button>
+                      </span>
+                    </div>
+                  </form>
+                  <a href="{{ route('cart-remove',$row->rowid) }}" class="btn btn-danger" onclick="return confirm('Are you sure you want to remove this item from the cart?');" title="Delete Item">
+                    <span class="glyphicon glyphicon-remove"></span>
+                  </a>
+                </td>
+              </tr>
+            @endif
           @endforeach
         @else
           <tr><td colspan="6">Nothing in your cart yet.</td></tr>

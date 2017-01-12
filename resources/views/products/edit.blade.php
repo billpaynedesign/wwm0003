@@ -32,10 +32,16 @@ function add_uom(){
         </div>
         <div class="form-group">
           <label for="category">Category</label>
-          <select name="category" id="category" class="form-control" required>
-            <option value="">-- Select a Category --</option>
-            {!! $categoryHelper->htmlSelectOptions($product->category?$product->category->id:null) !!}
+          <select name="category[]" id="category" class="form-control" multiple required style="resize: vertical;">
+            @foreach($categories as $category)
+              @if($product->categories->contains($category->id))
+                <option value="{{ $category->id }}" selected>{{ $category->name }}</option>
+              @else
+                <option value="{{ $category->id }}">{{ $category->name }}</option>
+              @endif
+            @endforeach
           </select>
+          <p class="help-block">Hold ctrl to select multiple categories.</p>
         </div>
         <div class="form-group">
           <label for="item_number">Item Number</label>

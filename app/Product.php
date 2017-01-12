@@ -43,9 +43,14 @@ class Product extends Model implements SluggableInterface{
     public function orders(){
     	return $this->hasManyThrough('App\Order','App\OrderDetails','id','product_id');
     }
-    public function category()
-    {
+    /*public function category(){
     	return $this->belongsTo('App\Category');
+    }*/
+    public function getCategoryAttribute(){
+        return $this->categories()->first();
+    }
+    public function categories(){
+        return $this->belongsToMany('App\Category');
     }
     public function reviews(){
         return $this->hasMany('App\Review');

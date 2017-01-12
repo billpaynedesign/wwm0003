@@ -29,7 +29,7 @@ class DashboardController extends AdminController {
                     }])->get();
         $users = User::all();
 
-        $option_groups = OptionGroup::all();
+        $option_groups = OptionGroup::all();        
         return view('admin.index',  compact('option_groups','products','categories','latest_products','orders', 'backorders','latest_orders','users','categoryHelper'));
 	}
 }

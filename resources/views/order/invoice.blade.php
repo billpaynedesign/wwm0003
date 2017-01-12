@@ -82,8 +82,8 @@
             <td>{{ $order->transaction->address1.($order->transaction->address2?' '.$order->transaction->address2:'') }}</td>
           </tr>
           <tr>
-            <td>City, State:</td>
-            <td>{{ $order->transaction->city }}, {{ $order->transaction->state }}</td>
+            <td>City,State:</td>
+            <td>{{ $order->transaction->city }},{{ $order->transaction->state }}</td>
           </tr>
           <tr>
             <td>Country:</td>
@@ -127,11 +127,12 @@
       <table id="product_table" width="100%" cellpadding="0" border="1" cellspacing="0" style="margin-top:15px;padding:0px 0px 0px 0px;border:1px solid #CCC;font-size:10px;">
         <tbody><tr>
           <th bgcolor="#CCC">Product Name</th>
+          <th bgcolor="#CCC">Product Detail</th>
           <th bgcolor="#CCC">LotNum</th>
           <th bgcolor="#CCC">Expiry Date</th>
           <!-- <th bgcolor="#CCC">Option</th> -->
           <th bgcolor="#CCC">Qty</th> 
-          <th bgcolor="#CCC">Options</th>
+          <th bgcolor="#CCC">Size</th>
           <th bgcolor="#CCC">Backordered</th>
           <th bgcolor="#CCC">Price</th>
           <th bgcolor="#CCC">Total</th>
@@ -139,31 +140,23 @@
         @foreach($order->details as $detail)
         <tr>
           <td>{{ $detail->product->name }}</td>
+          <td>{{ $detail->product->item_number }} {{ $detail->product->options()->select('option')->get()->implode('option',',') }}</td>
           <td style="text-align:center;">{{ $detail->lot_number }}</td>
           <td style="text-align:center;">{{ $detail->expiration }}</td>
-          <!-- <td></td> -->
           <td style="text-align:center;">{{ $detail->quantity }}</td>
           <td style="text-align:center;">{{ $detail->options }}</td>
           <td style="text-align:center;">{{ $detail->backordered }}</td>
-          @if($order->user)
-            @if($order->user->product_price_check($detail->product->id))
-              <td style="text-align:center;">{{ $order->user->product_price_check($detail->product->id)->price_string }}</td>
-            @else
-              <td style="text-align:center;">{{ $detail->product->price_string }}</td>
-            @endif
-          @else
           <td style="text-align:center;">{{ $detail->product->price_string }}</td>
-          @endif
           <td style="text-align:center;">${{ \number_format($detail->subtotal,2) }}</td>
         </tr>
         @endforeach
         <tr>
-          <td colspan="5"></td>
+          <td colspan="7"></td>
           <th bgcolor="#CCC" align="right" style="padding-right:8px;"> State Tax + </th>
           <td style="text-align:center;">${{ \number_format($order->tax,2) }}</td>
         </tr>
         <tr>
-          <td colspan="5"></td>
+          <td colspan="7"></td>
           <th bgcolor="#CCC" align="right" style="padding-right:8px;">Total</th>
           <td style="text-align:center;">${{ \number_format($order->total_with_tax,2) }}</td>
         </tr>

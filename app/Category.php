@@ -38,9 +38,9 @@ class Category extends Model implements SluggableInterface{
 	public function children(){
 		return $this->hasMany('App\Category','parent_id');
 	}
-	public function products(){
-		return $this->hasMany('App\Product');
-	}
+    public function products(){
+        return $this->belongsToMany('App\Product');
+    }
 	public function scopeFeatured($query){
 		return $query->where('featured',1);
 	}

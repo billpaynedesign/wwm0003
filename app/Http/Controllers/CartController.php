@@ -51,7 +51,12 @@ class CartController extends Controller {
 	 */
 	public function show(){
 		$cart = Cart::content();
-		//dd($cart);
+		foreach ($cart as $row) {
+			$product = Product::find($row->id);
+			if(!$product){
+				Cart::remove($row->rowid);
+			}
+		}
 		return view('cart.index',compact('cart'));
 	}
 	public function add(Request $request){
@@ -236,29 +241,15 @@ class CartController extends Controller {
 		$order->save();
 
 		foreach (Cart::content() as $item) {
-			$orderDetail = new OrderDetail;
-			$orderDetail->product_id = $item->id;
-			$orderDetail->quantity = $item->qty;
-			$orderDetail->subtotal = $item->subtotal;
-			/*
-			$sep = "";
-            foreach($item->options as $k => $v)
-            {
-            	if($sep == '')
-            	{
-            		$sep = $v ==""?"":$k .': '. $v;
-            	} else {
-            		$sep = $v ==""?$sep:$sep .', '. $k .': '. $v;
-            	}
-            }
-			$option = $sep = '';
-			foreach($item->options as $k => $v){
-				$option .= $sep.$k.': '.$v;
-				$sel = ', ';
+			$product = Product::find($item->id);
+			if($product){
+				$orderDetail = new OrderDetail;
+				$orderDetail->product_id = $item->id;
+				$orderDetail->quantity = $item->qty;
+				$orderDetail->subtotal = $item->subtotal;
+	            $orderDetail->options = count($item->options)>0?$item->options[0]:$item->options;
+				$order->details()->save($orderDetail);
 			}
-            */
-            $orderDetail->options = count($item->options)>0?$item->options[0]:$item->options;
-			$order->details()->save($orderDetail);
 		}
 
 		if($user->email){
