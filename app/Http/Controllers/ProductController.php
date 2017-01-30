@@ -68,7 +68,7 @@ class ProductController extends Controller {
 	}
 	public function update(Request $request){
 		if($request->has('cancel')){
-			return redirect()->route('admin-dashboard')->with('tab','products');
+			return redirect()->route('admin-products')->with('tab','products');
 		}else{
 			$product = Product::find($request->input('id'));
 			$product->name = $request->input('name');
@@ -119,7 +119,6 @@ class ProductController extends Controller {
 	{
 			$product = new Product;
 			$product->name = $request->input('productname');
-			$product->category_id = $request->input('category');
 			/* moved to unit of measure
 			$product->msrp = $request->input('msrp');
 			$product->price = $request->input('price');
@@ -133,6 +132,8 @@ class ProductController extends Controller {
 			$product->note = $request->input('note');
 			$product->active = 1;
 			$product->save();
+			
+			$product->categories()->sync($request->input('category'));
 
 			foreach($request->input('uom') as $key => $name){
 				$uom = new UnitOfMeasure;
@@ -152,7 +153,7 @@ class ProductController extends Controller {
 			$product->save();
 			$product->categories()->attach($request->input('category'));
 
-		return redirect()->route('admin-dashboard')->with(['tab'=>'products','success'=>'Product created successfully.']);
+		return redirect()->route('admin-products')->with(['tab'=>'products','success'=>'Product created successfully.']);
 	}
 
 	public function postDelete(Request $request){
@@ -244,7 +245,7 @@ class ProductController extends Controller {
 		//get rid of the csv array in the session
 		Session::forget('csv');
 		//redirect back to merchant management home with success message
-		return redirect()->route('admin-dashboard')->with('success','Import successfully uploaded.');
+		return redirect()->route('admin-products')->with('success','Import successfully uploaded.');
 	}
 	
 	public function toggleActive(Request $request){

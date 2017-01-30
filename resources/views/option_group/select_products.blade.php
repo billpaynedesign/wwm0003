@@ -82,7 +82,7 @@
         <div class="form-group pull-right">
           {!! csrf_field() !!}
           <input type="hidden" name="option_group_id" value="{{ $option->id }}" />
-          <a href="{{ route('admin-dashboard') }}" class="btn btn-cancel">Cancel</a>
+          <a href="{{ route('admin-products') }}" class="btn btn-cancel">Cancel</a>
           <button type="submit" name="submit" value="true" class="btn btn-default">Submit</button>
         </div>
       </div>

@@ -127,11 +127,11 @@
 								@foreach($order->details as $detail)
 							      <tr>
 							        <td>{{ $order->created_at->format('m-d-Y H:i:s') }}</td>
-							        <td>{{ $detail->product->item_number }}</td>
-							        <td>{{ $detail->product->name }}</td>
-							        <td>{{ $detail->product->manufacturer }}</td>
-							        <td>{{ $detail->product->price_string }}</td>
-							        <td>{{ $detail->product->msrp_string }}</td>
+							        <td>{{ $detail->product?$detail->product->item_number:'' }}</td>
+							        <td>{{ $detail->product?$detail->product->name:'' }}</td>
+							        <td>{{ $detail->product?$detail->product->manufacturer:'' }}</td>
+							        <td>{{ $detail->product?$detail->product->price_string:'' }}</td>
+							        <td>{{ $detail->product?$detail->product->msrp_string:'' }}</td>
 							        <td>{{ $detail->quantity }}</td>
 									<td>
 										<a href="javascript:void(0);" class="btn btn-link" data-toggle="popover" data-trigger="hover" data-placement="top" data-content="<img src='{{ asset('/pictures/'.$product->picture) }}' class='img-responsive center-block' />"> 

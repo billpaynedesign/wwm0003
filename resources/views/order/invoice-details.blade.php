@@ -28,7 +28,7 @@
       </tr>
       <tr>
           <td>Name:</td>
-          <td>{{ $order->transaction->first_name.' '.$order->transaction->last_name }}</td>
+          <td>{{ $order->transaction->name }}</td>
           <td>Name:</td>
           <td>{{ $order->shippingname }}</td>
       </tr>

@@ -28,6 +28,12 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth', 'namespace' => 'Admin
 
     // Admin Dashboard
     Route::get('/', ['uses'=>'DashboardController@index','as'=>'admin-dashboard']);
+    Route::get('/category', ['uses'=>'DashboardController@category_index','as'=>'admin-categories']);
+    Route::get('/product', ['uses'=>'DashboardController@product_index','as'=>'admin-products']);
+    Route::get('/option',['uses'=>'DashboardController@option_index','as'=>'admin-options']);
+    Route::get('/order', ['uses'=>'DashboardController@order_index','as'=>'admin-orders']);
+    Route::get('/backorder', ['uses'=>'DashboardController@backorder_index','as'=>'admin-backorders']);
+    Route::get('/user', ['uses'=>'DashboardController@user_index','as'=>'admin-users']);
 });
 Route::get('/sale',['uses'=>'ProductController@sale','as'=>'sale-products']);
 Route::get('/products',['uses'=>'ProductController@index','as'=>'product-all']);
@@ -130,6 +136,8 @@ Route::group(['middleware'=>'auth'],function(){
 	Route::group(['middleware'=>'admin'],function(){
 		Route::resource('unit_of_measure','UnitOfMeasureController');
 		Route::resource('option','OptionGroupController');
+		Route::get('group/edit/{id}',['uses'=>'OptionGroupController@group_edit','as'=>'option-group-edit']);
+		Route::post('group/edit/{id}',['uses'=>'OptionGroupController@group_update','as'=>'option-group-update']);
 		Route::get('group/product/select/group',['uses'=>'OptionGroupController@group_product_select_group', 'as'=>'group-product-select-group']);
 		Route::post('group/product/select/products',['uses'=>'OptionGroupController@group_product_select_products', 'as'=>'group-product-select-products']);
 		Route::post('group/product/option/associate',['uses'=>'OptionGroupController@group_product_option_associate', 'as'=>'group-product-option-associate']);

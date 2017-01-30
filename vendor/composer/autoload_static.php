@@ -342,6 +342,8 @@ class ComposerStaticInita864c481a4c3760e132aaf15a80c6e4b
         'Abstract_Renderer' => __DIR__ . '/..' . '/dompdf/dompdf/include/abstract_renderer.cls.php',
         'AddBackorderDetailsTable' => __DIR__ . '/../..' . '/database/migrations/2016_07_15_200754_add_backorder_details_table.php',
         'Adobe_Font_Metrics' => __DIR__ . '/..' . '/phenx/php-font-lib/classes/Adobe_Font_Metrics.php',
+        'AlterAddDeletedAtCategoriesTable' => __DIR__ . '/../..' . '/database/migrations/2017_01_19_154630_alter_add_deleted_at_categories_table.php',
+        'AlterAddDeletedAtProductsTable' => __DIR__ . '/../..' . '/database/migrations/2017_01_19_143606_alter_add_deleted_at_products_table.php',
         'AlterRemovePriceMsrpProductsTable' => __DIR__ . '/../..' . '/database/migrations/2016_09_02_135249_alter_remove_price_msrp_products_table.php',
         'Attribute_Translator' => __DIR__ . '/..' . '/dompdf/dompdf/include/attribute_translator.cls.php',
         'AuthorizeNetAIM' => __DIR__ . '/..' . '/authorizenet/authorizenet/lib/AuthorizeNetAIM.php',

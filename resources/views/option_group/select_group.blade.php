@@ -24,7 +24,7 @@
         </div>
         <div class="form-group">
           {!! csrf_field() !!}
-          <a href="{{ route('admin-dashboard') }}" class="btn btn-cancel">Cancel</a>
+          <a href="{{ route('admin-products') }}" class="btn btn-cancel">Cancel</a>
           <button type="submit" name="submit" value="true" class="btn btn-default">Submit</button>
         </div>
       </form>

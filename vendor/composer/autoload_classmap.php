@@ -10,6 +10,8 @@ return array(
     'Abstract_Renderer' => $vendorDir . '/dompdf/dompdf/include/abstract_renderer.cls.php',
     'AddBackorderDetailsTable' => $baseDir . '/database/migrations/2016_07_15_200754_add_backorder_details_table.php',
     'Adobe_Font_Metrics' => $vendorDir . '/phenx/php-font-lib/classes/Adobe_Font_Metrics.php',
+    'AlterAddDeletedAtCategoriesTable' => $baseDir . '/database/migrations/2017_01_19_154630_alter_add_deleted_at_categories_table.php',
+    'AlterAddDeletedAtProductsTable' => $baseDir . '/database/migrations/2017_01_19_143606_alter_add_deleted_at_products_table.php',
     'AlterRemovePriceMsrpProductsTable' => $baseDir . '/database/migrations/2016_09_02_135249_alter_remove_price_msrp_products_table.php',
     'Attribute_Translator' => $vendorDir . '/dompdf/dompdf/include/attribute_translator.cls.php',
     'AuthorizeNetAIM' => $vendorDir . '/authorizenet/authorizenet/lib/AuthorizeNetAIM.php',

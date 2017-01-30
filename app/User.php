@@ -51,9 +51,11 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
 		$quantities = [];
 		foreach ($this->orders as $order) {
 			foreach ($order->details as $detail) {
-				if(!($products->contains($detail->product))){
-					$quantities[$detail->product->id] = OrderDetail::where('order_id',$order->id)->where('product_id',$detail->product->id)->sum('quantity');
-					$products->push($detail->product);
+				if($detail->product){
+					if(!($products->contains($detail->product))){
+						$quantities[$detail->product->id] = OrderDetail::where('order_id',$order->id)->where('product_id',$detail->product->id)->sum('quantity');
+						$products->push($detail->product);
+					}
 				}
 			}
 		}

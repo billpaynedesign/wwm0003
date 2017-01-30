@@ -3,9 +3,11 @@
 use Illuminate\Database\Eloquent\Model;
 use Cviebrock\EloquentSluggable\SluggableInterface;
 use Cviebrock\EloquentSluggable\SluggableTrait;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Category extends Model implements SluggableInterface{
 
+    use SoftDeletes;
 	use SluggableTrait;
 	static $getCategorySelect;
 	/**
@@ -19,6 +21,7 @@ class Category extends Model implements SluggableInterface{
         'build_from' => 'name',
         'save_to'    => 'slug',
     ];
+    protected $dates = ['deleted_at'];
 	/**
 	 * The attributes that are mass assignable.
 	 *

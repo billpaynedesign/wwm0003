@@ -94,7 +94,7 @@
           <p class="help-block text-danger">This group is full with every option available, if you need to add a product please delete one from this group or <a data-toggle="modal" href="#add-option">add another option</a> to this group first.</p>
         @endif
         {!! csrf_field() !!}
-        <a href="{{ route('admin-dashboard') }}" class="btn btn-cancel">Cancel</a>
+        <a href="{{ route('admin-products') }}" class="btn btn-cancel">Cancel</a>
         <a class="btn btn-success" data-toggle="modal" href='#add-product' {{ $can_add?'':'disabled' }}>Add Product</a>
         <a class="btn btn-info" data-toggle="modal" href="#add-option">Add Option</a>
       </div>

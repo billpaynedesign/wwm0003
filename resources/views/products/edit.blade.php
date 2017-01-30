@@ -41,7 +41,7 @@ function add_uom(){
               @endif
             @endforeach
           </select>
-          <p class="help-block">Hold ctrl to select multiple categories.</p>
+          <p class="help-block">To select multiple categories, hold down the CTRL or SHIFT key while selecting</p>
         </div>
         <div class="form-group">
           <label for="item_number">Item Number</label>
@@ -153,7 +153,7 @@ function add_uom(){
         <div class="form-group">
           <input type="hidden" name="_token" value="{{ csrf_token() }}">
           <input type="hidden" name="id" value="{{ $product->id }}"/>
-          <button type="submit" name="cancel" value="true" class="btn btn">Cancel</button>
+          <button type="submit" name="cancel" value="true" class="btn btn-cancel">Cancel</button>
           <button type="submit" name="submit" value="true" class="btn btn-default">Submit</button>
         </div>
       </form>

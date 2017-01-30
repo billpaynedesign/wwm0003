@@ -251,6 +251,8 @@ class CartController extends Controller {
 				$order->details()->save($orderDetail);
 			}
 		}
+		Cart::destroy();
+		if(session()->has('order')) session()->forget('order');
 
 		if($user->email){
 			$email = $user->email;
@@ -272,52 +274,21 @@ class CartController extends Controller {
 				'transaction' => $transaction
 			];
 			Mail::send("emails.receipt", $data, function($message) use ($email){
-			        $message->to($email)->subject('World Wide Medical Order Receipt');
-			    });
+			    $message->to($email)->subject('World Wide Medical Order Receipt');
+			});
 		}
-		Cart::destroy();
-		if(session()->has('order')) session()->forget('order');
+		Mail::send('emails.ordernotif',$data, function($message){
+			$message
+    			->to('bw@wwmdusa.com', 'Brent Weintraub')
+    			->bcc('bw.wwmd@gmail.com', 'Brent Weintraub')
+    			->bcc('wwmdusa@gmail.com', 'Brent Weintraub')
+    			->bcc('lbodden@drivegroupllc.com', 'Leopold Bodden')
+	        	->subject('New Order - World Wide Medical');
+		});
 		return redirect()->route('order-show',$order->token);
 
 	}
-	public function create(Request $request)
-	{
-		if($request->input('category') == 'other'){
-			$category = new Category;
-			$category->name = $request->input('category-other');
-			$category->save();
-		}
-		else{
-			$category = Category::where('slug','=',$request->input('category'))->first();
-		}
-
-		$product = new Product;
-		$product->name = $request->input('productname');
-		$product->sku = $request->input('sku');
-		$product->category_id = $category->id;
-		$product->description = $request->input('productdescription');
-		$product->inStock = $request->input('stock');
-		$product->note = $request->input('note');
-
-		if(!$product->save()){
-			return redirect()->route('admin-dashboard')->withInput()->with(['failed'=>'The product was unable to be added. Please check your input and try again.','modal'=>'add-inventory']);
-		}
-
-		if($request->hasFile('image')){
-			$destinationPath = public_path().'/pictures';
-			$filename = $request->file('image')->getClientOriginalName();
-			$request->file('image')->move($destinationPath, $filename);
-
-			$image = new Picture;
-			$image->name = $filename;
-			$image->type = 'product';
-			$image->key = $product->id;
-			$image->save();
-		}
-
-		return redirect()->route('admin-dashboard')->with('success','Product created successfully.');
-	}
-
+	
 	public function remove($rowid){
 		$removed = Cart::remove($rowid);
 		/*dd($removed);

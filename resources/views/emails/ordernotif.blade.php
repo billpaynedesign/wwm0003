@@ -1,6 +1,6 @@
 @extends('emails.layout')
 @section('h1')
-Thank you for your purchase.
+New Order
 @stop
 @section('content')
 <strong>Order/Billing Information:</strong>

@@ -14,10 +14,10 @@
         </div>
         <div class="form-group">
           <label for="category">Category:</label>
-          <select name="category" id="category" class="form-control" required>
-            <option value="">-- Select One --</option>
+          <select name="category[]" id="category" class="form-control" required multiple>
             {!! $categoryHelper->htmlSelectOptions() !!}
           </select>
+          <p class="help-block">To select multiple categories, hold down the CTRL or SHIFT key while selecting</p>
         </div>
         <div class="form-group">
           <label for="item_number">Item #:</label>
@@ -77,7 +77,7 @@
         </div>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-cancel" data-dismiss="modal">Close</button>
         <button type="submit" class="btn btn-default">Save changes</button>
       </div>
     </form>

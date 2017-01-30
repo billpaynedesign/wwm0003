@@ -17,19 +17,40 @@ class DashboardController extends AdminController {
     }
 	public function index()
 	{
+        $latest_products = Product::take(6)->orderBy('created_at','DESC')->get();
+        $latest_orders = Order::orderBy('created_at','=','DESC')->take(5)->get();
+
+        //$option_groups = OptionGroup::all();        
+        return view('admin.index',  compact('latest_products','latest_orders'));
+	}
+    public function category_index(){
+        $categories = Category::all();
+        $categoryHelper = new CategoryHelper($categories);
+
+        return view('admin.index-categories', compact('categories','categoryHelper'));
+    }
+    public function product_index(){
         $categories = Category::all();
         $categoryHelper = new CategoryHelper($categories);
         $products = Product::all();
-        $latest_products = Product::take(6)->orderBy('created_at','DESC')->get();
-        $pictures = array();
-        $latest_orders = Order::orderBy('created_at','=','DESC')->take(5)->get();
+        return view('admin.index-products', compact('products','categoryHelper'));
+    }
+    public function order_index(){
         $orders = Order::orderBy('created_at','=','DESC')->get();
+        return view('admin.index-orders',compact('orders'));
+    }
+    public function backorder_index(){
         $backorders = Order::with(['details' => function ($query) {
                         $query->where('backordered', '>', 0);
                     }])->get();
+        return view('admin.index-backorders',compact('backorders'));
+    }
+    public function user_index(){
         $users = User::all();
-
-        $option_groups = OptionGroup::all();        
-        return view('admin.index',  compact('option_groups','products','categories','latest_products','orders', 'backorders','latest_orders','users','categoryHelper'));
-	}
+        return view('admin.index-users',compact('users'));
+    }
+    public function option_index(){
+        $option_groups = OptionGroup::all();
+        return view('admin.index-options',compact('option_groups'));
+    }
 }

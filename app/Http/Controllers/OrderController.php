@@ -40,7 +40,7 @@ class OrderController extends Controller {
 	}
 	public function update(Request $request){
 		if($request->has('cancel')){
-			return redirect()->route('admin-dashboard')->with('tab','orders');
+			return redirect()->route('admin-orders')->with('tab','orders');
 		}else{
 			$order = Order::find(intval($request->input('id')));
 			
@@ -69,7 +69,7 @@ class OrderController extends Controller {
 				}
 			}
 
-			return redirect()->route('admin-dashboard')->with(['success'=>'Order Updated successfully','tab'=>'orders']);
+			return redirect()->route('admin-orders')->with(['success'=>'Order Updated successfully','tab'=>'orders']);
 		}
 
 	}
@@ -118,10 +118,10 @@ class OrderController extends Controller {
 	        $filename = $path.'/invoice-'.Carbon::now()->tz('America/New_York')->format('m-d-Y-h-i').'.pdf';
 			$pdf->save($filename);
 			//return view('order.invoice-details',compact('order','details'));
-			return redirect()->route('admin-dashboard')->with(['success'=>'Order Status updated.','tab'=>'orders']);
+			return redirect()->route('admin-orders')->with(['success'=>'Order Status updated.','tab'=>'orders']);
 		}
 		else{
-			return redirect()->route('admin-dashboard')->with(['success'=>'Order Status updated.','tab'=>'orders']);
+			return redirect()->route('admin-orders')->with(['success'=>'Order Status updated.','tab'=>'orders']);
 		}
 	}
 	public function delete($id){

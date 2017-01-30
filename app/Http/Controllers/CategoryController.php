@@ -61,7 +61,7 @@ class CategoryController extends Controller {
 
 		$category->save();
 
-		return redirect()->route('admin-dashboard')->with(['tab'=>'categories','success'=>'Category created successfully.']);
+		return redirect()->route('admin-categories')->with(['tab'=>'categories','success'=>'Category created successfully.']);
 	}
 
 	public function delete(Request $request){

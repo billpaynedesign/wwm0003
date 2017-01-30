@@ -75,15 +75,19 @@
           </tr>
           <tr>
             <td>Name:</td>
-            <td>{{ $order->transaction->first_name.' '.$order->transaction->last_name }}</td>
+            <td>{{ $order->transaction->name }}</td>
           </tr>
           <tr>
             <td>Location:</td>
             <td>{{ $order->transaction->address1.($order->transaction->address2?' '.$order->transaction->address2:'') }}</td>
           </tr>
           <tr>
-            <td>City,State:</td>
-            <td>{{ $order->transaction->city }},{{ $order->transaction->state }}</td>
+            <td>City:</td>
+            <td>{{ $order->transaction->city }}</td>
+          </tr>
+          <tr>
+            <td>State:</td>
+            <td>{{ $order->transaction->state }}</td>
           </tr>
           <tr>
             <td>Country:</td>
@@ -109,8 +113,12 @@
             <td>{{ $order->address1.($order->address2?' '.$order->address2:'') }}</td>
           </tr>
           <tr>
-            <td>City,State:</td>
-            <td>{{ $order->city }},{{ $order->state }}</td>
+            <td>City:</td>
+            <td>{{ $order->city }}</td>
+          </tr>
+          <tr>
+            <td>State:</td>
+            <td>{{ $order->state }}</td>
           </tr>
           <tr>
             <td>Country:</td>
