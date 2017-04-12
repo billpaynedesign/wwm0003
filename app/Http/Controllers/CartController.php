@@ -51,26 +51,26 @@ class CartController extends Controller {
 	 */
 	public function show(){
 		$cart = Cart::content();
-		foreach ($cart as $row) {
-			$product = Product::find($row->id);
-			if(!$product){
-				Cart::remove($row->rowid);
-			}
-		}
+		//dd($cart);
 		return view('cart.index',compact('cart'));
 	}
 	public function add(Request $request){
-		$product = Product::find($request->input('id'));
-		$uom = UnitOfMeasure::find($request->input('uom'));
-		$total = $uom->price;
+        $product = Product::find($request->input('id'));
+        $uom = UnitOfMeasure::find($request->input('uom'));
 
-		Cart::associate('App\Product')->add($product->id, $product->name, intval($request->input('quantity')), $total, [$uom->name]);
-		if(session()->has('shipping') || !Auth::check()){
-			return back()->with('success','Added to your cart successfully');
-		}
-		else{
-			return redirect()->route('cart-select-shipping')->with('success','Added to your cart successfully');
-		}
+        if(Auth::check() && Auth::user()->product_price_check($product->id)){
+            $total =  Auth::user()->product_price_check($product->id)->price;
+        }else {
+            $total = $uom->price;
+        }
+
+        Cart::add($product->id, $product->name, intval($request->input('quantity')), $total, [$uom->name])->associate('App\Product');
+        if(session()->has('shipping') || !Auth::check()){
+            return back()->with('success','Added to your cart successfully');
+        }
+        else{
+            return redirect()->route('cart-select-shipping')->with('success','Added to your cart successfully');
+        }
 	}
 	public function shipping(){
 		$cart = Cart::content();
@@ -101,6 +101,7 @@ class CartController extends Controller {
 		$user = Auth::user();
 		if($request->input('shipping_id') === 'new'){
 			$shipto = new ShipTo;
+			$shipto->user_id = $user->id;
 			$shipto->name = $request->input('name');
 			$shipto->address1 = $request->input('address1');
 			$shipto->address2 = $request->input('address2');
@@ -113,6 +114,7 @@ class CartController extends Controller {
 			$shipto = ShipTo::find($request->input('shipping_id'));
 		}
 		session()->put('shipping', $shipto);
+
 		$order = new Order;
 		$order->user_id = $user->id;
 		$order->shippingname = $shipto->name;
@@ -128,30 +130,16 @@ class CartController extends Controller {
 		$order->total = Cart::total();
 		//$order->save();
 		session(['order'=>$order]);
-		/*
-		dd(session('order'));
-		$order->token = Hashids::encode($order->id);
+		session()->reflash();
 
-		foreach (Cart::content() as $item) {
-			//dd($item);
-			$orderDetail = new OrderDetail;
-			$orderDetail->product_id = $item->id;
-			$orderDetail->quantity = $item->qty;
-			$orderDetail->size = $item->options->has('Size')?$item->options->Size:'';
-			$orderDetail->color = $item->options->has('Color')?$item->options->Color:'';
-			$orderDetail->subtotal = $item->subtotal;
-			$order->details()->save($orderDetail);
-		}
-		*/
-
-		return view('cart.payment',compact('order'));
+		$now = Carbon::now();
+		return view('cart.payment',compact('order','now'));
 
 	}
 	public function checkout(Request $request){
-		session()->reflash();
 		$order = session('order');
 		$user = Auth::user();
-		$transaction = new Transaction;
+		$transaction = new Transaction();
 		if($request->input('same_as_shipping')){
 			$transaction->name = $order->shippingname;
 			$transaction->address1 = $order->address1;
@@ -231,7 +219,8 @@ class CartController extends Controller {
 			else{
 				$response_text = $response->response_reason_text;
 
-				return view('cart.payment',compact('order','response_text'));
+				$now = Carbon::now();
+				return view('cart.payment',compact('order','response_text', 'now'));
 
 			}
 		}
@@ -243,16 +232,14 @@ class CartController extends Controller {
 		foreach (Cart::content() as $item) {
 			$product = Product::find($item->id);
 			if($product){
-				$orderDetail = new OrderDetail;
-				$orderDetail->product_id = $item->id;
-				$orderDetail->quantity = $item->qty;
-				$orderDetail->subtotal = $item->subtotal;
-	            $orderDetail->options = count($item->options)>0?$item->options[0]:$item->options;
-				$order->details()->save($orderDetail);
-			}
+                $orderDetail = new OrderDetail;
+                $orderDetail->product_id = $item->id;
+                $orderDetail->quantity = $item->qty;
+                $orderDetail->subtotal = $item->subtotal;
+                $orderDetail->options = count($item->options)>0?$item->options[0]:$item->options;
+                $order->details()->save($orderDetail);
+            }
 		}
-		Cart::destroy();
-		if(session()->has('order')) session()->forget('order');
 
 		if($user->email){
 			$email = $user->email;
@@ -274,21 +261,52 @@ class CartController extends Controller {
 				'transaction' => $transaction
 			];
 			Mail::send("emails.receipt", $data, function($message) use ($email){
-			    $message->to($email)->subject('World Wide Medical Order Receipt');
-			});
+			        $message->to($email)->subject('World Wide Medical Order Receipt');
+			    });
 		}
-		Mail::send('emails.ordernotif',$data, function($message){
-			$message
-    			->to('bw@wwmdusa.com', 'Brent Weintraub')
-    			->bcc('bw.wwmd@gmail.com', 'Brent Weintraub')
-    			->bcc('wwmdusa@gmail.com', 'Brent Weintraub')
-    			->bcc('lbodden@drivegroupllc.com', 'Leopold Bodden')
-	        	->subject('New Order - World Wide Medical');
-		});
+		Cart::destroy();
+		if(session()->has('order')) session()->forget('order');
 		return redirect()->route('order-show',$order->token);
 
 	}
-	
+	public function create(Request $request)
+	{
+		if($request->input('category') == 'other'){
+			$category = new Category;
+			$category->name = $request->input('category-other');
+			$category->save();
+		}
+		else{
+			$category = Category::where('slug','=',$request->input('category'))->first();
+		}
+
+		$product = new Product;
+		$product->name = $request->input('productname');
+		$product->sku = $request->input('sku');
+		$product->category_id = $category->id;
+		$product->description = $request->input('productdescription');
+		$product->inStock = $request->input('stock');
+		$product->note = $request->input('note');
+
+		if(!$product->save()){
+			return redirect()->route('admin-dashboard')->withInput()->with(['failed'=>'The product was unable to be added. Please check your input and try again.','modal'=>'add-inventory']);
+		}
+
+		if($request->hasFile('image')){
+			$destinationPath = public_path().'/pictures';
+			$filename = $request->file('image')->getClientOriginalName();
+			$request->file('image')->move($destinationPath, $filename);
+
+			$image = new Picture;
+			$image->name = $filename;
+			$image->type = 'product';
+			$image->key = $product->id;
+			$image->save();
+		}
+
+		return redirect()->route('admin-dashboard')->with('success','Product created successfully.');
+	}
+
 	public function remove($rowid){
 		$removed = Cart::remove($rowid);
 		/*dd($removed);

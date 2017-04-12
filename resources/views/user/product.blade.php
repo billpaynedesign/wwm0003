@@ -49,6 +49,7 @@
 	        },
 	        onChange: function(){
 	            $("#add_product_id").val(this.items);
+	            $("#add_uom_id").val(this.items);
 	        }
 	    });
 	});
@@ -76,7 +77,7 @@
 								<tr>
 									<td>{{ $userpricing->product->name }}</td>
 									<td>{{ $userpricing->product->price_string }}</td>
-									<td><input type="number" step="0.01" min="0" name="prices[{{ $userpricing->id }}]" value="{{ $userpricing->price?$userpricing->price:$userpricing->product->price }}"</td>
+									<td><input type="number" step="0.01" min="0" name="prices[{{ $userpricing->id }}]" value="{{ $userpricing->price?$userpricing->price:$userpricing->product->price }}"></td>
 									<td><input type="checkbox" name="delete[]" value="{{ $userpricing->id }}" /></td>
 								</tr>
 							@endforeach
@@ -104,6 +105,7 @@
 				</div>
 				<div class="modal-body">
 					<input type="hidden" id="add_product_id" name="product_id" value="" />
+					<input type="hidden" id="add_uom_id" name="uom_id" value="">
 					<select id="order-edit-search" name="q" placeholder="Search Keyword or Item #" class="form-control" required></select>
 				</div>
 				<div class="modal-footer">

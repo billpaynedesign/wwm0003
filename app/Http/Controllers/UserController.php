@@ -37,7 +37,7 @@ class UserController extends Controller {
 	}
 	public function update(Request $request){
 		if($request->has('cancel')){
-			return redirect()->route('admin-users')->with('tab','users');
+			return redirect()->route('admin-dashboard')->with('tab','users');
 		}else{
 			$user = User::find($request->input('id'));
 			$user->email = $request->input('email');
@@ -81,7 +81,7 @@ class UserController extends Controller {
 	}
 	public function delete($id){
 		$user = User::destroy($id);
-		return redirect()->route('admin-users')->with(['success'=>'User deleted successfully.','tab'=>'users']);
+		return redirect()->route('admin-dashboard')->with(['success'=>'User deleted successfully.','tab'=>'users']);
 	}
 
 	public function product($id){
@@ -91,7 +91,7 @@ class UserController extends Controller {
 	public function product_submit(Request $request, $id){
 		//dd($request->all());
 		if($request->has('cancel')){
-			return redirect()->route('admin-users')->with('tab','users');
+			return redirect()->route('admin-dashboard')->with('tab','users');
 		}else{
 			foreach ($request->input('prices') as $userpricing_id => $price) {
 				$userpricing = UserPricing::find($userpricing_id);
@@ -107,13 +107,16 @@ class UserController extends Controller {
 		}
 	}
 	public function product_add(Request $request, $id){
-		//dd($request->all());
 		$product = Product::find($request->input('product_id'));
-		$userpricing = new UserPricing;
-		$userpricing->product_id = $product->id;
-		$userpricing->user_id = $id;
-		$userpricing->price = $product->price;
-		$userpricing->save();
+		foreach($product->units_of_measure()->get() as $uom) {
+            $userpricing = new UserPricing();
+            $userpricing->product_id = $product->id;
+            $userpricing->user_id = $id;
+            $userpricing->uom_id = $uom->id;
+            $userpricing->price = $uom->price;
+            $userpricing->save();
+        }
+
 		return redirect()->route('user-product',$id)->with('success','Product added successfully!');
 	}
 }

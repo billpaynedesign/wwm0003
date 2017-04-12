@@ -63,9 +63,21 @@ $(document).ready(function(){
         <div class="form-group form-inline"> 
           <label for="uom">Unit of Measure</label><br/>
           <select id="uom" name="uom" class="form-control">
-            @foreach($product->units_of_measure()->orderBy('price','desc')->get() as $uom)
-              <option value="{{ $uom->id }}" data-price="{{ $uom->price_string }}" data-msrp="{{ $uom->msrp_string }}">{{ $uom->name }} - {{ $uom->price_string }}</option>
-            @endforeach
+            @if(Auth::check())
+              @if(Auth::user()->product_price_check($product->id))
+                @foreach($product->units_of_measure()->orderBy('price','desc')->get() as $uom)
+                  <option value="{{ $uom->id }}" data-price="{{ Auth::user()->uom_price_check($uom->id)->price_string }}" data-msrp="{{ $uom->msrp_string }}">{{ $uom->name }} - {{ Auth::user()->uom_price_check($uom->id)->price_string }}</option>
+                @endforeach
+              @else
+                @foreach($product->units_of_measure()->orderBy('price','desc')->get() as $uom)
+                  <option value="{{ $uom->id }}" data-price="{{ $uom->price_string }}" data-msrp="{{ $uom->msrp_string }}">{{ $uom->name }} - {{ $uom->price_string }}</option>
+                @endforeach
+              @endif
+            @else
+              @foreach($product->units_of_measure()->orderBy('price','desc')->get() as $uom)
+                <option value="{{ $uom->id }}" data-price="{{ $uom->price_string }}" data-msrp="{{ $uom->msrp_string }}">{{ $uom->name }} - {{ $uom->price_string }}</option>
+              @endforeach
+            @endif
           </select>
         </div>
         @endif

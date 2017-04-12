@@ -11,6 +11,7 @@ class UserPricing extends Model {
 	 */
 	protected $table = 'user_has_pricing';
 
+
 	public function product(){
 		return $this->belongsTo('App\Product');
 	}
