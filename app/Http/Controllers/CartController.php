@@ -14,6 +14,7 @@ use Auth;
 use Carbon\Carbon;
 use Session;
 use Cart;
+use App\ShoppingCartItem;
 use App\Transaction;
 use Hashids;
 use AuthorizeNetAIM;
@@ -51,7 +52,7 @@ class CartController extends Controller {
 	 */
 	public function show(){
 		$cart = Cart::content();
-		//dd($cart);
+
 		return view('cart.index',compact('cart'));
 	}
 	public function add(Request $request){
@@ -64,7 +65,7 @@ class CartController extends Controller {
             $total = $uom->price;
         }
 
-        Cart::add($product->id, $product->name, intval($request->input('quantity')), $total, [$uom->name])->associate('App\Product');
+        Cart::add($product->id, $uom->id, $request->input('quantity'));
         if(session()->has('shipping') || !Auth::check()){
             return back()->with('success','Added to your cart successfully');
         }
@@ -229,17 +230,23 @@ class CartController extends Controller {
 		$order->token = Hashids::encode($order->id);
 		$order->save();
 
-		foreach (Cart::content() as $item) {
-			$product = Product::find($item->id);
+		$items = Cart::content();
+		foreach ($items as $item) {
+			$product = Product::find($item->product_id);
 			if($product){
-                $orderDetail = new OrderDetail;
-                $orderDetail->product_id = $item->id;
-                $orderDetail->quantity = $item->qty;
-                $orderDetail->subtotal = $item->subtotal;
-                $orderDetail->options = count($item->options)>0?$item->options[0]:$item->options;
-                $order->details()->save($orderDetail);
-            }
+				$orderDetail = new OrderDetail;
+				$orderDetail->product_id = $item->product_id;
+				$orderDetail->quantity = $item->quantity;
+				$orderDetail->subtotal = $item->sub_total;
+	            $orderDetail->options = $item->uom->name;
+				$order->details()->save($orderDetail);
+			}
 		}
+		$cart = Cart::find(Cart::id());
+		$cart->delete();
+		$cart->items()->delete();
+		if(session()->has('cart_id')) session()->forget('cart_id');
+		if(session()->has('order')) session()->forget('order');
 
 		if($user->email){
 			$email = $user->email;
@@ -264,8 +271,7 @@ class CartController extends Controller {
 			        $message->to($email)->subject('World Wide Medical Order Receipt');
 			    });
 		}
-		Cart::destroy();
-		if(session()->has('order')) session()->forget('order');
+
 		return redirect()->route('order-show',$order->token);
 
 	}
@@ -307,23 +313,26 @@ class CartController extends Controller {
 		return redirect()->route('admin-dashboard')->with('success','Product created successfully.');
 	}
 
-	public function remove($rowid){
-		$removed = Cart::remove($rowid);
-		/*dd($removed);
-		if($removed){*/
-			return redirect()->route('cart')->with('success','Product successfully removed from cart.');
-		/*}
+	public function remove(Request $request, $rowid){
+		ShoppingCartItem::destroy($rowid);
+		if($request->ajax()){
+			return response()->json(Cart::content());
+		}
 		else{
-			return redirect()->route('cart')->with('fail','We were unable to remove that product from the cart please try again.');
-		}*/
+			return redirect()->route('cart')->with('success','Product successfully removed from cart.');
+		}
 	}
 
 	public function update(Request $request){
-		if(Cart::update($request->input('rowid'), intval($request->input('quantity')))){
-			return redirect()->route('cart')->with('success','Product successfully updated.');
+		$item = ShoppingCartItem::find($request->input('rowid'));
+		$item->quantity = $request->input('quantity');
+		$item->save();
+
+		if($request->ajax()){
+			return response()->json(Cart::content());
 		}
 		else{
-			return redirect()->route('cart')->with('fail','We were unable to update that product please check your input and try again.');
+			return redirect()->route('cart')->with('success','Product successfully updated.');
 		}
 	}
 	public function select_shipping(){

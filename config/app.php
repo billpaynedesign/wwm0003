@@ -145,7 +145,6 @@ return [
         App\Providers\RouteServiceProvider::class,
         Maatwebsite\Excel\ExcelServiceProvider::class,
         Cviebrock\EloquentSluggable\SluggableServiceProvider::class,
-        Gloudemans\Shoppingcart\ShoppingcartServiceProvider::class,
         Vinkla\Hashids\HashidsServiceProvider::class,
         Barryvdh\DomPDF\ServiceProvider::class,
     ],
@@ -195,8 +194,9 @@ return [
         'URL'       => Illuminate\Support\Facades\URL::class,
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View'      => Illuminate\Support\Facades\View::class,
+        
         'Excel'     => Maatwebsite\Excel\Facades\Excel::class,
-        'Cart'      => Gloudemans\Shoppingcart\Facades\Cart::class,
+        'Cart'      => App\ShoppingCart::class,
         'Hashids'   => Vinkla\Hashids\Facades\Hashids::class,
         'PDF'       => Barryvdh\DomPDF\Facade::class,
     ],

@@ -49,6 +49,12 @@
 		<![endif]-->
 		@yield('head')
 	
+    <script type="text/javascript">
+        $(function(){
+            var cart_count = {{ Cart::count() }};
+            if(cart_count>0) $('#header_view_cart').html('('+cart_count+')');
+        });
+    </script>
 	<style type="text/css">
 		.selectize-dropdown, .selectize-input input {
 		    min-width: 240px !important;
@@ -74,7 +80,7 @@
 						<a href="{{ url('/auth/login') }}">Login</a>
 						<a href="{{ url('/auth/register') }}">Register</a>
 					@endif
-					<a href="{{ route('cart') }}" <?php if(session()->has('shipping')): ?> title="{{ session()->get('shipping')->name }} - {{ session()->get('shipping')->address1.' '.session()->get('shipping')->address2.' '.session()->get('shipping')->city.', '. session()->get('shipping')->state.' '.session()->get('shipping')->zip }}" <?php endif; ?>>Shopping Cart <span class="fa fa-shopping-cart" aria-hidden="true"></span>{{ Cart::count(false)?' ('.Cart::count(false).')':'' }}</a>
+					<a href="{{ route('cart') }}" <?php if(session()->has('shipping')): ?> title="{{ session()->get('shipping')->name }} - {{ session()->get('shipping')->address1.' '.session()->get('shipping')->address2.' '.session()->get('shipping')->city.', '. session()->get('shipping')->state.' '.session()->get('shipping')->zip }}" <?php endif; ?>>Shopping Cart <span class="fa fa-shopping-cart" aria-hidden="true"></span> <span id="header_view_cart"></span></a>
 					</div>
 				</div>
 			</div>

@@ -294,13 +294,6 @@ class ComposerStaticInita864c481a4c3760e132aaf15a80c6e4b
                 0 => __DIR__ . '/..' . '/hashids/hashids/lib',
             ),
         ),
-        'G' => 
-        array (
-            'Gloudemans\\Shoppingcart' => 
-            array (
-                0 => __DIR__ . '/..' . '/gloudemans/shoppingcart/src',
-            ),
-        ),
         'D' => 
         array (
             'Dotenv' => 

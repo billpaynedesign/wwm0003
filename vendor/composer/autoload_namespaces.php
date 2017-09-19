@@ -23,7 +23,6 @@ return array(
     'JMS\\Serializer' => array($vendorDir . '/jms/serializer/src'),
     'JMS\\' => array($vendorDir . '/jms/parser-lib/src'),
     'Hashids' => array($vendorDir . '/hashids/hashids/lib'),
-    'Gloudemans\\Shoppingcart' => array($vendorDir . '/gloudemans/shoppingcart/src'),
     'Dotenv' => array($vendorDir . '/vlucas/phpdotenv/src'),
     'Doctrine\\Common\\Lexer\\' => array($vendorDir . '/doctrine/lexer/lib'),
     'Doctrine\\Common\\Inflector\\' => array($vendorDir . '/doctrine/inflector/lib'),
