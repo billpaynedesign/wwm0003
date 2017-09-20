@@ -5,6 +5,8 @@ use App\User;
 use Auth;
 use App\UserPricing;
 use App\Product;
+use Cart;
+use App\ShoppingCartItem;
 
 class UserController extends Controller {
 
@@ -33,7 +35,15 @@ class UserController extends Controller {
 	}
 	public function info($id){
 		$user = User::find($id);
-		return view('user.info',compact('user'));
+		$cart_id = null;
+		$total = 0;
+		$cart = [];
+		if($user->cart){
+			$cart_id = $user->cart->id;
+			$cart = $user->cart->items;
+		}
+		if($cart_id) $total = Cart::total($cart_id);
+		return view('user.info',compact('user', 'cart', 'cart_id', 'total'));
 	}
 	public function update(Request $request){
 		if($request->has('cancel')){
@@ -119,4 +129,64 @@ class UserController extends Controller {
 
 		return redirect()->route('user-product',$id)->with('success','Product added successfully!');
 	}
+    public function favorites_update(Request $request,$id) {
+	    $productId = $request->input('product_id');
+	    $listId = $request->input('list_id');
+        if($request->has('uom') && !empty($request->input('uom'))){
+	       $uom = $request->input('uom');
+        }
+        else{
+            $uom = UnitOfMeasure::where('product_id',$productId)->first();
+            $uom = $uom?$uom->id:false;
+        }
+        $product = Product::find($productId);
+	    $user = User::find($id);
+        if($product && $uom && $user){
+
+
+		    $list = $user->favorites_lists()->where( 'id', $listId )->first();
+		    if ( ! $list ) {
+			    $list = $user->favorites_lists()->create( [ 'name' => 'Favorites' ] );
+		    }
+
+		    $item = new FavoritesItem( [ 'product_id' => $productId, 'uom_id' => $uom ] );
+		    $list->favorites_items()->save( $item );
+
+		    return redirect()->route('user-info',['id'=>$id, 'tab'=>'favorites'])->with( 'success', 'Added to favorites list successfully' );
+		}
+        else{
+            return redirect()->route('user-info',['id'=>$id, 'tab'=>'favorites'])->with( 'false', 'Could not add to your favorites list at this time please try again' );
+        }
+    }
+
+    public function new_cart(Request $request){
+    	$cart = new Cart;
+    	$cart->user_id = $request->input('user_id');
+    	$cart->sub_total = 0;
+    	$cart->save();
+        return response()->json(['new_id'=>$cart->id, 'token'=>csrf_token()]);
+    }
+
+    public function add_product_cart(Request $request){
+		Cart::add($request->input('product_id'), $request->input('uom_id'), $request->input('quantity'), $request->input('cart_id'));
+		$cart = Cart::content($request->input('cart_id'));
+		$html = view('user.part.cart_content', compact('cart'))->render();
+    	return response()->json(['html'=>$html, 'token'=>csrf_token()]);
+    }
+    public function update_product_cart(Request $request){
+    	$item = ShoppingCartItem::find($request->input('item_id'));
+    	$item->quantity = $request->input('quantity');
+    	$item->save();
+		$cart = Cart::content($item->shopping_cart_id);
+		$html = view('user.part.cart_content', compact('cart'))->render();
+    	return response()->json(['html'=>$html, 'token'=>csrf_token()]);
+    }
+    public function remove_product_cart(Request $request){
+		$item = ShoppingCartItem::find($request->input('item_id'));
+		$cart_id = $item->shopping_cart_id;
+		$item->delete();
+		$cart = Cart::content($cart_id);
+		$html = view('user.part.cart_content', compact('cart'))->render();
+    	return response()->json(['html'=>$html, 'token'=>csrf_token()]);
+    }
 }

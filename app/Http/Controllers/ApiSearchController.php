@@ -118,4 +118,67 @@ class ApiSearchController  extends Controller {
 		}
 		return $data;
 	}
+
+    /**
+     * @method addUom
+     *
+     * Used by the selectize plugin to query products in the DB. This method
+     * returns all UOM's with an active product.
+     *
+     * @param Request $request
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+	public function addUom(Request $request) {
+        // Retrieve the user's input and escape it
+        $query = e($request->input('q',''));
+
+        // If the input is empty, return an error response
+        if(!$query && $query == '') return response()->json(array(), 400);
+
+        $products = UnitOfMeasure::whereHas('product', function($q)use($query) {
+                        $q->where('active', 1);
+                        $q->where('name','like','%'.$query.'%');
+                        $q->orWhere('item_number','like','%'.$query.'%');
+                        $q->orderBy('name','asc');
+                    })->with('product')->get();
+
+        $products = $this->appendProductName($products);
+
+        return response()->json(['data' => $products], 200);
+    }
+
+    /**
+     * @method appendProductName
+     *
+     * Used by addUom() to get the related products name and attach it to the UOM array as a top level property.
+     * This is so the selectize plugin is able to access the property.
+     *
+     * @param Collection $uoms - the UOM's with attached products
+     *
+     * @return Collection - the updated collection
+     */
+    private function appendProductName($uoms) {
+        return $uoms->map(function($item, $key) {
+                    $item['product_name'] = $item['product']['name'];
+                    return $item;
+                });
+    }
+
+	public function getUomProductOptionsHtml(Request $request){
+		$product = Product::find($request->input('product_id'));
+		$html = '<option value="">-- Select a UOM --</option>';
+		foreach ($product->units_of_measure as $uom) {
+			$html .= '<option value="'.$uom->id.'">'.$uom->name.'</option>';
+		}
+		return $html;
+	}
+
+	public function getCartCount(Request $request){
+		return response()->json(Cart::count());
+	}
+	public function getUsers(Request $request){
+		return response()->json(User::orderBy('first_name')->get());
+	}
+
 }

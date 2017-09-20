@@ -22,6 +22,10 @@ Route::get('/register-or-login',['uses'=>'HomeController@registerOrLogin','as'=>
 
 Route::get('/api/search', ['uses'=>'ApiSearchController@index']);
 Route::get('/api/product/add/search', ['uses'=>'ApiSearchController@addProduct']);
+Route::get('/api/cart/add/search', ['uses'=>'ApiSearchController@addUom']);
+Route::get('/api/get/uom/product/option/html',['uses'=>'ApiSearchController@getUomProductOptionsHtml','as'=>'api-get-uom-product-options-html']);
+Route::get('/api/get/cart/count',['uses'=>'ApiSearchController@getCartCount','as'=>'api-cart-get-count']);
+Route::get('/api/get/users',['uses'=>'ApiSearchController@getUsers','as'=>'api-users-get']);
 
 Route::group(['prefix' => 'admin', 'middleware' => 'auth', 'namespace' => 'Admin'], function() {
 	Route::pattern('id', '[0-9]+');
@@ -85,6 +89,13 @@ Route::group(['prefix'=>'cart'],function(){
 	Route::get('/remove/{rowid}',['uses'=>'CartController@remove','as'=>'cart-remove']);
 	Route::get('/select/shipping', ['uses'=>'CartController@select_shipping','as'=>'cart-select-shipping']);
 	Route::post('/set/shipping', ['uses'=>'CartController@set_shipping','as'=>'cart-set-shipping']);
+	Route::get('/get/total',['uses'=>'CartController@get_cart_total','as'=>'cart-get-total']);
+
+	Route::group(['middleware'=>'admin'],function(){
+		Route::get('/checkout/shipping/{id}/admin',['uses'=>'CartController@admin_shipping','as'=>'admin-cart-shipping']);
+		Route::post('/checkout/payment/{id}/admin',['uses'=>'CartController@admin_payment','as'=>'admin-cart-payment']);
+		Route::post('/checkout/{id}/admin',['uses'=>'CartController@admin_checkout','as'=>'admin-cart-checkout']);
+	});
 });
 Route::group(['prefix'=>'order'],function(){
 
@@ -127,6 +138,11 @@ Route::group(['prefix'=>'user'],function(){
 			Route::get('/product/{id}',['uses'=>'UserController@product', 'as'=>'user-product']);
 			Route::post('/product/{id}',['uses'=>'UserController@product_submit', 'as'=>'user-product-submit']);
 			Route::post('/product/add/{id}',['uses'=>'UserController@product_add','as'=>'user-product-add']);
+			Route::post('/favorites/update/{id}',['uses'=>'UserController@favorites_update','as'=>'user-favorites-update']);
+    		Route::post('/new/cart',['uses'=>'UserController@new_cart','as'=>'user-new-cart']);
+    		Route::post('/add/product/cart',['uses'=>'UserController@add_product_cart','as'=>'user-cart-add']);
+    		Route::post('/update/product/cart',['uses'=>'UserController@update_product_cart','as'=>'user-cart-update']);
+    		Route::post('/remove/product/cart',['uses'=>'UserController@remove_product_cart','as'=>'user-cart-remove']);
 		});
 	});
 });

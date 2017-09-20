@@ -41,6 +41,9 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
 	public function shipping(){
 		return $this->hasMany('App\ShipTo');
 	}
+    public function carts(){
+        return $this->hasMany('App\ShoppingCart');
+    }
 	public function product_price(){
 		return $this->hasMany('App\UserPricing', 'user_id', 'id', 'user_has_pricing');
 	}
@@ -55,12 +58,18 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
 		$quantities = [];
 		foreach ($this->orders as $order) {
 			foreach ($order->details as $detail) {
-				if(!($products->contains($detail->product))){
-					$quantities[$detail->product->id] = OrderDetail::where('order_id',$order->id)->where('product_id',$detail->product->id)->sum('quantity');
-					$products->push($detail->product);
+				if($detail->product){
+					if(!($products->contains($detail->product))){
+						$quantities[$detail->product->id] = OrderDetail::where('order_id',$order->id)->where('product_id',$detail->product->id)->sum('quantity');
+						$products->push($detail->product);
+					}
 				}
 			}
 		}
 		return compact('products','quantities');
 	}
+
+    public function getCartAttribute(){
+        return count($this->carts)?$this->carts()->orderBy('id', 'desc')->first():false;
+    }
 }
