@@ -3,10 +3,12 @@
 use Illuminate\Database\Eloquent\Model;
 use Cviebrock\EloquentSluggable\SluggableInterface;
 use Cviebrock\EloquentSluggable\SluggableTrait;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Product extends Model implements SluggableInterface{
 
 	use SluggableTrait;
+    use SoftDeletes;
 	/**
 	 * The database table used by the model.
 	 *
@@ -18,6 +20,7 @@ class Product extends Model implements SluggableInterface{
 	'build_from' => 'name',
 	'save_to'    => 'slug',
 	];
+    protected $dates = ['deleted_at'];
 
     public function groups(){
         return  $this->belongsToMany('App\ProductGroup','product_has_product_groups','product_id','product_group_id');
@@ -43,9 +46,14 @@ class Product extends Model implements SluggableInterface{
     public function orders(){
     	return $this->hasManyThrough('App\Order','App\OrderDetails','id','product_id');
     }
-    public function category()
-    {
-    	return $this->belongsTo('App\Category');
+    /*public function category(){
+        return $this->belongsTo('App\Category');
+    }*/
+    public function getCategoryAttribute(){
+        return $this->categories()->first();
+    }
+    public function categories(){
+        return $this->belongsToMany('App\Category');
     }
     public function reviews(){
         return $this->hasMany('App\Review');
