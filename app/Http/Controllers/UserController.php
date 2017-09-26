@@ -7,6 +7,7 @@ use App\UserPricing;
 use App\Product;
 use Cart;
 use App\ShoppingCartItem;
+use App\UnitOfMeasure;
 
 class UserController extends Controller {
 
@@ -98,14 +99,27 @@ class UserController extends Controller {
 		$user = User::find($id);
 		return view('user.product',compact('user'));
 	}
+
+    /**
+     * @method product_submit
+     *
+     * Submits a product to be added to the user pricing table, deleted from the pricing table, or added to favorites list.
+     *
+     * @param Request $request
+     * @param $id
+     *
+     * @return \Illuminate\Http\RedirectResponse
+     */
 	public function product_submit(Request $request, $id){
-		//dd($request->all());
 		if($request->has('cancel')){
-			return redirect()->route('admin-dashboard')->with('tab','users');
+			return redirect()->route('admin-users')->with('tab','users');
 		}else{
+            $user = User::find($id);
+			$skus = $request->input('skus');
 			foreach ($request->input('prices') as $userpricing_id => $price) {
 				$userpricing = UserPricing::find($userpricing_id);
 				$userpricing->price = $price;
+				$userpricing->custom_sku = $skus[$userpricing_id];
 				$userpricing->save();
 			}
 			if($request->has('delete')){
@@ -113,19 +127,44 @@ class UserController extends Controller {
 					UserPricing::destroy($delete_id);
 				}
 			}
+			if($request->has('favorite')) {
+                foreach ($request->input('favorite') as $product_uom_pricing_id) {
+                    $ids = explode('-', $product_uom_pricing_id);
+                    $list = $user->favorites_lists()->where( 'name', 'Favorites' )->first();
+                    if ( !$list ) {
+                        $list = $user->favorites_lists()->create( [ 'name' => 'Favorites' ] );
+                    }
+                    $item = new FavoritesItem( [ 'product_id' => $ids[0], 'uom_id' => $ids[1] ] );
+                    $pricing = UserPricing::find($ids[2]);
+                    $list->favorites_items()->save( $item );
+                    $pricing->is_favorite = 1;
+                    $pricing->save();
+                }
+            }
 			return redirect()->route('user-product',$id)->with('success','Updated successfully!');
 		}
 	}
 	public function product_add(Request $request, $id){
+		//dd($request->all());
 		$product = Product::find($request->input('product_id'));
-		foreach($product->units_of_measure()->get() as $uom) {
-            $userpricing = new UserPricing();
-            $userpricing->product_id = $product->id;
-            $userpricing->user_id = $id;
-            $userpricing->uom_id = $uom->id;
-            $userpricing->price = $uom->price;
-            $userpricing->save();
-        }
+		if($request->has('uom_id') && $uom = UnitOfMeasure::find($request->input('uom_id'))){
+	            $userpricing = new UserPricing();
+	            $userpricing->product_id = $product->id;
+	            $userpricing->user_id = $id;
+	            $userpricing->uom_id = $uom->id;
+	            $userpricing->price = $uom->price;
+	            $userpricing->save();
+		}
+		else{
+			foreach($product->units_of_measure()->get() as $uom) {
+	            $userpricing = new UserPricing();
+	            $userpricing->product_id = $product->id;
+	            $userpricing->user_id = $id;
+	            $userpricing->uom_id = $uom->id;
+	            $userpricing->price = $uom->price;
+	            $userpricing->save();
+	        }
+		}
 
 		return redirect()->route('user-product',$id)->with('success','Product added successfully!');
 	}

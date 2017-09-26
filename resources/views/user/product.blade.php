@@ -7,8 +7,8 @@
 		$('#order-edit-search').selectize({
 	        valueField: 'url',
 	        labelField: 'name',
-	        searchField: ['name'],
-	        maxOptions: 10,
+            searchField: ['name','item_number'],
+	        maxOptions: 1000,
 	        options: [],
 	        create: false,
 	        render: {
@@ -25,11 +25,10 @@
 	            }
 	        },
 	        optgroups: [
-	            {value: 'product', label: 'Products'},
-	            {value: 'item_number', label: 'Item-Num'}
+	            {value: 'product', label: 'Products'}
 	        ],
 	        optgroupField: 'class',
-	        optgroupOrder: ['product','item_number'],
+	        optgroupOrder: ['product'],
 	        load: function(query, callback) {
 	            if (!query.length) return callback();
 	            $.ajax({
@@ -49,41 +48,55 @@
 	        },
 	        onChange: function(){
 	            $("#add_product_id").val(this.items);
-	            $("#add_uom_id").val(this.items);
+				$.get('{{ route('api-get-uom-product-options-html') }}', {product_id: this.items[0]}, function(data){
+               		$("#add_uom_id").show().html(data);
+				});
 	        }
 	    });
+
+		$('#pricingTable').DataTable();
 	});
 </script>
 @endsection
 @section('content')
 <div class="container main-container no-padding">
   <div class="col-xs-12 main-col">
-	<h1>Edit Product Price {{ $user->name }}</h1>
+	<h1>Edit Product Price for User: {{ $user->name }}</h1>
 		<form action="{{ route('user-product-submit', $user->id) }}" method="post" enctype="multipart/form-data">
 
 			<div class="form-group table-responsive">
-				<table class="table table-bordered table-striped">
+				<table id="pricingTable" class="table table-bordered table-striped">
 					<thead>
 						<tr>
 							<th>Product</th>
-							<th>Original Price</th>
+							<th>Price</th>
+							<th>Item #</th>
 							<th>Custom Price</th>
+							<th>Custom Item #</th>
 							<th>Delete</th>
 						</tr>
 					</thead>
 					<tbody>
 						@if(count($user->product_price)>0)
 							@foreach($user->product_price as $userpricing)
-								<tr>
-									<td>{{ $userpricing->product->name }}</td>
-									<td>{{ $userpricing->product->price_string }}</td>
-									<td><input type="number" step="0.01" min="0" name="prices[{{ $userpricing->id }}]" value="{{ $userpricing->price?$userpricing->price:$userpricing->product->price }}"></td>
-									<td><input type="checkbox" name="delete[]" value="{{ $userpricing->id }}" /></td>
-								</tr>
+								@if($userpricing->product && $userpricing->uom)
+									<tr>
+										<td>{{ $userpricing->product->name }} - {{ $userpricing->uom->name }}</td>
+										<td>{{ $userpricing->uom->price_string }}</td>
+										<td>{{ $userpricing->product->item_number }}</td>
+										<td>
+											<input type="number" step="0.01" min="0" name="prices[{{ $userpricing->id }}]" value="{{ $userpricing->price?$userpricing->price:$userpricing->product->price }}" class="form-control">
+										</td>
+										<td>
+											<input type="text" name="skus[{{ $userpricing->id }}]" value="{{ $userpricing->custom_sku?:'' }}" class="form-control">
+										</td>
+										<td class="text-center"><input type="checkbox" name="delete[]" value="{{ $userpricing->id }}" /></td>
+									</tr>
+								@endif
 							@endforeach
 						@else
 							<tr>
-								<td colspan="4">No custom pricing has been added for this user. Click the Add Item button below to get started</td> 
+								<td colspan="4">No custom pricing has been added for this user. Click the Add Item button below to get started.</td> 
 							</tr>
 						@endif
 					</tbody>
@@ -91,8 +104,8 @@
 			</div>
 			<input type="hidden" name="_token" value="{{ csrf_token() }}" />
 			<a class="btn btn-success" data-toggle="modal" href="#AddItemModal"><span class="fa fa-plus"></span>&nbsp;Add Item</a>
-			<button type="submit" name="cancel" value="true" class="btn">Cancel</button>
-			<button type="submit" name="submit" value="true" class="btn btn-default">Save</button>
+			<button type="submit" name="cancel" value="true" class="btn btn-cancel">Cancel</button>
+			<button type="submit" name="submit" value="true" class="btn btn-primary">Save</button>
 		</form>
 	</div>
 </div>
@@ -104,14 +117,19 @@
 					<a class="close" data-dismiss="modal">&times;</a>
 				</div>
 				<div class="modal-body">
-					<input type="hidden" id="add_product_id" name="product_id" value="" />
-					<input type="hidden" id="add_uom_id" name="uom_id" value="">
-					<select id="order-edit-search" name="q" placeholder="Search Keyword or Item #" class="form-control" required></select>
+					<div class="form-group">
+						<input type="hidden" id="add_product_id" name="product_id" value="" />
+						<select id="order-edit-search" name="q" placeholder="Search Keyword or Item #" class="form-control" required></select>
+					</div>
+					<div class="form-group">
+						<select id="add_uom_id" name="uom_id" class="form-control" style="display:none;"></select>
+					</div>
+
 				</div>
 				<div class="modal-footer">
 					{!! csrf_field() !!}
 					<button type="submit" class="btn btn-primary">Save changes</button>
-					<a class="btn" data-dismiss="modal">Close</a>
+					<a class="btn btn-cancel" data-dismiss="modal">Close</a>
 				</div>
 			</form>
 		</div>

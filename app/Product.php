@@ -58,6 +58,9 @@ class Product extends Model implements SluggableInterface{
     public function reviews(){
         return $this->hasMany('App\Review');
     }
+    public function getPriceStringAttribute(){
+        return '$'.\number_format((float)$this->price,2);
+    }
     public function getMinPriceAttribute(){
         $min_uom = $this->units_of_measure()->orderBy('price','desc')->first();
         if($min_uom){
