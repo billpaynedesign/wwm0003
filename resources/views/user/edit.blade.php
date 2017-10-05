@@ -84,6 +84,13 @@ $(document).ready(function(){
 					</label>
 				</div>
 			</div>
+			<div class="form-group">
+				<div class="checkbox">
+				    <label>
+				      <input type="checkbox" name="no_pricing" value="true" {{ $user->no_pricing?'checked':'' }}> Hide Pricing?
+					</label>
+				</div>
+			</div>
 			<hr/>
 			<h3 class="text-blue">License Information</h3>
 			<hr/>

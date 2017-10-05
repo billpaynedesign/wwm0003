@@ -47,15 +47,17 @@ $(document).ready(function(){
       <div class="form-group">
         <p><strong>Item Number:</strong> {{ $product->item_number }}</p>
         <p><strong>Overview:</strong> {!! nl2br($product->short_description) !!}</p>
-        <p><strong>Retail Price:</strong> <span id="msrp">{{ $product->min_msrp_string }}</span></p>
-        @if(Auth::check())
-          @if(Auth::user()->product_price_check($product->id))
-            <p class="price">Your Price: <span id="price">{{ Auth::user()->product_price_check($product->id)->price_string }}</span></p>
+        @if(Auth::check() && !Auth::user()->no_pricing)
+          <p><strong>Retail Price:</strong> <span id="msrp">{{ $product->min_msrp_string }}</span></p>
+          @if(Auth::check())
+            @if(Auth::user()->product_price_check($product->id))
+              <p class="price">Your Price: <span id="price">{{ Auth::user()->product_price_check($product->id)->price_string }}</span></p>
+            @else
+              <p class="price">Your Price: <span id="price">{{ $product->min_price_string }}</span></p>
+            @endif
           @else
             <p class="price">Your Price: <span id="price">{{ $product->min_price_string }}</span></p>
           @endif
-        @else
-          <p class="price">Your Price: <span id="price">{{ $product->min_price_string }}</span></p>
         @endif
       </div>
       <form action="{{ route('add-to-cart') }}" method="post" role="form">
@@ -63,7 +65,7 @@ $(document).ready(function(){
         <div class="form-group form-inline"> 
           <label for="uom">Unit of Measure</label><br/>
           <select id="uom" name="uom" class="form-control">
-            @if(Auth::check())
+            @if(Auth::check() && !Auth::user()->no_pricing)
               @if(Auth::user()->product_price_check($product->id))
                 @foreach($product->units_of_measure()->orderBy('price','desc')->get() as $uom)
                   <option value="{{ $uom->id }}" data-price="{{ Auth::user()->uom_price_check($uom->id)->price_string }}" data-msrp="{{ $uom->msrp_string }}">{{ $uom->name }} - {{ Auth::user()->uom_price_check($uom->id)->price_string }}</option>
@@ -75,7 +77,7 @@ $(document).ready(function(){
               @endif
             @else
               @foreach($product->units_of_measure()->orderBy('price','desc')->get() as $uom)
-                <option value="{{ $uom->id }}" data-price="{{ $uom->price_string }}" data-msrp="{{ $uom->msrp_string }}">{{ $uom->name }} - {{ $uom->price_string }}</option>
+                <option value="{{ $uom->id }}" data-price="{{ $uom->price_string }}" data-msrp="{{ $uom->msrp_string }}">{{ $uom->name }}</option>
               @endforeach
             @endif
           </select>

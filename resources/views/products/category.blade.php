@@ -61,15 +61,13 @@
             @endif
             <div class="product-info">
               <p>{{ $product->name }}</p>
-              <p>Retail Price: {{ $product->min_msrp_string }}</p>
-              @if(Auth::check())
+              @if(Auth::check() && !Auth::user()->no_pricing)
+                <p>Retail Price: {{ $product->min_msrp_string }}</p>
                 @if(Auth::user()->product_price_check($product->id))
                   <p>Your Price: {{ Auth::user()->product_price_check($product->id)->price_string }}</p>
                 @else
                   <p>Your Price: {{ $product->min_price_string }}</p>
                 @endif
-              @else
-                <p>Your Price: {{ $product->min_price_string }}</p>
               @endif
             </div>
             <div class="btn btn-product-moreinfo">More Info <span class="glyphicon glyphicon-chevron-right"></span></div>

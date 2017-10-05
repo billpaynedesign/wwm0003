@@ -104,7 +104,9 @@
               <th>Ship Status</th>
               <th>Quantity</th>
               <th>Options</th>
-              <th>Item Total</th>
+              @if(Auth::check() && !Auth::user()->no_pricing)
+                <th>Item Total</th>
+              @endif
             </tr>
           </thead>
           <tbody>
@@ -114,24 +116,28 @@
               <td>{{ $detail->shipped?'Shipped':'Not Shipped' }}</td>
               <td>{{ $detail->quantity }}</td>
               <td>{{ $detail->options }}</td>
-              <td>${{ \number_format($detail->subtotal,2) }}</td>
+              @if(Auth::check() && !Auth::user()->no_pricing)
+                <td>${{ \number_format($detail->subtotal,2) }}</td>
+              @endif
             </tr>
             @endforeach
           </tbody>
-          <tfoot>
-            <tr>
-              <th colspan="4" class="text-right"><strong>Sub-Total</strong></th>
-              <th>${{ \number_format($order->total,2) }}</th>
-            </tr>
-            <tr>
-              <th colspan="4" class="text-right"><strong>+ Tax</strong></th>
-              <th>${{ \number_format($order->tax,2) }}</th>
-            </tr>
-            <tr>
-              <th colspan="4" class="text-right"><strong>Total</strong></th>
-              <th>${{ \number_format($order->total_with_tax,2) }}</th>
-            </tr>
-          </tfoot>
+          @if(Auth::check() && !Auth::user()->no_pricing)
+            <tfoot>
+              <tr>
+                <th colspan="4" class="text-right"><strong>Sub-Total</strong></th>
+                <th>${{ \number_format($order->total,2) }}</th>
+              </tr>
+              <tr>
+                <th colspan="4" class="text-right"><strong>+ Tax</strong></th>
+                <th>${{ \number_format($order->tax,2) }}</th>
+              </tr>
+              <tr>
+                <th colspan="4" class="text-right"><strong>Total</strong></th>
+                <th>${{ \number_format($order->total_with_tax,2) }}</th>
+              </tr>
+            </tfoot>
+          @endif
         </table>
       </div>
     </div>

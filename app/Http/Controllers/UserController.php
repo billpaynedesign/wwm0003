@@ -68,6 +68,8 @@ class UserController extends Controller {
 			$user->license_number = $request->input('license_number');
 			$user->license_expire = $request->input('license_expire');
 
+			$user->no_pricing = $request->has('no_pricing');
+
 			$user->save();
 
 			return redirect()->route('user-edit',$user->id)->with(['success'=>'User updated successfully.']);

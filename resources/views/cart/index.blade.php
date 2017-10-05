@@ -19,10 +19,14 @@
       <thead>
         <tr>
           <th>Item Name</th>
-          <th>Price</th>
+          @if(Auth::check() && !Auth::user()->no_pricing)
+            <th>Price</th>
+          @endif
           <th>Quantity</th>
           <th>Options</th>
-          <th>Item Total</th>
+          @if(Auth::check() && !Auth::user()->no_pricing)
+            <th>Item Total</th>
+          @endif
           <th>Action</th>
         </tr>
       </thead>
@@ -32,10 +36,14 @@
             @if($row->product && $row->uom)
               <tr>
                 <td><a href="{{ route('product-show', $row->product->slug) }}">{{ $row->product->name }}</a></td>
-                <td>${{ number_format($row->cost,2) }}</td>
+                @if(Auth::check() && !Auth::user()->no_pricing)
+                  <td>${{ number_format($row->cost,2) }}</td>
+                @endif
                 <td>{{ $row->quantity }}</td>
                 <td>{{ $row->uom->name }}</td>
-                <td>${{ number_format($row->sub_total,2) }}</td>
+                @if(Auth::check() && !Auth::user()->no_pricing)
+                  <td>${{ number_format($row->sub_total,2) }}</td>
+                @endif
                 <td>
                   <button id="edit_button_{{ $row->id }}" class="btn btn-info" onclick="edit('{{ $row->id }}');" title="Edit Quantity">
                     <span class="glyphicon glyphicon-edit"></span>
@@ -60,12 +68,14 @@
           <tr><td colspan="6">Nothing in your cart yet.</td></tr>
         @endif
       </tbody>
-      <tfoot>
-        <tr>
-          <th colspan="4"><strong>Total</strong></th>
-          <th>${{ \number_format(Cart::total(),2) }}</th>
-        </tr> 
-      </tfoot>
+      @if(Auth::check() && !Auth::user()->no_pricing)
+        <tfoot>
+          <tr>
+            <th colspan="4"><strong>Total</strong></th>
+            <th>${{ \number_format(Cart::total(),2) }}</th>
+          </tr> 
+        </tfoot>
+      @endif
       </table>
       <div class="form-group form-inline pull-right">
         <button class="btn" onclick="javascript:history.back();">Continue Shopping</button>

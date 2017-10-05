@@ -135,6 +135,7 @@
           <label for="purchase_order_number">Purchase Order Number</label>
         <input type="text" id="purchase_order_number" name="purchase_order_number" class="form-control" />
       </div>
+      @if(Auth::check() && !Auth::user()->no_pricing)
       <div id="card_group" style="display:none;">
         <div class="form-group">
           <label for="card_num">Card Number</label>
@@ -183,6 +184,7 @@
           <input type="text" name="cvv" id="cvv" class="form-control"/>
         </div>
       </div>
+      @endif
       <h2 class="text-blue">Billing Information</h2>
       <div class="form-group">
         <div class="checkbox">
@@ -220,12 +222,14 @@
         <label for="zip">Zip Code:</label>
         <input type="text" name="zip" id="zip" class="form-control" required/>
       </div>
-      <div class="form-group">
-        <br/>
-        <p><strong>Total: ${{ \number_format($order->total,2) }}</strong></p>
-        <p class="fl_tax hide"><strong>Tax: +$<span id="tax"></span></strong></p>
-        <p class="fl_tax hide"><strong>Total After Tax: $<span id="total_wtax"></span></strong></p>
-      </div>
+      @if(Auth::check() && !Auth::user()->no_pricing)
+        <div class="form-group">
+          <br/>
+          <p><strong>Total: ${{ \number_format($order->total,2) }}</strong></p>
+          <p class="fl_tax hide"><strong>Tax: +$<span id="tax"></span></strong></p>
+          <p class="fl_tax hide"><strong>Total After Tax: $<span id="total_wtax"></span></strong></p>
+        </div>
+      @endif
       <input type="hidden" name="id" value="{{ $order->id }}" />
       <button type="submit" name="_token" value="{{ csrf_token() }}" class="btn btn-default">Complete Purchase</button>
     </form>
