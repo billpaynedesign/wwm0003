@@ -4,6 +4,8 @@ use Illuminate\Database\Eloquent\Model;
 use Cviebrock\EloquentSluggable\SluggableInterface;
 use Cviebrock\EloquentSluggable\SluggableTrait;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use QBItem;
+use Log;
 
 class Product extends Model implements SluggableInterface{
 
@@ -98,5 +100,41 @@ class Product extends Model implements SluggableInterface{
     	}
     	krsort($html);
     	return implode($html);
+    }
+    public function qbCheckOrCreate($dataService){
+        if($this->qb_id){
+            $entities = $dataService->Query("select * from Item where Id='{$this->qb_id}'");
+            if($entities != null){
+                if(!empty($entities) && sizeof($entities) == 1){
+                    $item = current($entities);
+                    return $item;
+                }
+            }
+        }
+        $item = QBItem::create([
+            "Type" => "NonInventory",
+            "Name" => $this->name,
+            "Sku" => $this->item_number,
+            "IncomeAccountRef" => [
+                "value" => "128",
+                "name" => "Sales of Product Income"
+            ],
+            "ExpenseAccountRef" => [
+                "value" => "162",
+                "name" => "Cost of Goods Sold"
+            ]
+        ]);
+        $response = $dataService->Add($item);
+        if (null != $error = $dataService->getLastError()) {
+            $errormessage = "Item Creation Error: \n";
+            $errormessage .= "The Status code is: " . $error->getHttpStatusCode() . "\n";
+            $errormessage .= "The Helper message is: " . $error->getOAuthHelperError() . "\n";
+            $errormessage .= "The Response message is: " . $error->getResponseBody() . "\n";
+            Log::error($errormessage);
+            return false;
+        }
+        $this->qb_id = $response->Id;
+        $this->save();
+        return $response;
     }
 }

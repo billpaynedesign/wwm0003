@@ -168,7 +168,5 @@ Route::controllers([
 	'password' => 'Auth\PasswordController',
 ]);
 
-/*Event::listen('illuminate.query', function($query)
-{
-    var_dump($query);
-});*/
+Route::get('/qbtest',['uses'=>'HomeController@qbtest','as'=>'qbtest']);
+

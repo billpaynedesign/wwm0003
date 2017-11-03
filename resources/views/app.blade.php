@@ -38,7 +38,7 @@
 	<script src="{{ asset('/js/lightbox-bootstrap/ekko-lightbox.min.js') }}"></script>
 	<script src="{{ asset('/js/bootstrap-fileinput/js/fileinput.min.js') }}"></script>
 	<script src="{{ asset('/js/dropzone/dropzone.js') }}"></script>
-	<script src="//cdn.tinymce.com/4/tinymce.min.js"></script>
+	<!-- <script src="//cdn.tinymce.com/4/tinymce.min.js"></script> -->
 	<script src="{{ asset('js/selectize/js/standalone/selectize.min.js') }}"></script>
 
 	<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
@@ -203,7 +203,7 @@
 	    var root = '{{url("/")}}';
 	</script>
 	<script type="text/javascript">
-	tinymce.init({ selector:'.tinymce' });
+	/*tinymce.init({ selector:'.tinymce' });*/
 	var table;
 	$(document).ready(function(){
 		table = $('.tablesorter').DataTable();

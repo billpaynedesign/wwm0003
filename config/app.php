@@ -143,10 +143,19 @@ return [
         App\Providers\AppServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
+
+        /*
+         * Vendor Service Providers...
+         */
         Maatwebsite\Excel\ExcelServiceProvider::class,
         Cviebrock\EloquentSluggable\SluggableServiceProvider::class,
         Vinkla\Hashids\HashidsServiceProvider::class,
         Barryvdh\DomPDF\ServiceProvider::class,
+
+        /*
+         * Custom Service Providers...
+         */
+        App\Providers\QBDataServiceProvider::class,
     ],
 
     /*
@@ -199,6 +208,13 @@ return [
         'Cart'      => App\ShoppingCart::class,
         'Hashids'   => Vinkla\Hashids\Facades\Hashids::class,
         'PDF'       => Barryvdh\DomPDF\Facade::class,
+
+        //quickbooks
+        //QuickBooksOnline\API\Facades\{Facade_Class_Name}
+        'QBInvoice' => QuickBooksOnline\API\Facades\Invoice::class,
+        'QBCustomer' => QuickBooksOnline\API\Facades\Customer::class,
+        'QBItem' => QuickBooksOnline\API\Facades\Item::class,
+
     ],
 
     'statesarray' =>[

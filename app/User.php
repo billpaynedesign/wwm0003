@@ -6,6 +6,7 @@ use Illuminate\Auth\Passwords\CanResetPassword;
 use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
 use Illuminate\Support\Facades\Log;
+use QBCustomer;
 
 class User extends Model implements AuthenticatableContract, CanResetPasswordContract {
 
@@ -71,5 +72,40 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
 
     public function getCartAttribute(){
         return count($this->carts)?$this->carts()->orderBy('id', 'desc')->first():false;
+    }
+
+    public function qbCheckOrCreate($dataService){
+    	if($this->qb_id){
+	    	$entities = $dataService->Query("select * from Customer where Id='{$this->qb_id}'");
+	    	if($entities != null){
+				if(!empty($entities) && sizeof($entities) == 1){
+				    $user = current($entities);
+				    return $user;
+				}
+			}
+		}
+		
+		$customer = QBCustomer::create([
+		    "CompanyName" => $this->company,
+		    "DisplayName" => $this->name,
+		    "PrimaryPhone" => [
+		        "FreeFormNumber" => $this->phone
+		    ],
+		    "PrimaryEmailAddr" => [
+		        "Address" => $this->email
+		    ]
+		]);
+		$response = $dataService->Add($customer);
+		if (null != $error = $dataService->getLastError()) {
+			$errormessage = "User Creation Error: \n";
+		    $errormessage .= "The Status code is: " . $error->getHttpStatusCode() . "\n";
+		    $errormessage .= "The Helper message is: " . $error->getOAuthHelperError() . "\n";
+		    $errormessage .= "The Response message is: " . $error->getResponseBody() . "\n";
+		    Log::error($errormessage);
+		    return false;
+		}
+		$this->qb_id = $response->Id;
+		$this->save();
+		return $response;
     }
 }

@@ -12,7 +12,8 @@
         "maatwebsite/excel": "2.*",
         "vinkla/hashids": "^2.0@dev",
         "authorizenet/authorizenet": "~1.8",
-        "barryvdh/laravel-dompdf": "0.6.*"
+        "barryvdh/laravel-dompdf": "0.6.*",
+        "quickbooks/v3-php-sdk": "^3.4"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",

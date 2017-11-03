@@ -48,6 +48,10 @@ class ComposerStaticInita864c481a4c3760e132aaf15a80c6e4b
             'SuperClosure\\' => 13,
             'Stringy\\' => 8,
         ),
+        'Q' => 
+        array (
+            'QuickBooksOnline\\API\\' => 21,
+        ),
         'M' => 
         array (
             'Monolog\\' => 8,
@@ -160,6 +164,10 @@ class ComposerStaticInita864c481a4c3760e132aaf15a80c6e4b
         'Stringy\\' => 
         array (
             0 => __DIR__ . '/..' . '/danielstjules/stringy/src',
+        ),
+        'QuickBooksOnline\\API\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/quickbooks/v3-php-sdk/src',
         ),
         'Monolog\\' => 
         array (
@@ -334,6 +342,8 @@ class ComposerStaticInita864c481a4c3760e132aaf15a80c6e4b
         'Absolute_Positioner' => __DIR__ . '/..' . '/dompdf/dompdf/include/absolute_positioner.cls.php',
         'Abstract_Renderer' => __DIR__ . '/..' . '/dompdf/dompdf/include/abstract_renderer.cls.php',
         'AddBackorderDetailsTable' => __DIR__ . '/../..' . '/database/migrations/2016_07_15_200754_add_backorder_details_table.php',
+        'AddNoPricingToUserTable' => __DIR__ . '/../..' . '/database/migrations/2017_10_05_133629_add_no_pricing_to_user_table.php',
+        'AddQbIdProductsUsersOrdersTables' => __DIR__ . '/../..' . '/database/migrations/2017_11_03_193924_add_qb_id_products_users_orders_tables.php',
         'Adobe_Font_Metrics' => __DIR__ . '/..' . '/phenx/php-font-lib/classes/Adobe_Font_Metrics.php',
         'AlterAddDeletedAtCategoriesTable' => __DIR__ . '/../..' . '/database/migrations/2017_01_19_154630_alter_add_deleted_at_categories_table.php',
         'AlterAddDeletedAtProductsTable' => __DIR__ . '/../..' . '/database/migrations/2017_01_19_143606_alter_add_deleted_at_products_table.php',
@@ -393,6 +403,9 @@ class ComposerStaticInita864c481a4c3760e132aaf15a80c6e4b
         'CreateProductHasOptionsTable' => __DIR__ . '/../..' . '/database/migrations/2016_09_13_210553_create_product_has_options_table.php',
         'CreateProductHasProductGroupsTable' => __DIR__ . '/../..' . '/database/migrations/2016_09_14_151502_create_product_has_product_groups_table.php',
         'CreateProductsTable' => __DIR__ . '/../..' . '/database/migrations/2015_06_12_031900_create_products_table.php',
+        'CreateShoppingcartTable' => __DIR__ . '/../..' . '/database/migrations/2017_07_26_112302_create_shoppingcart_table.php',
+        'CreateShoppingcartitemsTable' => __DIR__ . '/../..' . '/database/migrations/2017_07_26_112326_create_shoppingcartitems_table.php',
+        'CreateStatesTable' => __DIR__ . '/../..' . '/database/migrations/2017_07_26_115123_create_states_table.php',
         'CreateTransactionsTable' => __DIR__ . '/../..' . '/database/migrations/2015_06_12_031900_create_transactions_table.php',
         'CreateUnitsOfMeasureTable' => __DIR__ . '/../..' . '/database/migrations/2016_09_02_135212_create_units_of_measure_table.php',
         'CreateUserHasPricingTable' => __DIR__ . '/../..' . '/database/migrations/2016_08_29_031628_create_user_has_pricing_table.php',

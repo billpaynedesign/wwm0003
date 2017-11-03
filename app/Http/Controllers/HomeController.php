@@ -3,6 +3,8 @@ use App\Product;
 use App\Category;
 use Illuminate\Http\Request;
 use Mail;
+use QuickBooksOnline\API\DataService\DataService;
+
 class HomeController extends Controller {
 
 	/*
@@ -31,6 +33,11 @@ class HomeController extends Controller {
 	 *
 	 * @return Response
 	 */
+	public function qbtest(DataService $dataService){
+		$order = \App\Order::find(1007);
+		$invoice = $order->qbCheckOrCreate($dataService);
+		dd($dataService->getCompanyInfo(),$invoice);
+	}
 	public function index()
 	{
         $featured = Category::featured()->active()->get();

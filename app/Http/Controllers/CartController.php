@@ -248,6 +248,8 @@ class CartController extends Controller {
 		if(session()->has('cart_id')) session()->forget('cart_id');
 		if(session()->has('order')) session()->forget('order');
 
+		$order->createInvoice();
+
 		if($user->email){
 			$email = trim($user->email);
 

@@ -2,6 +2,8 @@
 
 use Illuminate\Database\Eloquent\Model;
 use App\State;
+use Log;
+use QBInvoice;
 
 class Order extends Model {
 
@@ -74,5 +76,96 @@ class Order extends Model {
 			$invoices .= "</ul>";
 		}
 		return $invoices;
+	}
+	public function qbCheckOrCreate($dataService){
+    	/*if($this->qb_id){
+	    	$entities = $dataService->Query("select * from Invoice where Id='{$this->qb_id}'");
+	    	if($entities != null){
+				if(!empty($entities) && sizeof($entities) == 1){
+				    $invoice = current($entities);
+				    return $invoice;
+				}
+			}
+		}*/
+		$user = $this->user;
+		if($customer = $user->qbCheckOrCreate($dataService)){
+			$transaction = $this->transaction;
+	        $lines = array();
+	        foreach($this->details as $detail){
+	        	$product = $detail->product;
+	        	if($item = $product->qbCheckOrCreate($dataService)){
+		        	$lines[] = [
+			            "Description" => $product->item_number.' - '.$product->name.' - '.$detail->options,
+			            "Amount" => (float)$detail->subtotal,
+			            "DetailType" => "SalesItemLineDetail",
+			            "SalesItemLineDetail" => [
+			                "ItemRef" => [
+			                    "value" => $item->Id,
+			                    "name" => $item->Name
+			                ],
+			                "Qty" => $detail->quantity,
+			                "TaxCodeRef" => [
+			                	"value" => "TAX"
+			                ]
+			            ]
+				  	];
+	        	}
+	        	else{
+		        	$lines[] = [
+			            "Description" => $product->item_number.' - '.$product->name.' - '.$detail->options,
+			            "Amount" => (float)$detail->subtotal,
+			            "DetailType" => "SalesItemLineDetail",
+			            "SalesItemLineDetail" => [
+			                "Qty" => $detail->quantity,
+			                "TaxCodeRef" => [
+			                	"value" => "TAX"
+			                ]
+			            ]
+				  	];
+				}
+			}
+			$invoice = QBInvoice::create([
+			  	"DocNumber" => $this->id,
+			  	"Line" => $lines,
+			  	"CustomerRef" => [
+			    	"value" => $customer->Id,
+			    	"name" => $customer->DisplayName
+			  	],
+		        "BillAddr" => [
+		            "Line1" => $transaction->name,
+		            "Line2" => $transaction->address1.($transaction->address2?' '.$transaction->address2:''),
+		            "City" => $transaction->city,
+		            "CountrySubDivisionCode" => $transaction->state,
+		            "PostalCode" => $transaction->zip,
+		        ],
+		        "ShipAddr" => [
+		            "Line1" => $this->shippingname,
+		            "Line2" => $this->address1.($this->address2?' '.$this->address2:''),
+		            "City" => $this->city,
+		            "CountrySubDivisionCode" => $this->state,
+		            "PostalCode" => $this->zip,
+		        ],
+		        "TxnTaxDetail" => [
+		        	"TxnTaxCodeRef" => [
+		        		"value" => "4"
+		        	],
+		        	"TotalTax" => (float)$this->tax
+		        ]
+			]);
+			$response = $dataService->Add($invoice);
+			if (null != $error = $dataService->getLastError()) {
+				$errormessage = "Invoice Creation Error: \n";
+			    $errormessage .= "The Status code is: " . $error->getHttpStatusCode() . "\n";
+			    $errormessage .= "The Helper message is: " . $error->getOAuthHelperError() . "\n";
+			    $errormessage .= "The Response message is: " . $error->getResponseBody() . "\n";
+			    Log::error($errormessage);
+			    return false;
+			}
+			$this->qb_id = $response->Id;
+			$this->save();
+			return $response;
+		}
+		return false;
+		
 	}
 }
