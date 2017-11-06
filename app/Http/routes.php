@@ -168,5 +168,3 @@ Route::controllers([
 	'password' => 'Auth\PasswordController',
 ]);
 
-Route::get('/qbtest',['uses'=>'HomeController@qbtest','as'=>'qbtest']);
-

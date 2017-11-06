@@ -78,7 +78,7 @@ class Order extends Model {
 		return $invoices;
 	}
 	public function qbCheckOrCreate($dataService){
-    	/*if($this->qb_id){
+    	if($this->qb_id){
 	    	$entities = $dataService->Query("select * from Invoice where Id='{$this->qb_id}'");
 	    	if($entities != null){
 				if(!empty($entities) && sizeof($entities) == 1){
@@ -86,7 +86,7 @@ class Order extends Model {
 				    return $invoice;
 				}
 			}
-		}*/
+		}
 		$user = $this->user;
 		if($customer = $user->qbCheckOrCreate($dataService)){
 			$transaction = $this->transaction;

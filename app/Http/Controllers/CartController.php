@@ -21,6 +21,7 @@ use AuthorizeNetAIM;
 use Validator;
 use App\ShipTo;
 use Mail;
+use QuickBooksOnline\API\DataService\DataService;
 
 class CartController extends Controller {
 
@@ -137,7 +138,7 @@ class CartController extends Controller {
 		return view('cart.payment',compact('order','now'));
 
 	}
-	public function checkout(Request $request){
+	public function checkout(Request $request, DataService $dataService){
 		$order = session('order');
 		$user = Auth::user();
 		$transaction = new Transaction();
@@ -248,7 +249,7 @@ class CartController extends Controller {
 		if(session()->has('cart_id')) session()->forget('cart_id');
 		if(session()->has('order')) session()->forget('order');
 
-		$order->createInvoice();
+		$invoice = $order->qbCheckOrCreate($dataService);
 
 		if($user->email){
 			$email = trim($user->email);
