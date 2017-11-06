@@ -116,11 +116,11 @@ class Product extends Model implements SluggableInterface{
             "Name" => $this->name,
             "Sku" => $this->item_number,
             "IncomeAccountRef" => [
-                "value" => "128",
+                "value" => "79",
                 "name" => "Sales of Product Income"
             ],
             "ExpenseAccountRef" => [
-                "value" => "162",
+                "value" => "80",
                 "name" => "Cost of Goods Sold"
             ]
         ]);
