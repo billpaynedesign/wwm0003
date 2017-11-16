@@ -116,6 +116,8 @@ Route::group(['prefix'=>'order'],function(){
 			Route::post('/edit/line/{id}',['uses'=>'OrderController@editLineUpdate','as'=>'order-edit-line-update']);
 			Route::get('/toggle/backordered/{id}',['uses'=>'OrderController@toggleBackordered','as'=>'order-toggle-backordered']);
 			Route::get('/print/backordered',['uses'=>'OrderController@backordered','as'=>'order-print-backordered']);
+
+    		Route::get('/{id}/create/invoice/{connection}',['uses'=>'OrderController@createQBInvoice','as'=>'order-create-qb-invoice']);
 		});
 
 		Route::get('/{token}',['uses'=>'OrderController@show','as'=>'order-show']);
@@ -167,4 +169,3 @@ Route::controllers([
 	'auth' => 'Auth\AuthController',
 	'password' => 'Auth\PasswordController',
 ]);
-

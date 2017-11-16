@@ -87,6 +87,15 @@ class Order extends Model {
 				}
 			}
 		}
+		else{
+	    	$entities = $dataService->Query("select * from Invoice where DocNumber='{$this->id}'");
+	    	if($entities != null){
+				if(!empty($entities) && sizeof($entities) == 1){
+				    $invoice = current($entities);
+				    return $invoice;
+				}
+			}
+		}
 		$user = $this->user;
 		if($customer = $user->qbCheckOrCreate($dataService)){
 			$transaction = $this->transaction;

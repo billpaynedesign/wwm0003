@@ -16,6 +16,7 @@ use Session;
 use Cart;
 use Hashids;
 use PDF;
+use App\QBDataService;
 
 class OrderController extends Controller {
 
@@ -182,5 +183,25 @@ class OrderController extends Controller {
 		$detail->subtotal = $product->price;
 		$detail->save();
 		return redirect()->route('order-edit',$id)->with('success','Item added successfully!');
+	}
+	public function createQBInvoice($id, $connection){
+		if($order = Order::find($id)){
+			$dataService = QBDataService::Configure($connection);
+			dd($invoice = $order->qbCheckOrCreate($dataService));
+			if($invoice){
+				if($request->ajax()){
+					return response()->json(['success'=>'true']);
+				}
+				else{
+					return redirect()->back()->with('success','Quickbook invoice created successfully');
+				}
+			}
+		}
+		if($request->ajax()){
+			return response()->json(['success'=>'fail']);
+		}
+		else{
+			return redirect()->back()->with('fail','Quickbook invoice could not be created at this time, please try again later.');
+		}
 	}
 }

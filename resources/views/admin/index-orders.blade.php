@@ -103,7 +103,8 @@ function order_information(id){
                     <a href="{{ route('order-delete',$order->id) }}" class="btn btn-danger" title="Remove #{{ $order->id }}" onclick="return confirm('Are you sure you want to remove order: #{{ $order->id }}');">
                       <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
                     </a>
-                    <button class="btn btn-default html-popover" data-toggle="popover" data-container="body" data-placement="left" data-trigger="focus" data-content="{!! $order->invoice_html_list !!}"><span class="fa fa-files-o"></span></button>
+                    <a class="btn btn-black" href="{{ route('order-create-qb-invoice', [$order->id, 'quickbooks1']) }}" title="Create quickbooks invoice for World Wide Medical Distributors,Inc." onclick="return confirm('Are you sure you want to create a quickbooks invoice for World Wide Medical Distributors,Inc.');">WWM</a>
+                    <a class="btn btn-grey" href="{{ route('order-create-qb-invoice', [$order->id, 'quickbooks2']) }}" title="Create quickbooks invoice for PRESTIGE MEDICAL DEVICES, INC." onclick="return confirm('Are you sure you want to create a quickbooks invoice for PRESTIGE MEDICAL DEVICES, INC.');">PMD</a>
                   </td>
                 </tr>
                 @endforeach
