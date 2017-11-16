@@ -343,6 +343,7 @@ class ComposerStaticInita864c481a4c3760e132aaf15a80c6e4b
         'Abstract_Renderer' => __DIR__ . '/..' . '/dompdf/dompdf/include/abstract_renderer.cls.php',
         'AddBackorderDetailsTable' => __DIR__ . '/../..' . '/database/migrations/2016_07_15_200754_add_backorder_details_table.php',
         'AddNoPricingToUserTable' => __DIR__ . '/../..' . '/database/migrations/2017_10_05_133629_add_no_pricing_to_user_table.php',
+        'AddQb2IdProductsUsersOrdersTables' => __DIR__ . '/../..' . '/database/migrations/2017_11_16_192247_add_qb2_id_products_users_orders_tables.php',
         'AddQbIdProductsUsersOrdersTables' => __DIR__ . '/../..' . '/database/migrations/2017_11_03_193924_add_qb_id_products_users_orders_tables.php',
         'Adobe_Font_Metrics' => __DIR__ . '/..' . '/phenx/php-font-lib/classes/Adobe_Font_Metrics.php',
         'AlterAddDeletedAtCategoriesTable' => __DIR__ . '/../..' . '/database/migrations/2017_01_19_154630_alter_add_deleted_at_categories_table.php',

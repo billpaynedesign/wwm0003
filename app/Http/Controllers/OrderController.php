@@ -184,11 +184,10 @@ class OrderController extends Controller {
 		$detail->save();
 		return redirect()->route('order-edit',$id)->with('success','Item added successfully!');
 	}
-	public function createQBInvoice($id, $connection){
+	public function createQBInvoice($id, $connection, Request $request){
 		if($order = Order::find($id)){
 			$dataService = QBDataService::Configure($connection);
-			dd($invoice = $order->qbCheckOrCreate($dataService));
-			if($invoice){
+			if($invoice = $order->qbCheckOrCreate($dataService)){
 				if($request->ajax()){
 					return response()->json(['success'=>'true']);
 				}

@@ -10,6 +10,7 @@ return array(
     'Abstract_Renderer' => $vendorDir . '/dompdf/dompdf/include/abstract_renderer.cls.php',
     'AddBackorderDetailsTable' => $baseDir . '/database/migrations/2016_07_15_200754_add_backorder_details_table.php',
     'AddNoPricingToUserTable' => $baseDir . '/database/migrations/2017_10_05_133629_add_no_pricing_to_user_table.php',
+    'AddQb2IdProductsUsersOrdersTables' => $baseDir . '/database/migrations/2017_11_16_192247_add_qb2_id_products_users_orders_tables.php',
     'AddQbIdProductsUsersOrdersTables' => $baseDir . '/database/migrations/2017_11_03_193924_add_qb_id_products_users_orders_tables.php',
     'Adobe_Font_Metrics' => $vendorDir . '/phenx/php-font-lib/classes/Adobe_Font_Metrics.php',
     'AlterAddDeletedAtCategoriesTable' => $baseDir . '/database/migrations/2017_01_19_154630_alter_add_deleted_at_categories_table.php',

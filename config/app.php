@@ -151,11 +151,6 @@ return [
         Cviebrock\EloquentSluggable\SluggableServiceProvider::class,
         Vinkla\Hashids\HashidsServiceProvider::class,
         Barryvdh\DomPDF\ServiceProvider::class,
-
-        /*
-         * Custom Service Providers...
-         */
-        App\Providers\QBDataServiceProvider::class,
     ],
 
     /*

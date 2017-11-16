@@ -100,6 +100,18 @@ a img {
 .btn-grey[disabled]{
   opacity: .4;
 }
+.btn-darkblue,
+.btn-darkblue:visited,
+.btn-darkblue:focus{
+  color: #fff;
+  border-color: #0f2b4e;
+  background-color: #0f2b4e;
+}
+.btn-darkblue:hover{
+  color: #fff;
+  border-color: #163e71;
+  background-color: #163e71;
+}
 
 /**LAYOUT STUFF (order of appearance)**/
 
