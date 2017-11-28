@@ -39,6 +39,7 @@
 	            	else{
 	            		var picture = noimage;
 	            	}
+	            	item.name = item.name+' - #'+item.item_number;
 	                return '<div><img src="'+picture+'" style="max-width:50px; max-height: 50px; margin-right:5px;">' +item.name+'</div>';
 	            }
 	        },
