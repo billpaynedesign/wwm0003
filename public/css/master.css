@@ -684,6 +684,7 @@ a img {
 }
 input[type="number"].form-control{
   max-width: 90px;
+  min-width: 60px;
 }
 .btn-addcart, .btn-addcart:visited, .btn-addcart:hover, .btn-addcart:focus {
   color: #fff;
