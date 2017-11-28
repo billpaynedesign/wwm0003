@@ -154,7 +154,13 @@
           <td style="text-align:center;">{{ $detail->quantity }}</td>
           <td style="text-align:center;">{{ $detail->options }}</td>
           <td style="text-align:center;">{{ $detail->backordered }}</td>
-          <td style="text-align:center;">{{ $detail->product->price_string }}</td>
+          <td style="text-align:center;">
+            @if($order->user->product_price_check($detail->product->id))
+              {{ $order->user->product_price_check($detail->product->id)->price_string }}
+            @else
+              {{ $detail->product->min_price_string }}
+            @endif
+          </td>
           <td style="text-align:center;">${{ \number_format($detail->subtotal,2) }}</td>
         </tr>
         @endforeach
