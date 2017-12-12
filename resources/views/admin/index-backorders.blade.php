@@ -69,7 +69,13 @@ $(document).ready(function(){
                       <td>{{ $detail->product->item_number }}</td>
                       <td>{{ $detail->lot_number }}</td>
                       <td>{{ $detail->expirations }}</td>
-                      <td>{{ $detail->product->price_string }}</td>
+                      <td>
+                        @if($order->user->product_price_check($detail->product->id))
+                          {{ $order->user->product_price_check($detail->product->id)->price_string }}
+                        @else
+                          {{ $detail->product->min_price_string }}
+                        @endif
+                      </td>
                       <td>{{ $detail->backordered }}</td>
                     </tr>
                   @endforeach

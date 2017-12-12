@@ -118,15 +118,11 @@
 								<td>
 									<input type="number" name="backordered[{{ $detail->id }}]" min="0" max="{{ $detail->quantity }}" value="{{ $detail->backordered }}" class="form-control" />
 								</td>
-							    @if($order->user)
-							        @if($order->user->product_price_check($detail->product->id))
-										<td>{{ $order->user->product_price_check($detail->product->id)->price_string }}</td>
-							    	@else
-										<td>{{ $detail->product->price_string }}</td>
-							        @endif
-							    @else
-									<td>{{ $detail->product->price_string }}</td>
-							    @endif
+					            @if($order->user->product_price_check($detail->product->id))
+					              <td>{{ $order->user->product_price_check($detail->product->id)->price_string }}</td>
+					            @else
+					              <td>{{ $detail->product->min_price_string }}</td>
+					            @endif
 								<td>
 									@if(!$detail->shipped)
 										<input type="text" name="lot_number[{{ $detail->id }}]" class="form-control" value="{{ $detail->lot_number }}" />

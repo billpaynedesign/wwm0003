@@ -39,10 +39,10 @@ class ApiSearchController  extends Controller {
 		// If the input is empty, return an error response
 		if(!$query && $query == '') return response()->json(array(), 400);
 
-		$products = Product::active()->where('name','like','%'.$query.'%')->orderBy('name','asc')->take(5)->get(['slug','name','picture','item_number'])->toArray();
-		$productsByNumber = Product::active()->where('item_number','=',strtoupper($query))->orderBy('name','asc')->take(5)->get(['slug','name','picture','item_number'])->toArray();
-		$productsByNumber = array_merge(Product::active()->where('item_number','=',strtolower($query))->orderBy('name','asc')->take(5)->get(['slug','name','picture','item_number'])->toArray(), $productsByNumber);
-		$categories = Category::active()->where('name','like','%'.$query.'%')->orderBy('name','asc')->take(5)->get(['slug','name','picture'])->toArray();
+		$products = Product::active()->where('name','like','%'.$query.'%')->orderBy('name','asc')->take(50)->get(['slug','name','picture','item_number'])->toArray();
+		$productsByNumber = Product::active()->where('item_number','=',strtoupper($query))->orderBy('name','asc')->take(50)->get(['slug','name','picture','item_number'])->toArray();
+		$productsByNumber = array_merge(Product::active()->where('item_number','=',strtolower($query))->orderBy('name','asc')->take(50)->get(['slug','name','picture','item_number'])->toArray(), $productsByNumber);
+		$categories = Category::active()->where('name','like','%'.$query.'%')->orderBy('name','asc')->take(50)->get(['slug','name','picture'])->toArray();
 
 		// Normalize data
 		$products = $this->appendURL($products, 'product');
@@ -89,9 +89,9 @@ class ApiSearchController  extends Controller {
 		// If the input is empty, return an error response
 		if(!$query && $query == '') return response()->json(array(), 400);
 
-		$products = Product::active()->where('name','like','%'.$query.'%')->orderBy('name','asc')->take(5)->get(['id','slug','name','picture','item_number'])->toArray();
-		$productsByNumber = Product::active()->where('item_number','=',strtoupper($query))->orderBy('name','asc')->take(5)->get(['id','slug','name','picture','item_number'])->toArray();
-		$productsByNumber = array_merge(Product::active()->where('item_number','=',strtolower($query))->orderBy('name','asc')->take(5)->get(['id','slug','name','picture','item_number'])->toArray(), $productsByNumber);
+		$products = Product::active()->where('name','like','%'.$query.'%')->orderBy('name','asc')->take(50)->get(['id','slug','name','picture','item_number'])->toArray();
+		$productsByNumber = Product::active()->where('item_number','=',strtoupper($query))->orderBy('name','asc')->take(50)->get(['id','slug','name','picture','item_number'])->toArray();
+		$productsByNumber = array_merge(Product::active()->where('item_number','=',strtolower($query))->orderBy('name','asc')->take(50)->get(['id','slug','name','picture','item_number'])->toArray(), $productsByNumber);
 
 		// Normalize data
 		$products = $this->appendID($products, 'product');

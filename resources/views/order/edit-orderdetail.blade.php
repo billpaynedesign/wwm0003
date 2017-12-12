@@ -70,7 +70,7 @@
 					<tr>
 						<td>{{ $line->product->name }}</td>
 						<td><input type="number" step="1" name="line[]" min="1" max="{{ $line->quantity }}" class="form-control qty" value="1"/></td>
-						<td>{{ $line->product->price_string }}</td>
+						<td>{{ $line->product->min_price_string }}</td>
 						<td><button class="btn btn-danger" onclick="$(this).parent().parent().remove(); update_total(); return false;"><span class="glyphicon glyphicon-minus"></span></button></td>
 					</tr>
 					@endif
