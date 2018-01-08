@@ -1,4 +1,4 @@
-@extends('app')
+@extends('layout')
 
 @section('scripts')
 <script type="text/javascript">
@@ -55,105 +55,112 @@
 </script>
 @endsection
 @section('content')
-<div class="container main-container no-padding">
-  <div class="col-xs-12 main-col">
-	<h1>Edit # {{ $order->invoice_num }}</h1>
-		<form action="{{ route('order-update') }}" method="post" enctype="multipart/form-data">
-			<div class="form-group">
-				<label for="first_name">First Name: </label>
-				<input type="text" name="first_name" id="first_name" class="form-control" value="{{ $order->first_name }}" />
-				<label for="last_name">Last Name: </label>
-				<input type="text" name="last_name" id="last_name" class="form-control" value="{{ $order->last_name }}" />
-				<label for="name">Shipping Name: </label>
-				<input type="text" name="name" id="name" class="form-control" value="{{ $order->shippingname }}" />
-				<label for="address1">Address 1: </label>
-				<input type="text" name="address1" id="address1" class="form-control" value="{{ $order->address1 }}" />
-				<label for="address2">Address 2: </label>
-				<input type="text" name="address2" id="address2" class="form-control" value="{{ $order->address2 }}" />
-				<label for="city">City: </label>
-				<input type="text" name="city" id="city" class="form-control" value="{{ $order->city }}" />
-				<label for="state">State: </label>
-		          <select name="state" id="state" class="form-control">
-			          @foreach(App\State::all() as $state)
-			          <option value="{{ $state->abbr }}" {{ $state->abbr==$order->state?'selected':'' }}>{{ $state->state }}</option>
-			          @endforeach
-		          </select>
-				<label for="zip">Zip: </label>
-				<input type="text" name="zip" id="zip" class="form-control" value="{{ $order->zip }}" />
+<div id="row-main" class="row">
+  	<div id="container-main" class="container">
+  		<div id="col-main" class="col-xs-12">
+			<h1>Edit # {{ $order->invoice_num }}</h1>
+			<form action="{{ route('order-update') }}" method="post" enctype="multipart/form-data">
+				<div class="form-group">
+					<label for="first_name">First Name: </label>
+					<input type="text" name="first_name" id="first_name" class="form-control" value="{{ $order->first_name }}" />
+					<label for="last_name">Last Name: </label>
+					<input type="text" name="last_name" id="last_name" class="form-control" value="{{ $order->last_name }}" />
+					<label for="name">Shipping Name: </label>
+					<input type="text" name="name" id="name" class="form-control" value="{{ $order->shippingname }}" />
+					<label for="address1">Address 1: </label>
+					<input type="text" name="address1" id="address1" class="form-control" value="{{ $order->address1 }}" />
+					<label for="address2">Address 2: </label>
+					<input type="text" name="address2" id="address2" class="form-control" value="{{ $order->address2 }}" />
+					<label for="city">City: </label>
+					<input type="text" name="city" id="city" class="form-control" value="{{ $order->city }}" />
+					<label for="state">State: </label>
+			          <select name="state" id="state" class="form-control">
+				          @foreach(App\State::all() as $state)
+				          <option value="{{ $state->abbr }}" {{ $state->abbr==$order->state?'selected':'' }}>{{ $state->state }}</option>
+				          @endforeach
+			          </select>
+					<label for="zip">Zip: </label>
+					<input type="text" name="zip" id="zip" class="form-control" value="{{ $order->zip }}" />
 
-				<input type="hidden" name="id" value="{{ $order->id }}"/>
+					<input type="hidden" name="id" value="{{ $order->id }}"/>
 
-			</div>
+				</div>
 
-			<div class="form-group table-responsive">
-				<table class="table table-bordered table-striped">
-					<thead>
-						<tr>
-							<th class="text-danger">Delete Item</th>
-							<th>Item</th>
-							<th>Paid Status</th>
-							<th>Ship Status</th>
-							<th>QTY</th>
-							<th>Backordered</th>
-							<th>Price</th>
-							<th>Lot #</th>
-							<th>Expiration Date</th>
-							<th>Split Line</th>
-						</tr>
-					</thead>
-					<tbody>
-						@foreach($order->details as $detail)
+				<div class="form-group table-responsive">
+					<table class="table table-bordered table-striped">
+						<thead>
 							<tr>
-								<td>
-									@if(!$detail->shipped)
-										<input type="checkbox" name="item_delete[]" value="{{ $detail->id }}" />
-									@endif
-								</td>
-								<td>{{ $detail->product->category?$detail->product->category->name:'Uncategorized' }} - {{ $detail->product->name }}</td>
-								<td>{{ $detail->paid?'Paid':'Pending' }}</td>
-								<td>{{ $detail->shipped?'Shipped':'Pending' }}</td>
-								<td>
-									<input type="number" name="item_qty[{{ $detail->id }}]" min="1" value="{{ $detail->quantity }}" class="form-control" />
-								</td>
-								<td>
-									<input type="number" name="backordered[{{ $detail->id }}]" min="0" max="{{ $detail->quantity }}" value="{{ $detail->backordered }}" class="form-control" />
-								</td>
-					            @if($order->user->product_price_check($detail->product->id))
-					              <td>{{ $order->user->product_price_check($detail->product->id)->price_string }}</td>
-					            @else
-					              <td>{{ $detail->product->min_price_string }}</td>
-					            @endif
-								<td>
-									@if(!$detail->shipped)
-										<input type="text" name="lot_number[{{ $detail->id }}]" class="form-control" value="{{ $detail->lot_number }}" />
-									@else
-										{{ $detail->lot_number }}
-									@endif
-								</td>
-								<td>
-									@if(!$detail->shipped)
-										<input type="text" name="expiration[{{ $detail->id }}]" class="form-control datepicker" value="{{ $detail->expiration }}" />
-									@else
-										{{ $detail->expiration }}
-									@endif
-								</td>
-								<td>
-									@if(!$detail->shipped)
-										<a href="{{ route('order-edit-line',$detail->id) }}" class="btn btn-warning"><span class="glyphicon glyphicon-edit"></span></a>
-									@endif
-								</td>
+								<th class="text-danger">Delete Item</th>
+								<th>Item</th>
+								<th>Paid Status</th>
+								<th>Ship Status</th>
+								<th>QTY</th>
+								<th>Backordered</th>
+								<th>Price</th>
+								<th>Lot #</th>
+								<th>Expiration Date</th>
+								<th>Split Line</th>
 							</tr>
-						@endforeach
-					</tbody>
-				</table>
-			</div>
-			<input type="hidden" name="_token" value="{{ csrf_token() }}" />
-			<a class="btn btn-success" data-toggle="modal" href="#AddItemModal"><span class="fa fa-plus"></span>&nbsp;Add Item</a>
-			<button type="submit" name="cancel" value="true" class="btn">Cancel</button>
-			<button type="submit" name="submit" value="true" class="btn btn-default">Submit</button>
-		</form>
+						</thead>
+						<tbody>
+							@foreach($order->details as $detail)
+								<tr>
+									<td>
+										@if(!$detail->shipped)
+											<input type="checkbox" name="item_delete[]" value="{{ $detail->id }}" />
+										@endif
+									</td>
+									<td>{{ $detail->product->category?$detail->product->category->name:'Uncategorized' }} - {{ $detail->product->name }}</td>
+									<td>{{ $detail->paid?'Paid':'Pending' }}</td>
+									<td>{{ $detail->shipped?'Shipped':'Pending' }}</td>
+									<td>
+										<input type="number" name="item_qty[{{ $detail->id }}]" min="1" value="{{ $detail->quantity }}" class="form-control" />
+									</td>
+									<td>
+										<input type="number" name="backordered[{{ $detail->id }}]" min="0" max="{{ $detail->quantity }}" value="{{ $detail->backordered }}" class="form-control" />
+									</td>
+						            @if($order->user->product_price_check($detail->product->id))
+						              <td>{{ $order->user->product_price_check($detail->product->id)->price_string }}</td>
+						            @else
+						              <td>{{ $detail->product->min_price_string }}</td>
+						            @endif
+									<td>
+										@if(!$detail->shipped)
+											<input type="text" name="lot_number[{{ $detail->id }}]" class="form-control" value="{{ $detail->lot_number }}" />
+										@else
+											{{ $detail->lot_number }}
+										@endif
+									</td>
+									<td>
+										@if(!$detail->shipped)
+											<input type="text" name="expiration[{{ $detail->id }}]" class="form-control datepicker" value="{{ $detail->expiration }}" />
+										@else
+											{{ $detail->expiration }}
+										@endif
+									</td>
+									<td>
+										@if(!$detail->shipped)
+											<a href="{{ route('order-edit-line',$detail->id) }}" class="btn btn-warning"><span class="glyphicon glyphicon-edit"></span></a>
+										@endif
+									</td>
+								</tr>
+							@endforeach
+						</tbody>
+					</table>
+				</div>
+				<input type="hidden" name="_token" value="{{ csrf_token() }}" />
+				<a class="btn btn-success" data-toggle="modal" href="#AddItemModal"><span class="fa fa-plus"></span>&nbsp;Add Item</a>
+				<button type="submit" name="cancel" value="true" class="btn">Cancel</button>
+				<button type="submit" name="submit" value="true" class="btn btn-default">Submit</button>
+			</form>
+		</div>
 	</div>
 </div>
+@endsection
+
+
+
+@section('modals')
 <div class="modal fade" id="AddItemModal">
 	<div class="modal-dialog">
 		<div class="modal-content">

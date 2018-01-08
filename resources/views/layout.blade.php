@@ -17,7 +17,6 @@
 	<link rel="icon" href="{{ asset('/favicon.ico') }}" type="favicon.icon"/>
 
 	<link href="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
-	<link href="{{ asset('/css/master.css') }}" rel="stylesheet">
 	<link href="//cdn.datatables.net/1.10.12/css/dataTables.bootstrap.min.css" rel="stylesheet">
 	<link href="{{ asset('/js/lightbox-bootstrap/ekko-lightbox.min.css') }}" rel="stylesheet">
 	<link href="{{ asset('/js/bootstrap-fileinput/css/fileinput.min.css') }}" rel="stylesheet">
@@ -27,134 +26,96 @@
   	<link href="{{ asset('css/bootstrap-datepicker.css') }}" rel="stylesheet">
 
 	<!-- Fonts -->
-	<link href='//fonts.googleapis.com/css?family=Open+Sans:700,600,300,400|Oswald:400,300' rel='stylesheet' type='text/css'>
+	<link href="https://fonts.googleapis.com/css?family=Oswald:300,500|Poppins:300,700" rel="stylesheet">
 	<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
 
-	<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-	<script src="//cdnjs.cloudflare.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
-	<script src="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.6/js/bootstrap.min.js"></script>
-	<script src="//cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"></script>
-	<script src="//cdn.datatables.net/1.10.12/js/dataTables.bootstrap.min.js"></script>
-	<script src="{{ asset('/js/lightbox-bootstrap/ekko-lightbox.min.js') }}"></script>
-	<script src="{{ asset('/js/bootstrap-fileinput/js/fileinput.min.js') }}"></script>
-	<script src="{{ asset('/js/dropzone/dropzone.js') }}"></script>
-	<!-- <script src="//cdn.tinymce.com/4/tinymce.min.js"></script> -->
-	<script src="{{ asset('js/selectize/js/standalone/selectize.min.js') }}"></script>
+	<link href="{{ asset('/css/master.css') }}" rel="stylesheet">
 
-	<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
-	<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-	<!--[if lt IE 9]>
-		<script src="//oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
-		<script src="//oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-		<![endif]-->
-		@yield('head')
+	@yield('head')
 	
-    <script type="text/javascript">
-        $(function(){
-            var cart_count = {{ Cart::count() }};
-            if(cart_count>0) $('#header_view_cart').html('('+cart_count+')');
-        });
-    </script>
-	<style type="text/css">
-		.selectize-dropdown, .selectize-input input {
-		    min-width: 240px !important;
-		}
-	</style>
 </head>
 <body>
-	<!-- full width and full height container -->
-	<div class="container-full-height">
-		<div class="row-top">
+	<div class="container-fluid">
+		<div id="row-top" class="row">
 			<div class="container">
 				<div class="pull-right">
 					@if(Auth::check())
 						<a href="{{ route('user-profile') }}">Welcome, {{ Auth::user()->name }}</a>
 						@if(Auth::user()->admin)
 							<a href="{{ route('admin-dashboard') }}">Admin</a>
-						@else
-							<a href="{{ route('order-history') }}">Orders</a>
-							<a href="{{ route('user-profile') }}">Profile</a>
 						@endif
+						<a href="{{ route('order-history') }}">Orders</a>
+						<a href="{{ route('user-profile') }}">Profile</a>
 						<a href="{{ url('/auth/logout') }}" title="Log Out">Logout</a>
 					@else
 						<a href="{{ url('/auth/login') }}">Login</a>
 						<a href="{{ url('/auth/register') }}">Register</a>
 					@endif
 					<a href="{{ route('cart') }}" <?php if(session()->has('shipping')): ?> title="{{ session()->get('shipping')->name }} - {{ session()->get('shipping')->address1.' '.session()->get('shipping')->address2.' '.session()->get('shipping')->city.', '. session()->get('shipping')->state.' '.session()->get('shipping')->zip }}" <?php endif; ?>>Shopping Cart <span class="fa fa-shopping-cart" aria-hidden="true"></span> <span id="header_view_cart"></span></a>
+				</div>
+			</div>
+		</div>
+		<div id="header-navbar-bg">
+			<div id="row-header" class="row">
+				<div class="container">
+					<div id="logo-holder" class="col-md-3 col-xs-6 no-padding">
+						<img src="{{ asset('images/world-wide-medical-distributors-logo.png') }}" class="img-responsive" />
+					</div>
+					<div id="header-text-holder" class="col-md-9 col-xs-6 no-padding">
+						<h2>Questions or Comments?</h2>
+						<p>Mon-Fri 9am&#8209;5pm&nbsp;EST</p>
+						<p><strong><a href="mailto:bw@wwmdusa.com" title="Email World Wide Medical Distributors">bw@wwmdusa.com</a></strong></p>
+						<h3><a href="tel:9143589878" title="Call World Wide Medical Distributors">914.358.9878</a></h3>
 					</div>
 				</div>
 			</div>
-			<div class="row-header">
+			<div id="row-navbar" class="row">
+				<nav id="navbar-default" class="navbar" role="navigation">
+					<div class="container">
+						<div class="navbar-header">
+							<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+								<span class="sr-only">Toggle navigation</span>
+								<span class="icon-bar"></span>
+								<span class="icon-bar"></span>
+								<span class="icon-bar"></span>
+							</button>
+						</div>
+						<div class="collapse navbar-collapse" id="navbar">
+							<ul class="nav navbar-nav">
+								<li><a href="{{ route('home') }}">Home</a></li>
+								<li><a href="{{ route('about-us') }}">Who We Are</a></li>
+								<li class="dropdown">
+									<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Products <span class="caret"></span></a>
+									<ul class="dropdown-menu">
+										@foreach(\App\Category::where('active',1)->whereNull('parent_id')->get() as $category)
+										<li><a href="{{ route('category-show',$category->slug) }}">{{ $category->name }}</a></li>
+										@endforeach
+									</ul>
+								</li>
+								<li><a href="{{ route('contact-us') }}">Exclusive Offers</a></li>
+								<li><a href="{{ route('contact-us') }}">Contact Us</a></li>
+							</ul>
+						</div><!-- /.navbar-collapse -->
+					</div><!-- /.container -->
+				</nav>
+			</div>
+			<div id="row-subheader" class="row">
 				<div class="container">
-					<div class="col-md-8 no-padding">
-						<img src="{{ asset('images/logo_header.png') }}" class="pull-left img-responsive" />
-						<h1>Need Help? Call&nbsp;us&nbsp;at <a href="tel:9143589878">914&#8209;358&#8209;9878</a></h1>
-						<h2>Monday - Friday 9am&nbsp;&#8209;&nbsp;5pm&nbsp;EST</h2>
+					<div id="search-holder" class="col-md-offset-9 col-md-3 col-xs-offset-7 col-xs-5 no-padding text-right">
+						<select id="main-product-search" name="q" placeholder="Search" class="form-control"></select>
 					</div>
-					<div class="col-md-4 no-padding">
-						<!-- slider carousel on right side of the header -->
-						<!-- to change duration of each slide change data-interval to the desired milliseconds -->
-						<div id="header_carousel_right" class="carousel slide carousel-fade" data-ride="carousel" data-interval="2500">
-							<!-- Wrapper for slides -->
-							<div class="carousel-inner">
-								<!-- slide holder -->
-								<div class="item active">
-									<img src="{{ asset('images/header_slider1.png') }}" alt="" class="img-responsive">
-								</div>
-								<div class="item">
-									<img src="{{ asset('images/header_slider2.png') }}" alt="" class="img-responsive">
-								</div>
-								<div class="item">
-									<img src="{{ asset('images/header_slider3.png') }}" alt="" class="img-responsive">
-								</div>
-							</div><!--/ .carousel-inner -->
-						</div><!--/ #header_carousel_right -->
+					<div id="special-holder" class="col-xs-12 no-padding">
+						<a href="#">
+							<h2>CanDo&reg; Low-Powder Exercise Band</h2>
+							<h3>10% off special running this week only!</h3>
+						</a>
+						<div class="clearfix"></div>
+						<a href="#" class="btn btn-orange">Shop Now</a>
 					</div>
 				</div>
 			</div>
-			<nav class="navbar navbar-main" role="navigation">
-				<div class="container">
-					<div class="navbar-header">
-						<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
-							<span class="sr-only">Toggle navigation</span>
-							<span class="icon-bar"></span>
-							<span class="icon-bar"></span>
-							<span class="icon-bar"></span>
-						</button>
-					</div>
-
-					<!-- Collect the nav links, forms, and other content for toggling -->
-					<div class="collapse navbar-collapse" id="navbar">
-						<ul class="nav navbar-nav">
-							<li><a href="{{ route('home') }}">Home</a></li>
-							<li><a href="{{ route('about-us') }}">Who We Are</a></li>
-							<li class="dropdown">
-								<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Products <span class="caret"></span></a>
-								<ul class="dropdown-menu">
-									@foreach(\App\Category::where('active',1)->whereNull('parent_id')->get() as $category)
-									<li><a href="{{ route('category-show',$category->slug) }}">{{ $category->name }}</a></li>
-									@endforeach
-								</ul>
-							</li>
-							<li><a href="{{ route('contact-us') }}">Exclusive Offers</a></li>
-							<li><a href="{{ route('contact-us') }}">Contact Us</a></li>
-						</ul>
-						<ul class="nav navbar-nav navbar-right">
-							<li>
-								<form class="navbar-form" role="search">
-									<div class="form-group" style="width:240px;">
-										<select id="search-navbar" name="q" placeholder="Search Keyword or Item #" class="form-control"></select>
-									</div>
-								</form>
-							</li>
-						</ul>
-
-					</div>
-					<!-- /.navbar-collapse -->
-				</div>
-				<!-- /.container -->
-			</nav>
-			<!-- ALERT CONTAINER -->
+		</div>
+		<div id="row-alert" class="row">
 			<div class="container">
 				@if(Session::has('fail'))
 				<div class="alert alert-danger alert-dismissible" role="alert">
@@ -175,29 +136,68 @@
 				</div>
 				@endif
 			</div>
-			
-			@yield('content')
 		</div>
-	</div>
-	<!--/ full width and full height container -->
-	<div class="container-fluid no-padding text-center">
-		<!-- footer -->
-		<footer class="footer">
-			<ul class="footer-nav hidden-xs hidden-sm">
-				<li><a href="{{ route('about-us') }}">Who We Are</a></li>
-				<li><a href="{{ route('product-all') }}">Products</a></li>
-				<li><a href="{{ route('contact-us') }}">Exclusive Offers</a></li>
-				<li><a href="{{ route('contact-us') }}">Contact Us</a></li>
-			</ul>
+		
+		@yield('content')
 
-			<p>&copy; {{ date('Y') }} Worldwide Medical Distributors. All rights reserved.
-				<br/> Customer Service <a href="mailto:bw@wwmdusa.com">bw&#64;wwmdusa.com</a> | PHONE: <a href="tel:9143589879">(914)358-9878</a> | FAX (914)358-9880</p>
-			</footer>
-			<!--/ footer -->
-		</div>
-	<!-- MODALS -->
+		@include('part.testimonials')
+
+		@include('part.contact')
+
+		<footer id="row-footer" class="row">
+	        <div class="container">
+	            <div id="footer-nav-holder" class="col-xs-6">
+					<ul class="list-unstyled">
+						<li><a href="{{ url('/') }}">Home</a></li>
+						<li><a href="{{ route('about-us') }}">Who We Are</a></li>
+						<li><a href="{{ route('product-all') }}">Products</a></li>
+						<li><a href="{{ route('contact-us') }}">Exclusive Offers</a></li>
+						<li><a href="{{ route('contact-us') }}">Contact Us</a></li>
+					</ul>
+	            </div>
+	            <div id="footer-text-holder" class="col-xs-6">
+	                Questions or Comments?<br/>
+	                Mon-Fri: 9am-5pm EST<br/>
+	                Email: <a href="mailto:bw@wwmdusa" title="Contact World Wide Medical Distributors">bw@wwmdusa</a><br/>
+	                Telephone: <a href="tel:9143589879" title="Call World Wide Medical Distributors">914.358.9879</a><br/>
+	                Fax: <a href="tel:9143589879" title="Fax World Wide Medical Distributors">914.358.9880</a><br/>
+	            </div>
+	        </div>
+	        <hr>
+	        <div class="container">
+	            <div id="footer-copy-holder" class="col-xs-12">
+	                &copy; {{ date('Y') }} World Wide Medical Distributors. All rights reserved.<br>
+	                Web Design &amp; Digital Marketing by <a href="https://drivegroupllc.com" title="Web Design &amp; Digital Marketing by Drive Group, LLC" target="_blank">Drive Group, LLC</a>.
+	            </div>
+	        </div><!--/c-->
+	    </footer>
+	</div><!--/ container-fluid -->
+
 	@yield('modals')
-	<!--/ MODALS -->
+
+	<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+	<script src="//cdnjs.cloudflare.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
+	<script src="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.6/js/bootstrap.min.js"></script>
+	<script src="//cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"></script>
+	<script src="//cdn.datatables.net/1.10.12/js/dataTables.bootstrap.min.js"></script>
+	<script src="{{ asset('/js/lightbox-bootstrap/ekko-lightbox.min.js') }}"></script>
+	<script src="{{ asset('/js/bootstrap-fileinput/js/fileinput.min.js') }}"></script>
+	<script src="{{ asset('/js/dropzone/dropzone.js') }}"></script>
+	<!-- <script src="//cdn.tinymce.com/4/tinymce.min.js"></script> -->
+	<script src="{{ asset('js/selectize/js/standalone/selectize.min.js') }}"></script>
+
+	<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+	<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+	<!--[if lt IE 9]>
+		<script src="//oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+		<script src="//oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+		<![endif]-->
+    <script type="text/javascript">
+        $(function(){
+            var cart_count = {{ Cart::count() }};
+            if(cart_count>0) $('#header_view_cart').html('('+cart_count+')');
+        });
+    </script>
 	<!-- Scripts -->
 	<script type="text/javascript">
 	    var root = '{{url("/")}}';
@@ -211,7 +211,7 @@
 		$('#{{ Session::get("modal") }}').modal('show');
 		@endif
 
-		$('#search-navbar').selectize({
+		$('#main-product-search').selectize({
 	        valueField: 'url',
 	        labelField: 'name',
 	        searchField: ['name'],

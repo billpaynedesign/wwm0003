@@ -1,4 +1,4 @@
-@extends('app')
+@extends('layout')
 
 @section('scripts')
 <script type="text/javascript">
@@ -101,72 +101,73 @@ function validate_form(){
 @endsection
 
 @section('content')
-<div class="container main-container no-padding">
-  <div class="col-xs-12 main-col">
-    <h1>Please select your ship to address for this order</h1>
-    @if (count($errors) > 0)
-    <div class="alert alert-danger">
-      <ul>
-        @foreach ($errors->all() as $error)
-        <li>{{ $error }}</li>
-        @endforeach
-      </ul>
+<div id="row-main" class="row">
+  <div id="container-main" class="container">
+    <div id="col-main" class="col-xs-12">
+      <h1>Please select your ship to address for this order</h1>
+      @if (count($errors) > 0)
+      <div class="alert alert-danger">
+        <ul>
+          @foreach ($errors->all() as $error)
+          <li>{{ $error }}</li>
+          @endforeach
+        </ul>
+      </div>
+      @endif
+      <form action="{{ route('cart-set-shipping') }}" method="post" role="form" onsubmit="return validate_form();">
+        <div class="form-group">
+          <div id="shipping_error" class="alert alert-danger hide"> 
+            <ul>
+            </ul>
+          </div>
+        </div>
+        <div class="form-group">
+          <select id="shipping_id" name="shipping_id" class="form-control" required>
+            <option value="">-- Select Shipping --</option>
+            @if(count($user->shipping)>0)
+              @foreach($user->shipping as $s)
+                <option value="{{ $s->id }}" {{ session()->has('shipping')?$s->id===session()->get('shipping')->id?'selected':'':'' }}>{{ $s->name }} - {{ $s->address1.' '.$s->address2.' '.$s->city.', '. $s->state.' '.$s->zip }}</option>
+              @endforeach
+            @endif
+            <option value="new">New Shipping</option>
+          </select>
+        </div>
+        <div id="new_shipping_group" class="form-group" style="display: none;">
+          <div class="form-group">
+            <label for="name">Shipping Name</label>
+            <input type="text" name="name" id="name" class="form-control" />
+          </div>
+          <div class="form-group">
+            <label for="address1">Address 1</label>
+            <input type="text" name="address1" id="address1" class="form-control" />
+          </div>
+          <div class="form-group">
+            <label for="address2">Address 2</label>
+            <input type="text" name="address2" id="address2" class="form-control" />
+          </div>
+          <div class="form-group">
+            <label for="city">City</label>
+            <input type="text" name="city" id="city" class="form-control" />
+          </div>
+          <div class="form-group">
+            <label for="state">State</label>
+            <select name="state" id="state" class="form-control" >
+              <option value="">-- Select State --</option>
+              @foreach(App\State::all() as $state)
+              <option value="{{ $state->abbr }}">{{ $state->state }}</option>
+              @endforeach
+          </select>
+          </div>
+          <div class="form-group">
+            <label for="zip">Zip</label>
+            <input type="text" name="zip" id="zip" class="form-control" />
+          </div>
+        </div>
+        <div class="form-group">
+          <button type="submit" name="_token" value="{{ csrf_token() }}" class="btn btn-default">Submit</button>
+        </div>
+      </form>
     </div>
-    @endif
-    <form action="{{ route('cart-set-shipping') }}" method="post" role="form" onsubmit="return validate_form();">
-      <div class="form-group">
-        <div id="shipping_error" class="alert alert-danger hide"> 
-          <ul>
-          </ul>
-        </div>
-      </div>
-      <div class="form-group">
-        <select id="shipping_id" name="shipping_id" class="form-control" required>
-          <option value="">-- Select Shipping --</option>
-          @if(count($user->shipping)>0)
-            @foreach($user->shipping as $s)
-              <option value="{{ $s->id }}" {{ session()->has('shipping')?$s->id===session()->get('shipping')->id?'selected':'':'' }}>{{ $s->name }} - {{ $s->address1.' '.$s->address2.' '.$s->city.', '. $s->state.' '.$s->zip }}</option>
-            @endforeach
-          @endif
-          <option value="new">New Shipping</option>
-        </select>
-      </div>
-      <div id="new_shipping_group" class="form-group" style="display: none;">
-        <div class="form-group">
-          <label for="name">Shipping Name</label>
-          <input type="text" name="name" id="name" class="form-control" />
-        </div>
-        <div class="form-group">
-          <label for="address1">Address 1</label>
-          <input type="text" name="address1" id="address1" class="form-control" />
-        </div>
-        <div class="form-group">
-          <label for="address2">Address 2</label>
-          <input type="text" name="address2" id="address2" class="form-control" />
-        </div>
-        <div class="form-group">
-          <label for="city">City</label>
-          <input type="text" name="city" id="city" class="form-control" />
-        </div>
-        <div class="form-group">
-          <label for="state">State</label>
-          <select name="state" id="state" class="form-control" >
-            <option value="">-- Select State --</option>
-            @foreach(App\State::all() as $state)
-            <option value="{{ $state->abbr }}">{{ $state->state }}</option>
-            @endforeach
-        </select>
-        </div>
-        <div class="form-group">
-          <label for="zip">Zip</label>
-          <input type="text" name="zip" id="zip" class="form-control" />
-        </div>
-      </div>
-      <div class="form-group">
-        <button type="submit" name="_token" value="{{ csrf_token() }}" class="btn btn-default">Submit</button>
-      </div>
-    </form>
   </div>
 </div>
-@include('partial.sidebar-contact-full')
 @endsection

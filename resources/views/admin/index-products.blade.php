@@ -1,4 +1,4 @@
-@extends('app')
+@extends('layout')
 
 
 @section('title') Admin Dashboard :: @parent @stop
@@ -80,92 +80,93 @@ function add_option(){
 @stop
 
 @section('content')
-<div class="container-fluid main-container no-padding">
-  <div class="col-xs-12 main-col">
-    <div class="page-header">
-      <h1 id="dashboard">Admin Dashboard</h1>
-    </div>
-    <div id="admin_tab_panel" role="tabpanel">
+<div id="row-main" class="row">
+  <div id="container-main" class="container-fluid">
+    <div id="col-main" class="col-xs-12">
+      <div class="page-header">
+        <h1 id="dashboard">Admin Dashboard</h1>
+      </div>
+      <div id="admin_tab_panel" role="tabpanel">
 
-      <ul class="nav nav-tabs" role="tablist">
-        <li role="presentation"><a href="{{ route('admin-dashboard') }}#dashboard">Home</a></li>
-        <li role="presentation"><a href="{{ route('admin-categories') }}#dashboard">Categories</a></li>
-        <li role="presentation" class="active"><a href="{{ route('admin-products') }}#dashboard">Products</a></li>
-        <li role="presentation"><a href="{{ route('admin-options') }}#dashboard">Product Options</a></li>
-        <li role="presentation"><a href="{{ route('admin-orders') }}#dashboard">Orders</a></li>
-        <li role="presentation"><a href="{{ route('admin-backorders') }}#dashboard">Back Orders</a></li>
-        <li role="presentation"><a href="{{ route('admin-users') }}#dashboard">Users</a></li>
-      </ul>
+        <ul class="nav nav-tabs" role="tablist">
+          <li role="presentation"><a href="{{ route('admin-dashboard') }}#dashboard">Home</a></li>
+          <li role="presentation"><a href="{{ route('admin-categories') }}#dashboard">Categories</a></li>
+          <li role="presentation" class="active"><a href="{{ route('admin-products') }}#dashboard">Products</a></li>
+          <li role="presentation"><a href="{{ route('admin-options') }}#dashboard">Product Options</a></li>
+          <li role="presentation"><a href="{{ route('admin-orders') }}#dashboard">Orders</a></li>
+          <li role="presentation"><a href="{{ route('admin-backorders') }}#dashboard">Back Orders</a></li>
+          <li role="presentation"><a href="{{ route('admin-users') }}#dashboard">Users</a></li>
+        </ul>
 
-      <div class="tab-content">
-        <div role="tabpanel" class="tab-pane tab-pane-admin active">
-          <div class="form-group form-inline">
-            <!--
-            <form action='{{ route("product-import-preview") }}' method="post" enctype="multipart/form-data" style="display:inline-block;">
-              <input type="hidden" name="_token" value="{{ csrf_token() }}">
-              <input type="file" class="file-button" name="csv" id="csv-file-button">
-            </form>
-            -->
+        <div class="tab-content">
+          <div role="tabpanel" class="tab-pane tab-pane-admin active">
+            <div class="form-group form-inline">
+              <!--
+              <form action='{{ route("product-import-preview") }}' method="post" enctype="multipart/form-data" style="display:inline-block;">
+                <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                <input type="file" class="file-button" name="csv" id="csv-file-button">
+              </form>
+              -->
 
-            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#add-inventory">
-              <span class="fa fa-barcode" aria-hidden="true"></span>&nbsp; Add Product
-            </button>
-            <button type="button" class="btn btn-success" data-toggle="modal" data-target="#add-option">
-              <span class="fa fa-plus" aria-hidden="true"></span>&nbsp; Add Product Option
-            </button>
-            <a href="{{ route('group-product-select-group') }}" class="btn btn-info">
-              <span class="fa fa-sitemap" aria-hidden="true"></span>&nbsp; Group Products By Options
-            </a>
+              <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#add-inventory">
+                <span class="fa fa-barcode" aria-hidden="true"></span>&nbsp; Add Product
+              </button>
+              <button type="button" class="btn btn-success" data-toggle="modal" data-target="#add-option">
+                <span class="fa fa-plus" aria-hidden="true"></span>&nbsp; Add Product Option
+              </button>
+              <a href="{{ route('group-product-select-group') }}" class="btn btn-info">
+                <span class="fa fa-sitemap" aria-hidden="true"></span>&nbsp; Group Products By Options
+              </a>
+            </div>
+            <div class="table-responsive">
+              <table id="products_table" class="table table-striped table-hover tablesorter text-left">
+                <thead>
+                  <tr>
+                    <th>Product Name</th>
+                    <th>Category</th>
+                    <th>Manufacturer</th>
+                    <th>Item #</th>
+                    <th>Available</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  @if($products)
+                  @foreach($products as $product)
+                  <tr id="{{ $product->id }}">
+                    <td><a href="{{ route('product-show', $product->slug) }}">{{ $product->name }}</a></td>
+                    <td>{{ $product->category?$product->category->name:'' }}</td>
+                    <td>{{ $product->manufacturer }}</td>
+                    <td>{{ $product->item_number }}</td>
+                    <td>
+                      <button id="product-active-{{ $product->id }}" onclick="product_toggle_active({{ $product->id }});" class="btn btn-link">
+                        {!! $product->active == 1?'<span class="text-success glyphicon glyphicon-ok"></span>':'<span class="text-danger glyphicon glyphicon-remove"></span>' !!}
+                      </button>
+                    </td>
+                    <td class="text-center">
+                      <button class="btn btn-info" data-toggle="modal" data-target="#order-info" title="{{ $product->name }} Product Information" onclick="product_information('{{ $product->id }}');">
+                        <span class="fa fa-info"></span>
+                      </button>
+                      <a href="{{ route('product-edit',$product->id) }}" class="btn btn-warning" title="Edit {{ $product->name }}">
+                        <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
+                      </a>
+                      <a href="{{ route('product-delete',$product->id) }}" class="btn btn-danger" title="Remove {{ $product->name }}" onclick="return confirm('Are you sure you want to remove product: {{ str_replace('"', "", str_replace("'", "", $product->name)) }}');">
+                        <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+                      </a>
+                    </td>
+                  </tr>
+                  @endforeach
+                  @endif
+                </tbody>
+              </table>
+            </div>
+
           </div>
-          <div class="table-responsive">
-            <table id="products_table" class="table table-striped table-hover tablesorter text-left">
-              <thead>
-                <tr>
-                  <th>Product Name</th>
-                  <th>Category</th>
-                  <th>Manufacturer</th>
-                  <th>Item #</th>
-                  <th>Available</th>
-                  <th>Action</th>
-                </tr>
-              </thead>
-              <tbody>
-                @if($products)
-                @foreach($products as $product)
-                <tr id="{{ $product->id }}">
-                  <td><a href="{{ route('product-show', $product->slug) }}">{{ $product->name }}</a></td>
-                  <td>{{ $product->category?$product->category->name:'' }}</td>
-                  <td>{{ $product->manufacturer }}</td>
-                  <td>{{ $product->item_number }}</td>
-                  <td>
-                    <button id="product-active-{{ $product->id }}" onclick="product_toggle_active({{ $product->id }});" class="btn btn-link">
-                      {!! $product->active == 1?'<span class="text-success glyphicon glyphicon-ok"></span>':'<span class="text-danger glyphicon glyphicon-remove"></span>' !!}
-                    </button>
-                  </td>
-                  <td class="text-center">
-                    <button class="btn btn-info" data-toggle="modal" data-target="#order-info" title="{{ $product->name }} Product Information" onclick="product_information('{{ $product->id }}');">
-                      <span class="fa fa-info"></span>
-                    </button>
-                    <a href="{{ route('product-edit',$product->id) }}" class="btn btn-warning" title="Edit {{ $product->name }}">
-                      <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
-                    </a>
-                    <a href="{{ route('product-delete',$product->id) }}" class="btn btn-danger" title="Remove {{ $product->name }}" onclick="return confirm('Are you sure you want to remove product: {{ str_replace('"', "", str_replace("'", "", $product->name)) }}');">
-                      <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
-                    </a>
-                  </td>
-                </tr>
-                @endforeach
-                @endif
-              </tbody>
-            </table>
-          </div>
-
         </div>
       </div>
     </div>
   </div>
 </div>
-<hr/>
 @stop
 
 

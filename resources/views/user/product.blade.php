@@ -1,4 +1,4 @@
-@extends('app')
+@extends('layout')
 
 @section('scripts')
 <script type="text/javascript">
@@ -59,56 +59,63 @@
 </script>
 @endsection
 @section('content')
-<div class="container main-container no-padding">
-  <div class="col-xs-12 main-col">
-	<h1>Edit Product Price for User: {{ $user->name }}</h1>
-		<form action="{{ route('user-product-submit', $user->id) }}" method="post" enctype="multipart/form-data">
+<div id="row-main" class="row">
+  	<div id="container-main" class="container">
+  		<div id="col-main" class="col-xs-12">
+			<h1>Edit Product Price for User: {{ $user->name }}</h1>
+			<form action="{{ route('user-product-submit', $user->id) }}" method="post" enctype="multipart/form-data">
 
-			<div class="form-group table-responsive">
-				<table id="pricingTable" class="table table-bordered table-striped">
-					<thead>
-						<tr>
-							<th>Product</th>
-							<th>Price</th>
-							<th>Item #</th>
-							<th>Custom Price</th>
-							<th>Custom Item #</th>
-							<th>Delete</th>
-						</tr>
-					</thead>
-					<tbody>
-						@if(count($user->product_price)>0)
-							@foreach($user->product_price as $userpricing)
-								@if($userpricing->product && $userpricing->uom)
-									<tr>
-										<td>{{ $userpricing->product->name }} - {{ $userpricing->uom->name }}</td>
-										<td>{{ $userpricing->uom->price_string }}</td>
-										<td>{{ $userpricing->product->item_number }}</td>
-										<td>
-											<input type="number" step="0.01" min="0" name="prices[{{ $userpricing->id }}]" value="{{ $userpricing->price?$userpricing->price:$userpricing->product->price }}" class="form-control">
-										</td>
-										<td>
-											<input type="text" name="skus[{{ $userpricing->id }}]" value="{{ $userpricing->custom_sku?:'' }}" class="form-control">
-										</td>
-										<td class="text-center"><input type="checkbox" name="delete[]" value="{{ $userpricing->id }}" /></td>
-									</tr>
-								@endif
-							@endforeach
-						@else
+				<div class="form-group table-responsive">
+					<table id="pricingTable" class="table table-bordered table-striped">
+						<thead>
 							<tr>
-								<td colspan="4">No custom pricing has been added for this user. Click the Add Item button below to get started.</td> 
+								<th>Product</th>
+								<th>Price</th>
+								<th>Item #</th>
+								<th>Custom Price</th>
+								<th>Custom Item #</th>
+								<th>Delete</th>
 							</tr>
-						@endif
-					</tbody>
-				</table>
-			</div>
-			<input type="hidden" name="_token" value="{{ csrf_token() }}" />
-			<a class="btn btn-success" data-toggle="modal" href="#AddItemModal"><span class="fa fa-plus"></span>&nbsp;Add Item</a>
-			<button type="submit" name="cancel" value="true" class="btn btn-cancel">Cancel</button>
-			<button type="submit" name="submit" value="true" class="btn btn-primary">Save</button>
-		</form>
+						</thead>
+						<tbody>
+							@if(count($user->product_price)>0)
+								@foreach($user->product_price as $userpricing)
+									@if($userpricing->product && $userpricing->uom)
+										<tr>
+											<td>{{ $userpricing->product->name }} - {{ $userpricing->uom->name }}</td>
+											<td>{{ $userpricing->uom->price_string }}</td>
+											<td>{{ $userpricing->product->item_number }}</td>
+											<td>
+												<input type="number" step="0.01" min="0" name="prices[{{ $userpricing->id }}]" value="{{ $userpricing->price?$userpricing->price:$userpricing->product->price }}" class="form-control">
+											</td>
+											<td>
+												<input type="text" name="skus[{{ $userpricing->id }}]" value="{{ $userpricing->custom_sku?:'' }}" class="form-control">
+											</td>
+											<td class="text-center"><input type="checkbox" name="delete[]" value="{{ $userpricing->id }}" /></td>
+										</tr>
+									@endif
+								@endforeach
+							@else
+								<tr>
+									<td colspan="4">No custom pricing has been added for this user. Click the Add Item button below to get started.</td> 
+								</tr>
+							@endif
+						</tbody>
+					</table>
+				</div>
+				<input type="hidden" name="_token" value="{{ csrf_token() }}" />
+				<a class="btn btn-success" data-toggle="modal" href="#AddItemModal"><span class="fa fa-plus"></span>&nbsp;Add Item</a>
+				<button type="submit" name="cancel" value="true" class="btn btn-cancel">Cancel</button>
+				<button type="submit" name="submit" value="true" class="btn btn-primary">Save</button>
+			</form>
+		</div>
 	</div>
 </div>
+@endsection
+
+
+
+@section('modals')
 <div class="modal fade" id="AddItemModal">
 	<div class="modal-dialog">
 		<div class="modal-content">
