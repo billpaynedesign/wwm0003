@@ -31,11 +31,10 @@ class CategoryController extends Controller {
 		//$this->middleware('auth');
 	}
 
-	/**
-	 * Show the application dashboard to the user.
-	 *
-	 * @return Response
-	 */
+	public function index(){
+		$categories = Category::active()->get();
+		return view('category.index',compact('categories'));
+	}
 	public function show($slug){
 		$category = Category::findBySlug($slug);
 		//dd($category->childProducts());
@@ -72,6 +71,31 @@ class CategoryController extends Controller {
 		else{
 			return response()->json(['response' => 'fail']);
 		}
+	}
+	public function edit(Request $request)
+	{
+		//$parent = Category::findBySlug($request->input('parent_category'));
+		$category = Category::find($request->input('category_id'));
+		if($category){
+			$category->name = $request->input('name');
+			//$category->parent_id = $request->has('parent_category')?intval($request->input('parent_category')):NULL;
+			$category->description = $request->input('description');
+			//$category->active = 1;
+			//$category->featured = 0;
+
+			if($request->hasFile('image')){
+				$destinationPath = public_path().'/pictures';
+				$filename = $request->file('image')->getClientOriginalName();
+				$request->file('image')->move($destinationPath, $filename);
+
+				$category->picture = $filename;
+			}
+
+			$category->save();
+
+		}
+
+		return redirect()->route('admin-categories')->with(['tab'=>'categories','success'=>'Category updated successfully.']);
 	}
 
 	public function toggleFeatured(Request $request){

@@ -50,6 +50,12 @@ function product_toggle_active(id){
     $('#product-active-'+data.id).html(html);
   });
 }
+function product_toggle_featured(id){
+  $.get('{{ route("product-toggle-featured") }}',{id:id},function(data){
+    var html = (data.response == 1)?'<span class="text-yellow glyphicon glyphicon glyphicon-star"></span>':'<span class="text-danger glyphicon glyphicon glyphicon-remove"></span>';
+    $('#product-featured-'+data.id).html(html);
+  });
+}
 function product_information(id){
   $('#order-info-title').html('Product');
   $('#order-info-body').html('Loading Product Information <i class="fa fa-spinner fa-pulse"></i>');
@@ -88,15 +94,7 @@ function add_option(){
       </div>
       <div id="admin_tab_panel" role="tabpanel">
 
-        <ul class="nav nav-tabs" role="tablist">
-          <li role="presentation"><a href="{{ route('admin-dashboard') }}#dashboard">Home</a></li>
-          <li role="presentation"><a href="{{ route('admin-categories') }}#dashboard">Categories</a></li>
-          <li role="presentation" class="active"><a href="{{ route('admin-products') }}#dashboard">Products</a></li>
-          <li role="presentation"><a href="{{ route('admin-options') }}#dashboard">Product Options</a></li>
-          <li role="presentation"><a href="{{ route('admin-orders') }}#dashboard">Orders</a></li>
-          <li role="presentation"><a href="{{ route('admin-backorders') }}#dashboard">Back Orders</a></li>
-          <li role="presentation"><a href="{{ route('admin-users') }}#dashboard">Users</a></li>
-        </ul>
+        @include('admin.partials.nav-tabs', ["adminActive"=>'Products'])
 
         <div class="tab-content">
           <div role="tabpanel" class="tab-pane tab-pane-admin active">
@@ -126,6 +124,7 @@ function add_option(){
                     <th>Category</th>
                     <th>Manufacturer</th>
                     <th>Item #</th>
+                    <th>Top Product</th>
                     <th>Available</th>
                     <th>Action</th>
                   </tr>
@@ -138,6 +137,11 @@ function add_option(){
                     <td>{{ $product->category?$product->category->name:'' }}</td>
                     <td>{{ $product->manufacturer }}</td>
                     <td>{{ $product->item_number }}</td>
+                    <td>
+                      <button id="product-featured-{{ $product->id }}" onclick="product_toggle_featured({{ $product->id }});" class="btn btn-link">
+                        {!! $product->featured == 1?'<span class="text-yellow glyphicon glyphicon-star"></span>':'<span class="text-danger glyphicon glyphicon-remove"></span>' !!}
+                      </button>
+                    </td>
                     <td>
                       <button id="product-active-{{ $product->id }}" onclick="product_toggle_active({{ $product->id }});" class="btn btn-link">
                         {!! $product->active == 1?'<span class="text-success glyphicon glyphicon-ok"></span>':'<span class="text-danger glyphicon glyphicon-remove"></span>' !!}

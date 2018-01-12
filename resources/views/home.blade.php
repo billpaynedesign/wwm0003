@@ -3,112 +3,61 @@
 <div id="row-main" class="row">
     <div id="container-main" class="container">
       <div id="col-main" class="col-xs-12">
-        <h2>Browse Top Categories: <a href="#" id="view-all-categories">View all categories</a></h2>
+        <h2>Browse Top Categories: <a href="{{ route('category-index') }}" id="view-all-categories">View all categories</a></h2>
         <div id="top-category-holder">
-          <div class="top-category">
-            <div class="top-category-header">
-              <img src="{{ asset('images/category-icon-diagnostic-equipment.png') }}">
-              Diagnostic Equipment
-            </div>
+          @if($top_categories)
+            @foreach($top_categories as $tc)
+              <div class="top-category">
+                <div class="top-category-header">
+                  <?php
+                  switch($tc->slug):
+                    case 'diagnostic-equipment':
+                    case 'equipment-supplies':
+                    case 'medical-supplies':
+                    case 'syringe-needles':
+                      echo '<img src="'.asset('images/category-icon-'.$tc->slug.'.png').'">';
+                      break;
+                    default:
+                      echo '<img src="'.asset('images/category-icon-default.png').'">';
+                  endswitch;
+                  ?>
+                  {{ ucwords(strtolower($tc->name)) }}
+                </div>
 
-            <div class="top-category-content">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. In arcu eros, laoreet non pulvinar non, egestas in lectus. Lorem ipsum dolor sit amet, consectetur.
-              <br>
-              <a href="#" class="pull-right">Learn More ></a>
-              <div class="clearfix"></div>
-            </div>
-          </div>
-          <!--
-           //
-          -->
-          <div class="top-category">
-            <div class="top-category-header">
-              <img src="{{ asset('images/category-icon-equipment-supplies.png') }}">
-              Equipment/Supplies
-            </div>
-
-            <div class="top-category-content">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. In arcu eros, laoreet non pulvinar non, egestas in lectus. Lorem ipsum dolor sit amet, consectetur.
-              <br>
-              <a href="#" class="pull-right">Learn More ></a>
-              <div class="clearfix"></div>
-            </div>
-          </div>
-          <!--
-           //
-          -->
-          <div class="top-category">
-            <div class="top-category-header">
-              <img src="{{ asset('images/category-icon-syringe-needles.png') }}">
-              Syringe/Needles
-            </div>
-
-            <div class="top-category-content">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. In arcu eros, laoreet non pulvinar non, egestas in lectus. Lorem ipsum dolor sit amet, consectetur.
-              <br>
-              <a href="#" class="pull-right">Learn More ></a>
-              <div class="clearfix"></div>
-            </div>
-          </div>
-          <!--
-           //
-          -->
-          <div class="top-category">
-            <div class="top-category-header">
-              <img src="{{ asset('images/category-icon-medical-supplies.png') }}">
-              Medical Supplies
-            </div>
-
-            <div class="top-category-content">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. In arcu eros, laoreet non pulvinar non, egestas in lectus. Lorem ipsum dolor sit amet, consectetur.
-              <br>
-              <a href="#" class="pull-right">Learn More ></a>
-              <div class="clearfix"></div>
-            </div>
-          </div>
-          <!--
-           //
-          -->
+                <div class="top-category-content">
+                  @if(!empty($tc->description))
+                    {{ str_limit($tc->description, 150) }}
+                  @else
+                    Find out more about this category.<br>
+                  @endif
+                  <br>
+                  <a href="{{ route('category-show',$tc->slug) }}" class="pull-right">Learn More ></a>
+                  <div class="clearfix"></div>
+                </div>
+              </div>
+            @endforeach
+          @endif
         </div><!-- #top-category-holder -->
 
         <h2>Top Products: </h2>
         <div id="top-product-holder">
-          <div class="top-product col-sm-4 no-padding">
-            <div class="col-md-5 top-product-inner">
-              <img src="//placehold.it/125x65" src="img-responsive center-block">
-            </div>
-            <div class="col-md-7 top-product-inner">
-              <p>Item Number: INC153050</p>
-              <h3>Gloves, EXAM, Latext, Non-Sterile, P/F, Smooth, SM</h3>
-            </div>
-          </div>
-          <!--
-           //
-          -->
-          <div class="top-product col-sm-4 no-padding">
-            <div class="col-md-5 top-product-inner">
-              <img src="//placehold.it/125x65" src="img-responsive center-block">
-            </div>
-            <div class="col-md-7 top-product-inner">
-              <p>Item Number: INC153050</p>
-              <h3>Gloves, EXAM, Latext, Non-Sterile, P/F, Smooth, SM</h3>
-            </div>
-          </div>
-          <!--
-           //
-          -->
-          <div class="top-product col-sm-4 no-padding">
-            <div class="col-md-5 top-product-inner">
-              <img src="//placehold.it/125x65" src="img-responsive center-block">
-            </div>
-            <div class="col-md-7 top-product-inner">
-              <p>Item Number: INC153050</p>
-              <h3>Gloves, EXAM, Latex, Non-Sterile, P/F, Smooth, SM</h3>
-            </div>
-          </div>
-          <!--
-           //
-          -->
+          @if($top_products)
+            @foreach($top_products as $tp)
+              <a href="{{ route('product-show',$tp->slug) }}" class="top-product col-sm-4 no-padding" title="{{ $tp->name }}">
+                <div class="col-md-5 top-product-inner">
+                  @if($tp->picture)
+                    <img src="{{ asset('pictures/'.$tp->picture) }}" alt="{{ $tp->name }}" class="img-responsive center-block" />
+                  @else
+                    <img src="{{ asset('/images/noimg.gif') }}" class="img-responsive center-block" alt="No Image Available" />
+                  @endif
+                </div>
+                <div class="col-md-7 top-product-inner">
+                  <p>Item Number: {{ $tp->item_number }}</p>
+                  <h3>{{ $tp->name }}</h3>
+                </div>
+              </a>
+            @endforeach
+          @endif
         </div><!-- #top-product-holder -->
     </div>
   </div>

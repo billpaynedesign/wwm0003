@@ -5,7 +5,7 @@
   <div id="container-main" class="container">
     <div id="col-main" class="col-xs-12">
       <h1>Related Categories:</h1>
-      <div class="row category-holder">
+      <div class="col-xs-12 no-padding category-holder">
         @if($category->children)
           @foreach($category->children as $child) 
             <a class="category-item" href="{{ route('category-show',$child->slug) }}" title="{{ $child->name }}">
@@ -19,12 +19,17 @@
           @endforeach
         @endif
       </div>
+      <div class="clearfix"></div>
+      <hr>
       @if($category->getBreadcrumbs())
+      <div class="col-xs-12 no-padding">
         <ol class="breadcrumb">
           {!! $category->getBreadcrumbs() !!}
         </ol>
+      </div>
+      <div class="clearfix"></div>
       @endif
-      <div class="row product-holder">
+      <div class="col-xs-12 no-padding product-holder">
       @if($category->childProducts())
         <?php
           //initialize empty array to store groups already shown. 
@@ -76,6 +81,7 @@
           @endif
         @endforeach
       @endif
+      </div>
     </div>
   </div>
 </div>

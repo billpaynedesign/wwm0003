@@ -38,6 +38,7 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth', 'namespace' => 'Admin
     Route::get('/order', ['uses'=>'DashboardController@order_index','as'=>'admin-orders']);
     Route::get('/backorder', ['uses'=>'DashboardController@backorder_index','as'=>'admin-backorders']);
     Route::get('/user', ['uses'=>'DashboardController@user_index','as'=>'admin-users']);
+    Route::get('/special', ['uses'=>'DashboardController@special_index','as'=>'admin-specials']);
 });
 Route::get('/sale',['uses'=>'ProductController@sale','as'=>'sale-products']);
 Route::get('/products',['uses'=>'ProductController@index','as'=>'product-all']);
@@ -66,6 +67,7 @@ Route::group(['prefix'=>'product'],function(){
 	});
 });
 Route::group(['prefix'=>'category'],function(){
+	Route::get('/',['uses'=>'CategoryController@index','as'=>'category-index']);
 	Route::get('/{slug}',['uses'=>'CategoryController@show','as'=>'category-show']);
 	//login routes
 	Route::group(['middleware'=>'auth'],function(){
@@ -74,6 +76,7 @@ Route::group(['prefix'=>'category'],function(){
 		Route::group(['middleware'=>'admin'],function(){
 				Route::post('/create',['uses'=>'CategoryController@create','as'=>'category-create']);
 				Route::post('/delete',['uses'=>'CategoryController@delete','as'=>'category-delete']);
+				Route::post('/edit',['uses'=>'CategoryController@edit','as'=>'category-edit']);
 				Route::get('/toggle/featured',['uses'=>'CategoryController@toggleFeatured','as'=>'category-toggle-featured']);
 				Route::get('/toggle/active',['uses'=>'CategoryController@toggleActive','as'=>'category-toggle-active']);
 		});
@@ -163,6 +166,20 @@ Route::group(['middleware'=>'auth'],function(){
 		Route::post('group/product/option/{id}/add',['uses'=>'OptionGroupController@group_product_option_add','as'=>'group-product-option-add']);
 		Route::post('group/product/product/{id}/add',['uses'=>'OptionGroupController@group_product_product_add','as'=>'group-product-product-add']);
 		Route::post('group/product/{id}/delete',['uses'=>'OptionGroupController@group_product_delete','as'=>'group-product-option-delete']);
+	});
+});
+Route::group(['prefix'=>'specials'],function(){
+
+	//login routes
+	Route::group(['middleware'=>'auth'],function(){
+
+		//admin routes
+		Route::group(['middleware'=>'admin'],function(){
+	    	Route::post('/new', ['uses'=>'SpecialsController@create','as' => 'specials-new']);
+	    	Route::post('/delete', ['uses'=>'SpecialsController@postDelete','as' => 'specials-delete']);
+	    	Route::get('/delete/{id}', ['uses'=>'SpecialsController@getDelete','as' => 'specials-delete']);
+			Route::post('/edit/{id}',['uses'=>'SpecialsController@update','as'=>'specials-update']);
+		});
 	});
 });
 Route::controllers([

@@ -4,6 +4,7 @@ use App\Category;
 use Illuminate\Http\Request;
 use Mail;
 use QuickBooksOnline\API\DataService\DataService;
+use App\Special;
 
 class HomeController extends Controller {
 
@@ -35,8 +36,9 @@ class HomeController extends Controller {
 	 */
 	public function index()
 	{
-        $featured = Category::featured()->active()->get();
-		return view('home',compact('featured'));
+        $top_categories = Category::featured()->active()->orderBy('updated_at','desc')->take(4)->get();
+        $top_products = Product::featured()->active()->orderBy('updated_at','desc')->take(4)->get();
+		return view('home',compact('top_categories','top_products'));
 	}
 	public function contact(Request $request){
 		if($request->has('email')){

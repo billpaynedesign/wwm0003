@@ -87,6 +87,9 @@ class Product extends Model implements SluggableInterface{
     public function getMinMsrpStringAttribute(){
         return '$'.\number_format((float)$this->min_msrp,2);
     }
+    public function scopeFeatured($query){
+        return $query->where('featured',1);
+    }
     public function scopeActive($query){
         return $query->where('active',1);
     }

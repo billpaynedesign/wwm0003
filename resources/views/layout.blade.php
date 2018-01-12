@@ -104,17 +104,22 @@
 					<div id="search-holder" class="col-md-offset-9 col-md-3 col-xs-offset-7 col-xs-5 no-padding text-right">
 						<select id="main-product-search" name="q" placeholder="Search" class="form-control"></select>
 					</div>
-					<div id="special-holder" class="col-xs-12 no-padding">
-						<a href="#">
-							<h2>CanDo&reg; Low-Powder Exercise Band</h2>
-							<h3>10% off special running this week only!</h3>
-						</a>
-						<div class="clearfix"></div>
-						<a href="#" class="btn btn-orange">Shop Now</a>
-					</div>
+				    @if($special = App\Special::first())
+				    	@if($special->isValid())
+							<div id="special-holder" class="col-xs-12 no-padding">
+								<a href="{{ $special->url }}">
+									<h2>{{ $special->header }}</h2>
+									<h3>{{ $special->secondary }}</h3>
+								</a>
+								<div class="clearfix"></div>
+								<a href="{{ $special->url }}" class="btn btn-orange">Shop Now</a>
+							</div>
+						@endif
+					@endif
 				</div>
 			</div>
 		</div>
+
 		<div id="row-alert" class="row">
 			<div class="container">
 				@if(Session::has('fail'))
@@ -158,7 +163,7 @@
 	            <div id="footer-text-holder" class="col-xs-6">
 	                Questions or Comments?<br/>
 	                Mon-Fri: 9am-5pm EST<br/>
-	                Email: <a href="mailto:bw@wwmdusa" title="Contact World Wide Medical Distributors">bw@wwmdusa</a><br/>
+	                Email: <a href="mailto:bw@wwmdusa.com" title="Contact World Wide Medical Distributors">bw@wwmdusa.com</a><br/>
 	                Telephone: <a href="tel:9143589879" title="Call World Wide Medical Distributors">914.358.9879</a><br/>
 	                Fax: <a href="tel:9143589879" title="Fax World Wide Medical Distributors">914.358.9880</a><br/>
 	            </div>

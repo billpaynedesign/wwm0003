@@ -9,6 +9,7 @@ use App\Order;
 use App\OrderDetails;
 use App\Commands\CategoryHelper;
 use App\OptionGroup;
+use App\Special;
 
 class DashboardController extends AdminController {
     public function __construct()
@@ -52,5 +53,12 @@ class DashboardController extends AdminController {
     public function option_index(){
         $option_groups = OptionGroup::all();
         return view('admin.index-options',compact('option_groups'));
+    }
+    public function special_index(){
+        $special = Special::first();
+        if(!$special){
+            $special = Special::seed();
+        }
+        return view('admin.index-specials',compact('special'));
     }
 }

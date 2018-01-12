@@ -12,15 +12,7 @@
       </div>
       <div id="admin_tab_panel" role="tabpanel">
 
-        <ul class="nav nav-tabs" role="tablist">
-          <li role="presentation"><a href="{{ route('admin-dashboard') }}#dashboard">Home</a></li>
-          <li role="presentation"><a href="{{ route('admin-categories') }}#dashboard">Categories</a></li>
-          <li role="presentation"><a href="{{ route('admin-products') }}#dashboard">Products</a></li>
-          <li role="presentation"><a href="{{ route('admin-options') }}#dashboard">Product Options</a></li>
-          <li role="presentation"><a href="{{ route('admin-orders') }}#dashboard">Orders</a></li>
-          <li role="presentation"><a href="{{ route('admin-backorders') }}#dashboard">Back Orders</a></li>
-          <li role="presentation" class="active"><a href="{{ route('admin-users') }}#dashboard">Users</a></li>
-        </ul>
+        @include('admin.partials.nav-tabs', ["adminActive"=>'Users'])
 
         <div class="tab-content">
           <div role="tabpanel" class="tab-pane tab-pane-admin active">

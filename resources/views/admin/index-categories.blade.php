@@ -14,6 +14,19 @@ $(document).ready(function(){
   });
   $('.html-popover').popover({html:true});
   $('#categories_table').DataTable({"order": [[ 3, "asc" ]]});
+  $('#edit_category').on('show.bs.modal', function (event) {
+    var button = $(event.relatedTarget);
+    var name = button.data('name');
+    var img = button.data('img');
+    var category_id = button.data('category-id');
+    var description = button.data('description');
+
+    var modal = $(this)
+    modal.find('#edit_category_name').val(name);
+    modal.find('#edit_category_img').attr('src',img);
+    modal.find('#edit_category_id').val(category_id);
+    modal.find('#edit_category_description').val(description);
+  });
 });
 function category_toggle_active(id){
   $.get('{{ route("category-toggle-active") }}',{id:id},function(data){
@@ -62,16 +75,7 @@ function parent_category_change(){
       </div>
       <div id="admin_tab_panel" role="tabpanel">
 
-        <!-- Nav tabs -->
-        <ul class="nav nav-tabs" role="tablist">
-          <li role="presentation"><a href="{{ route('admin-dashboard') }}#dashboard">Home</a></li>
-          <li role="presentation" class="active"><a href="{{ route('admin-categories') }}#dashboard">Categories</a></li>
-          <li role="presentation"><a href="{{ route('admin-products') }}#dashboard">Products</a></li>
-          <li role="presentation"><a href="{{ route('admin-options') }}#dashboard">Product Options</a></li>
-          <li role="presentation"><a href="{{ route('admin-orders') }}#dashboard">Orders</a></li>
-          <li role="presentation"><a href="{{ route('admin-backorders') }}#dashboard">Back Orders</a></li>
-          <li role="presentation"><a href="{{ route('admin-users') }}#dashboard">Users</a></li>
-        </ul>
+        @include('admin.partials.nav-tabs', ["adminActive"=>'Categories'])
 
         <div class="tab-content">
           <div role="tabpanel" class="tab-pane tab-pane-admin active">
@@ -93,9 +97,10 @@ function parent_category_change(){
                     <th>Name</th>
                     <th>Slug</th>
                     <th>Parent</th>
-                    <th>Featured</th>
+                    <th>Top Category</th>
                     <th>Active</th>
                     <th>Items</th>
+                    <th>Edit</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -117,6 +122,9 @@ function parent_category_change(){
                       </button>
                     </td>
                     <td>{{ $category->getProductsCount() }}</td>
+                    <td>
+                      <button type="button" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#edit_category"  data-category-id="{{ $category->id }}" data-name="{{ $category->name }}" data-img="{{ $category->picture?asset('pictures/'.$category->picture):asset('/images/noimg.gif') }}" data-description="{{ $category->description }}"><span class="glyphicon glyphicon-edit"></span></button>
+                    </td>
                   </tr>
                   @endforeach
                   @endif
@@ -138,4 +146,5 @@ function parent_category_change(){
 
 @section('modals')
   @include('admin.modals.category-add')
+  @include('admin.modals.category-edit')
 @stop
