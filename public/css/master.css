@@ -6,12 +6,14 @@ font-family: 'Oswald', sans-serif;
 font-family: 'Poppins', sans-serif;
  */
 body {
-  font-family: 'Oswald', sans-serif;
-  color: #4e4f4f;
   background: url('../images/bg.jpg') center center no-repeat #fff;
   background-size: cover;
   text-align: left;
-  font-size: 18px;
+  font-family: "Oswald", sans-serif;
+  font-size: 20px;
+  line-height: 24px;
+  font-weight: 300;
+  color: #4e4f4f;
 }
 .hide {
   display: none;
@@ -51,7 +53,7 @@ body {
   color: #fff;
   font-size: 21px;
   line-height: 21px;
-  font-family: 'Open Sans', sans-serif;
+  font-family: 'Oswald', sans-serif;
   background: #1a3f72;
   border: 0;
   border-radius: 10px;
@@ -60,7 +62,7 @@ body {
   color: #fff;
   font-size: 33px;
   line-height: 33px;
-  font-family: 'Open Sans', sans-serif;
+  font-family: 'Oswald', sans-serif;
   background: #1a3f72;
   width: 100%;
   border: 0;
@@ -71,7 +73,7 @@ body {
   font-size: 18px;
   line-height: 18px;
   font-weight: normal;
-  font-family: 'Open Sans', sans-serif;
+  font-family: 'Oswald', sans-serif;
   background: #1a3f72;
   background-color: #1a3f72;
   text-decoration: none;
@@ -92,7 +94,7 @@ body {
   font-size: 18px;
   line-height: 18px;
   font-weight: normal;
-  font-family: 'Open Sans', sans-serif;
+  font-family: 'Oswald', sans-serif;
   border: 1px solid #ccc;
   margin-bottom: 0;
 }
@@ -170,13 +172,13 @@ Row-Top Bar
   color: #fff;
   font-size: 16px;
   line-height: 31px;
-  font-family: 'Open Sans', sans-serif;
+  font-family: 'Oswald', sans-serif;
 }
 #row-top a, #row-top a:visited, #row-top a:hover, #row-top a:focus {
   color: #fff;
   font-size: 16px;
   line-height: 31px;
-  font-family: 'Open Sans', sans-serif;
+  font-family: 'Oswald', sans-serif;
   margin-left: 15px;
 }
 /*================================
@@ -393,8 +395,8 @@ Main Content
   padding-bottom: 50px;
   background: #fff;
 }
-#col-main h1,
-#col-main h2{
+h1,
+h2{
   font-family: 'Poppins', sans-serif;
   font-weight: bold;
   font-size: 28px;
@@ -416,9 +418,19 @@ Main Content
   color: #f2722f;
   text-decoration: none;
 }
-#col-main p,
-#col-main > label{
-
+p{
+  font-family: "Oswald", sans-serif;
+  font-size: 20px;
+  line-height: 24px;
+  font-weight: 300;
+  color: #4e4f4f;
+}
+#col-main label{
+  font-family: "Oswald", sans-serif;
+  font-size: 20px;
+  line-height: 24px;
+  font-weight: 300;
+  color: #4e4f4f;
 }
 #top-category-holder{
   text-align: justify;
@@ -468,6 +480,13 @@ Main Content
 }
 #top-product-holder .top-product{
   padding-bottom: 20px;
+  font-family: 'Oswald', sans-serif;
+  font-weight: 300;
+  font-size: 16px;
+  line-height: 19px;
+  color: #4e4f4f;
+  margin: 0;
+  text-decoration: none !important;
 }
 #top-product-holder .top-product p{
   font-family: 'Oswald', sans-serif;
@@ -661,12 +680,12 @@ Admin Dashboard/Tables
 .table th{
   color: #000;
   font-size: 18px;
-  font-family: 'Open Sans', sans-serif;
+  font-family: 'Oswald', sans-serif;
 }
 .table td{
   color: #000;
   font-size: 18px;
-  font-family: 'Open Sans', sans-serif;
+  font-family: 'Oswald', sans-serif;
 }
 .table td a{
   text-decoration: underline;
@@ -699,7 +718,7 @@ Products & Categories & Breadcrumb
   font-size: 17px;
   line-height: 23px;
   font-weight: bold;
-  font-family: 'Open Sans', sans-serif;
+  font-family: 'Oswald', sans-serif;
   text-align: left;
   background: #fff;
   border: 0;
@@ -722,7 +741,7 @@ Products & Categories & Breadcrumb
   font-size: 17px;
   line-height: 23px;
   font-weight: bold;
-  font-family: 'Open Sans', sans-serif;
+  font-family: 'Oswald', sans-serif;
   text-align: left;
 }
 .breadcrumb li.active a,
@@ -749,7 +768,7 @@ Products & Categories & Breadcrumb
   font-size: 12px;
   line-height: 12px;
   font-weight: normal;
-  font-family: 'Open Sans', sans-serif;
+  font-family: 'Oswald', sans-serif;
   margin: 0 0 5px 0;
   padding: 0 10px;
   text-align: left;
@@ -786,7 +805,7 @@ Products & Categories & Breadcrumb
   font-size: 12px;
   line-height: 12px;
   font-weight: normal;
-  font-family: 'Open Sans', sans-serif;
+  font-family: 'Oswald', sans-serif;
   margin: 0 0 5px 0;
   padding: 0;
   text-align: left;
@@ -817,7 +836,7 @@ Products & Categories & Breadcrumb
   font-size: 18px;
   line-height: 18px;
   font-weight: normal;
-  font-family: 'Open Sans', sans-serif;
+  font-family: 'Oswald', sans-serif;
   background: #1a3f72;
   border: 0;
   border-radius: 0;
@@ -836,7 +855,7 @@ Products & Categories & Breadcrumb
   font-size: 14px;
   line-height: 21px;
   font-weight: normal;
-  font-family: 'Open Sans', sans-serif;
+  font-family: 'Oswald', sans-serif;
 
 }
 .product-details img{
@@ -874,7 +893,7 @@ Products & Categories & Breadcrumb
   text-align: left;
   font-size: 14px;
   line-height: 21px;
-  font-family: 'Open Sans', sans-serif;
+  font-family: 'Oswald', sans-serif;
   border: 1px solid #ccc;
 }
 .product-nav-pills li.active a,
