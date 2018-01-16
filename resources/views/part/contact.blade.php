@@ -39,42 +39,14 @@
 		                </div><!--/col-->
 		                <div class="col-sm-8">
 		                	<div class="form-group form-inline">
-			                    <div class="checkbox">
-			                    	<label for="checkone">
-			                        	<input class="form-checkbox" id="checkone" name="checkboxes[]" value="Lorem Ipsum" type="checkbox">
-			                        	Lorem Ipsum
-			                    	</label>
-			                    </div>
-			                    <div class="checkbox">
-			                    	<label for="checktwo">
-			                        	<input class="form-checkbox" id="checktwo" name="checkboxes[]" value="Lorem Ipsum" type="checkbox">
-			                        	Lorem Ipsum
-			                    	</label>
-			                    </div>
-			                    <div class="checkbox">
-			                    	<label for="checkthree">
-			                        	<input class="form-checkbox" id="checkthree" name="checkboxes[]" value="Lorem Ipsum" type="checkbox">
-			                        	Lorem Ipsum
-			                    	</label>
-			                    </div>
-			                    <div class="checkbox">
-			                    	<label for="checkfour">
-			                        	<input class="form-checkbox" id="checkfour" name="checkboxes[]" value="Lorem Ipsum" type="checkbox">
-			                        	Lorem Ipsum
-			                    	</label>
-			                    </div>
-			                    <div class="checkbox">
-			                    	<label for="checkfive">
-			                        	<input class="form-checkbox" id="checkfive" name="checkboxes[]" value="Lorem Ipsum" type="checkbox">
-			                        	Lorem Ipsum
-			                    	</label>
-			                    </div>
-			                    <div class="checkbox">
-			                    	<label for="checksix">
-			                        	<input class="form-checkbox" id="checksix" name="checkboxes[]" value="Lorem Ipsum" type="checkbox">
-			                        	Lorem Ipsum
-			                    	</label>
-			                    </div>
+								@foreach(\App\Category::where('active',1)->whereNull('parent_id')->get() as $category)
+									<div class="checkbox">
+										<label for="checkbox-{{ $category->slug }}">
+											<input type="checkbox" class="form-checkbox" id="checkbox-{{ $category->slug }}" name="checkboxes[]" value="{{ ucwords(strtolower($category->name),"/ ") }}">
+											{{ ucwords(strtolower($category->name),"/ ") }}
+										</label>
+									</div>
+								@endforeach
 			                </div>
 		                </div><!--/col-->
 		            </div><!--/row-->
