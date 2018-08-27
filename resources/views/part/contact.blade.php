@@ -11,7 +11,7 @@
             @else
 	            <h2>Contact World Wide Medical Distributors by calling <a href="tel:9143589879" title="Call World Wide Medical Distributors">914.358.9879</a>, or...</h2>
 	            <p>Email us at <a href="mailto:bw@wwmdusa.com">bw@wwmdusa.com</a>. Fill out the form below and we will get in touch with you.</p>
-		        <form class="form" action="" method="post" role="form">
+		        <form class="form" action="{{ route('contact-us-submit') }}" method="post" role="form">
 		            <div class="row">
 		                <div class="col-sm-4">
 		                    <div class="form-group">

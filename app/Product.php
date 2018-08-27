@@ -1,16 +1,17 @@
 <?php namespace App;
 
+use Cviebrock\EloquentSluggable\Sluggable;
+use Cviebrock\EloquentSluggable\SluggableScopeHelpers;
 use Illuminate\Database\Eloquent\Model;
-use Cviebrock\EloquentSluggable\SluggableInterface;
-use Cviebrock\EloquentSluggable\SluggableTrait;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use QBItem;
 use Log;
+use QBItem;
 
-class Product extends Model implements SluggableInterface{
+class Product extends Model{
 
-	use SluggableTrait;
+	use Sluggable;
     use SoftDeletes;
+    use SluggableScopeHelpers;
 	/**
 	 * The database table used by the model.
 	 *
@@ -18,10 +19,19 @@ class Product extends Model implements SluggableInterface{
 	 */
 	protected $table = 'products';
 
-	protected $sluggable = [
-	'build_from' => 'name',
-	'save_to'    => 'slug',
-	];
+    /**
+     * Sluggable configuration.
+     *
+     * @var array
+     */
+    public function sluggable() {
+        return [
+            'slug' => [
+                'source' => 'name'
+            ]
+        ];
+    }
+
     protected $dates = ['deleted_at'];
 
     public function groups(){

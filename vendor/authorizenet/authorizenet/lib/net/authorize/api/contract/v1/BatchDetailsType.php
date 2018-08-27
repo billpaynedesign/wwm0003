@@ -211,7 +211,7 @@ class BatchDetailsType
      * @return self
      * @param \net\authorize\api\contract\v1\BatchStatisticType $statistic
      */
-    public function addStatisticToStatistics(\net\authorize\api\contract\v1\BatchStatisticType $statistic)
+    public function addToStatistics(\net\authorize\api\contract\v1\BatchStatisticType $statistic)
     {
         $this->statistics[] = $statistic;
         return $this;

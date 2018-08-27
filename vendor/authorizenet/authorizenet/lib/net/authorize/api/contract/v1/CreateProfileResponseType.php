@@ -81,7 +81,7 @@ class CreateProfileResponseType
      * @return self
      * @param string $numericString
      */
-    public function addNumericStringToCustomerPaymentProfileIdList($numericString)
+    public function addToCustomerPaymentProfileIdList($numericString)
     {
         $this->customerPaymentProfileIdList[] = $numericString;
         return $this;
@@ -137,7 +137,7 @@ class CreateProfileResponseType
      * @return self
      * @param string $numericString
      */
-    public function addNumericStringToCustomerShippingAddressIdList($numericString)
+    public function addToCustomerShippingAddressIdList($numericString)
     {
         $this->customerShippingAddressIdList[] = $numericString;
         return $this;

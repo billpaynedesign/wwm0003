@@ -29,7 +29,7 @@
 	<link href="https://fonts.googleapis.com/css?family=Oswald:300,500|Poppins:300,700" rel="stylesheet">
 	<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
 
-	<link href="{{ asset('/css/master.css') }}" rel="stylesheet">
+	<link href="{{ asset('/css/master.css') }}?v=20180824" rel="stylesheet">
 
 	@yield('head')
 	
@@ -59,7 +59,9 @@
 			<div id="row-header" class="row">
 				<div class="container">
 					<div id="logo-holder" class="col-md-3 col-xs-6 no-padding">
-						<img src="{{ asset('images/world-wide-medical-distributors-logo.png') }}" class="img-responsive" />
+						<a href="{{ url('/') }}" title="World Wide Medical Distributors Home">
+							<img src="{{ asset('images/world-wide-medical-distributors-logo.png') }}" class="img-responsive" alt="World Wide Medical Distributors Logo" />
+						</a>
 					</div>
 					<div id="header-text-holder" class="col-md-9 col-xs-6 no-padding">
 						<h2>Questions or Comments?</h2>

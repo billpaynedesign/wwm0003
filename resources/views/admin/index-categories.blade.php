@@ -13,7 +13,57 @@ $(document).ready(function(){
     }
   });
   $('.html-popover').popover({html:true});
-  $('#categories_table').DataTable({"order": [[ 3, "asc" ]]});
+  $('#categories_table').DataTable({
+    searchDelay: 500,
+    serverSide: true,
+    ajax: '{{ route('admin-categories') }}',
+    stateSave: true,
+    stateDuration: 1800,
+    order: [[ 3, "asc" ]],
+    "columns": [
+      {
+        "data": "id",
+        "name": "id",
+        "render": function ( data, type, full, meta ) {
+          return '<input type="checkbox" class="action" value="'+data+'">';
+        },
+      },
+      {
+        "data": "name",
+        "name": "name"
+      },
+      {
+        "data": "parent.name",
+        "name": "parent.name",
+        "render": function ( data, type, full, meta ) {
+          return data == null ? "" :data;
+        },
+        "orderable":false,
+        "searchable":false,
+      },
+      {
+        "data": "featured",
+        "name": "featured"
+      },
+      {
+        "data": "active",
+        "name": "active"
+      },
+      {
+        "data": "items",
+        "name": "items",
+        "orderable":false,
+        "searchable":false,
+      },
+      {
+        "data": "action",
+        "name": "action",
+        "orderable":false,
+        "searchable":false,
+      },
+    ]
+              
+  });
   $('#edit_category').on('show.bs.modal', function (event) {
     var button = $(event.relatedTarget);
     var name = button.data('name');
@@ -95,7 +145,6 @@ function parent_category_change(){
                   <tr>
                     <th>Action</th>
                     <th>Name</th>
-                    <th>Slug</th>
                     <th>Parent</th>
                     <th>Top Category</th>
                     <th>Active</th>
@@ -103,32 +152,7 @@ function parent_category_change(){
                     <th>Edit</th>
                   </tr>
                 </thead>
-                <tbody>
-                  @if($categories)
-                  @foreach($categories as $category)
-                  <tr id="{{ $category->id }}">
-                    <td><input type="checkbox" class="action" value="{{ $category->id }}"></td>
-                    <td>{{ $category->name }}</td>
-                    <td>{{ $category->slug }}</td>
-                    <td>{{ $category->parent?$category->parent->name:'' }}</td>
-                    <td>
-                      <button id="category-featured-{{ $category->id }}" onclick="category_toggle_featured({{ $category->id }});" class="btn btn-link">
-                        {!! $category->featured == 1?'<span class="text-yellow glyphicon glyphicon-star"></span>':'<span class="text-danger glyphicon glyphicon-remove"></span>' !!}
-                      </button>
-                    </td>
-                    <td>
-                      <button id="category-active-{{ $category->id }}" onclick="category_toggle_active({{ $category->id }});" class="btn btn-link">
-                        {!! $category->active == 1?'<span class="text-success glyphicon glyphicon glyphicon-ok"></span>':'<span class="text-danger glyphicon glyphicon-remove"></span>' !!}
-                      </button>
-                    </td>
-                    <td>{{ $category->getProductsCount() }}</td>
-                    <td>
-                      <button type="button" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#edit_category"  data-category-id="{{ $category->id }}" data-name="{{ $category->name }}" data-img="{{ $category->picture?asset('pictures/'.$category->picture):asset('/images/noimg.gif') }}" data-description="{{ $category->description }}"><span class="glyphicon glyphicon-edit"></span></button>
-                    </td>
-                  </tr>
-                  @endforeach
-                  @endif
-                </tbody>
+                <tbody></tbody>
               </table>
             </div>
           </div>

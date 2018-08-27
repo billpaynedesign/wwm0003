@@ -65,13 +65,13 @@ class AuthorizeNetARB_Test extends PHPUnit_Framework_TestCase
         $subscription->name = "test subscription";
         $subscription->intervalLength = "1";
         $subscription->intervalUnit = "months";
-        $subscription->startDate = "2018-03-12";
+        $subscription->startDate = (date("Y") + 1)."-03-12";
         $subscription->totalOccurrences = "14";
         $subscription->trialOccurrences = "";
         $subscription->amount = "6.99";
         $subscription->trialAmount = "";
         $subscription->creditCardCardNumber = "6011000000000012";
-        $subscription->creditCardExpirationDate = "2018-10";
+        $subscription->creditCardExpirationDate = (date("Y") + 2)."-10";
         $subscription->creditCardCardCode = "123";
         $subscription->bankAccountAccountType = "";
         $subscription->bankAccountRoutingNumber = "";
@@ -81,8 +81,8 @@ class AuthorizeNetARB_Test extends PHPUnit_Framework_TestCase
         $subscription->bankAccountBankName = "";
         $subscription->orderInvoiceNumber = "";
         $subscription->orderDescription = "";
-        $subscription->customerId = "12";
-        $subscription->customerEmail = "foo@domain.com";
+        $subscription->customerId = rand(1, 1000000);
+        $subscription->customerEmail = rand(1, 1000000) . "foo@domain.com";
         $subscription->customerPhoneNumber = "";
         $subscription->customerFaxNumber = "";
         $subscription->billToFirstName = "john";
@@ -150,8 +150,8 @@ class AuthorizeNetARB_Test extends PHPUnit_Framework_TestCase
         $subscription->bankAccountBankName = "Bank of Earth";
         $subscription->orderInvoiceNumber = "";
         $subscription->orderDescription = "";
-        $subscription->customerId = "12";
-        $subscription->customerEmail = "foo@domain.com";
+        $subscription->customerId = rand(1, 1000000);
+        $subscription->customerEmail = rand(1, 1000000) . "foo@domain.com";
         $subscription->customerPhoneNumber = "";
         $subscription->customerFaxNumber = "";
         $subscription->billToFirstName = "john";

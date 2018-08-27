@@ -43,6 +43,16 @@ class MerchantAuthenticationType
     private $fingerPrint = null;
 
     /**
+     * @property string $clientKey
+     */
+    private $clientKey = null;
+
+    /**
+     * @property string $accessToken
+     */
+    private $accessToken = null;
+
+    /**
      * @property string $mobileDeviceId
      */
     private $mobileDeviceId = null;
@@ -177,6 +187,50 @@ class MerchantAuthenticationType
     public function setFingerPrint(\net\authorize\api\contract\v1\FingerPrintType $fingerPrint)
     {
         $this->fingerPrint = $fingerPrint;
+        return $this;
+    }
+
+    /**
+     * Gets as clientKey
+     *
+     * @return string
+     */
+    public function getClientKey()
+    {
+        return $this->clientKey;
+    }
+
+    /**
+     * Sets a new clientKey
+     *
+     * @param string $clientKey
+     * @return self
+     */
+    public function setClientKey($clientKey)
+    {
+        $this->clientKey = $clientKey;
+        return $this;
+    }
+
+    /**
+     * Gets as accessToken
+     *
+     * @return string
+     */
+    public function getAccessToken()
+    {
+        return $this->accessToken;
+    }
+
+    /**
+     * Sets a new accessToken
+     *
+     * @param string $accessToken
+     * @return self
+     */
+    public function setAccessToken($accessToken)
+    {
+        $this->accessToken = $accessToken;
         return $this;
     }
 

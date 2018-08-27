@@ -8,9 +8,9 @@
           @if($top_categories)
             @foreach($top_categories as $tc)
               <div class="top-category">
-                <div class="top-category-header">
+                <div class="col-xs-12 top-category-header">
                   <?php
-                  switch($tc->slug):
+                  /*switch($tc->slug):
                     case 'diagnostic-equipment':
                     case 'equipment-supplies':
                     case 'medical-supplies':
@@ -19,11 +19,11 @@
                       break;
                     default:
                       echo '<img src="'.asset('images/category-icon-default.png').'">';
-                  endswitch;
+                  endswitch; */
                   ?>
                   {{ ucwords(strtolower($tc->name)) }}
                 </div>
-
+                <div class="clearfix"></div>
                 <div class="top-category-content">
                   @if(!empty($tc->description))
                     {{ str_limit($tc->description, 150) }}
@@ -43,17 +43,17 @@
         <div id="top-product-holder">
           @if($top_products)
             @foreach($top_products as $tp)
-              <a href="{{ route('product-show',$tp->slug) }}" class="top-product col-sm-4 no-padding" title="{{ $tp->name }}">
+              <a href="{{ route('product-show',$tp->product->slug) }}" class="top-product col-sm-4 no-padding" title="{{ $tp->product->name }}">
                 <div class="col-md-5 top-product-inner">
-                  @if($tp->picture)
-                    <img src="{{ asset('pictures/'.$tp->picture) }}" alt="{{ $tp->name }}" class="img-responsive center-block" />
+                  @if($tp->product->picture)
+                    <img src="{{ asset('pictures/'.$tp->product->picture) }}" alt="{{ $tp->product->name }}" class="img-responsive center-block" />
                   @else
                     <img src="{{ asset('/images/noimg.gif') }}" class="img-responsive center-block" alt="No Image Available" />
                   @endif
                 </div>
                 <div class="col-md-7 top-product-inner">
-                  <p>Item Number: {{ $tp->item_number }}</p>
-                  <h3>{{ $tp->name }}</h3>
+                  <p>Item Number: {{ $tp->product->item_number }}</p>
+                  <h3>{{ $tp->product->name }}</h3>
                 </div>
               </a>
             @endforeach

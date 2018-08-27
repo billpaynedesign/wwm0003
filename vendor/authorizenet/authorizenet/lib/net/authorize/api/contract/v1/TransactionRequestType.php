@@ -42,6 +42,16 @@ class TransactionRequestType
     private $solution = null;
 
     /**
+     * @property string $callId
+     */
+    private $callId = null;
+
+    /**
+     * @property string $terminalNumber
+     */
+    private $terminalNumber = null;
+
+    /**
      * @property string $authCode
      */
     private $authCode = null;
@@ -123,6 +133,11 @@ class TransactionRequestType
     private $retail = null;
 
     /**
+     * @property string $employeeId
+     */
+    private $employeeId = null;
+
+    /**
      * Allowed values for settingName are: emailCustomer, merchantEmail,
      * allowPartialAuth, headerEmailReceipt, footerEmailReceipt, recurringBilling,
      * duplicateWindow, testRequest.
@@ -135,6 +150,26 @@ class TransactionRequestType
      * @property \net\authorize\api\contract\v1\UserFieldType[] $userFields
      */
     private $userFields = null;
+
+    /**
+     * @property \net\authorize\api\contract\v1\ExtendedAmountType $surcharge
+     */
+    private $surcharge = null;
+
+    /**
+     * @property string $merchantDescriptor
+     */
+    private $merchantDescriptor = null;
+
+    /**
+     * @property \net\authorize\api\contract\v1\SubMerchantType $subMerchant
+     */
+    private $subMerchant = null;
+
+    /**
+     * @property \net\authorize\api\contract\v1\ExtendedAmountType $tip
+     */
+    private $tip = null;
 
     /**
      * Gets as transactionType
@@ -269,6 +304,50 @@ class TransactionRequestType
     }
 
     /**
+     * Gets as callId
+     *
+     * @return string
+     */
+    public function getCallId()
+    {
+        return $this->callId;
+    }
+
+    /**
+     * Sets a new callId
+     *
+     * @param string $callId
+     * @return self
+     */
+    public function setCallId($callId)
+    {
+        $this->callId = $callId;
+        return $this;
+    }
+
+    /**
+     * Gets as terminalNumber
+     *
+     * @return string
+     */
+    public function getTerminalNumber()
+    {
+        return $this->terminalNumber;
+    }
+
+    /**
+     * Sets a new terminalNumber
+     *
+     * @param string $terminalNumber
+     * @return self
+     */
+    public function setTerminalNumber($terminalNumber)
+    {
+        $this->terminalNumber = $terminalNumber;
+        return $this;
+    }
+
+    /**
      * Gets as authCode
      *
      * @return string
@@ -362,7 +441,7 @@ class TransactionRequestType
      * @return self
      * @param \net\authorize\api\contract\v1\LineItemType $lineItem
      */
-    public function addLineItemToLineItems(\net\authorize\api\contract\v1\LineItemType $lineItem)
+    public function addToLineItems(\net\authorize\api\contract\v1\LineItemType $lineItem)
     {
         $this->lineItems[] = $lineItem;
         return $this;
@@ -656,6 +735,28 @@ class TransactionRequestType
     }
 
     /**
+     * Gets as employeeId
+     *
+     * @return string
+     */
+    public function getEmployeeId()
+    {
+        return $this->employeeId;
+    }
+
+    /**
+     * Sets a new employeeId
+     *
+     * @param string $employeeId
+     * @return self
+     */
+    public function setEmployeeId($employeeId)
+    {
+        $this->employeeId = $employeeId;
+        return $this;
+    }
+
+    /**
      * Adds as setting
      *
      * Allowed values for settingName are: emailCustomer, merchantEmail,
@@ -665,7 +766,7 @@ class TransactionRequestType
      * @return self
      * @param \net\authorize\api\contract\v1\SettingType $setting
      */
-    public function addSettingToTransactionSettings(\net\authorize\api\contract\v1\SettingType $setting)
+    public function addToTransactionSettings(\net\authorize\api\contract\v1\SettingType $setting)
     {
         $this->transactionSettings[] = $setting;
         return $this;
@@ -737,7 +838,7 @@ class TransactionRequestType
      * @return self
      * @param \net\authorize\api\contract\v1\UserFieldType $userField
      */
-    public function addUserFieldToUserFields(\net\authorize\api\contract\v1\UserFieldType $userField)
+    public function addToUserFields(\net\authorize\api\contract\v1\UserFieldType $userField)
     {
         $this->userFields[] = $userField;
         return $this;
@@ -784,6 +885,94 @@ class TransactionRequestType
     public function setUserFields(array $userFields)
     {
         $this->userFields = $userFields;
+        return $this;
+    }
+
+    /**
+     * Gets as surcharge
+     *
+     * @return \net\authorize\api\contract\v1\ExtendedAmountType
+     */
+    public function getSurcharge()
+    {
+        return $this->surcharge;
+    }
+
+    /**
+     * Sets a new surcharge
+     *
+     * @param \net\authorize\api\contract\v1\ExtendedAmountType $surcharge
+     * @return self
+     */
+    public function setSurcharge(\net\authorize\api\contract\v1\ExtendedAmountType $surcharge)
+    {
+        $this->surcharge = $surcharge;
+        return $this;
+    }
+
+    /**
+     * Gets as merchantDescriptor
+     *
+     * @return string
+     */
+    public function getMerchantDescriptor()
+    {
+        return $this->merchantDescriptor;
+    }
+
+    /**
+     * Sets a new merchantDescriptor
+     *
+     * @param string $merchantDescriptor
+     * @return self
+     */
+    public function setMerchantDescriptor($merchantDescriptor)
+    {
+        $this->merchantDescriptor = $merchantDescriptor;
+        return $this;
+    }
+
+    /**
+     * Gets as subMerchant
+     *
+     * @return \net\authorize\api\contract\v1\SubMerchantType
+     */
+    public function getSubMerchant()
+    {
+        return $this->subMerchant;
+    }
+
+    /**
+     * Sets a new subMerchant
+     *
+     * @param \net\authorize\api\contract\v1\SubMerchantType $subMerchant
+     * @return self
+     */
+    public function setSubMerchant(\net\authorize\api\contract\v1\SubMerchantType $subMerchant)
+    {
+        $this->subMerchant = $subMerchant;
+        return $this;
+    }
+
+    /**
+     * Gets as tip
+     *
+     * @return \net\authorize\api\contract\v1\ExtendedAmountType
+     */
+    public function getTip()
+    {
+        return $this->tip;
+    }
+
+    /**
+     * Sets a new tip
+     *
+     * @param \net\authorize\api\contract\v1\ExtendedAmountType $tip
+     * @return self
+     */
+    public function setTip(\net\authorize\api\contract\v1\ExtendedAmountType $tip)
+    {
+        $this->tip = $tip;
         return $this;
     }
 

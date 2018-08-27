@@ -22,6 +22,11 @@ class CustomerAddressType extends NameAndAddressType
     private $faxNumber = null;
 
     /**
+     * @property string $email
+     */
+    private $email = null;
+
+    /**
      * Gets as phoneNumber
      *
      * @return string
@@ -62,6 +67,28 @@ class CustomerAddressType extends NameAndAddressType
     public function setFaxNumber($faxNumber)
     {
         $this->faxNumber = $faxNumber;
+        return $this;
+    }
+
+    /**
+     * Gets as email
+     *
+     * @return string
+     */
+    public function getEmail()
+    {
+        return $this->email;
+    }
+
+    /**
+     * Sets a new email
+     *
+     * @param string $email
+     * @return self
+     */
+    public function setEmail($email)
+    {
+        $this->email = $email;
         return $this;
     }
 

@@ -23,13 +23,18 @@ class CustomerProfileType extends CustomerProfileBaseType
     private $shipToList = null;
 
     /**
+     * @property string $profileType
+     */
+    private $profileType = null;
+
+    /**
      * Adds as paymentProfiles
      *
      * @return self
      * @param \net\authorize\api\contract\v1\CustomerPaymentProfileType
      * $paymentProfiles
      */
-    public function addPaymentProfilesToPaymentProfiles(\net\authorize\api\contract\v1\CustomerPaymentProfileType $paymentProfiles)
+    public function addToPaymentProfiles(\net\authorize\api\contract\v1\CustomerPaymentProfileType $paymentProfiles)
     {
         $this->paymentProfiles[] = $paymentProfiles;
         return $this;
@@ -86,7 +91,7 @@ class CustomerProfileType extends CustomerProfileBaseType
      * @return self
      * @param \net\authorize\api\contract\v1\CustomerAddressType $shipToList
      */
-    public function addShipToListToShipToList(\net\authorize\api\contract\v1\CustomerAddressType $shipToList)
+    public function addToShipToList(\net\authorize\api\contract\v1\CustomerAddressType $shipToList)
     {
         $this->shipToList[] = $shipToList;
         return $this;
@@ -133,6 +138,28 @@ class CustomerProfileType extends CustomerProfileBaseType
     public function setShipToList(array $shipToList)
     {
         $this->shipToList = $shipToList;
+        return $this;
+    }
+
+    /**
+     * Gets as profileType
+     *
+     * @return string
+     */
+    public function getProfileType()
+    {
+        return $this->profileType;
+    }
+
+    /**
+     * Sets a new profileType
+     *
+     * @param string $profileType
+     * @return self
+     */
+    public function setProfileType($profileType)
+    {
+        $this->profileType = $profileType;
         return $this;
     }
 

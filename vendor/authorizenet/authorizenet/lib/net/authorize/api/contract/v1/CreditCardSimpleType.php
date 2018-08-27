@@ -22,11 +22,6 @@ class CreditCardSimpleType
     private $expirationDate = null;
 
     /**
-     * @property boolean $paymentToken
-     */
-    private $paymentToken = null;
-
-    /**
      * Gets as cardNumber
      *
      * @return string
@@ -67,28 +62,6 @@ class CreditCardSimpleType
     public function setExpirationDate($expirationDate)
     {
         $this->expirationDate = $expirationDate;
-        return $this;
-    }
-
-    /**
-     * Gets as paymentToken
-     *
-     * @return boolean
-     */
-    public function getPaymentToken()
-    {
-        return $this->paymentToken;
-    }
-
-    /**
-     * Sets a new paymentToken
-     *
-     * @param boolean $paymentToken
-     * @return self
-     */
-    public function setPaymentToken($paymentToken)
-    {
-        $this->paymentToken = $paymentToken;
         return $this;
     }
 

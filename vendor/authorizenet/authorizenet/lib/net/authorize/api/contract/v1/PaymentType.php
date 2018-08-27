@@ -43,6 +43,16 @@ class PaymentType
     private $opaqueData = null;
 
     /**
+     * @property \net\authorize\api\contract\v1\PaymentEmvType $emv
+     */
+    private $emv = null;
+
+    /**
+     * @property string $dataSource
+     */
+    private $dataSource = null;
+
+    /**
      * Gets as creditCard
      *
      * @return \net\authorize\api\contract\v1\CreditCardType
@@ -171,6 +181,50 @@ class PaymentType
     public function setOpaqueData(\net\authorize\api\contract\v1\OpaqueDataType $opaqueData)
     {
         $this->opaqueData = $opaqueData;
+        return $this;
+    }
+
+    /**
+     * Gets as emv
+     *
+     * @return \net\authorize\api\contract\v1\PaymentEmvType
+     */
+    public function getEmv()
+    {
+        return $this->emv;
+    }
+
+    /**
+     * Sets a new emv
+     *
+     * @param \net\authorize\api\contract\v1\PaymentEmvType $emv
+     * @return self
+     */
+    public function setEmv(\net\authorize\api\contract\v1\PaymentEmvType $emv)
+    {
+        $this->emv = $emv;
+        return $this;
+    }
+
+    /**
+     * Gets as dataSource
+     *
+     * @return string
+     */
+    public function getDataSource()
+    {
+        return $this->dataSource;
+    }
+
+    /**
+     * Sets a new dataSource
+     *
+     * @param string $dataSource
+     * @return self
+     */
+    public function setDataSource($dataSource)
+    {
+        $this->dataSource = $dataSource;
         return $this;
     }
 

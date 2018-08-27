@@ -7,13 +7,14 @@
     "require": {
         "php": ">=5.5.9",
         "laravel/framework": "5.1.*",
-        "cviebrock/eloquent-sluggable": ">=3.0.0-beta",
+        "cviebrock/eloquent-sluggable": "4.1.*",
         "filp/whoops": "~1.1",
         "maatwebsite/excel": "2.*",
         "vinkla/hashids": "^2.0@dev",
         "authorizenet/authorizenet": "~1.8",
         "barryvdh/laravel-dompdf": "0.6.*",
-        "quickbooks/v3-php-sdk": "^3.4"
+        "quickbooks/v3-php-sdk": "^3.4",
+        "yajra/laravel-datatables-oracle": "6.*"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",

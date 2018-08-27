@@ -47,7 +47,7 @@ class ClassPreloader
     protected $traverser;
 
     /**
-     * Create a new class preloader.
+     * Create a new class preloader instance.
      *
      * @param \PhpParser\PrettyPrinter\Standard    $printer
      * @param \PhpParser\Parser                    $parser
@@ -66,13 +66,18 @@ class ClassPreloader
      * Prepare the output file and directory.
      *
      * @param string $output
+     * @param bool   $strict
      *
      * @throws \RuntimeException
      *
      * @return resource
      */
-    public function prepareOutput($output)
+    public function prepareOutput($output, $strict = false)
     {
+        if ($strict && version_compare(PHP_VERSION, '7') < 1) {
+            throw new RuntimeException('Strict mode requires PHP 7 or greater.');
+        }
+
         $dir = dirname($output);
 
         if (!is_dir($dir) && !mkdir($dir, 0777, true)) {
@@ -85,7 +90,11 @@ class ClassPreloader
             throw new RuntimeException("Unable to open $output for writing.");
         }
 
-        fwrite($handle, "<?php\n");
+        if ($strict) {
+            fwrite($handle, "<?php declare(strict_types=1);\n");
+        } else {
+            fwrite($handle, "<?php\n");
+        }
 
         return $handle;
     }
@@ -119,10 +128,11 @@ class ClassPreloader
         $stmts = $this->traverser->traverseFile($parsed, $file);
         $pretty = $this->printer->prettyPrint($stmts);
 
-        // Remove the open PHP tag
-        if (substr($pretty, 5) === '<?php') {
-            $pretty = substr($pretty, 7);
-        }
+        $pretty = preg_replace(
+            '#^(<\?php)?[\s]*(/\*\*?.*?\*/)?[\s]*(declare[\s]*\([\s]*strict_types[\s]*=[\s]*1[\s]*\);)?#s',
+            '',
+            $pretty
+        );
 
         return $this->getCodeWrappedIntoNamespace($parsed, $pretty);
     }
@@ -138,7 +148,7 @@ class ClassPreloader
     protected function getCodeWrappedIntoNamespace(array $parsed, $pretty)
     {
         if ($this->parsedCodeHasNamespaces($parsed)) {
-            $pretty = preg_replace('/^\s*(namespace.*);/i', '${1} {', $pretty, 1)."\n}\n";
+            $pretty = preg_replace('/^\s*(namespace.*);/im', '${1} {', $pretty, 1)."\n}\n";
         } else {
             $pretty = sprintf("namespace {\n%s\n}\n", $pretty);
         }

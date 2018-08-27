@@ -1,14 +1,16 @@
 <?php namespace App;
 
+use Cviebrock\EloquentSluggable\Sluggable;
+use Cviebrock\EloquentSluggable\SluggableScopeHelpers;
 use Illuminate\Database\Eloquent\Model;
-use Cviebrock\EloquentSluggable\SluggableInterface;
-use Cviebrock\EloquentSluggable\SluggableTrait;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Category extends Model implements SluggableInterface{
+class Category extends Model{
 
     use SoftDeletes;
-	use SluggableTrait;
+	use Sluggable;
+    use SluggableScopeHelpers;
+    
 	static $getCategorySelect;
 	/**
 	 * The database table used by the model.
@@ -17,10 +19,18 @@ class Category extends Model implements SluggableInterface{
 	 */
 	protected $table = 'categories';
 
-	protected $sluggable = [
-        'build_from' => 'name',
-        'save_to'    => 'slug',
-    ];
+    /**
+     * Sluggable configuration.
+     *
+     * @var array
+     */
+    public function sluggable() {
+        return [
+            'slug' => [
+                'source' => 'name'
+            ]
+        ];
+    }
     protected $dates = ['deleted_at'];
 	/**
 	 * The attributes that are mass assignable.

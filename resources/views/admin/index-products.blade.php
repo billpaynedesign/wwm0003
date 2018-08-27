@@ -13,6 +13,38 @@ $(document).ready(function(){
     }
   });
   $('.html-popover').popover({html:true});
+  $('#products_table').DataTable({
+    searchDelay: 500,
+    serverSide: true,
+    ajax: '{{ route('admin-products') }}',
+    stateSave: true,
+    stateDuration: 1800,
+    "columns": [
+      {
+        "data": "name",
+        "name": "name"
+      },
+      {
+        "data": "manufacturer",
+        "name": "manufacturer"
+      },
+      {
+        "data": "item_number",
+        "name": "item_number"
+      },
+      {
+        "data": "active",
+        "name": "active"
+      },
+      {
+        "data": "action",
+        "name": "action",
+        "orderable":false,
+        "searchable":false,
+      },
+    ]
+              
+  });
   $("#add-picture-dropzone").dropzone({
     url: '/false',
     autoProcessQueue: false,
@@ -117,51 +149,17 @@ function add_option(){
               </a>
             </div>
             <div class="table-responsive">
-              <table id="products_table" class="table table-striped table-hover tablesorter text-left">
+              <table id="products_table" class="table table-striped table-hover text-left">
                 <thead>
                   <tr>
                     <th>Product Name</th>
-                    <th>Category</th>
                     <th>Manufacturer</th>
                     <th>Item #</th>
-                    <th>Top Product</th>
                     <th>Available</th>
                     <th>Action</th>
                   </tr>
                 </thead>
-                <tbody>
-                  @if($products)
-                  @foreach($products as $product)
-                  <tr id="{{ $product->id }}">
-                    <td><a href="{{ route('product-show', $product->slug) }}">{{ $product->name }}</a></td>
-                    <td>{{ $product->category?$product->category->name:'' }}</td>
-                    <td>{{ $product->manufacturer }}</td>
-                    <td>{{ $product->item_number }}</td>
-                    <td>
-                      <button id="product-featured-{{ $product->id }}" onclick="product_toggle_featured({{ $product->id }});" class="btn btn-link">
-                        {!! $product->featured == 1?'<span class="text-yellow glyphicon glyphicon-star"></span>':'<span class="text-danger glyphicon glyphicon-remove"></span>' !!}
-                      </button>
-                    </td>
-                    <td>
-                      <button id="product-active-{{ $product->id }}" onclick="product_toggle_active({{ $product->id }});" class="btn btn-link">
-                        {!! $product->active == 1?'<span class="text-success glyphicon glyphicon-ok"></span>':'<span class="text-danger glyphicon glyphicon-remove"></span>' !!}
-                      </button>
-                    </td>
-                    <td class="text-center">
-                      <button class="btn btn-info" data-toggle="modal" data-target="#order-info" title="{{ $product->name }} Product Information" onclick="product_information('{{ $product->id }}');">
-                        <span class="fa fa-info"></span>
-                      </button>
-                      <a href="{{ route('product-edit',$product->id) }}" class="btn btn-warning" title="Edit {{ $product->name }}">
-                        <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
-                      </a>
-                      <a href="{{ route('product-delete',$product->id) }}" class="btn btn-danger" title="Remove {{ $product->name }}" onclick="return confirm('Are you sure you want to remove product: {{ str_replace('"', "", str_replace("'", "", $product->name)) }}');">
-                        <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
-                      </a>
-                    </td>
-                  </tr>
-                  @endforeach
-                  @endif
-                </tbody>
+                <tbody></tbody>
               </table>
             </div>
 
@@ -182,5 +180,4 @@ function add_option(){
   @include('admin.modals.product-add')
   @include('admin.modals.order-info')
   @include('admin.modals.option-add')
-
 @stop

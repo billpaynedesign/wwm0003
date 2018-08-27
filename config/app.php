@@ -148,9 +148,11 @@ return [
          * Vendor Service Providers...
          */
         Maatwebsite\Excel\ExcelServiceProvider::class,
-        Cviebrock\EloquentSluggable\SluggableServiceProvider::class,
+        Cviebrock\EloquentSluggable\ServiceProvider::class,
         Vinkla\Hashids\HashidsServiceProvider::class,
         Barryvdh\DomPDF\ServiceProvider::class,
+        Yajra\Datatables\DatatablesServiceProvider::class,
+        
     ],
 
     /*
@@ -203,6 +205,7 @@ return [
         'Cart'      => App\ShoppingCart::class,
         'Hashids'   => Vinkla\Hashids\Facades\Hashids::class,
         'PDF'       => Barryvdh\DomPDF\Facade::class,
+        'DataTables'=> Yajra\Datatables\Facades\Datatables::class,
 
         //quickbooks
         //QuickBooksOnline\API\Facades\{Facade_Class_Name}

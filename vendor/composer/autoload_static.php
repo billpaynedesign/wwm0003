@@ -7,20 +7,36 @@ namespace Composer\Autoload;
 class ComposerStaticInita864c481a4c3760e132aaf15a80c6e4b
 {
     public static $files = array (
-        '1d1b89d124cc9cb8219922c9d5569199' => __DIR__ . '/..' . '/hamcrest/hamcrest-php/hamcrest/Hamcrest.php',
+        '0e6d7bf4a5811bfa5cf40c5ccd6fae6a' => __DIR__ . '/..' . '/symfony/polyfill-mbstring/bootstrap.php',
+        '320cde22f66dd4f5d3fd621d3e88b98f' => __DIR__ . '/..' . '/symfony/polyfill-ctype/bootstrap.php',
         '667aeda72477189d0494fecd327c3641' => __DIR__ . '/..' . '/symfony/var-dumper/Resources/functions/dump.php',
-        'fe1bcd0336136e435eaf197895daf81a' => __DIR__ . '/..' . '/nikic/php-parser/lib/bootstrap.php',
+        '1d1b89d124cc9cb8219922c9d5569199' => __DIR__ . '/..' . '/hamcrest/hamcrest-php/hamcrest/Hamcrest.php',
         '2c102faa651ef8ea5874edb585946bce' => __DIR__ . '/..' . '/swiftmailer/swiftmailer/lib/swift_required.php',
+        'bd9634f2d41831496de0d3dfe4c94881' => __DIR__ . '/..' . '/symfony/polyfill-php56/bootstrap.php',
         '65fec9ebcfbb3cbb4fd0d519687aea01' => __DIR__ . '/..' . '/danielstjules/stringy/src/Create.php',
+        '5255c38a0faeba867671b61dfda6d864' => __DIR__ . '/..' . '/paragonie/random_compat/lib/random.php',
         'e7223560d890eab89cda23685e711e2c' => __DIR__ . '/..' . '/psy/psysh/src/Psy/functions.php',
         'f0906e6318348a765ffb6eb24e0d0938' => __DIR__ . '/..' . '/laravel/framework/src/Illuminate/Foundation/helpers.php',
         '58571171fd5812e6e447dce228f52f4d' => __DIR__ . '/..' . '/laravel/framework/src/Illuminate/Support/helpers.php',
+        'f18cc91337d49233e5754e93f3ed9ec3' => __DIR__ . '/..' . '/laravelcollective/html/src/helpers.php',
     );
 
     public static $prefixLengthsPsr4 = array (
+        'p' => 
+        array (
+            'phpDocumentor\\Reflection\\' => 25,
+        ),
+        'Y' => 
+        array (
+            'Yajra\\Datatables\\' => 17,
+        ),
         'X' => 
         array (
             'XdgBaseDir\\' => 11,
+        ),
+        'W' => 
+        array (
+            'Webmozart\\Assert\\' => 17,
         ),
         'V' => 
         array (
@@ -32,6 +48,10 @@ class ComposerStaticInita864c481a4c3760e132aaf15a80c6e4b
         ),
         'S' => 
         array (
+            'Symfony\\Polyfill\\Util\\' => 22,
+            'Symfony\\Polyfill\\Php56\\' => 23,
+            'Symfony\\Polyfill\\Mbstring\\' => 26,
+            'Symfony\\Polyfill\\Ctype\\' => 23,
             'Symfony\\Component\\Yaml\\' => 23,
             'Symfony\\Component\\VarDumper\\' => 28,
             'Symfony\\Component\\Translation\\' => 30,
@@ -52,21 +72,33 @@ class ComposerStaticInita864c481a4c3760e132aaf15a80c6e4b
         array (
             'QuickBooksOnline\\API\\' => 21,
         ),
+        'P' => 
+        array (
+            'Psy\\' => 4,
+            'Psr\\Log\\' => 8,
+            'PhpParser\\' => 10,
+        ),
         'M' => 
         array (
             'Monolog\\' => 8,
         ),
         'L' => 
         array (
+            'League\\Fractal\\' => 15,
             'League\\Flysystem\\' => 17,
         ),
         'I' => 
         array (
             'Illuminate\\' => 11,
         ),
+        'H' => 
+        array (
+            'Hashids\\' => 8,
+        ),
         'G' => 
         array (
             'GrahamCampbell\\Manager\\' => 23,
+            'GoetasWebservices\\Xsd\\XsdToPhpRuntime\\' => 38,
         ),
         'F' => 
         array (
@@ -75,10 +107,14 @@ class ComposerStaticInita864c481a4c3760e132aaf15a80c6e4b
         'D' => 
         array (
             'Doctrine\\Instantiator\\' => 22,
+            'Doctrine\\Common\\Inflector\\' => 26,
+            'Doctrine\\Common\\Annotations\\' => 28,
         ),
         'C' => 
         array (
             'Cviebrock\\EloquentSluggable\\' => 28,
+            'Cron\\' => 5,
+            'Collective\\Html\\' => 16,
             'Cocur\\Slugify\\' => 14,
             'ClassPreloader\\' => 15,
         ),
@@ -93,9 +129,23 @@ class ComposerStaticInita864c481a4c3760e132aaf15a80c6e4b
     );
 
     public static $prefixDirsPsr4 = array (
+        'phpDocumentor\\Reflection\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/phpdocumentor/reflection-common/src',
+            1 => __DIR__ . '/..' . '/phpdocumentor/reflection-docblock/src',
+            2 => __DIR__ . '/..' . '/phpdocumentor/type-resolver/src',
+        ),
+        'Yajra\\Datatables\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/yajra/laravel-datatables-oracle/src',
+        ),
         'XdgBaseDir\\' => 
         array (
             0 => __DIR__ . '/..' . '/dnoegel/php-xdg-base-dir/src',
+        ),
+        'Webmozart\\Assert\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/webmozart/assert/src',
         ),
         'Vinkla\\Hashids\\' => 
         array (
@@ -104,6 +154,22 @@ class ComposerStaticInita864c481a4c3760e132aaf15a80c6e4b
         'TijsVerkoyen\\CssToInlineStyles\\' => 
         array (
             0 => __DIR__ . '/..' . '/tijsverkoyen/css-to-inline-styles/src',
+        ),
+        'Symfony\\Polyfill\\Util\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/symfony/polyfill-util',
+        ),
+        'Symfony\\Polyfill\\Php56\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/symfony/polyfill-php56',
+        ),
+        'Symfony\\Polyfill\\Mbstring\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/symfony/polyfill-mbstring',
+        ),
+        'Symfony\\Polyfill\\Ctype\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/symfony/polyfill-ctype',
         ),
         'Symfony\\Component\\Yaml\\' => 
         array (
@@ -169,9 +235,25 @@ class ComposerStaticInita864c481a4c3760e132aaf15a80c6e4b
         array (
             0 => __DIR__ . '/..' . '/quickbooks/v3-php-sdk/src',
         ),
+        'Psy\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/psy/psysh/src/Psy',
+        ),
+        'Psr\\Log\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/psr/log/Psr/Log',
+        ),
+        'PhpParser\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/nikic/php-parser/lib/PhpParser',
+        ),
         'Monolog\\' => 
         array (
             0 => __DIR__ . '/..' . '/monolog/monolog/src/Monolog',
+        ),
+        'League\\Fractal\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/league/fractal/src',
         ),
         'League\\Flysystem\\' => 
         array (
@@ -181,9 +263,17 @@ class ComposerStaticInita864c481a4c3760e132aaf15a80c6e4b
         array (
             0 => __DIR__ . '/..' . '/laravel/framework/src/Illuminate',
         ),
+        'Hashids\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/hashids/hashids/lib/Hashids',
+        ),
         'GrahamCampbell\\Manager\\' => 
         array (
             0 => __DIR__ . '/..' . '/graham-campbell/manager/src',
+        ),
+        'GoetasWebservices\\Xsd\\XsdToPhpRuntime\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/goetas-webservices/xsd2php-runtime/src',
         ),
         'Faker\\' => 
         array (
@@ -193,9 +283,25 @@ class ComposerStaticInita864c481a4c3760e132aaf15a80c6e4b
         array (
             0 => __DIR__ . '/..' . '/doctrine/instantiator/src/Doctrine/Instantiator',
         ),
+        'Doctrine\\Common\\Inflector\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/doctrine/inflector/lib/Doctrine/Common/Inflector',
+        ),
+        'Doctrine\\Common\\Annotations\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/doctrine/annotations/lib/Doctrine/Common/Annotations',
+        ),
         'Cviebrock\\EloquentSluggable\\' => 
         array (
             0 => __DIR__ . '/..' . '/cviebrock/eloquent-sluggable/src',
+        ),
+        'Cron\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/mtdowling/cron-expression/src/Cron',
+        ),
+        'Collective\\Html\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/laravelcollective/html/src',
         ),
         'Cocur\\Slugify\\' => 
         array (
@@ -215,14 +321,11 @@ class ComposerStaticInita864c481a4c3760e132aaf15a80c6e4b
         ),
     );
 
+    public static $fallbackDirsPsr4 = array (
+        0 => __DIR__ . '/..' . '/nesbot/carbon/src',
+    );
+
     public static $prefixesPsr0 = array (
-        'p' => 
-        array (
-            'phpDocumentor' => 
-            array (
-                0 => __DIR__ . '/..' . '/phpdocumentor/reflection-docblock/src',
-            ),
-        ),
         'W' => 
         array (
             'Whoops' => 
@@ -232,14 +335,6 @@ class ComposerStaticInita864c481a4c3760e132aaf15a80c6e4b
         ),
         'P' => 
         array (
-            'Psy\\' => 
-            array (
-                0 => __DIR__ . '/..' . '/psy/psysh/src',
-            ),
-            'Psr\\Log\\' => 
-            array (
-                0 => __DIR__ . '/..' . '/psr/log',
-            ),
             'Prophecy\\' => 
             array (
                 0 => __DIR__ . '/..' . '/phpspec/prophecy/src',
@@ -295,13 +390,6 @@ class ComposerStaticInita864c481a4c3760e132aaf15a80c6e4b
                 0 => __DIR__ . '/..' . '/jms/parser-lib/src',
             ),
         ),
-        'H' => 
-        array (
-            'Hashids' => 
-            array (
-                0 => __DIR__ . '/..' . '/hashids/hashids/lib',
-            ),
-        ),
         'D' => 
         array (
             'Dotenv' => 
@@ -312,28 +400,9 @@ class ComposerStaticInita864c481a4c3760e132aaf15a80c6e4b
             array (
                 0 => __DIR__ . '/..' . '/doctrine/lexer/lib',
             ),
-            'Doctrine\\Common\\Inflector\\' => 
-            array (
-                0 => __DIR__ . '/..' . '/doctrine/inflector/lib',
-            ),
-            'Doctrine\\Common\\Annotations\\' => 
-            array (
-                0 => __DIR__ . '/..' . '/doctrine/annotations/lib',
-            ),
             'Diff' => 
             array (
                 0 => __DIR__ . '/..' . '/phpspec/php-diff/lib',
-            ),
-        ),
-        'C' => 
-        array (
-            'Cron' => 
-            array (
-                0 => __DIR__ . '/..' . '/mtdowling/cron-expression/src',
-            ),
-            'Carbon' => 
-            array (
-                0 => __DIR__ . '/..' . '/nesbot/carbon/src',
             ),
         ),
     );
@@ -570,6 +639,7 @@ class ComposerStaticInita864c481a4c3760e132aaf15a80c6e4b
         'Maatwebsite\\Excel\\Parsers\\ExcelParser' => __DIR__ . '/..' . '/maatwebsite/excel/src/Maatwebsite/Excel/Parsers/ExcelParser.php',
         'Maatwebsite\\Excel\\Parsers\\ViewParser' => __DIR__ . '/..' . '/maatwebsite/excel/src/Maatwebsite/Excel/Parsers/ViewParser.php',
         'Maatwebsite\\Excel\\Readers\\Batch' => __DIR__ . '/..' . '/maatwebsite/excel/src/Maatwebsite/Excel/Readers/Batch.php',
+        'Maatwebsite\\Excel\\Readers\\ChunkedReadJob' => __DIR__ . '/..' . '/maatwebsite/excel/src/Maatwebsite/Excel/Readers/ChunkedReadJob.php',
         'Maatwebsite\\Excel\\Readers\\ConfigReader' => __DIR__ . '/..' . '/maatwebsite/excel/src/Maatwebsite/Excel/Readers/ConfigReader.php',
         'Maatwebsite\\Excel\\Readers\\Html' => __DIR__ . '/..' . '/maatwebsite/excel/src/Maatwebsite/Excel/Readers/HtmlReader.php',
         'Maatwebsite\\Excel\\Readers\\LaravelExcelReader' => __DIR__ . '/..' . '/maatwebsite/excel/src/Maatwebsite/Excel/Readers/LaravelExcelReader.php',
@@ -579,6 +649,13 @@ class ComposerStaticInita864c481a4c3760e132aaf15a80c6e4b
         'Null_Frame_Reflower' => __DIR__ . '/..' . '/dompdf/dompdf/include/null_frame_reflower.cls.php',
         'Null_Positioner' => __DIR__ . '/..' . '/dompdf/dompdf/include/null_positioner.cls.php',
         'PDFLib_Adapter' => __DIR__ . '/..' . '/dompdf/dompdf/include/pdflib_adapter.cls.php',
+        'PHPUnit\\Framework\\Assert' => __DIR__ . '/..' . '/phpunit/phpunit/src/ForwardCompatibility/Assert.php',
+        'PHPUnit\\Framework\\AssertionFailedError' => __DIR__ . '/..' . '/phpunit/phpunit/src/ForwardCompatibility/AssertionFailedError.php',
+        'PHPUnit\\Framework\\BaseTestListener' => __DIR__ . '/..' . '/phpunit/phpunit/src/ForwardCompatibility/BaseTestListener.php',
+        'PHPUnit\\Framework\\Test' => __DIR__ . '/..' . '/phpunit/phpunit/src/ForwardCompatibility/Test.php',
+        'PHPUnit\\Framework\\TestCase' => __DIR__ . '/..' . '/phpunit/phpunit/src/ForwardCompatibility/TestCase.php',
+        'PHPUnit\\Framework\\TestListener' => __DIR__ . '/..' . '/phpunit/phpunit/src/ForwardCompatibility/TestListener.php',
+        'PHPUnit\\Framework\\TestSuite' => __DIR__ . '/..' . '/phpunit/phpunit/src/ForwardCompatibility/TestSuite.php',
         'PHPUnit_Exception' => __DIR__ . '/..' . '/phpunit/phpunit/src/Exception.php',
         'PHPUnit_Extensions_GroupTestSuite' => __DIR__ . '/..' . '/phpunit/phpunit/src/Extensions/GroupTestSuite.php',
         'PHPUnit_Extensions_PhptTestCase' => __DIR__ . '/..' . '/phpunit/phpunit/src/Extensions/PhptTestCase.php',
@@ -907,6 +984,7 @@ class ComposerStaticInita864c481a4c3760e132aaf15a80c6e4b
         'PHP_Token_NEW' => __DIR__ . '/..' . '/phpunit/php-token-stream/src/Token.php',
         'PHP_Token_NS_C' => __DIR__ . '/..' . '/phpunit/php-token-stream/src/Token.php',
         'PHP_Token_NS_SEPARATOR' => __DIR__ . '/..' . '/phpunit/php-token-stream/src/Token.php',
+        'PHP_Token_NULLSAFE_OBJECT_OPERATOR' => __DIR__ . '/..' . '/phpunit/php-token-stream/src/Token.php',
         'PHP_Token_NUM_STRING' => __DIR__ . '/..' . '/phpunit/php-token-stream/src/Token.php',
         'PHP_Token_OBJECT_CAST' => __DIR__ . '/..' . '/phpunit/php-token-stream/src/Token.php',
         'PHP_Token_OBJECT_OPERATOR' => __DIR__ . '/..' . '/phpunit/php-token-stream/src/Token.php',
@@ -944,6 +1022,7 @@ class ComposerStaticInita864c481a4c3760e132aaf15a80c6e4b
         'PHP_Token_STRING' => __DIR__ . '/..' . '/phpunit/php-token-stream/src/Token.php',
         'PHP_Token_STRING_CAST' => __DIR__ . '/..' . '/phpunit/php-token-stream/src/Token.php',
         'PHP_Token_STRING_VARNAME' => __DIR__ . '/..' . '/phpunit/php-token-stream/src/Token.php',
+        'PHP_Token_SUPER' => __DIR__ . '/..' . '/phpunit/php-token-stream/src/Token.php',
         'PHP_Token_SWITCH' => __DIR__ . '/..' . '/phpunit/php-token-stream/src/Token.php',
         'PHP_Token_Stream' => __DIR__ . '/..' . '/phpunit/php-token-stream/src/Token/Stream.php',
         'PHP_Token_Stream_CachingFactory' => __DIR__ . '/..' . '/phpunit/php-token-stream/src/Token/Stream/CachingFactory.php',
@@ -958,6 +1037,7 @@ class ComposerStaticInita864c481a4c3760e132aaf15a80c6e4b
         'PHP_Token_UNSET' => __DIR__ . '/..' . '/phpunit/php-token-stream/src/Token.php',
         'PHP_Token_UNSET_CAST' => __DIR__ . '/..' . '/phpunit/php-token-stream/src/Token.php',
         'PHP_Token_USE' => __DIR__ . '/..' . '/phpunit/php-token-stream/src/Token.php',
+        'PHP_Token_USE_FUNCTION' => __DIR__ . '/..' . '/phpunit/php-token-stream/src/Token.php',
         'PHP_Token_VAR' => __DIR__ . '/..' . '/phpunit/php-token-stream/src/Token.php',
         'PHP_Token_VARIABLE' => __DIR__ . '/..' . '/phpunit/php-token-stream/src/Token.php',
         'PHP_Token_WHERE' => __DIR__ . '/..' . '/phpunit/php-token-stream/src/Token.php',
@@ -1007,6 +1087,7 @@ class ComposerStaticInita864c481a4c3760e132aaf15a80c6e4b
         'SebastianBergmann\\Environment\\Runtime' => __DIR__ . '/..' . '/sebastian/environment/src/Runtime.php',
         'SebastianBergmann\\Exporter\\Exporter' => __DIR__ . '/..' . '/sebastian/exporter/src/Exporter.php',
         'SebastianBergmann\\GlobalState\\Blacklist' => __DIR__ . '/..' . '/sebastian/global-state/src/Blacklist.php',
+        'SebastianBergmann\\GlobalState\\CodeExporter' => __DIR__ . '/..' . '/sebastian/global-state/src/CodeExporter.php',
         'SebastianBergmann\\GlobalState\\Exception' => __DIR__ . '/..' . '/sebastian/global-state/src/Exception.php',
         'SebastianBergmann\\GlobalState\\Restorer' => __DIR__ . '/..' . '/sebastian/global-state/src/Restorer.php',
         'SebastianBergmann\\GlobalState\\RuntimeException' => __DIR__ . '/..' . '/sebastian/global-state/src/RuntimeException.php',
@@ -1036,7 +1117,6 @@ class ComposerStaticInita864c481a4c3760e132aaf15a80c6e4b
         'Text_Frame_Reflower' => __DIR__ . '/..' . '/dompdf/dompdf/include/text_frame_reflower.cls.php',
         'Text_Renderer' => __DIR__ . '/..' . '/dompdf/dompdf/include/text_renderer.cls.php',
         'Text_Template' => __DIR__ . '/..' . '/phpunit/php-text-template/src/Template.php',
-        'UpdateAddDescriptionCategoryTable' => __DIR__ . '/../..' . '/database/migrations/2018_01_09_214304_update_add_description_category_table.php',
         'UpdateAddPurchaseOrderNumTransactionTable' => __DIR__ . '/../..' . '/database/migrations/2016_08_29_030451_update_add_purchase_order_num_transaction_table.php',
         'UpdateAddRequireLicenseProductTable' => __DIR__ . '/../..' . '/database/migrations/2016_08_30_183336_update_add_require_license_product_table.php',
         'UsersTableSeeder' => __DIR__ . '/../..' . '/database/seeds/UsersTableSeeder.php',
@@ -1053,18 +1133,27 @@ class ComposerStaticInita864c481a4c3760e132aaf15a80c6e4b
         'net\\authorize\\api\\contract\\v1\\ARBGetSubscriptionListRequest' => __DIR__ . '/..' . '/authorizenet/authorizenet/lib/net/authorize/api/contract/v1/ARBGetSubscriptionListRequest.php',
         'net\\authorize\\api\\contract\\v1\\ARBGetSubscriptionListResponse' => __DIR__ . '/..' . '/authorizenet/authorizenet/lib/net/authorize/api/contract/v1/ARBGetSubscriptionListResponse.php',
         'net\\authorize\\api\\contract\\v1\\ARBGetSubscriptionListSortingType' => __DIR__ . '/..' . '/authorizenet/authorizenet/lib/net/authorize/api/contract/v1/ARBGetSubscriptionListSortingType.php',
+        'net\\authorize\\api\\contract\\v1\\ARBGetSubscriptionRequest' => __DIR__ . '/..' . '/authorizenet/authorizenet/lib/net/authorize/api/contract/v1/ARBGetSubscriptionRequest.php',
+        'net\\authorize\\api\\contract\\v1\\ARBGetSubscriptionResponse' => __DIR__ . '/..' . '/authorizenet/authorizenet/lib/net/authorize/api/contract/v1/ARBGetSubscriptionResponse.php',
         'net\\authorize\\api\\contract\\v1\\ARBGetSubscriptionStatusRequest' => __DIR__ . '/..' . '/authorizenet/authorizenet/lib/net/authorize/api/contract/v1/ARBGetSubscriptionStatusRequest.php',
         'net\\authorize\\api\\contract\\v1\\ARBGetSubscriptionStatusResponse' => __DIR__ . '/..' . '/authorizenet/authorizenet/lib/net/authorize/api/contract/v1/ARBGetSubscriptionStatusResponse.php',
+        'net\\authorize\\api\\contract\\v1\\ARBSubscriptionMaskedType' => __DIR__ . '/..' . '/authorizenet/authorizenet/lib/net/authorize/api/contract/v1/ARBSubscriptionMaskedType.php',
         'net\\authorize\\api\\contract\\v1\\ARBSubscriptionType' => __DIR__ . '/..' . '/authorizenet/authorizenet/lib/net/authorize/api/contract/v1/ARBSubscriptionType.php',
         'net\\authorize\\api\\contract\\v1\\ARBUpdateSubscriptionRequest' => __DIR__ . '/..' . '/authorizenet/authorizenet/lib/net/authorize/api/contract/v1/ARBUpdateSubscriptionRequest.php',
         'net\\authorize\\api\\contract\\v1\\ARBUpdateSubscriptionResponse' => __DIR__ . '/..' . '/authorizenet/authorizenet/lib/net/authorize/api/contract/v1/ARBUpdateSubscriptionResponse.php',
+        'net\\authorize\\api\\contract\\v1\\ArbTransactionType' => __DIR__ . '/..' . '/authorizenet/authorizenet/lib/net/authorize/api/contract/v1/ArbTransactionType.php',
         'net\\authorize\\api\\contract\\v1\\ArrayOfSettingType' => __DIR__ . '/..' . '/authorizenet/authorizenet/lib/net/authorize/api/contract/v1/ArrayOfSettingType.php',
+        'net\\authorize\\api\\contract\\v1\\AuDeleteType' => __DIR__ . '/..' . '/authorizenet/authorizenet/lib/net/authorize/api/contract/v1/AuDeleteType.php',
+        'net\\authorize\\api\\contract\\v1\\AuDetailsType' => __DIR__ . '/..' . '/authorizenet/authorizenet/lib/net/authorize/api/contract/v1/AuDetailsType.php',
+        'net\\authorize\\api\\contract\\v1\\AuResponseType' => __DIR__ . '/..' . '/authorizenet/authorizenet/lib/net/authorize/api/contract/v1/AuResponseType.php',
+        'net\\authorize\\api\\contract\\v1\\AuUpdateType' => __DIR__ . '/..' . '/authorizenet/authorizenet/lib/net/authorize/api/contract/v1/AuUpdateType.php',
         'net\\authorize\\api\\contract\\v1\\AuthenticateTestRequest' => __DIR__ . '/..' . '/authorizenet/authorizenet/lib/net/authorize/api/contract/v1/AuthenticateTestRequest.php',
         'net\\authorize\\api\\contract\\v1\\AuthenticateTestResponse' => __DIR__ . '/..' . '/authorizenet/authorizenet/lib/net/authorize/api/contract/v1/AuthenticateTestResponse.php',
         'net\\authorize\\api\\contract\\v1\\BankAccountMaskedType' => __DIR__ . '/..' . '/authorizenet/authorizenet/lib/net/authorize/api/contract/v1/BankAccountMaskedType.php',
         'net\\authorize\\api\\contract\\v1\\BankAccountType' => __DIR__ . '/..' . '/authorizenet/authorizenet/lib/net/authorize/api/contract/v1/BankAccountType.php',
         'net\\authorize\\api\\contract\\v1\\BatchDetailsType' => __DIR__ . '/..' . '/authorizenet/authorizenet/lib/net/authorize/api/contract/v1/BatchDetailsType.php',
         'net\\authorize\\api\\contract\\v1\\BatchStatisticType' => __DIR__ . '/..' . '/authorizenet/authorizenet/lib/net/authorize/api/contract/v1/BatchStatisticType.php',
+        'net\\authorize\\api\\contract\\v1\\CardArtType' => __DIR__ . '/..' . '/authorizenet/authorizenet/lib/net/authorize/api/contract/v1/CardArtType.php',
         'net\\authorize\\api\\contract\\v1\\CcAuthenticationType' => __DIR__ . '/..' . '/authorizenet/authorizenet/lib/net/authorize/api/contract/v1/CcAuthenticationType.php',
         'net\\authorize\\api\\contract\\v1\\CreateCustomerPaymentProfileRequest' => __DIR__ . '/..' . '/authorizenet/authorizenet/lib/net/authorize/api/contract/v1/CreateCustomerPaymentProfileRequest.php',
         'net\\authorize\\api\\contract\\v1\\CreateCustomerPaymentProfileResponse' => __DIR__ . '/..' . '/authorizenet/authorizenet/lib/net/authorize/api/contract/v1/CreateCustomerPaymentProfileResponse.php',
@@ -1075,8 +1164,6 @@ class ComposerStaticInita864c481a4c3760e132aaf15a80c6e4b
         'net\\authorize\\api\\contract\\v1\\CreateCustomerProfileTransactionResponse' => __DIR__ . '/..' . '/authorizenet/authorizenet/lib/net/authorize/api/contract/v1/CreateCustomerProfileTransactionResponse.php',
         'net\\authorize\\api\\contract\\v1\\CreateCustomerShippingAddressRequest' => __DIR__ . '/..' . '/authorizenet/authorizenet/lib/net/authorize/api/contract/v1/CreateCustomerShippingAddressRequest.php',
         'net\\authorize\\api\\contract\\v1\\CreateCustomerShippingAddressResponse' => __DIR__ . '/..' . '/authorizenet/authorizenet/lib/net/authorize/api/contract/v1/CreateCustomerShippingAddressResponse.php',
-        'net\\authorize\\api\\contract\\v1\\CreateFingerPrintRequest' => __DIR__ . '/..' . '/authorizenet/authorizenet/lib/net/authorize/api/contract/v1/CreateFingerPrintRequest.php',
-        'net\\authorize\\api\\contract\\v1\\CreateFingerPrintResponse' => __DIR__ . '/..' . '/authorizenet/authorizenet/lib/net/authorize/api/contract/v1/CreateFingerPrintResponse.php',
         'net\\authorize\\api\\contract\\v1\\CreateProfileResponseType' => __DIR__ . '/..' . '/authorizenet/authorizenet/lib/net/authorize/api/contract/v1/CreateProfileResponseType.php',
         'net\\authorize\\api\\contract\\v1\\CreateTransactionRequest' => __DIR__ . '/..' . '/authorizenet/authorizenet/lib/net/authorize/api/contract/v1/CreateTransactionRequest.php',
         'net\\authorize\\api\\contract\\v1\\CreateTransactionResponse' => __DIR__ . '/..' . '/authorizenet/authorizenet/lib/net/authorize/api/contract/v1/CreateTransactionResponse.php',
@@ -1089,15 +1176,21 @@ class ComposerStaticInita864c481a4c3760e132aaf15a80c6e4b
         'net\\authorize\\api\\contract\\v1\\CustomerDataType' => __DIR__ . '/..' . '/authorizenet/authorizenet/lib/net/authorize/api/contract/v1/CustomerDataType.php',
         'net\\authorize\\api\\contract\\v1\\CustomerPaymentProfileBaseType' => __DIR__ . '/..' . '/authorizenet/authorizenet/lib/net/authorize/api/contract/v1/CustomerPaymentProfileBaseType.php',
         'net\\authorize\\api\\contract\\v1\\CustomerPaymentProfileExType' => __DIR__ . '/..' . '/authorizenet/authorizenet/lib/net/authorize/api/contract/v1/CustomerPaymentProfileExType.php',
+        'net\\authorize\\api\\contract\\v1\\CustomerPaymentProfileListItemType' => __DIR__ . '/..' . '/authorizenet/authorizenet/lib/net/authorize/api/contract/v1/CustomerPaymentProfileListItemType.php',
         'net\\authorize\\api\\contract\\v1\\CustomerPaymentProfileMaskedType' => __DIR__ . '/..' . '/authorizenet/authorizenet/lib/net/authorize/api/contract/v1/CustomerPaymentProfileMaskedType.php',
+        'net\\authorize\\api\\contract\\v1\\CustomerPaymentProfileSortingType' => __DIR__ . '/..' . '/authorizenet/authorizenet/lib/net/authorize/api/contract/v1/CustomerPaymentProfileSortingType.php',
         'net\\authorize\\api\\contract\\v1\\CustomerPaymentProfileType' => __DIR__ . '/..' . '/authorizenet/authorizenet/lib/net/authorize/api/contract/v1/CustomerPaymentProfileType.php',
         'net\\authorize\\api\\contract\\v1\\CustomerProfileBaseType' => __DIR__ . '/..' . '/authorizenet/authorizenet/lib/net/authorize/api/contract/v1/CustomerProfileBaseType.php',
         'net\\authorize\\api\\contract\\v1\\CustomerProfileExType' => __DIR__ . '/..' . '/authorizenet/authorizenet/lib/net/authorize/api/contract/v1/CustomerProfileExType.php',
+        'net\\authorize\\api\\contract\\v1\\CustomerProfileIdType' => __DIR__ . '/..' . '/authorizenet/authorizenet/lib/net/authorize/api/contract/v1/CustomerProfileIdType.php',
+        'net\\authorize\\api\\contract\\v1\\CustomerProfileInfoExType' => __DIR__ . '/..' . '/authorizenet/authorizenet/lib/net/authorize/api/contract/v1/CustomerProfileInfoExType.php',
         'net\\authorize\\api\\contract\\v1\\CustomerProfileMaskedType' => __DIR__ . '/..' . '/authorizenet/authorizenet/lib/net/authorize/api/contract/v1/CustomerProfileMaskedType.php',
         'net\\authorize\\api\\contract\\v1\\CustomerProfilePaymentType' => __DIR__ . '/..' . '/authorizenet/authorizenet/lib/net/authorize/api/contract/v1/CustomerProfilePaymentType.php',
         'net\\authorize\\api\\contract\\v1\\CustomerProfileSummaryType' => __DIR__ . '/..' . '/authorizenet/authorizenet/lib/net/authorize/api/contract/v1/CustomerProfileSummaryType.php',
         'net\\authorize\\api\\contract\\v1\\CustomerProfileType' => __DIR__ . '/..' . '/authorizenet/authorizenet/lib/net/authorize/api/contract/v1/CustomerProfileType.php',
         'net\\authorize\\api\\contract\\v1\\CustomerType' => __DIR__ . '/..' . '/authorizenet/authorizenet/lib/net/authorize/api/contract/v1/CustomerType.php',
+        'net\\authorize\\api\\contract\\v1\\DecryptPaymentDataRequest' => __DIR__ . '/..' . '/authorizenet/authorizenet/lib/net/authorize/api/contract/v1/DecryptPaymentDataRequest.php',
+        'net\\authorize\\api\\contract\\v1\\DecryptPaymentDataResponse' => __DIR__ . '/..' . '/authorizenet/authorizenet/lib/net/authorize/api/contract/v1/DecryptPaymentDataResponse.php',
         'net\\authorize\\api\\contract\\v1\\DeleteCustomerPaymentProfileRequest' => __DIR__ . '/..' . '/authorizenet/authorizenet/lib/net/authorize/api/contract/v1/DeleteCustomerPaymentProfileRequest.php',
         'net\\authorize\\api\\contract\\v1\\DeleteCustomerPaymentProfileResponse' => __DIR__ . '/..' . '/authorizenet/authorizenet/lib/net/authorize/api/contract/v1/DeleteCustomerPaymentProfileResponse.php',
         'net\\authorize\\api\\contract\\v1\\DeleteCustomerProfileRequest' => __DIR__ . '/..' . '/authorizenet/authorizenet/lib/net/authorize/api/contract/v1/DeleteCustomerProfileRequest.php',
@@ -1107,15 +1200,22 @@ class ComposerStaticInita864c481a4c3760e132aaf15a80c6e4b
         'net\\authorize\\api\\contract\\v1\\DriversLicenseMaskedType' => __DIR__ . '/..' . '/authorizenet/authorizenet/lib/net/authorize/api/contract/v1/DriversLicenseMaskedType.php',
         'net\\authorize\\api\\contract\\v1\\DriversLicenseType' => __DIR__ . '/..' . '/authorizenet/authorizenet/lib/net/authorize/api/contract/v1/DriversLicenseType.php',
         'net\\authorize\\api\\contract\\v1\\EmailSettingsType' => __DIR__ . '/..' . '/authorizenet/authorizenet/lib/net/authorize/api/contract/v1/EmailSettingsType.php',
+        'net\\authorize\\api\\contract\\v1\\EmvTagType' => __DIR__ . '/..' . '/authorizenet/authorizenet/lib/net/authorize/api/contract/v1/EmvTagType.php',
         'net\\authorize\\api\\contract\\v1\\EncryptedTrackDataType' => __DIR__ . '/..' . '/authorizenet/authorizenet/lib/net/authorize/api/contract/v1/EncryptedTrackDataType.php',
         'net\\authorize\\api\\contract\\v1\\EnumCollection' => __DIR__ . '/..' . '/authorizenet/authorizenet/lib/net/authorize/api/contract/v1/EnumCollection.php',
         'net\\authorize\\api\\contract\\v1\\ErrorResponse' => __DIR__ . '/..' . '/authorizenet/authorizenet/lib/net/authorize/api/contract/v1/ErrorResponse.php',
         'net\\authorize\\api\\contract\\v1\\ExtendedAmountType' => __DIR__ . '/..' . '/authorizenet/authorizenet/lib/net/authorize/api/contract/v1/ExtendedAmountType.php',
         'net\\authorize\\api\\contract\\v1\\FDSFilterType' => __DIR__ . '/..' . '/authorizenet/authorizenet/lib/net/authorize/api/contract/v1/FDSFilterType.php',
-        'net\\authorize\\api\\contract\\v1\\FingerPrintSupportInformationType' => __DIR__ . '/..' . '/authorizenet/authorizenet/lib/net/authorize/api/contract/v1/FingerPrintSupportInformationType.php',
         'net\\authorize\\api\\contract\\v1\\FingerPrintType' => __DIR__ . '/..' . '/authorizenet/authorizenet/lib/net/authorize/api/contract/v1/FingerPrintType.php',
+        'net\\authorize\\api\\contract\\v1\\FraudInformationType' => __DIR__ . '/..' . '/authorizenet/authorizenet/lib/net/authorize/api/contract/v1/FraudInformationType.php',
+        'net\\authorize\\api\\contract\\v1\\GetAUJobDetailsRequest' => __DIR__ . '/..' . '/authorizenet/authorizenet/lib/net/authorize/api/contract/v1/GetAUJobDetailsRequest.php',
+        'net\\authorize\\api\\contract\\v1\\GetAUJobDetailsResponse' => __DIR__ . '/..' . '/authorizenet/authorizenet/lib/net/authorize/api/contract/v1/GetAUJobDetailsResponse.php',
+        'net\\authorize\\api\\contract\\v1\\GetAUJobSummaryRequest' => __DIR__ . '/..' . '/authorizenet/authorizenet/lib/net/authorize/api/contract/v1/GetAUJobSummaryRequest.php',
+        'net\\authorize\\api\\contract\\v1\\GetAUJobSummaryResponse' => __DIR__ . '/..' . '/authorizenet/authorizenet/lib/net/authorize/api/contract/v1/GetAUJobSummaryResponse.php',
         'net\\authorize\\api\\contract\\v1\\GetBatchStatisticsRequest' => __DIR__ . '/..' . '/authorizenet/authorizenet/lib/net/authorize/api/contract/v1/GetBatchStatisticsRequest.php',
         'net\\authorize\\api\\contract\\v1\\GetBatchStatisticsResponse' => __DIR__ . '/..' . '/authorizenet/authorizenet/lib/net/authorize/api/contract/v1/GetBatchStatisticsResponse.php',
+        'net\\authorize\\api\\contract\\v1\\GetCustomerPaymentProfileListRequest' => __DIR__ . '/..' . '/authorizenet/authorizenet/lib/net/authorize/api/contract/v1/GetCustomerPaymentProfileListRequest.php',
+        'net\\authorize\\api\\contract\\v1\\GetCustomerPaymentProfileListResponse' => __DIR__ . '/..' . '/authorizenet/authorizenet/lib/net/authorize/api/contract/v1/GetCustomerPaymentProfileListResponse.php',
         'net\\authorize\\api\\contract\\v1\\GetCustomerPaymentProfileRequest' => __DIR__ . '/..' . '/authorizenet/authorizenet/lib/net/authorize/api/contract/v1/GetCustomerPaymentProfileRequest.php',
         'net\\authorize\\api\\contract\\v1\\GetCustomerPaymentProfileResponse' => __DIR__ . '/..' . '/authorizenet/authorizenet/lib/net/authorize/api/contract/v1/GetCustomerPaymentProfileResponse.php',
         'net\\authorize\\api\\contract\\v1\\GetCustomerProfileIdsRequest' => __DIR__ . '/..' . '/authorizenet/authorizenet/lib/net/authorize/api/contract/v1/GetCustomerProfileIdsRequest.php',
@@ -1124,16 +1224,22 @@ class ComposerStaticInita864c481a4c3760e132aaf15a80c6e4b
         'net\\authorize\\api\\contract\\v1\\GetCustomerProfileResponse' => __DIR__ . '/..' . '/authorizenet/authorizenet/lib/net/authorize/api/contract/v1/GetCustomerProfileResponse.php',
         'net\\authorize\\api\\contract\\v1\\GetCustomerShippingAddressRequest' => __DIR__ . '/..' . '/authorizenet/authorizenet/lib/net/authorize/api/contract/v1/GetCustomerShippingAddressRequest.php',
         'net\\authorize\\api\\contract\\v1\\GetCustomerShippingAddressResponse' => __DIR__ . '/..' . '/authorizenet/authorizenet/lib/net/authorize/api/contract/v1/GetCustomerShippingAddressResponse.php',
+        'net\\authorize\\api\\contract\\v1\\GetHostedPaymentPageRequest' => __DIR__ . '/..' . '/authorizenet/authorizenet/lib/net/authorize/api/contract/v1/GetHostedPaymentPageRequest.php',
+        'net\\authorize\\api\\contract\\v1\\GetHostedPaymentPageResponse' => __DIR__ . '/..' . '/authorizenet/authorizenet/lib/net/authorize/api/contract/v1/GetHostedPaymentPageResponse.php',
         'net\\authorize\\api\\contract\\v1\\GetHostedProfilePageRequest' => __DIR__ . '/..' . '/authorizenet/authorizenet/lib/net/authorize/api/contract/v1/GetHostedProfilePageRequest.php',
         'net\\authorize\\api\\contract\\v1\\GetHostedProfilePageResponse' => __DIR__ . '/..' . '/authorizenet/authorizenet/lib/net/authorize/api/contract/v1/GetHostedProfilePageResponse.php',
+        'net\\authorize\\api\\contract\\v1\\GetMerchantDetailsRequest' => __DIR__ . '/..' . '/authorizenet/authorizenet/lib/net/authorize/api/contract/v1/GetMerchantDetailsRequest.php',
+        'net\\authorize\\api\\contract\\v1\\GetMerchantDetailsResponse' => __DIR__ . '/..' . '/authorizenet/authorizenet/lib/net/authorize/api/contract/v1/GetMerchantDetailsResponse.php',
         'net\\authorize\\api\\contract\\v1\\GetSettledBatchListRequest' => __DIR__ . '/..' . '/authorizenet/authorizenet/lib/net/authorize/api/contract/v1/GetSettledBatchListRequest.php',
         'net\\authorize\\api\\contract\\v1\\GetSettledBatchListResponse' => __DIR__ . '/..' . '/authorizenet/authorizenet/lib/net/authorize/api/contract/v1/GetSettledBatchListResponse.php',
         'net\\authorize\\api\\contract\\v1\\GetTransactionDetailsRequest' => __DIR__ . '/..' . '/authorizenet/authorizenet/lib/net/authorize/api/contract/v1/GetTransactionDetailsRequest.php',
         'net\\authorize\\api\\contract\\v1\\GetTransactionDetailsResponse' => __DIR__ . '/..' . '/authorizenet/authorizenet/lib/net/authorize/api/contract/v1/GetTransactionDetailsResponse.php',
+        'net\\authorize\\api\\contract\\v1\\GetTransactionListForCustomerRequest' => __DIR__ . '/..' . '/authorizenet/authorizenet/lib/net/authorize/api/contract/v1/GetTransactionListForCustomerRequest.php',
         'net\\authorize\\api\\contract\\v1\\GetTransactionListRequest' => __DIR__ . '/..' . '/authorizenet/authorizenet/lib/net/authorize/api/contract/v1/GetTransactionListRequest.php',
         'net\\authorize\\api\\contract\\v1\\GetTransactionListResponse' => __DIR__ . '/..' . '/authorizenet/authorizenet/lib/net/authorize/api/contract/v1/GetTransactionListResponse.php',
         'net\\authorize\\api\\contract\\v1\\GetUnsettledTransactionListRequest' => __DIR__ . '/..' . '/authorizenet/authorizenet/lib/net/authorize/api/contract/v1/GetUnsettledTransactionListRequest.php',
         'net\\authorize\\api\\contract\\v1\\GetUnsettledTransactionListResponse' => __DIR__ . '/..' . '/authorizenet/authorizenet/lib/net/authorize/api/contract/v1/GetUnsettledTransactionListResponse.php',
+        'net\\authorize\\api\\contract\\v1\\HeldTransactionRequestType' => __DIR__ . '/..' . '/authorizenet/authorizenet/lib/net/authorize/api/contract/v1/HeldTransactionRequestType.php',
         'net\\authorize\\api\\contract\\v1\\ImpersonationAuthenticationType' => __DIR__ . '/..' . '/authorizenet/authorizenet/lib/net/authorize/api/contract/v1/ImpersonationAuthenticationType.php',
         'net\\authorize\\api\\contract\\v1\\IsAliveRequest' => __DIR__ . '/..' . '/authorizenet/authorizenet/lib/net/authorize/api/contract/v1/IsAliveRequest.php',
         'net\\authorize\\api\\contract\\v1\\IsAliveResponse' => __DIR__ . '/..' . '/authorizenet/authorizenet/lib/net/authorize/api/contract/v1/IsAliveResponse.php',
@@ -1145,6 +1251,7 @@ class ComposerStaticInita864c481a4c3760e132aaf15a80c6e4b
         'net\\authorize\\api\\contract\\v1\\KeyManagementSchemeType\\DUKPTAType\\ModeAType' => __DIR__ . '/..' . '/authorizenet/authorizenet/lib/net/authorize/api/contract/v1/KeyManagementSchemeType/DUKPTAType/ModeAType.php',
         'net\\authorize\\api\\contract\\v1\\KeyValueType' => __DIR__ . '/..' . '/authorizenet/authorizenet/lib/net/authorize/api/contract/v1/KeyValueType.php',
         'net\\authorize\\api\\contract\\v1\\LineItemType' => __DIR__ . '/..' . '/authorizenet/authorizenet/lib/net/authorize/api/contract/v1/LineItemType.php',
+        'net\\authorize\\api\\contract\\v1\\ListOfAUDetailsType' => __DIR__ . '/..' . '/authorizenet/authorizenet/lib/net/authorize/api/contract/v1/ListOfAUDetailsType.php',
         'net\\authorize\\api\\contract\\v1\\LogoutRequest' => __DIR__ . '/..' . '/authorizenet/authorizenet/lib/net/authorize/api/contract/v1/LogoutRequest.php',
         'net\\authorize\\api\\contract\\v1\\LogoutResponse' => __DIR__ . '/..' . '/authorizenet/authorizenet/lib/net/authorize/api/contract/v1/LogoutResponse.php',
         'net\\authorize\\api\\contract\\v1\\MerchantAuthenticationType' => __DIR__ . '/..' . '/authorizenet/authorizenet/lib/net/authorize/api/contract/v1/MerchantAuthenticationType.php',
@@ -1162,6 +1269,8 @@ class ComposerStaticInita864c481a4c3760e132aaf15a80c6e4b
         'net\\authorize\\api\\contract\\v1\\OrderType' => __DIR__ . '/..' . '/authorizenet/authorizenet/lib/net/authorize/api/contract/v1/OrderType.php',
         'net\\authorize\\api\\contract\\v1\\PagingType' => __DIR__ . '/..' . '/authorizenet/authorizenet/lib/net/authorize/api/contract/v1/PagingType.php',
         'net\\authorize\\api\\contract\\v1\\PayPalType' => __DIR__ . '/..' . '/authorizenet/authorizenet/lib/net/authorize/api/contract/v1/PayPalType.php',
+        'net\\authorize\\api\\contract\\v1\\PaymentDetailsType' => __DIR__ . '/..' . '/authorizenet/authorizenet/lib/net/authorize/api/contract/v1/PaymentDetailsType.php',
+        'net\\authorize\\api\\contract\\v1\\PaymentEmvType' => __DIR__ . '/..' . '/authorizenet/authorizenet/lib/net/authorize/api/contract/v1/PaymentEmvType.php',
         'net\\authorize\\api\\contract\\v1\\PaymentMaskedType' => __DIR__ . '/..' . '/authorizenet/authorizenet/lib/net/authorize/api/contract/v1/PaymentMaskedType.php',
         'net\\authorize\\api\\contract\\v1\\PaymentProfileType' => __DIR__ . '/..' . '/authorizenet/authorizenet/lib/net/authorize/api/contract/v1/PaymentProfileType.php',
         'net\\authorize\\api\\contract\\v1\\PaymentScheduleType' => __DIR__ . '/..' . '/authorizenet/authorizenet/lib/net/authorize/api/contract/v1/PaymentScheduleType.php',
@@ -1169,6 +1278,7 @@ class ComposerStaticInita864c481a4c3760e132aaf15a80c6e4b
         'net\\authorize\\api\\contract\\v1\\PaymentSimpleType' => __DIR__ . '/..' . '/authorizenet/authorizenet/lib/net/authorize/api/contract/v1/PaymentSimpleType.php',
         'net\\authorize\\api\\contract\\v1\\PaymentType' => __DIR__ . '/..' . '/authorizenet/authorizenet/lib/net/authorize/api/contract/v1/PaymentType.php',
         'net\\authorize\\api\\contract\\v1\\PermissionType' => __DIR__ . '/..' . '/authorizenet/authorizenet/lib/net/authorize/api/contract/v1/PermissionType.php',
+        'net\\authorize\\api\\contract\\v1\\ProcessorType' => __DIR__ . '/..' . '/authorizenet/authorizenet/lib/net/authorize/api/contract/v1/ProcessorType.php',
         'net\\authorize\\api\\contract\\v1\\ProfileTransAmountType' => __DIR__ . '/..' . '/authorizenet/authorizenet/lib/net/authorize/api/contract/v1/ProfileTransAmountType.php',
         'net\\authorize\\api\\contract\\v1\\ProfileTransAuthCaptureType' => __DIR__ . '/..' . '/authorizenet/authorizenet/lib/net/authorize/api/contract/v1/ProfileTransAuthCaptureType.php',
         'net\\authorize\\api\\contract\\v1\\ProfileTransAuthOnlyType' => __DIR__ . '/..' . '/authorizenet/authorizenet/lib/net/authorize/api/contract/v1/ProfileTransAuthOnlyType.php',
@@ -1179,19 +1289,28 @@ class ComposerStaticInita864c481a4c3760e132aaf15a80c6e4b
         'net\\authorize\\api\\contract\\v1\\ProfileTransVoidType' => __DIR__ . '/..' . '/authorizenet/authorizenet/lib/net/authorize/api/contract/v1/ProfileTransVoidType.php',
         'net\\authorize\\api\\contract\\v1\\ProfileTransactionType' => __DIR__ . '/..' . '/authorizenet/authorizenet/lib/net/authorize/api/contract/v1/ProfileTransactionType.php',
         'net\\authorize\\api\\contract\\v1\\ReturnedItemType' => __DIR__ . '/..' . '/authorizenet/authorizenet/lib/net/authorize/api/contract/v1/ReturnedItemType.php',
-        'net\\authorize\\api\\contract\\v1\\SearchCriteriaCustomerProfileType' => __DIR__ . '/..' . '/authorizenet/authorizenet/lib/net/authorize/api/contract/v1/SearchCriteriaCustomerProfileType.php',
+        'net\\authorize\\api\\contract\\v1\\SecurePaymentContainerErrorType' => __DIR__ . '/..' . '/authorizenet/authorizenet/lib/net/authorize/api/contract/v1/SecurePaymentContainerErrorType.php',
+        'net\\authorize\\api\\contract\\v1\\SecurePaymentContainerRequest' => __DIR__ . '/..' . '/authorizenet/authorizenet/lib/net/authorize/api/contract/v1/SecurePaymentContainerRequest.php',
+        'net\\authorize\\api\\contract\\v1\\SecurePaymentContainerResponse' => __DIR__ . '/..' . '/authorizenet/authorizenet/lib/net/authorize/api/contract/v1/SecurePaymentContainerResponse.php',
         'net\\authorize\\api\\contract\\v1\\SendCustomerTransactionReceiptRequest' => __DIR__ . '/..' . '/authorizenet/authorizenet/lib/net/authorize/api/contract/v1/SendCustomerTransactionReceiptRequest.php',
         'net\\authorize\\api\\contract\\v1\\SendCustomerTransactionReceiptResponse' => __DIR__ . '/..' . '/authorizenet/authorizenet/lib/net/authorize/api/contract/v1/SendCustomerTransactionReceiptResponse.php',
         'net\\authorize\\api\\contract\\v1\\SettingType' => __DIR__ . '/..' . '/authorizenet/authorizenet/lib/net/authorize/api/contract/v1/SettingType.php',
         'net\\authorize\\api\\contract\\v1\\SolutionType' => __DIR__ . '/..' . '/authorizenet/authorizenet/lib/net/authorize/api/contract/v1/SolutionType.php',
+        'net\\authorize\\api\\contract\\v1\\SubMerchantType' => __DIR__ . '/..' . '/authorizenet/authorizenet/lib/net/authorize/api/contract/v1/SubMerchantType.php',
+        'net\\authorize\\api\\contract\\v1\\SubscriptionCustomerProfileType' => __DIR__ . '/..' . '/authorizenet/authorizenet/lib/net/authorize/api/contract/v1/SubscriptionCustomerProfileType.php',
         'net\\authorize\\api\\contract\\v1\\SubscriptionDetailType' => __DIR__ . '/..' . '/authorizenet/authorizenet/lib/net/authorize/api/contract/v1/SubscriptionDetailType.php',
         'net\\authorize\\api\\contract\\v1\\SubscriptionPaymentType' => __DIR__ . '/..' . '/authorizenet/authorizenet/lib/net/authorize/api/contract/v1/SubscriptionPaymentType.php',
         'net\\authorize\\api\\contract\\v1\\TokenMaskedType' => __DIR__ . '/..' . '/authorizenet/authorizenet/lib/net/authorize/api/contract/v1/TokenMaskedType.php',
         'net\\authorize\\api\\contract\\v1\\TransRetailInfoType' => __DIR__ . '/..' . '/authorizenet/authorizenet/lib/net/authorize/api/contract/v1/TransRetailInfoType.php',
         'net\\authorize\\api\\contract\\v1\\TransactionDetailsType' => __DIR__ . '/..' . '/authorizenet/authorizenet/lib/net/authorize/api/contract/v1/TransactionDetailsType.php',
+        'net\\authorize\\api\\contract\\v1\\TransactionDetailsType\\EmvDetailsAType' => __DIR__ . '/..' . '/authorizenet/authorizenet/lib/net/authorize/api/contract/v1/TransactionDetailsType/EmvDetailsAType.php',
+        'net\\authorize\\api\\contract\\v1\\TransactionDetailsType\\EmvDetailsAType\\TagAType' => __DIR__ . '/..' . '/authorizenet/authorizenet/lib/net/authorize/api/contract/v1/TransactionDetailsType/EmvDetailsAType/TagAType.php',
+        'net\\authorize\\api\\contract\\v1\\TransactionListSortingType' => __DIR__ . '/..' . '/authorizenet/authorizenet/lib/net/authorize/api/contract/v1/TransactionListSortingType.php',
         'net\\authorize\\api\\contract\\v1\\TransactionRequestType' => __DIR__ . '/..' . '/authorizenet/authorizenet/lib/net/authorize/api/contract/v1/TransactionRequestType.php',
         'net\\authorize\\api\\contract\\v1\\TransactionRequestType\\UserFieldsAType' => __DIR__ . '/..' . '/authorizenet/authorizenet/lib/net/authorize/api/contract/v1/TransactionRequestType/UserFieldsAType.php',
         'net\\authorize\\api\\contract\\v1\\TransactionResponseType' => __DIR__ . '/..' . '/authorizenet/authorizenet/lib/net/authorize/api/contract/v1/TransactionResponseType.php',
+        'net\\authorize\\api\\contract\\v1\\TransactionResponseType\\EmvResponseAType' => __DIR__ . '/..' . '/authorizenet/authorizenet/lib/net/authorize/api/contract/v1/TransactionResponseType/EmvResponseAType.php',
+        'net\\authorize\\api\\contract\\v1\\TransactionResponseType\\EmvResponseAType\\TagsAType' => __DIR__ . '/..' . '/authorizenet/authorizenet/lib/net/authorize/api/contract/v1/TransactionResponseType/EmvResponseAType/TagsAType.php',
         'net\\authorize\\api\\contract\\v1\\TransactionResponseType\\ErrorsAType' => __DIR__ . '/..' . '/authorizenet/authorizenet/lib/net/authorize/api/contract/v1/TransactionResponseType/ErrorsAType.php',
         'net\\authorize\\api\\contract\\v1\\TransactionResponseType\\ErrorsAType\\ErrorAType' => __DIR__ . '/..' . '/authorizenet/authorizenet/lib/net/authorize/api/contract/v1/TransactionResponseType/ErrorsAType/ErrorAType.php',
         'net\\authorize\\api\\contract\\v1\\TransactionResponseType\\MessagesAType' => __DIR__ . '/..' . '/authorizenet/authorizenet/lib/net/authorize/api/contract/v1/TransactionResponseType/MessagesAType.php',
@@ -1208,13 +1327,17 @@ class ComposerStaticInita864c481a4c3760e132aaf15a80c6e4b
         'net\\authorize\\api\\contract\\v1\\UpdateCustomerProfileResponse' => __DIR__ . '/..' . '/authorizenet/authorizenet/lib/net/authorize/api/contract/v1/UpdateCustomerProfileResponse.php',
         'net\\authorize\\api\\contract\\v1\\UpdateCustomerShippingAddressRequest' => __DIR__ . '/..' . '/authorizenet/authorizenet/lib/net/authorize/api/contract/v1/UpdateCustomerShippingAddressRequest.php',
         'net\\authorize\\api\\contract\\v1\\UpdateCustomerShippingAddressResponse' => __DIR__ . '/..' . '/authorizenet/authorizenet/lib/net/authorize/api/contract/v1/UpdateCustomerShippingAddressResponse.php',
+        'net\\authorize\\api\\contract\\v1\\UpdateHeldTransactionRequest' => __DIR__ . '/..' . '/authorizenet/authorizenet/lib/net/authorize/api/contract/v1/UpdateHeldTransactionRequest.php',
+        'net\\authorize\\api\\contract\\v1\\UpdateHeldTransactionResponse' => __DIR__ . '/..' . '/authorizenet/authorizenet/lib/net/authorize/api/contract/v1/UpdateHeldTransactionResponse.php',
         'net\\authorize\\api\\contract\\v1\\UpdateSplitTenderGroupRequest' => __DIR__ . '/..' . '/authorizenet/authorizenet/lib/net/authorize/api/contract/v1/UpdateSplitTenderGroupRequest.php',
         'net\\authorize\\api\\contract\\v1\\UpdateSplitTenderGroupResponse' => __DIR__ . '/..' . '/authorizenet/authorizenet/lib/net/authorize/api/contract/v1/UpdateSplitTenderGroupResponse.php',
         'net\\authorize\\api\\contract\\v1\\UserFieldType' => __DIR__ . '/..' . '/authorizenet/authorizenet/lib/net/authorize/api/contract/v1/UserFieldType.php',
         'net\\authorize\\api\\contract\\v1\\ValidateCustomerPaymentProfileRequest' => __DIR__ . '/..' . '/authorizenet/authorizenet/lib/net/authorize/api/contract/v1/ValidateCustomerPaymentProfileRequest.php',
         'net\\authorize\\api\\contract\\v1\\ValidateCustomerPaymentProfileResponse' => __DIR__ . '/..' . '/authorizenet/authorizenet/lib/net/authorize/api/contract/v1/ValidateCustomerPaymentProfileResponse.php',
+        'net\\authorize\\api\\contract\\v1\\WebCheckOutDataType' => __DIR__ . '/..' . '/authorizenet/authorizenet/lib/net/authorize/api/contract/v1/WebCheckOutDataType.php',
         'net\\authorize\\api\\controller\\ARBCancelSubscriptionController' => __DIR__ . '/..' . '/authorizenet/authorizenet/lib/net/authorize/api/controller/ARBCancelSubscriptionController.php',
         'net\\authorize\\api\\controller\\ARBCreateSubscriptionController' => __DIR__ . '/..' . '/authorizenet/authorizenet/lib/net/authorize/api/controller/ARBCreateSubscriptionController.php',
+        'net\\authorize\\api\\controller\\ARBGetSubscriptionController' => __DIR__ . '/..' . '/authorizenet/authorizenet/lib/net/authorize/api/controller/ARBGetSubscriptionController.php',
         'net\\authorize\\api\\controller\\ARBGetSubscriptionListController' => __DIR__ . '/..' . '/authorizenet/authorizenet/lib/net/authorize/api/controller/ARBGetSubscriptionListController.php',
         'net\\authorize\\api\\controller\\ARBGetSubscriptionStatusController' => __DIR__ . '/..' . '/authorizenet/authorizenet/lib/net/authorize/api/controller/ARBGetSubscriptionStatusController.php',
         'net\\authorize\\api\\controller\\ARBUpdateSubscriptionController' => __DIR__ . '/..' . '/authorizenet/authorizenet/lib/net/authorize/api/controller/ARBUpdateSubscriptionController.php',
@@ -1224,34 +1347,48 @@ class ComposerStaticInita864c481a4c3760e132aaf15a80c6e4b
         'net\\authorize\\api\\controller\\CreateCustomerProfileFromTransactionController' => __DIR__ . '/..' . '/authorizenet/authorizenet/lib/net/authorize/api/controller/CreateCustomerProfileFromTransactionController.php',
         'net\\authorize\\api\\controller\\CreateCustomerProfileTransactionController' => __DIR__ . '/..' . '/authorizenet/authorizenet/lib/net/authorize/api/controller/CreateCustomerProfileTransactionController.php',
         'net\\authorize\\api\\controller\\CreateCustomerShippingAddressController' => __DIR__ . '/..' . '/authorizenet/authorizenet/lib/net/authorize/api/controller/CreateCustomerShippingAddressController.php',
-        'net\\authorize\\api\\controller\\CreateFingerPrintController' => __DIR__ . '/..' . '/authorizenet/authorizenet/lib/net/authorize/api/controller/CreateFingerPrintController.php',
         'net\\authorize\\api\\controller\\CreateTransactionController' => __DIR__ . '/..' . '/authorizenet/authorizenet/lib/net/authorize/api/controller/CreateTransactionController.php',
+        'net\\authorize\\api\\controller\\DecryptPaymentDataController' => __DIR__ . '/..' . '/authorizenet/authorizenet/lib/net/authorize/api/controller/DecryptPaymentDataController.php',
         'net\\authorize\\api\\controller\\DeleteCustomerPaymentProfileController' => __DIR__ . '/..' . '/authorizenet/authorizenet/lib/net/authorize/api/controller/DeleteCustomerPaymentProfileController.php',
         'net\\authorize\\api\\controller\\DeleteCustomerProfileController' => __DIR__ . '/..' . '/authorizenet/authorizenet/lib/net/authorize/api/controller/DeleteCustomerProfileController.php',
         'net\\authorize\\api\\controller\\DeleteCustomerShippingAddressController' => __DIR__ . '/..' . '/authorizenet/authorizenet/lib/net/authorize/api/controller/DeleteCustomerShippingAddressController.php',
+        'net\\authorize\\api\\controller\\GetAUJobDetailsController' => __DIR__ . '/..' . '/authorizenet/authorizenet/lib/net/authorize/api/controller/GetAUJobDetailsController.php',
+        'net\\authorize\\api\\controller\\GetAUJobSummaryController' => __DIR__ . '/..' . '/authorizenet/authorizenet/lib/net/authorize/api/controller/GetAUJobSummaryController.php',
         'net\\authorize\\api\\controller\\GetBatchStatisticsController' => __DIR__ . '/..' . '/authorizenet/authorizenet/lib/net/authorize/api/controller/GetBatchStatisticsController.php',
         'net\\authorize\\api\\controller\\GetCustomerPaymentProfileController' => __DIR__ . '/..' . '/authorizenet/authorizenet/lib/net/authorize/api/controller/GetCustomerPaymentProfileController.php',
+        'net\\authorize\\api\\controller\\GetCustomerPaymentProfileListController' => __DIR__ . '/..' . '/authorizenet/authorizenet/lib/net/authorize/api/controller/GetCustomerPaymentProfileListController.php',
         'net\\authorize\\api\\controller\\GetCustomerProfileController' => __DIR__ . '/..' . '/authorizenet/authorizenet/lib/net/authorize/api/controller/GetCustomerProfileController.php',
         'net\\authorize\\api\\controller\\GetCustomerProfileIdsController' => __DIR__ . '/..' . '/authorizenet/authorizenet/lib/net/authorize/api/controller/GetCustomerProfileIdsController.php',
         'net\\authorize\\api\\controller\\GetCustomerShippingAddressController' => __DIR__ . '/..' . '/authorizenet/authorizenet/lib/net/authorize/api/controller/GetCustomerShippingAddressController.php',
+        'net\\authorize\\api\\controller\\GetHostedPaymentPageController' => __DIR__ . '/..' . '/authorizenet/authorizenet/lib/net/authorize/api/controller/GetHostedPaymentPageController.php',
         'net\\authorize\\api\\controller\\GetHostedProfilePageController' => __DIR__ . '/..' . '/authorizenet/authorizenet/lib/net/authorize/api/controller/GetHostedProfilePageController.php',
+        'net\\authorize\\api\\controller\\GetMerchantDetailsController' => __DIR__ . '/..' . '/authorizenet/authorizenet/lib/net/authorize/api/controller/GetMerchantDetailsController.php',
         'net\\authorize\\api\\controller\\GetSettledBatchListController' => __DIR__ . '/..' . '/authorizenet/authorizenet/lib/net/authorize/api/controller/GetSettledBatchListController.php',
         'net\\authorize\\api\\controller\\GetTransactionDetailsController' => __DIR__ . '/..' . '/authorizenet/authorizenet/lib/net/authorize/api/controller/GetTransactionDetailsController.php',
         'net\\authorize\\api\\controller\\GetTransactionListController' => __DIR__ . '/..' . '/authorizenet/authorizenet/lib/net/authorize/api/controller/GetTransactionListController.php',
+        'net\\authorize\\api\\controller\\GetTransactionListForCustomerController' => __DIR__ . '/..' . '/authorizenet/authorizenet/lib/net/authorize/api/controller/GetTransactionListForCustomerController.php',
         'net\\authorize\\api\\controller\\GetUnsettledTransactionListController' => __DIR__ . '/..' . '/authorizenet/authorizenet/lib/net/authorize/api/controller/GetUnsettledTransactionListController.php',
         'net\\authorize\\api\\controller\\IsAliveController' => __DIR__ . '/..' . '/authorizenet/authorizenet/lib/net/authorize/api/controller/IsAliveController.php',
         'net\\authorize\\api\\controller\\LogoutController' => __DIR__ . '/..' . '/authorizenet/authorizenet/lib/net/authorize/api/controller/LogoutController.php',
         'net\\authorize\\api\\controller\\MobileDeviceLoginController' => __DIR__ . '/..' . '/authorizenet/authorizenet/lib/net/authorize/api/controller/MobileDeviceLoginController.php',
         'net\\authorize\\api\\controller\\MobileDeviceRegistrationController' => __DIR__ . '/..' . '/authorizenet/authorizenet/lib/net/authorize/api/controller/MobileDeviceRegistrationController.php',
+        'net\\authorize\\api\\controller\\SecurePaymentContainerController' => __DIR__ . '/..' . '/authorizenet/authorizenet/lib/net/authorize/api/controller/SecurePaymentContainerController.php',
         'net\\authorize\\api\\controller\\SendCustomerTransactionReceiptController' => __DIR__ . '/..' . '/authorizenet/authorizenet/lib/net/authorize/api/controller/SendCustomerTransactionReceiptController.php',
         'net\\authorize\\api\\controller\\UpdateCustomerPaymentProfileController' => __DIR__ . '/..' . '/authorizenet/authorizenet/lib/net/authorize/api/controller/UpdateCustomerPaymentProfileController.php',
         'net\\authorize\\api\\controller\\UpdateCustomerProfileController' => __DIR__ . '/..' . '/authorizenet/authorizenet/lib/net/authorize/api/controller/UpdateCustomerProfileController.php',
         'net\\authorize\\api\\controller\\UpdateCustomerShippingAddressController' => __DIR__ . '/..' . '/authorizenet/authorizenet/lib/net/authorize/api/controller/UpdateCustomerShippingAddressController.php',
+        'net\\authorize\\api\\controller\\UpdateHeldTransactionController' => __DIR__ . '/..' . '/authorizenet/authorizenet/lib/net/authorize/api/controller/UpdateHeldTransactionController.php',
         'net\\authorize\\api\\controller\\UpdateSplitTenderGroupController' => __DIR__ . '/..' . '/authorizenet/authorizenet/lib/net/authorize/api/controller/UpdateSplitTenderGroupController.php',
         'net\\authorize\\api\\controller\\ValidateCustomerPaymentProfileController' => __DIR__ . '/..' . '/authorizenet/authorizenet/lib/net/authorize/api/controller/ValidateCustomerPaymentProfileController.php',
         'net\\authorize\\api\\controller\\base\\ApiOperationBase' => __DIR__ . '/..' . '/authorizenet/authorizenet/lib/net/authorize/api/controller/base/ApiOperationBase.php',
         'net\\authorize\\api\\controller\\base\\IApiOperation' => __DIR__ . '/..' . '/authorizenet/authorizenet/lib/net/authorize/api/controller/base/IApiOperation.php',
+        'net\\authorize\\util\\ANetSensitiveFields' => __DIR__ . '/..' . '/authorizenet/authorizenet/lib/net/authorize/util/ANetSensitiveFields.php',
+        'net\\authorize\\util\\Helpers' => __DIR__ . '/..' . '/authorizenet/authorizenet/lib/net/authorize/util/Helpers.php',
         'net\\authorize\\util\\HttpClient' => __DIR__ . '/..' . '/authorizenet/authorizenet/lib/net/authorize/util/HttpClient.php',
+        'net\\authorize\\util\\Log' => __DIR__ . '/..' . '/authorizenet/authorizenet/lib/net/authorize/util/Log.php',
+        'net\\authorize\\util\\LogFactory' => __DIR__ . '/..' . '/authorizenet/authorizenet/lib/net/authorize/util/LogFactory.php',
+        'net\\authorize\\util\\SensitiveDataConfigType' => __DIR__ . '/..' . '/authorizenet/authorizenet/lib/net/authorize/util/SensitiveDataConfigType.php',
+        'net\\authorize\\util\\SensitiveTag' => __DIR__ . '/..' . '/authorizenet/authorizenet/lib/net/authorize/util/SensitiveTag.php',
     );
 
     public static function getInitializer(ClassLoader $loader)
@@ -1259,6 +1396,7 @@ class ComposerStaticInita864c481a4c3760e132aaf15a80c6e4b
         return \Closure::bind(function () use ($loader) {
             $loader->prefixLengthsPsr4 = ComposerStaticInita864c481a4c3760e132aaf15a80c6e4b::$prefixLengthsPsr4;
             $loader->prefixDirsPsr4 = ComposerStaticInita864c481a4c3760e132aaf15a80c6e4b::$prefixDirsPsr4;
+            $loader->fallbackDirsPsr4 = ComposerStaticInita864c481a4c3760e132aaf15a80c6e4b::$fallbackDirsPsr4;
             $loader->prefixesPsr0 = ComposerStaticInita864c481a4c3760e132aaf15a80c6e4b::$prefixesPsr0;
             $loader->classMap = ComposerStaticInita864c481a4c3760e132aaf15a80c6e4b::$classMap;
 
