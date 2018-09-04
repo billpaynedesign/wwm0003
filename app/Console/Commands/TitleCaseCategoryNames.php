@@ -17,7 +17,7 @@ class TitleCaseCategoryNames extends Command {
      *
      * @var string
      */
-    protected $description = 'Convert all categorie names to title case.';
+    protected $description = 'Convert all category names to title case.';
 
     /**
      * Execute the console command.
