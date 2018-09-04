@@ -65,7 +65,7 @@ function order_information(id){
                 <thead>
                   <tr>
                     <th>Order Date</th>
-                    <th>Invoice ID</th>
+                    <th>Invoice #</th>
                     <th>Ship Status</th>
                     <th>Name</th>
                     <th>Address</th>
@@ -87,7 +87,7 @@ function order_information(id){
                       <button class="btn btn-info" data-toggle="modal" data-target="#order-info" title="Order Information" onclick="order_information('{{ $order->id }}')">
                         <span class="fa fa-info"></span>
                       </button>
-                      <button class="btn btn-success" title="Edit Status for #{{ $order->id }}" data-toggle="modal" data-target="#order-status" onclick="order_status('{{ $order->id }}')"> 
+                      <button class="btn btn-success" title="Edit Status for #{{ $order->id }}" data-toggle="modal" data-target="#order-status" onclick="order_status('{{ $order->id }}')">
                         <span class="fa fa-truck" aria-hidden="true"></span>
                       </button>
                       <a href="{{ route('order-edit',$order->id) }}" class="btn btn-warning" title="Edit Shipping/Items for #{{ $order->id }}">

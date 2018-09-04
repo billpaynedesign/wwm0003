@@ -10,6 +10,8 @@ use App\Product;
 use App\ProductAttribute;
 use App\Special;
 use App\User;
+use App\Vendor;
+use App\VendorBill;
 use Yajra\Datatables\Facades\Datatables;
 
 class DashboardController extends AdminController {
@@ -22,7 +24,7 @@ class DashboardController extends AdminController {
         $latest_products = Product::take(6)->orderBy('created_at','DESC')->get();
         $latest_orders = Order::orderBy('created_at','=','DESC')->take(5)->get();
 
-        //$option_groups = OptionGroup::all();        
+        //$option_groups = OptionGroup::all();
         return view('admin.index',  compact('latest_products','latest_orders'));
 	}
     public function category_index(){
@@ -140,5 +142,21 @@ class DashboardController extends AdminController {
             $special = Special::seed();
         }
         return view('admin.index-specials',compact('special'));
+    }
+    public function vendors(){
+        $vendors = Vendor::all();
+        return view('admin.index-vendors',compact('vendors'));
+    }
+    public function accounts_receivable(){
+        $orders = Order::with('user')->whereHas('details', function($query){
+                    $query->whereNull('paid')->orWhere('paid','!=','1');
+                })->get();
+        
+        return view('admin.index-accounts-receivable',compact('orders'));
+    }
+    public function accounts_payable(){
+        $vendor_bills = VendorBill::where('paid','=','0')->get();
+        
+        return view('admin.index-accounts-payable',compact('vendor_bills'));
     }
 }

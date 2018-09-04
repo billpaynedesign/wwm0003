@@ -31,6 +31,18 @@
     'text' => "Specials",
     'route' => route('admin-specials')
   ],
+  [
+    'text' => "Vendors",
+    'route' => route('admin-vendors')
+  ],
+  [
+    'text' => "Accounts Receivable",
+    'route' => route('admin-accounts-receivable')
+  ],
+  [
+    'text' => "Accounts Payable",
+    'route' => route('admin-accounts-payable')
+  ],
 ];
 ?>
 <ul class="nav nav-tabs" role="tablist">
@@ -38,4 +50,3 @@
     <li role="presentation" {!! $adminActive==$t['text']?'class="active"':'' !!}><a href="{{ $t['route'] }}#dashboard">{{ $t['text'] }}</a></li>
   @endforeach
 </ul>
-        

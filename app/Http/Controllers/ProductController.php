@@ -76,10 +76,11 @@ class ProductController extends Controller {
 			$product->description = $request->input('productdescription');
 			$product->short_description = $request->input('shortdescription');
 			$product->manufacturer = $request->input('manufacturer');
+			$product->vendor_id = $request->input('vendor');
 			$product->active = $request->has('active')?1:0;
 			$product->has_lot_expiry = $request->has('has_lot_expiry')?1:0;
 			$product->require_license = $request->has('require_license')?1:0;
-			
+
 
 			$product->note = $request->input('note');
 			if($request->hasFile('image')){
@@ -124,6 +125,7 @@ class ProductController extends Controller {
 			$product->price = $request->input('price');
 			*/
 			$product->manufacturer = $request->input('manufacturer');
+			$product->vendor_id = $request->input('vendor');
 			$product->item_number = $request->input('item_number');
 			$product->short_description = $request->input('productshortdescription');
 			$product->description = $request->input('productdescription');
@@ -132,7 +134,7 @@ class ProductController extends Controller {
 			$product->note = $request->input('note');
 			$product->active = 1;
 			$product->save();
-			
+
 			$product->categories()->sync($request->input('category'));
 
 			foreach($request->input('uom') as $key => $name){
@@ -204,7 +206,7 @@ class ProductController extends Controller {
 			$k = 0;
 			//cycle through each column in the row to match the column in the database
 			foreach ($row as $key => $value) {
-				if($columns[$k] == 'sku'){  
+				if($columns[$k] == 'sku'){
 					$product = Product::where('sku','=',$value)->first();
 					if(is_null($product)){
 						$product = new Product;
@@ -247,7 +249,7 @@ class ProductController extends Controller {
 		//redirect back to merchant management home with success message
 		return redirect()->route('admin-products')->with('success','Import successfully uploaded.');
 	}
-	
+
 	public function toggleActive(Request $request){
 		$product = Product::find($request->input('id'));
 		$product->active = $product->active?0:1;

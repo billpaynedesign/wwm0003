@@ -51,8 +51,8 @@
     </td>
     -->
     <td>${{ \number_format($detail->subtotal,2) }}</td>
-    <td><input type="checkbox" name="paid[{{ $detail->id }}]" value="true" {!! $detail->shipped?'checked':'' !!} /></td>
-    <td><input type="checkbox" name="shipped[{{ $detail->id }}]" value="true" {!! $detail->paid?'checked':'' !!} /></td>
+    <td><input type="checkbox" name="paid[{{ $detail->id }}]" value="true" {!! $detail->paid?'checked':'' !!} /></td>
+    <td><input type="checkbox" name="shipped[{{ $detail->id }}]" value="true" {!! $detail->shipped?'checked':'' !!} /></td>
     <td><input type="text" name="lot_number[{{ $detail->id }}]" class="form-control" /></td>
     <td><input type="text" name="expiration[{{ $detail->id }}]" class="form-control orderstatus-datepicker" /></td>
   </tr>

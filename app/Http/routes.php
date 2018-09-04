@@ -39,6 +39,9 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth', 'namespace' => 'Admin
     Route::get('/backorder', ['uses'=>'DashboardController@backorder_index','as'=>'admin-backorders']);
     Route::get('/user', ['uses'=>'DashboardController@user_index','as'=>'admin-users']);
     Route::get('/special', ['uses'=>'DashboardController@special_index','as'=>'admin-specials']);
+    Route::get('/accounts-receivable', ['uses'=>'DashboardController@accounts_receivable','as'=>'admin-accounts-receivable']);
+    Route::get('/accounts-payable', ['uses'=>'DashboardController@accounts_payable','as'=>'admin-accounts-payable']);
+    Route::get('/vendors', ['uses'=>'DashboardController@vendors','as'=>'admin-vendors']);
 });
 Route::get('/sale',['uses'=>'ProductController@sale','as'=>'sale-products']);
 Route::get('/products',['uses'=>'ProductController@index','as'=>'product-all']);
@@ -179,6 +182,19 @@ Route::group(['prefix'=>'specials'],function(){
 	    	Route::post('/delete', ['uses'=>'SpecialsController@postDelete','as' => 'specials-delete']);
 	    	Route::get('/delete/{id}', ['uses'=>'SpecialsController@getDelete','as' => 'specials-delete']);
 			Route::post('/edit/{id}',['uses'=>'SpecialsController@update','as'=>'specials-update']);
+		});
+	});
+});
+Route::group(['prefix'=>'vendor'],function(){
+	Route::get('/',['uses'=>'VendorController@index','as'=>'vendor-index']);
+	//login routes
+	Route::group(['middleware'=>'auth'],function(){
+
+		//admin routes
+		Route::group(['middleware'=>'admin'],function(){
+				Route::post('/store',['uses'=>'VendorController@store','as'=>'vendor-create']);
+				Route::post('/delete',['uses'=>'VendorController@delete','as'=>'vendor-delete']);
+				Route::post('/edit',['uses'=>'VendorController@edit','as'=>'vendor-edit']);
 		});
 	});
 });
