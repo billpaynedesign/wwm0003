@@ -12,12 +12,12 @@
       </div>
       <div id="admin_tab_panel" role="tabpanel">
 
-        @include('admin.partials.nav-tabs', ["adminActive"=>'Users'])
+        @include('admin.partials.nav-tabs', ["adminActive"=>'Accounts Payable'])
 
         <div class="tab-content">
           <div role="tabpanel" class="tab-pane tab-pane-admin active">
             <div class="form-group form-inline">
-                <button type="button" class="btn btn-success" data-toggle="modal" data-target="#add-bill">
+                <button type="button" class="btn btn-success" data-toggle="modal" data-target="#add-vendor-bill">
                     <span class="fa fa-plus" aria-hidden="true"></span>&nbsp;Add Bill
                 </button>
             </div>
@@ -26,7 +26,10 @@
                 <thead>
                   <tr>
                     <th>Bill #</th>
+                    <th>Date</th>
                     <th>Vendor</th>
+                    <th>Terms</th>
+                    <th>Amount</th>
                     <th>Actions</th>
                   </tr>
                 </thead>
@@ -34,7 +37,11 @@
                   @foreach($vendor_bills as $vbill)
                   <tr>
                     <td>{{ $vbill->id }}</td>
+                    <td>{{ $vbill->date->format('m/d/Y') }}</td>
                     <td>{{ $vbill->vendor->name }}</td>
+                    <?php var_dump($vbill->payment_term);exit; ?>
+                    <td>{{ $vbill->payment_term->name }}</td>
+                    <td>{{ $vbill->amount_string }}</td>
                     <td>
                     </td>
                   </tr>

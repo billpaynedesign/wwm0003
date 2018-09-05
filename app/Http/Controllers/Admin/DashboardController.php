@@ -3,6 +3,7 @@ use App\Category;
 use App\Commands\CategoryHelper;
 use App\Http\Controllers\AdminController;
 use App\OptionGroup;
+use App\PaymentTerm;
 use App\Order;
 use App\OrderDetails;
 use App\Picture;
@@ -151,12 +152,12 @@ class DashboardController extends AdminController {
         $orders = Order::with('user')->whereHas('details', function($query){
                     $query->whereNull('paid')->orWhere('paid','!=','1');
                 })->get();
-        
         return view('admin.index-accounts-receivable',compact('orders'));
     }
     public function accounts_payable(){
         $vendor_bills = VendorBill::where('paid','=','0')->get();
-        
-        return view('admin.index-accounts-payable',compact('vendor_bills'));
+        $vendors = Vendor::all();
+        $payment_terms = PaymentTerm::all();
+        return view('admin.index-accounts-payable',compact('vendor_bills','vendors','payment_terms'));
     }
 }

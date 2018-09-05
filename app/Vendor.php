@@ -17,6 +17,6 @@ class Vendor extends Model
         return $this->hasMany('App\Product');
     }
     public function bills(){
-        return $this->belongsTo('App\VendorBill');
+        return $this->hasMany('App\VendorBill');
     }
 }

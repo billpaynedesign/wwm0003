@@ -198,6 +198,19 @@ Route::group(['prefix'=>'vendor'],function(){
 		});
 	});
 });
+Route::group(['prefix'=>'vendor-bill'],function(){
+	Route::get('/',['uses'=>'VendorController@index','as'=>'vendor-bill-index']);
+	//login routes
+	Route::group(['middleware'=>'auth'],function(){
+
+		//admin routes
+		Route::group(['middleware'=>'admin'],function(){
+				Route::post('/store',['uses'=>'VendorBillController@store','as'=>'vendor-bill-create']);
+				Route::post('/delete',['uses'=>'VendorBillController@delete','as'=>'vendor-bill-delete']);
+				Route::post('/edit',['uses'=>'VendorBillController@edit','as'=>'vendor-bill-edit']);
+		});
+	});
+});
 Route::controllers([
 	'auth' => 'Auth\AuthController',
 	'password' => 'Auth\PasswordController',
