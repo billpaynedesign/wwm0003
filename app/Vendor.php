@@ -19,4 +19,7 @@ class Vendor extends Model
     public function bills(){
         return $this->hasMany('App\VendorBill');
     }
+    public function purchase_orders(){
+        return $this->hasMany('App\VendorPurchaseOrder');
+    }
 }

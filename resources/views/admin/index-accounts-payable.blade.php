@@ -21,7 +21,6 @@
                     <span class="fa fa-plus" aria-hidden="true"></span>&nbsp;Add Bill
                 </button>
             </div>
-            <div class="table-responsive">
               <table class="table table-striped table-hover tablesorter">
                 <thead>
                   <tr>
@@ -30,6 +29,9 @@
                     <th>Vendor</th>
                     <th>Terms</th>
                     <th>Amount</th>
+                    @if(request()->has('include_paid'))
+                        <th>Paid?</th>
+                    @endif
                     <th>Actions</th>
                   </tr>
                 </thead>
@@ -39,16 +41,17 @@
                     <td>{{ $vbill->id }}</td>
                     <td>{{ $vbill->date->format('m/d/Y') }}</td>
                     <td>{{ $vbill->vendor->name }}</td>
-                    <?php var_dump($vbill->payment_term);exit; ?>
                     <td>{{ $vbill->payment_term->name }}</td>
                     <td>{{ $vbill->amount_string }}</td>
+                    @if(request()->has('include_paid'))
+                        <td>{!! $vbill->paid_icon !!}</td>
+                    @endif
                     <td>
                     </td>
                   </tr>
                   @endforeach
                 </tbody>
               </table>
-            </div>
           </div>
         </div>
       </div>

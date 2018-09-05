@@ -11,7 +11,7 @@ class VendorBill extends Model
         'date',
         'reference_num',
         'amount',
-        'term_id',
+        'payment_term_id',
         'paid'
     ];
     protected $dates = ['date'];
@@ -23,5 +23,8 @@ class VendorBill extends Model
     }
     public function getAmountStringAttribute(){
         return '$'.number_format((float)$this->amount, 2);
+    }
+    public function getPaidIconAttribute(){
+        return $this->paid?'<span class="fa fa-check"></span>':'';
     }
 }

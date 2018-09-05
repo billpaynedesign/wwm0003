@@ -52,7 +52,7 @@ class VendorBillController extends Controller
             'date' => $request->input('date'),
             'reference_num' => $request->input('reference_num'),
             'amount' => $request->input('amount'),
-            'term_id' => $request->input('payment_terms'),
+            'payment_term_id' => $request->input('payment_terms'),
             'paid' => $request->has('paid')
         ]);
         return redirect()->route('admin-accounts-payable')->with('success','Bill created successfully');

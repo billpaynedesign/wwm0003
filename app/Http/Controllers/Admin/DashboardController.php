@@ -13,6 +13,7 @@ use App\Special;
 use App\User;
 use App\Vendor;
 use App\VendorBill;
+use Illuminate\Http\Request;
 use Yajra\Datatables\Facades\Datatables;
 
 class DashboardController extends AdminController {
@@ -154,8 +155,10 @@ class DashboardController extends AdminController {
                 })->get();
         return view('admin.index-accounts-receivable',compact('orders'));
     }
-    public function accounts_payable(){
-        $vendor_bills = VendorBill::where('paid','=','0')->get();
+    public function accounts_payable(Request $request){
+        $bill_query = VendorBill::with('payment_term')->with('vendor');
+        if(!$request->has('include_paid')) $bill_query->where('paid','=','0');
+        $vendor_bills = $bill_query->get();
         $vendors = Vendor::all();
         $payment_terms = PaymentTerm::all();
         return view('admin.index-accounts-payable',compact('vendor_bills','vendors','payment_terms'));

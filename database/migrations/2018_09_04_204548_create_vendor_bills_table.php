@@ -18,7 +18,7 @@ class CreateVendorBillsTable extends Migration
             $table->date('date');
             $table->string('reference_num');
             $table->string('amount');
-            $table->integer('term_id');
+            $table->integer('payment_term_id');
             $table->boolean('paid')->default(0);
             $table->timestamps();
         });

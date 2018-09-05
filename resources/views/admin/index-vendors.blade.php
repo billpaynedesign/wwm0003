@@ -22,33 +22,34 @@
                             <button type="button" class="btn btn-success" data-toggle="modal" data-target="#add-vendor">
                                 <span class="fa fa-plus" aria-hidden="true"></span>&nbsp;Add Vendor
                             </button>
+                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#add-purchase-order">
+                                <span class="far fa-file-invoice" aria-hidden="true"></span>&nbsp;Create Purchase Order
+                            </button>
                         </div>
-                        <div class="table-responsive">
-                            <table class="table table-striped table-hover tablesorter">
-                                <thead>
-                                    <tr>
-                                        <th>Name</th>
-                                        <th>Email</th>
-                                        <th>Address</th>
-                                        <th>Phone</th>
-                                        <th>Actions</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach($vendors  as $vendor)
-                                    <tr>
-                                        <td>{{ $vendor->name }}</td>
-                                        <td>{{ $vendor->email }}</td>
-                                        <td>{{ $vendor->address }}</td>
-                                        <td>{{ $vendor->phone }}</td>
-                                        <td>
+                        <table class="table table-striped table-hover tablesorter">
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Email</th>
+                                    <th>Address</th>
+                                    <th>Phone</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach($vendors  as $vendor)
+                                <tr>
+                                    <td>{{ $vendor->name }}</td>
+                                    <td>{{ $vendor->email }}</td>
+                                    <td>{{ $vendor->address }}</td>
+                                    <td>{{ $vendor->phone }}</td>
+                                    <td>
 
-                                        </td>
-                                    </tr>
-                                    @endforeach
-                                </tbody>
-                            </table>
-                        </div>
+                                    </td>
+                                </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>

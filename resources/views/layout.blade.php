@@ -27,7 +27,6 @@
 
         <!-- Fonts -->
         <link href="https://fonts.googleapis.com/css?family=Oswald:300,500|Poppins:300,700" rel="stylesheet">
-        <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
 
         <link href="{{ asset('/css/master.css') }}?v=20180904" rel="stylesheet">
 
@@ -191,6 +190,9 @@
 
         @yield('modals')
 
+        <link rel="stylesheet" href="{{ asset('/css/fontawesome/fontawesome.min.css') }}">
+        <link rel="stylesheet" href="{{ asset('/css/fontawesome/all.min.css') }}">
+
         <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
         <script src="//cdnjs.cloudflare.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
         <script src="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.6/js/bootstrap.min.js"></script>
@@ -209,10 +211,10 @@
             <script src="//oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
             <![endif]-->
         <script type="text/javascript">
-$(function(){
-var cart_count = {{ Cart::count() }};
-if (cart_count > 0) $('#header_view_cart').html('(' + cart_count + ')');
-});
+        $(function(){
+        var cart_count = {{ Cart::count() }};
+        if (cart_count > 0) $('#header_view_cart').html('(' + cart_count + ')');
+        });
         </script>
         <!-- Scripts -->
         <script type="text/javascript">
