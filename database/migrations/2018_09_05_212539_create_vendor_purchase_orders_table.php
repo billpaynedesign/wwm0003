@@ -14,6 +14,7 @@ class CreateVendorPurchaseOrdersTable extends Migration
     {
         Schema::create('vendor_purchase_orders', function (Blueprint $table) {
             $table->increments('id');
+            $table->integer('vendor_id');
             $table->timestamps();
         });
     }

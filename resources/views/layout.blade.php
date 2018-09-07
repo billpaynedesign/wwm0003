@@ -14,7 +14,7 @@
         <meta property="og:description" content="" />
 
 
-        <link rel="icon" href="{{ asset('/favicon.ico') }}" type="image/x-icon"/>
+        <link rel="shortcut icon" href="{{ asset('/favicon.png') }}"/>
 
         <link href="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
         <link href="//cdn.datatables.net/1.10.12/css/dataTables.bootstrap.min.css" rel="stylesheet">
@@ -212,8 +212,8 @@
             <![endif]-->
         <script type="text/javascript">
         $(function(){
-        var cart_count = {{ Cart::count() }};
-        if (cart_count > 0) $('#header_view_cart').html('(' + cart_count + ')');
+            var cart_count = {{ Cart::count() }};
+            if (cart_count > 0) $('#header_view_cart').html('(' + cart_count + ')');
         });
         </script>
         <!-- Scripts -->
@@ -239,7 +239,7 @@
                     render: {
                     option: function(item, escape) {
                     var picturespath = '{{ asset("/pictures") }}/';
-                    var noimage = '{{ asset("/images") }}/noimg.gif';
+                    var noimage = '{{ asset("/images/noimg.gif") }}';
                     if (item.picture){
                     var picture = picturespath + item.picture;
                     }
