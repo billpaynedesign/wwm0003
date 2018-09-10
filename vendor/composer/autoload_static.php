@@ -484,6 +484,7 @@ class ComposerStaticInita864c481a4c3760e132aaf15a80c6e4b
         'CreateUserHasShiptoTable' => __DIR__ . '/../..' . '/database/migrations/2016_07_21_184707_create_user_has_shipto_table.php',
         'CreateUsersTable' => __DIR__ . '/../..' . '/database/migrations/2014_10_12_000000_create_users_table.php',
         'CreateVendorBillsTable' => __DIR__ . '/../..' . '/database/migrations/2018_09_04_204548_create_vendor_bills_table.php',
+        'CreateVendorPoDetailsTable' => __DIR__ . '/../..' . '/database/migrations/2018_09_10_212554_create_vendor_po_details_table.php',
         'CreateVendorPurchaseOrdersTable' => __DIR__ . '/../..' . '/database/migrations/2018_09_05_212539_create_vendor_purchase_orders_table.php',
         'CreateVendorsTable' => __DIR__ . '/../..' . '/database/migrations/2018_09_04_185159_create_vendors_table.php',
         'DOMPDF' => __DIR__ . '/..' . '/dompdf/dompdf/include/dompdf.cls.php',

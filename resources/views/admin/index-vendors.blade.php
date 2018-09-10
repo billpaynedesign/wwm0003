@@ -22,9 +22,9 @@
                             <button type="button" class="btn btn-success" data-toggle="modal" data-target="#add-vendor">
                                 <span class="fa fa-plus" aria-hidden="true"></span>&nbsp;Add Vendor
                             </button>
-                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#add-purchase-order">
+                            <a class="btn btn-primary" href="{{ route('vendor-purchase-order-create') }}">
                                 <span class="far fa-file-invoice" aria-hidden="true"></span>&nbsp;Create Purchase Order
-                            </button>
+                            </a>
                         </div>
                         <table class="table table-striped table-hover tablesorter">
                             <thead>

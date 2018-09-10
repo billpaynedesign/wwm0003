@@ -7,6 +7,7 @@ use App\Picture;
 use App\Commands;
 use App\Category;
 use App\ProductAttribute;
+use App\UnitOfMeasure;
 use Session;
 class ApiSearchController  extends Controller {
 
@@ -180,5 +181,9 @@ class ApiSearchController  extends Controller {
 	public function getUsers(Request $request){
 		return response()->json(User::orderBy('first_name')->get());
 	}
-
+	public function getProductUomData(Request $request){
+		$product = Product::findOrFail($request->input('product_id'));
+		$uom = UnitOfMeasure::findOrFail($request->input('uom_id'));
+		return response()->json(['product' =>$product,'uom'=>$uom]);
+	}
 }

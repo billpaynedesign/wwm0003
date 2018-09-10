@@ -44,7 +44,7 @@
                         </a>
 
                         <a href="{{ route('user-product', $user->id) }}" class="btn btn-success" title="Add/Edit product pricing for {{ $user->name }}">
-                          <span class="fa fa-usd"></span>
+                          <span class="fa fa-dollar-sign"></span>
                         </a>
                           <a href="{{ route('user-delete',$user->id) }}" class="btn btn-danger" title="Remove {{ $user->name }}" onclick="return confirm('Are you sure you want to remove the user: {{ $user->name }}');">
                               <span class="fa fa-trash" aria-hidden="true"></span>
@@ -63,4 +63,3 @@
   </div>
 </div>
 @stop
-

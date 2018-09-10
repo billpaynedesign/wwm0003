@@ -23,25 +23,29 @@ Route::get('/register-or-login',['uses'=>'HomeController@registerOrLogin','as'=>
 Route::get('/api/search', ['uses'=>'ApiSearchController@index']);
 Route::get('/api/product/add/search', ['uses'=>'ApiSearchController@addProduct']);
 Route::get('/api/cart/add/search', ['uses'=>'ApiSearchController@addUom']);
-Route::get('/api/get/uom/product/option/html',['uses'=>'ApiSearchController@getUomProductOptionsHtml','as'=>'api-get-uom-product-options-html']);
 Route::get('/api/get/cart/count',['uses'=>'ApiSearchController@getCartCount','as'=>'api-cart-get-count']);
-Route::get('/api/get/users',['uses'=>'ApiSearchController@getUsers','as'=>'api-users-get']);
-
+Route::group(['middleware'=>'admin'],function(){
+	Route::get('/api/get/users',['uses'=>'ApiSearchController@getUsers','as'=>'api-users-get']);
+	Route::get('/api/get/uom/product/option/html',['uses'=>'ApiSearchController@getUomProductOptionsHtml','as'=>'api-get-uom-product-options-html']);
+	Route::get('/api/get/product/uom/data',['uses'=>'ApiSearchController@getProductUomData','as'=>'api-product-uom-get-data']);
+});
 Route::group(['prefix' => 'admin', 'middleware' => 'auth', 'namespace' => 'Admin'], function() {
-	Route::pattern('id', '[0-9]+');
+	Route::group(['middleware'=>'admin'],function(){
+		Route::pattern('id', '[0-9]+');
 
-    // Admin Dashboard
-    Route::get('/', ['uses'=>'DashboardController@index','as'=>'admin-dashboard']);
-    Route::get('/category', ['uses'=>'DashboardController@category_index','as'=>'admin-categories']);
-    Route::get('/product', ['uses'=>'DashboardController@product_index','as'=>'admin-products']);
-    Route::get('/option',['uses'=>'DashboardController@option_index','as'=>'admin-options']);
-    Route::get('/order', ['uses'=>'DashboardController@order_index','as'=>'admin-orders']);
-    Route::get('/backorder', ['uses'=>'DashboardController@backorder_index','as'=>'admin-backorders']);
-    Route::get('/user', ['uses'=>'DashboardController@user_index','as'=>'admin-users']);
-    Route::get('/special', ['uses'=>'DashboardController@special_index','as'=>'admin-specials']);
-    Route::get('/accounts-receivable', ['uses'=>'DashboardController@accounts_receivable','as'=>'admin-accounts-receivable']);
-    Route::get('/accounts-payable', ['uses'=>'DashboardController@accounts_payable','as'=>'admin-accounts-payable']);
-    Route::get('/vendors', ['uses'=>'DashboardController@vendors','as'=>'admin-vendors']);
+	    // Admin Dashboard
+	    Route::get('/', ['uses'=>'DashboardController@index','as'=>'admin-dashboard']);
+	    Route::get('/category', ['uses'=>'DashboardController@category_index','as'=>'admin-categories']);
+	    Route::get('/product', ['uses'=>'DashboardController@product_index','as'=>'admin-products']);
+	    Route::get('/option',['uses'=>'DashboardController@option_index','as'=>'admin-options']);
+	    Route::get('/order', ['uses'=>'DashboardController@order_index','as'=>'admin-orders']);
+	    Route::get('/backorder', ['uses'=>'DashboardController@backorder_index','as'=>'admin-backorders']);
+	    Route::get('/user', ['uses'=>'DashboardController@user_index','as'=>'admin-users']);
+	    Route::get('/special', ['uses'=>'DashboardController@special_index','as'=>'admin-specials']);
+	    Route::get('/accounts-receivable', ['uses'=>'DashboardController@accounts_receivable','as'=>'admin-accounts-receivable']);
+	    Route::get('/accounts-payable', ['uses'=>'DashboardController@accounts_payable','as'=>'admin-accounts-payable']);
+	    Route::get('/vendors', ['uses'=>'DashboardController@vendors','as'=>'admin-vendors']);
+	});
 });
 Route::get('/sale',['uses'=>'ProductController@sale','as'=>'sale-products']);
 Route::get('/products',['uses'=>'ProductController@index','as'=>'product-all']);
@@ -192,22 +196,36 @@ Route::group(['prefix'=>'vendor'],function(){
 
 		//admin routes
 		Route::group(['middleware'=>'admin'],function(){
-				Route::post('/store',['uses'=>'VendorController@store','as'=>'vendor-create']);
-				Route::post('/delete',['uses'=>'VendorController@delete','as'=>'vendor-delete']);
-				Route::post('/edit',['uses'=>'VendorController@edit','as'=>'vendor-edit']);
+			Route::post('/store',['uses'=>'VendorController@store','as'=>'vendor-create']);
+			Route::post('/delete',['uses'=>'VendorController@delete','as'=>'vendor-delete']);
+			Route::post('/edit',['uses'=>'VendorController@edit','as'=>'vendor-edit']);
 		});
 	});
 });
 Route::group(['prefix'=>'vendor-bill'],function(){
-	Route::get('/',['uses'=>'VendorController@index','as'=>'vendor-bill-index']);
+	Route::get('/',['uses'=>'VendorBillController@index','as'=>'vendor-bill-index']);
 	//login routes
 	Route::group(['middleware'=>'auth'],function(){
 
 		//admin routes
 		Route::group(['middleware'=>'admin'],function(){
-				Route::post('/store',['uses'=>'VendorBillController@store','as'=>'vendor-bill-create']);
-				Route::post('/delete',['uses'=>'VendorBillController@delete','as'=>'vendor-bill-delete']);
-				Route::post('/edit',['uses'=>'VendorBillController@edit','as'=>'vendor-bill-edit']);
+			Route::post('/store',['uses'=>'VendorBillController@store','as'=>'vendor-bill-create']);
+			Route::post('/delete',['uses'=>'VendorBillController@delete','as'=>'vendor-bill-delete']);
+			Route::post('/edit',['uses'=>'VendorBillController@edit','as'=>'vendor-bill-edit']);
+		});
+	});
+});
+Route::group(['prefix'=>'purchase-order'],function(){
+	Route::get('/',['uses'=>'VendorPurchaseOrderController@index','as'=>'vendor-purchase-order-index']);
+	//login routes
+	Route::group(['middleware'=>'auth'],function(){
+
+		//admin routes
+		Route::group(['middleware'=>'admin'],function(){
+			Route::get('/create',['uses'=>'VendorPurchaseOrderController@create','as'=>'vendor-purchase-order-create']);
+			Route::post('/store',['uses'=>'VendorPurchaseOrderController@store','as'=>'vendor-purchase-order-store']);
+			Route::post('/delete',['uses'=>'VendorPurchaseOrderController@delete','as'=>'vendor-purchase-order-delete']);
+			Route::post('/edit',['uses'=>'VendorPurchaseOrderController@edit','as'=>'vendor-purchase-order-edit']);
 		});
 	});
 });

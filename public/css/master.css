@@ -348,16 +348,17 @@ Sub-header
 }
 #search-holder .selectize-control.single .selectize-input:after {
     content: '\f002'; /*This will draw the icon*/
-    font-family: 'FontAwesome';
+    font-family: "Font Awesome 5 Pro";
     line-height: 2;
-    padding-right: 2px;
-    top: 3px;
+    padding-right: 5px;
+    top: 5px;
     color: #f2722f;
     border: 0;
+    font-weight: bold;
 }
 #search-holder .selectize-control.single .selectize-input.dropdown-active:after {
     content: '\f002';
-    font-family: 'FontAwesome';
+    font-family: "Font Awesome 5 Pro";
     padding-right: 2px;
     color: #f2722f;
 }
