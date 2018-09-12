@@ -61,7 +61,8 @@ class VendorController extends Controller
     public function show($id)
     {
         $vendor = Vendor::findOrFail($id);
-        return view('admin.index-vendor-purchase-orders',compact('vendor'));
+        $purchase_orders = $vendor->purchase_orders;
+        return view('admin.index-vendor-purchase-orders',compact('vendor','purchase_orders'));
     }
 
     /**
@@ -72,7 +73,8 @@ class VendorController extends Controller
      */
     public function edit($id)
     {
-        //
+        $vendor = Vendor::findOrFail($id);
+        return view('vendor.edit',compact('vendor'));
     }
 
     /**
@@ -84,7 +86,18 @@ class VendorController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $this->validate($request, [
+            'name' => 'required',
+            'email' => 'email'
+        ]);
+        $vendor = Vendor::findOrFail($id);
+        $vendor->update([
+                'name' => $request->input('name'),
+                'email' => $request->input('email'),
+                'address' => $request->input('address'),
+                'phone' => $request->input('phone')
+            ]);
+        return redirect()->route('admin-vendors')->with('success','Vendor updated successfully');
     }
 
     /**

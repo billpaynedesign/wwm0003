@@ -25,6 +25,9 @@
                             <a class="btn btn-primary" href="{{ route('vendor-purchase-order-create') }}">
                                 <span class="far fa-file-invoice" aria-hidden="true"></span>&nbsp;Create Purchase Order
                             </a>
+                            <a class="btn btn-grey" href="{{ route('vendor-purchase-order-index') }}">
+                                <span class="fas fa-file-invoice" aria-hidden="true"></span>&nbsp;View Existing Purchase Orders
+                            </a>
                         </div>
                         <table class="table table-striped table-hover tablesorter">
                             <thead>
@@ -44,8 +47,11 @@
                                     <td>{{ $vendor->address }}</td>
                                     <td>{{ $vendor->phone }}</td>
                                     <td>
-                                        <a class="btn btn-info" href="{{ route('vendor-show',$vendor->id) }}" title="View purchase orders">
+                                        <a class="btn btn-info" href="{{ route('vendor-show',$vendor->id) }}" title="View existing purchase orders">
                                             <span class="far fa-file-invoice" aria-hidden="true"></span>
+                                        </a>
+                                        <a class="btn btn-warning" href="{{ route('vendor-edit',$vendor->id) }}" title="Edit Vendor">
+                                            <span class="far fa-edit" aria-hidden="true"></span>
                                         </a>
                                     </td>
                                 </tr>

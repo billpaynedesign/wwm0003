@@ -199,7 +199,8 @@ Route::group(['prefix'=>'vendor'],function(){
 			Route::get('/{id}',['uses'=>'VendorController@show','as'=>'vendor-show']);
 			Route::post('/store',['uses'=>'VendorController@store','as'=>'vendor-create']);
 			Route::post('/delete',['uses'=>'VendorController@delete','as'=>'vendor-delete']);
-			Route::post('/edit',['uses'=>'VendorController@edit','as'=>'vendor-edit']);
+			Route::get('/edit/{id}',['uses'=>'VendorController@edit','as'=>'vendor-edit']);
+			Route::post('/update/{id}',['uses'=>'VendorController@update','as'=>'vendor-update']);
 		});
 	});
 });

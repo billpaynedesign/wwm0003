@@ -20,7 +20,8 @@ class VendorPurchaseOrderController extends Controller
      */
     public function index()
     {
-        //
+        $purchase_orders = VendorPurchaseOrder::all();
+        return view('admin.index-vendor-purchase-orders',compact('purchase_orders'));
     }
 
     /**
@@ -70,7 +71,7 @@ class VendorPurchaseOrderController extends Controller
             $total += $item_total;
             $purchase_order->details()->save($po_detail);
         }
-        
+
         $purchase_order->total = $total;
         $purchase_order->save();
 

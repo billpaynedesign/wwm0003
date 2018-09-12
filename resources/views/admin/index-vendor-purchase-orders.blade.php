@@ -10,7 +10,7 @@
     <div id="container-main" class="container-fluid">
         <div id="col-main" class="col-xs-12">
             <div class="page-header">
-                <h1 id="dashboard">{{ $vendor->name }} - Purchase Orders</h1>
+                <h1 id="dashboard">Purchase Orders</h1>
             </div>
             <div id="admin_tab_panel" role="tabpanel">
 
@@ -28,7 +28,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach($vendor->purchase_orders  as $purchase_order)
+                                @foreach($purchase_orders  as $purchase_order)
                                 <tr>
                                     <td>{{ $purchase_order->invoice_num }}</td>
                                     <td>{{ $purchase_order->date->format('m-d-Y') }}</td>
