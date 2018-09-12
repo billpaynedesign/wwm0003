@@ -60,7 +60,8 @@ class VendorController extends Controller
      */
     public function show($id)
     {
-        //
+        $vendor = Vendor::findOrFail($id);
+        return view('admin.index-vendor-purchase-orders',compact('vendor'));
     }
 
     /**

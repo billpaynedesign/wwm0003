@@ -18,6 +18,7 @@ class CreateVendorPoDetailsTable extends Migration
             $table->integer('product_id');
             $table->integer('uom_id');
             $table->integer('quantity');
+            $table->float('item_total');
             $table->timestamps();
         });
     }

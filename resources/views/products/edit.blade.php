@@ -16,8 +16,7 @@
     }
 
     function add_uom() {
-        var html =
-            '<div class="uom_single"> <hr/> <div class="form-group"> <button class="btn btn-danger" onclick="$(this).parent().parent().remove();"><span class="fa fa-trash"></span></button> </div> <div class="form-group"> <label for="uom">Unit of Measure</label> <input type="text" id="uom" name="uom_new[]" class="form-control" required /> </div> <div class="form-group"> <label for="msrp">MSRP:</label> <input type="number" id="msrp" name="msrp_new[]" step="0.01" min="0" class="form-control" required /> </div> <div class="form-group"> <label for="price">Price:</label> <input type="number" id="price" name="price_new[]" step="0.01" min="0" class="form-control" required /> </div> </div>'
+        var html = '<div class="uom_single"> <hr/> <div class="form-group"> <button class="btn btn-danger" onclick="$(this).parent().parent().remove();"><span class="fa fa-trash"></span></button> </div> <div class="form-group"> <label for="uom">Unit of Measure</label> <input type="text" id="uom" name="uom_new[]" class="form-control" required /> </div> <div class="form-group"> <label for="msrp">MSRP:</label> <input type="number" id="msrp" name="msrp_new[]" step="0.01" min="0" class="form-control" required /> </div> <div class="form-group"> <label for="price">Price:</label> <input type="number" id="price" name="price_new[]" step="0.01" min="0" class="form-control" required /> </div> <div class="form-group"> <label>Weight:</label> <div class="input-group input-group-select"> <input type="number" name="weight_new[]" step="0.01" min="0" class="form-control" required /> <select class="form-control" name="weight_unit_new[]"> <option value="lb">lb</option> <option value="oz">oz</option> </select> </div> </div> </div>';
         $("#uom_groups").append(html);
         return false;
     }
@@ -73,6 +72,16 @@
                                     <div class="form-group">
                                         <label for="price-{{ $uom->id }}">Price:</label>
                                         <input type="number" id="price-{{ $uom->id }}" name="price[{{ $uom->id }}]" step="0.01" min="0" class="form-control" value="{{ $uom->price }}" required />
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="weight-{{ $uom->id }}">Weight:</label>
+                                        <div class="input-group input-group-select">
+                                            <input type="number" id="weight-{{ $uom->id }}" name="weight[{{ $uom->id }}]" step="0.01" min="0" class="form-control" value="{{ $uom->weight }}" />
+                                            <select class="form-control" name="weight_unit[{{ $uom->id }}]">
+                                                <option value="lb">lb</option>
+                                                <option value="oz">oz</option>
+                                            </select>
+                                        </div>
                                     </div>
                                 </div>
                             @endforeach

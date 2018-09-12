@@ -99,6 +99,15 @@ class ProductController extends Controller {
 					$uom->name = $name;
 					$uom->price = array_key_exists($uom_id,$request->input('price'))?$request->input('price')[$uom_id]:NULL;
 					$uom->msrp = array_key_exists($uom_id,$request->input('msrp'))?$request->input('msrp')[$uom_id]:NULL;
+                    $weight = array_key_exists($uom_id,$request->input('weight'))?$request->input('weight')[$uom_id]:NULL;
+                    if($weight){
+                        $weight_unit = array_key_exists($uom_id,$request->input('weight_unit'))?$request->input('weight_unit')[$uom_id]:NULL;
+                        if($weight_unit === 'oz'){
+                            $weight = $weight/16;
+                        }
+
+                        $uom->weight = $weight;
+                    }
 					$uom->save();
 				}
 			}
@@ -109,6 +118,15 @@ class ProductController extends Controller {
 					$uom->product_id = $product->id;
 					$uom->price = array_key_exists($key,$request->input('price_new'))?$request->input('price_new')[$key]:NULL;
 					$uom->msrp = array_key_exists($key,$request->input('msrp_new'))?$request->input('msrp_new')[$key]:NULL;
+                    $weight = array_key_exists($key,$request->input('weight_new'))?$request->input('weight_new')[$key]:NULL;
+                    if($weight){
+                        $weight_unit = array_key_exists($key,$request->input('weight_unit_new'))?$request->input('weight_unit_new')[$key]:NULL;
+                        if($weight_unit === 'oz'){
+                            $weight = $weight/16;
+                        }
+
+                        $uom->weight = $weight;
+                    }
 					$uom->save();
 				}
 			}
@@ -143,6 +161,15 @@ class ProductController extends Controller {
 				$uom->product_id = $product->id;
 				$uom->price = array_key_exists($key,$request->input('price'))?$request->input('price')[$key]:NULL;
 				$uom->msrp = array_key_exists($key,$request->input('msrp'))?$request->input('msrp')[$key]:NULL;
+                $weight = array_key_exists($key,$request->input('weight'))?$request->input('weight')[$key]:NULL;
+                if($weight){
+                    $weight_unit = array_key_exists($key,$request->input('weight_unit'))?$request->input('weight_unit')[$key]:NULL;
+                    if($weight_unit === 'oz'){
+                        $weight = $weight/16;
+                    }
+
+                    $uom->weight = $weight;
+                }
 				$uom->save();
 			}
 

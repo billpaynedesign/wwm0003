@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateVendorPurchaseOrdersTable extends Migration
+class CreateBillAccountsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -12,11 +12,9 @@ class CreateVendorPurchaseOrdersTable extends Migration
      */
     public function up()
     {
-        Schema::create('vendor_purchase_orders', function (Blueprint $table) {
+        Schema::create('bill_accounts', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('vendor_id');
-            $table->date('date');
-            $table->float('total');
+            $table->string('name');
             $table->timestamps();
         });
     }
@@ -28,6 +26,6 @@ class CreateVendorPurchaseOrdersTable extends Migration
      */
     public function down()
     {
-        Schema::drop('vendor_purchase_orders');
+        Schema::drop('bill_accounts');
     }
 }

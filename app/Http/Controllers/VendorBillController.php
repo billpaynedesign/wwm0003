@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
+use App\BillAccount;
 use App\VendorBill;
 
 class VendorBillController extends Controller
@@ -46,16 +47,31 @@ class VendorBillController extends Controller
             'amount' => 'required|numeric',
             'payment_terms' => 'required|integer'
         ]);
-        $vendor_bill = VendorBill::create([
-            'name' => $request->input('name'),
-            'vendor_id' => $request->input('vendor'),
-            'date' => $request->input('date'),
-            'reference_num' => $request->input('reference_num'),
-            'amount' => $request->input('amount'),
-            'payment_term_id' => $request->input('payment_terms'),
-            'paid' => $request->has('paid')
-        ]);
-        return redirect()->route('admin-accounts-payable')->with('success','Bill created successfully');
+        if($request->input('account')==='other'){
+            $this->validate($request,[
+                'account_name' => 'required|string'
+            ]);
+            $account = BillAccount::create(['name'=>$request->input('account_name')]);
+        }
+        else{
+            $account = BillAccount::find($request->input('account'));
+        }
+        if($account){
+            $vendor_bill = VendorBill::create([
+                'name' => $request->input('name'),
+                'vendor_id' => $request->input('vendor'),
+                'date' => $request->input('date'),
+                'reference_num' => $request->input('reference_num'),
+                'amount' => $request->input('amount'),
+                'payment_term_id' => $request->input('payment_terms'),
+                'paid' => $request->has('paid'),
+                'bill_account_id' => $account->id
+            ]);
+            return redirect()->route('admin-accounts-payable')->with('success','Bill created successfully');
+        }
+        else{
+            return redirect()->back()->withInput();
+        }
     }
 
     /**
@@ -101,5 +117,12 @@ class VendorBillController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function update_paid($id){
+        $bill = VendorBill::findOrFail($id);
+        $bill->paid = 1;
+        $bill->save();
+        return redirect()->route('admin-accounts-payable');
     }
 }

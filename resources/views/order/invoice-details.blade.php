@@ -99,6 +99,6 @@
         </tr>
       </tbody>
     </table>
-    <p class="footer">bw&#64;wwmdusa.com   |   914-358-9878</p>
+    <p class="footer">brent&#64;wwmdusa.com   |   914-358-9878</p>
   </body>
 </html>

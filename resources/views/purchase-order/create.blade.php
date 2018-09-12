@@ -9,7 +9,7 @@
                 <div class="col-md-6">
                     <div class="form-group">
                         <label for="vendor">Vendor:</label>
-                        <select id="vendor" name="vendor" class="form-control">
+                        <select id="vendor" name="vendor" class="form-control" required>
                             <option value="">-- Select Vendor --</option>
                             @foreach ($vendors as $vendor)
                                 <option value="{{ $vendor->id }}">{{ $vendor->name }}</option>
@@ -20,7 +20,7 @@
                 <div class="col-md-6">
                     <div class="form-group">
                         <label for="date">Date:</label>
-                        <input type="date" id="date" name="date" class="form-control">
+                        <input type="date" id="date" name="date" class="form-control" required>
                     </div>
                 </div>
                 <div class="col-xs-12">

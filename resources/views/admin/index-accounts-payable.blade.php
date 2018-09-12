@@ -21,14 +21,16 @@
                     <span class="fa fa-plus" aria-hidden="true"></span>&nbsp;Add Bill
                 </button>
             </div>
-              <table class="table table-striped table-hover tablesorter">
+              <table id="bill_table" class="table table-striped table-hover">
                 <thead>
                   <tr>
                     <th>Bill #</th>
-                    <th>Date</th>
+                    <th>Name/Memo</th>
+                    <th>Due Date</th>
                     <th>Vendor</th>
                     <th>Terms</th>
                     <th>Amount</th>
+                    <th>Account</th>
                     @if(request()->has('include_paid'))
                         <th>Paid?</th>
                     @endif
@@ -39,14 +41,19 @@
                   @foreach($vendor_bills as $vbill)
                   <tr>
                     <td>{{ $vbill->id }}</td>
+                    <td>{{ $vbill->name }}</td>
                     <td>{{ $vbill->date->format('m/d/Y') }}</td>
                     <td>{{ $vbill->vendor->name }}</td>
                     <td>{{ $vbill->payment_term->name }}</td>
                     <td>{{ $vbill->amount_string }}</td>
+                    <td>{{ $vbill->bill_account->name }}</td>
                     @if(request()->has('include_paid'))
                         <td>{!! $vbill->paid_icon !!}</td>
                     @endif
                     <td>
+                        <a href="{{ route('vendor-bill-update-paid',$vbill->id) }}" title="Mark bill as paid" class="btn btn-success">
+                            Mark bill as paid
+                        </a>
                     </td>
                   </tr>
                   @endforeach
@@ -60,6 +67,24 @@
 </div>
 @stop
 
+@section('scripts')
+<script>
+$(function(){
+    $('#bill_table').DataTable({"order": [[ 0, "desc" ]]});
+    $newaccountgroup = $('#new-account-group');
+    $('#account').on('change',function(e){
+        $select = $(this);
+        if($select.val()==='other'){
+            $newaccountgroup.show();
+        }
+        else{
+            $newaccountgroup.hide();
+            $newaccountgroup.find('input').val('');
+        }
+    });
+});
+</script>
+@endsection
 
 @section('modals')
     @include('admin.modals.vendor-bill-add')

@@ -40,7 +40,7 @@ class HomeController extends Controller {
 		else{
 			Mail::send('emails.contact', compact('request'), function ($m) use ($request) {
                 $m->subject('WWMD Contact Form');
-            	$m->to('bw@wwmdusa.com', 'Brent Weintraub');
+            	$m->to('brent@wwmdusa.com', 'Brent Weintraub');
             	$m->to('bw.wwmd@gmail.com', 'Brent Weintraub');
             	$m->to('wwmdusa@gmail.com', 'Brent Weintraub');
             	$m->bcc('lbodden@drivegroupllc.com', 'Leopold Bodden');

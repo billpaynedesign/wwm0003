@@ -196,6 +196,7 @@ Route::group(['prefix'=>'vendor'],function(){
 
 		//admin routes
 		Route::group(['middleware'=>'admin'],function(){
+			Route::get('/{id}',['uses'=>'VendorController@show','as'=>'vendor-show']);
 			Route::post('/store',['uses'=>'VendorController@store','as'=>'vendor-create']);
 			Route::post('/delete',['uses'=>'VendorController@delete','as'=>'vendor-delete']);
 			Route::post('/edit',['uses'=>'VendorController@edit','as'=>'vendor-edit']);
@@ -212,10 +213,11 @@ Route::group(['prefix'=>'vendor-bill'],function(){
 			Route::post('/store',['uses'=>'VendorBillController@store','as'=>'vendor-bill-create']);
 			Route::post('/delete',['uses'=>'VendorBillController@delete','as'=>'vendor-bill-delete']);
 			Route::post('/edit',['uses'=>'VendorBillController@edit','as'=>'vendor-bill-edit']);
+			Route::get('/update/paid/{id}',['uses'=>'VendorBillController@update_paid','as'=>'vendor-bill-update-paid']);
 		});
 	});
 });
-Route::group(['prefix'=>'purchase-order'],function(){
+Route::group(['prefix'=>'vendor-purchase-order'],function(){
 	Route::get('/',['uses'=>'VendorPurchaseOrderController@index','as'=>'vendor-purchase-order-index']);
 	//login routes
 	Route::group(['middleware'=>'auth'],function(){
@@ -226,6 +228,7 @@ Route::group(['prefix'=>'purchase-order'],function(){
 			Route::post('/store',['uses'=>'VendorPurchaseOrderController@store','as'=>'vendor-purchase-order-store']);
 			Route::post('/delete',['uses'=>'VendorPurchaseOrderController@delete','as'=>'vendor-purchase-order-delete']);
 			Route::post('/edit',['uses'=>'VendorPurchaseOrderController@edit','as'=>'vendor-purchase-order-edit']);
+			Route::get('/export/{id}',['uses'=>'VendorPurchaseOrderController@export','as'=>'vendor-purchase-order-export']);
 		});
 	});
 });

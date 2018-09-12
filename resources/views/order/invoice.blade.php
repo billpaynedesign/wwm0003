@@ -183,7 +183,7 @@
       </div>
     </div>
     <div class="row text-center bold" style="margin-top: 15px;">
-      <p>bw&#64;wwmdusa.com   |   914-358-9878</p>
+      <p>brent&#64;wwmdusa.com   |   914-358-9878</p>
     </div>
   </body>
 </html>

@@ -161,6 +161,15 @@ body {
     border-color: #f2722f;
     background-color: #f2722f;
 }
+.input-group-select{
+    width: 100%;
+}
+.input-group-select input.form-control{
+    max-width: 75%;
+}
+.input-group-select select.form-control{
+    max-width: 25%;
+}
 /*================================
 ==================================
 Row-Top Bar

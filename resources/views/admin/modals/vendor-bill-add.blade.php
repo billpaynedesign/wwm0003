@@ -10,7 +10,7 @@
                 <div class="modal-body">
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label for="name">Name:</label>
+                            <label for="name">Name/Memo:</label>
                             <input type="text" class="form-control" id="name" name="name" value="{{ old('name')?old('name'):'' }}" required>
                         </div>
                         <div class="form-group">
@@ -23,8 +23,22 @@
                             </select>
                         </div>
                         <div class="form-group">
-                            <label for="date">Date:</label>
+                            <label for="date">Due Date:</label>
                             <input type="date" class="form-control" id="date" name="date" value="{{ old('date')?old('date'):'' }}" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="account">Account</label>
+                            <select id="account" name="account" class="form-control" required>
+                                <option value="">-- Select Account</option>
+                                @foreach ($accounts as $account)
+                                    <option value="{{ $account->id }}">{{ $account->name }}</option>
+                                @endforeach
+                                <option value="other">+ Add New</option>
+                            </select>
+                        </div>
+                        <div id="new-account-group" class="form-group" style="display:none;">
+                            <label for="account_name">New Account:</label>
+                            <input type="text" class="form-control" id="account_name" name="account_name" value="{{ old('account_name')?old('account_name'):'' }}">
                         </div>
                     </div>
                     <div class="col-md-6">
@@ -48,7 +62,7 @@
                         <div class="form-group">
                             <div class="checkbox">
                                 <label for="paid">
-                                    <input type="checkbox" id="paid" name="paid" value="on"> Paid?
+                                    <input type="checkbox" id="paid" name="paid" value="on"> Mark bill as paid?
                                 </label>
                             </div>
                         </div>

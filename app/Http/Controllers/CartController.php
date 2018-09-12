@@ -275,7 +275,7 @@ class CartController extends Controller {
 		}
 		Mail::send('emails.ordernotif',$data, function($message){
 			$message
-    			->to('bw@wwmdusa.com', 'Brent Weintraub')
+    			->to('brent@wwmdusa.com', 'Brent Weintraub')
     			->bcc('hw.pmdi@gmail.com', 'Howard Weintraub')
     			->bcc('bw.wwmd@gmail.com', 'Brent Weintraub')
     			->bcc('lbodden@drivegroupllc.com', 'Leopold Bodden')
@@ -567,7 +567,7 @@ class CartController extends Controller {
 		}
 		Mail::send('emails.ordernotif',$data, function($message){
 			$message
-    			->to('bw@wwmdusa.com', 'Brent Weintraub')
+    			->to('brent@wwmdusa.com', 'Brent Weintraub')
     			->bcc('hw.pmdi@gmail.com', 'Howard Weintraub')
     			->bcc('bw.wwmd@gmail.com', 'Brent Weintraub')
     			->bcc('lbodden@drivegroupllc.com', 'Leopold Bodden')

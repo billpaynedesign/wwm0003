@@ -4,13 +4,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class UnitOfMeasure extends Model {
 
-	/**
-	 * The database table used by the model.
-	 *
-	 * @var string
-	 */
 	protected $table = 'units_of_measure';
-
 
 	public function products()
     {
@@ -20,6 +14,6 @@ class UnitOfMeasure extends Model {
         return '$'.\number_format((float)$this->price,2);
     }
     public function getMsrpStringAttribute(){
-        return '$'.\number_format((float)$this->msrp,2);   
+        return '$'.\number_format((float)$this->msrp,2);
     }
 }

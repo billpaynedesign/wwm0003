@@ -6,8 +6,10 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
+use App\VendorPoDetail;
 use App\Vendor;
 use App\VendorPurchaseOrder;
+use App\UnitOfMeasure;
 
 class VendorPurchaseOrderController extends Controller
 {
@@ -45,16 +47,34 @@ class VendorPurchaseOrderController extends Controller
             'vendor' => 'required',
             'date' => 'required|date'
         ]);
+
         $purchase_order = VendorPurchaseOrder::create([
             'vendor_id' => $request->input('vendor'),
             'date' => $request->input('date')
         ]);
+
         $products = $request->input('products');
         $uoms = $request->input('uoms');
         $quantities = $request->input('quantities');
-        foreach ($products as $key => $product) {
+        $total = 0;
 
+        foreach ($products as $key => $product) {
+            $uom = UnitOfMeasure::find($uoms[$key]);
+            $item_total = (int)$quantities[$key]*(float)$uom->price;
+            $po_detail = VendorPoDetail::create([
+                'quantity' => $quantities[$key],
+                'product_id' => $products[$key],
+                'uom_id' => $uoms[$key],
+                'item_total' => $item_total
+            ]);
+            $total += $item_total;
+            $purchase_order->details()->save($po_detail);
         }
+        
+        $purchase_order->total = $total;
+        $purchase_order->save();
+
+        return redirect()->route('vendor-purchase-order-export',$purchase_order->id);
     }
 
     /**
@@ -66,6 +86,18 @@ class VendorPurchaseOrderController extends Controller
     public function show($id)
     {
         //
+    }
+
+    /**
+     * Export the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function export($id)
+    {
+        $purchase_order = VendorPurchaseOrder::findOrFail($id);
+        return view('purchase-order.export',compact('purchase_order'));
     }
 
     /**

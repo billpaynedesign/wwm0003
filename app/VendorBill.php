@@ -12,14 +12,19 @@ class VendorBill extends Model
         'reference_num',
         'amount',
         'payment_term_id',
-        'paid'
+        'paid',
+        'bill_account_id'
     ];
     protected $dates = ['date'];
+
     public function vendor(){
         return $this->belongsTo('App\Vendor');
     }
     public function payment_term(){
         return $this->belongsTo('App\PaymentTerm');
+    }
+    public function bill_account(){
+        return $this->belongsTo('App\BillAccount');
     }
     public function getAmountStringAttribute(){
         return '$'.number_format((float)$this->amount, 2);

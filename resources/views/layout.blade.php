@@ -65,7 +65,7 @@
                         <div id="header-text-holder" class="col-md-9 col-xs-6 no-padding">
                             <h2>Questions or Comments?</h2>
                             <p>Mon-Fri 9am&#8209;5pm&nbsp;EST</p>
-                            <p><strong><a href="mailto:bw@wwmdusa.com" title="Email World Wide Medical Distributors">bw@wwmdusa.com</a></strong></p>
+                            <p><strong><a href="mailto:brent@wwmdusa.com" title="Email World Wide Medical Distributors">brent@wwmdusa.com</a></strong></p>
                             <h3><a href="tel:9143589878" title="Call World Wide Medical Distributors">914.358.9878</a></h3>
                         </div>
                     </div>
@@ -173,9 +173,9 @@
                     <div id="footer-text-holder" class="col-xs-6">
                         Questions or Comments?<br/>
                         Mon-Fri: 9am-5pm EST<br/>
-                        Email: <a href="mailto:bw@wwmdusa.com" title="Contact World Wide Medical Distributors">bw@wwmdusa.com</a><br/>
+                        Email: <a href="mailto:brent@wwmdusa.com" title="Contact World Wide Medical Distributors">brent@wwmdusa.com</a><br/>
                         Telephone: <a href="tel:9143589879" title="Call World Wide Medical Distributors">914.358.9879</a><br/>
-                        Fax: <a href="tel:9143589879" title="Fax World Wide Medical Distributors">914.358.9880</a><br/>
+                        Fax: <a href="tel:9143589880" title="Fax World Wide Medical Distributors">914.358.9880</a><br/>
                     </div>
                 </div>
                 <hr>

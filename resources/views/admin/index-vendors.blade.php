@@ -44,7 +44,9 @@
                                     <td>{{ $vendor->address }}</td>
                                     <td>{{ $vendor->phone }}</td>
                                     <td>
-
+                                        <a class="btn btn-info" href="{{ route('vendor-show',$vendor->id) }}" title="View purchase orders">
+                                            <span class="far fa-file-invoice" aria-hidden="true"></span>
+                                        </a>
                                     </td>
                                 </tr>
                                 @endforeach

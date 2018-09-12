@@ -43,7 +43,7 @@ $(document).ready(function(){
         "searchable":false,
       },
     ]
-              
+
   });
   $("#add-picture-dropzone").dropzone({
     url: '/false',
@@ -96,7 +96,7 @@ function product_information(id){
   });
 }
 function attribute_delete(id,name,option,element){
-  if(confirm('Are you sure you want to remove '+name+': '+option)){  
+  if(confirm('Are you sure you want to remove '+name+': '+option)){
     $.post('{{ url("product/attribute/delete") }}',{id:id,_token:'{{ csrf_token() }}'},function(data){
       if(data['response'] == 'success'){
         $('#attribute-delete-'+data['id']).parent().parent().remove();
@@ -105,7 +105,7 @@ function attribute_delete(id,name,option,element){
   }
 }
 function add_uom(){
-  var html = '<div class="uom_single"> <hr/> <div class="form-group"> <button class="btn btn-danger" onclick="$(this).parent().parent().remove();"><span class="fa fa-trash"></span></button> </div> <div class="form-group"> <label for="uom">Unit of Measure</label> <input type="text" id="uom" name="uom[]" class="form-control" required /> </div> <div class="form-group"> <label for="msrp">MSRP:</label> <input type="number" id="msrp" name="msrp[]" step="0.01" min="0" class="form-control" required /> </div> <div class="form-group"> <label for="price">Price:</label> <input type="number" id="price" name="price[]" step="0.01" min="0" class="form-control" required /> </div> </div>'
+  var html = '<div class="uom_single"> <hr/> <div class="form-group"> <button class="btn btn-danger" onclick="$(this).parent().parent().remove();"><span class="fa fa-trash"></span></button> </div> <div class="form-group"> <label for="uom">Unit of Measure</label> <input type="text" id="uom" name="uom[]" class="form-control" required /> </div> <div class="form-group"> <label for="msrp">MSRP:</label> <input type="number" id="msrp" name="msrp[]" step="0.01" min="0" class="form-control" required /> </div> <div class="form-group"> <label for="price">Price:</label> <input type="number" id="price" name="price[]" step="0.01" min="0" class="form-control" required /> </div> <div class="form-group"> <label>Weight:</label> <div class="input-group input-group-select"> <input type="number" name="weight[]" step="0.01" min="0" class="form-control" /> <select class="form-control" name="weight_unit[]"> <option value="lb">lb</option> <option value="oz">oz</option> </select> </div> </div> </div>'
   $("#uom_groups").append(html);
   return false;
 }

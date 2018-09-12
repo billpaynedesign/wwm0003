@@ -1,4 +1,6 @@
 <?php namespace App\Http\Controllers\Admin;
+
+use App\BillAccount;
 use App\Category;
 use App\Commands\CategoryHelper;
 use App\Http\Controllers\AdminController;
@@ -161,6 +163,7 @@ class DashboardController extends AdminController {
         $vendor_bills = $bill_query->get();
         $vendors = Vendor::all();
         $payment_terms = PaymentTerm::all();
-        return view('admin.index-accounts-payable',compact('vendor_bills','vendors','payment_terms'));
+        $accounts = BillAccount::all();
+        return view('admin.index-accounts-payable',compact('vendor_bills','vendors','payment_terms','accounts'));
     }
 }
