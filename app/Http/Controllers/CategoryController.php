@@ -77,8 +77,8 @@ class CategoryController extends Controller {
 		//$parent = Category::findBySlug($request->input('parent_category'));
 		$category = Category::find($request->input('category_id'));
 		if($category){
-			$category->name = $request->input('name');
-			//$category->parent_id = $request->has('parent_category')?intval($request->input('parent_category')):NULL;
+			$category->name = $request->input('edit_category_name');
+			$category->parent_id = $request->input('edit_parent_category');
 			$category->description = $request->input('description');
 			//$category->active = 1;
 			//$category->featured = 0;
