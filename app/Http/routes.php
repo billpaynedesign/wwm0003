@@ -2,33 +2,45 @@
 define("AUTHORIZENET_API_LOGIN_ID", env("AUTHORIZENET_API_LOGIN_ID"));
 define("AUTHORIZENET_TRANSACTION_KEY", env("AUTHORIZENET_TRANSACTION_KEY"));
 define("AUTHORIZENET_SANDBOX", env("AUTHORIZENET_SANDBOX"));
-/*
-|--------------------------------------------------------------------------
-| Application Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register all of the routes for an application.
-| It's a breeze. Simply tell Laravel the URIs it should respond to
-| and give it the controller to call when that URI is requested.
-|
-*/
 
 Route::get('/', ['uses'=>'HomeController@index','as'=>'home']);
 Route::get('/home', function(){ return redirect()->route('home'); });
 Route::get('/about-us',['uses'=>'HomeController@aboutus','as'=>'about-us']);
 Route::get('/contact-us',['uses'=>'HomeController@contactus','as'=>'contact-us']);
 Route::post('/contact-us',['uses'=>'HomeController@contact','as'=>'contact-us-submit']);
+// Authentication routes...
 Route::get('/register-or-login',['uses'=>'HomeController@registerOrLogin','as'=>'register-or-login']);
+Route::controllers([
+	'auth' => 'Auth\AuthController',
+	'password' => 'Auth\PasswordController',
+]);
 
+/*
+ * ------------
+ * Api
+ * ------------
+ */
 Route::get('/api/search', ['uses'=>'ApiSearchController@index']);
 Route::get('/api/product/add/search', ['uses'=>'ApiSearchController@addProduct']);
 Route::get('/api/cart/add/search', ['uses'=>'ApiSearchController@addUom']);
 Route::get('/api/get/cart/count',['uses'=>'ApiSearchController@getCartCount','as'=>'api-cart-get-count']);
+
+/*
+ * ------------
+ * Admin Api
+ * ------------
+ */
 Route::group(['middleware'=>'admin'],function(){
 	Route::get('/api/get/users',['uses'=>'ApiSearchController@getUsers','as'=>'api-users-get']);
 	Route::get('/api/get/uom/product/option/html',['uses'=>'ApiSearchController@getUomProductOptionsHtml','as'=>'api-get-uom-product-options-html']);
 	Route::get('/api/get/product/uom/data',['uses'=>'ApiSearchController@getProductUomData','as'=>'api-product-uom-get-data']);
 });
+
+/*
+ * ------------
+ * Admin Dashboard
+ * ------------
+ */
 Route::group(['prefix' => 'admin', 'middleware' => 'auth', 'namespace' => 'Admin'], function() {
 	Route::group(['middleware'=>'admin'],function(){
 		Route::pattern('id', '[0-9]+');
@@ -47,6 +59,12 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth', 'namespace' => 'Admin
 	    Route::get('/vendors', ['uses'=>'DashboardController@vendors','as'=>'admin-vendors']);
 	});
 });
+
+/*
+ * ------------
+ * Products
+ * ------------
+ */
 Route::get('/sale',['uses'=>'ProductController@sale','as'=>'sale-products']);
 Route::get('/products',['uses'=>'ProductController@index','as'=>'product-all']);
 Route::group(['prefix'=>'product'],function(){
@@ -73,6 +91,12 @@ Route::group(['prefix'=>'product'],function(){
 		});
 	});
 });
+
+/*
+ * ------------
+ * Category
+ * ------------
+ */
 Route::group(['prefix'=>'category'],function(){
 	Route::get('/',['uses'=>'CategoryController@index','as'=>'category-index']);
 	Route::get('/{slug}',['uses'=>'CategoryController@show','as'=>'category-show']);
@@ -89,6 +113,12 @@ Route::group(['prefix'=>'category'],function(){
 		});
 	});
 });
+
+/*
+ * ------------
+ * Cart
+ * ------------
+ */
 Route::group(['prefix'=>'cart'],function(){
 	Route::get('/',['uses'=>'CartController@show','as'=>'cart']);
 	Route::post('/add',['uses'=>'CartController@add','as'=>'add-to-cart']);
@@ -107,6 +137,12 @@ Route::group(['prefix'=>'cart'],function(){
 		Route::post('/checkout/{id}/admin',['uses'=>'CartController@admin_checkout','as'=>'admin-cart-checkout']);
 	});
 });
+
+/*
+ * ------------
+ * Order
+ * ------------
+ */
 Route::group(['prefix'=>'order'],function(){
 
 	//login routes
@@ -134,6 +170,16 @@ Route::group(['prefix'=>'order'],function(){
 	});
 });
 
+/*
+ * ------------
+ * User profile
+ * User Crud
+ * User info
+ * User Products
+ * User Cart
+ * User Favorites
+ * ------------
+ */
 Route::group(['prefix'=>'user'],function(){
 
 	//login routes
@@ -158,7 +204,15 @@ Route::group(['prefix'=>'user'],function(){
 		});
 	});
 });
-//login admin routes
+
+/*
+ * ------------
+ * Shipto
+ * UnitOfMeasure
+ * Product Group
+ * Option Group
+ * ------------
+ */
 Route::group(['middleware'=>'auth'],function(){
 	Route::resource('shipto','ShipToController');
 	Route::group(['middleware'=>'admin'],function(){
@@ -175,6 +229,12 @@ Route::group(['middleware'=>'auth'],function(){
 		Route::post('group/product/{id}/delete',['uses'=>'OptionGroupController@group_product_delete','as'=>'group-product-option-delete']);
 	});
 });
+
+/*
+ * ------------
+ * Specials
+ * ------------
+ */
 Route::group(['prefix'=>'specials'],function(){
 
 	//login routes
@@ -189,6 +249,12 @@ Route::group(['prefix'=>'specials'],function(){
 		});
 	});
 });
+
+/*
+ * ------------
+ * Vendors
+ * ------------
+ */
 Route::group(['prefix'=>'vendor'],function(){
 	Route::get('/',['uses'=>'VendorController@index','as'=>'vendor-index']);
 	//login routes
@@ -204,6 +270,12 @@ Route::group(['prefix'=>'vendor'],function(){
 		});
 	});
 });
+
+/*
+ * ------------
+ * Vendor Bills
+ * ------------
+ */
 Route::group(['prefix'=>'vendor-bill'],function(){
 	Route::get('/',['uses'=>'VendorBillController@index','as'=>'vendor-bill-index']);
 	//login routes
@@ -218,6 +290,12 @@ Route::group(['prefix'=>'vendor-bill'],function(){
 		});
 	});
 });
+
+/*
+ * ------------
+ * Purchase Orders
+ * ------------
+ */
 Route::group(['prefix'=>'vendor-purchase-order'],function(){
 	Route::get('/',['uses'=>'VendorPurchaseOrderController@index','as'=>'vendor-purchase-order-index']);
 	//login routes
@@ -228,12 +306,9 @@ Route::group(['prefix'=>'vendor-purchase-order'],function(){
 			Route::get('/create',['uses'=>'VendorPurchaseOrderController@create','as'=>'vendor-purchase-order-create']);
 			Route::post('/store',['uses'=>'VendorPurchaseOrderController@store','as'=>'vendor-purchase-order-store']);
 			Route::post('/delete',['uses'=>'VendorPurchaseOrderController@delete','as'=>'vendor-purchase-order-delete']);
-			Route::post('/edit',['uses'=>'VendorPurchaseOrderController@edit','as'=>'vendor-purchase-order-edit']);
+			Route::get('/edit/{id}',['uses'=>'VendorPurchaseOrderController@edit','as'=>'vendor-purchase-order-edit']);
+			Route::post('/update/{id}',['uses'=>'VendorPurchaseOrderController@update','as'=>'vendor-purchase-order-update']);
 			Route::get('/export/{id}',['uses'=>'VendorPurchaseOrderController@export','as'=>'vendor-purchase-order-export']);
 		});
 	});
 });
-Route::controllers([
-	'auth' => 'Auth\AuthController',
-	'password' => 'Auth\PasswordController',
-]);

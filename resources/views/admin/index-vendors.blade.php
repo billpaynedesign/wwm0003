@@ -44,7 +44,7 @@
                                 <tr>
                                     <td>{{ $vendor->name }}</td>
                                     <td>{{ $vendor->email }}</td>
-                                    <td>{{ $vendor->address }}</td>
+                                    <td>{{ $vendor->full_address }}</td>
                                     <td>{{ $vendor->phone }}</td>
                                     <td>
                                         <a class="btn btn-info" href="{{ route('vendor-show',$vendor->id) }}" title="View existing purchase orders">

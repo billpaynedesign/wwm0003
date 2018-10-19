@@ -140,7 +140,7 @@
                     <td>{{ $purchase_order->vendor->name }}</td>
                 </tr>
                 <tr>
-                    <td>{{ $purchase_order->vendor->address }}</td>
+                    <td>{{ $purchase_order->vendor->full_address }}</td>
                 </tr>
                 <tr>
                     <td>{{ $purchase_order->vendor->phone }}</td>
@@ -177,9 +177,11 @@
         <table id="product_table" width="100%" cellpadding="0" border="1" cellspacing="0" style="margin-top:15px;padding:0px 0px 0px 0px;border:1px solid #CCC;font-size:10px;">
             <thead>
                 <tr>
+                    <th>Reorder #</th>
                     <th>Product Name</th>
                     <th>Item Number</th>
                     <th>Option</th>
+                    <th>Note</th>
                     <th>Qty</th>
                     <th>Price</th>
                     <th>Item Total</th>
@@ -188,10 +190,12 @@
             <tbody>
                 @foreach($purchase_order->details as $detail)
                     <tr>
+                        <td>{{ $detail->reorder_number }}</td>
                         <td>{{ $detail->product->name }}</td>
                         <td>{{ $detail->product->item_number }}</td>
                         <td>{{ $detail->uom->name }}</td>
-                        <td style="text-align:center;">{{ $detail->quantity }}</td>
+                        <td>{{ $detail->note }}</td>
+                        <td class="text-center">{{ $detail->quantity }}</td>
                         <td class="text-right">${{ number_format($detail->uom->price,2) }}</td>
                         <td class="text-right">${{ number_format($detail->item_total,2) }}</td>
                     </tr>
@@ -199,7 +203,7 @@
             </tbody>
             <tfoot>
                 <tr>
-                    <td colspan="4"></td>
+                    <td colspan="6"></td>
                     <th class="text-right" style="padding-right:8px;">Total</th>
                     <td class="text-right">${{ number_format($purchase_order->total,2) }}</td>
                 </tr>

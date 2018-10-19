@@ -21,8 +21,28 @@
                         <input type="text" class="form-control" id="phone" name="phone" value="{{ old('phone')?old('phone'):'' }}">
                     </div>
                     <div class="form-group">
+                        <label for="attn">ATTN:</label>
+                        <input type="text" class="form-control" id="attn" name="attn" value="{{ old('attn')?old('attn'):'' }}">
+                    </div>
+                    <div class="form-group">
                         <label for="address">Address:</label>
                         <input type="text" class="form-control" id="address" name="address" value="{{ old('address')?old('address'):'' }}">
+                    </div>
+                    <div class="form-group">
+                        <label for="address2">Address 2:</label>
+                        <input type="text" class="form-control" id="address2" name="address2" value="{{ old('address2')?old('address2'):'' }}">
+                    </div>
+                    <div class="form-group">
+                        <label for="city">City:</label>
+                        <input type="text" class="form-control" id="city" name="city" value="{{ old('city')?old('city'):'' }}">
+                    </div>
+                    <div class="form-group">
+                        <label for="state">State:</label>
+                        <input type="text" class="form-control" id="state" name="state" value="{{ old('state')?old('state'):'' }}">
+                    </div>
+                    <div class="form-group">
+                        <label for="zip">Zip:</label>
+                        <input type="text" class="form-control" id="zip" name="zip" value="{{ old('zip')?old('zip'):'' }}">
                     </div>
                 </div>
                 <div class="modal-footer">

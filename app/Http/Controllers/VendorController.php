@@ -40,14 +40,26 @@ class VendorController extends Controller
     {
         $this->validate($request, [
             'name' => 'required',
-            'email' => 'email'
+            'email' => 'email',
+            'phone' => 'string',
+            'attn' => 'string',
+            'address' => 'string',
+            'address2' => 'string',
+            'city' => 'string',
+            'state' => 'string',
+            'zip' => 'string'
         ]);
 
         $vendor = Vendor::create([
                 'name' => $request->input('name'),
                 'email' => $request->input('email'),
+                'phone' => $request->input('phone'),
+                'attn' => $request->input('attn'),
                 'address' => $request->input('address'),
-                'phone' => $request->input('phone')
+                'address2' => $request->input('address2'),
+                'city' => $request->input('city'),
+                'state' => $request->input('state'),
+                'zip' => $request->input('zip')
             ]);
         return redirect()->route('admin-vendors')->with('success','Vendor created successfully');
     }
@@ -88,14 +100,26 @@ class VendorController extends Controller
     {
         $this->validate($request, [
             'name' => 'required',
-            'email' => 'email'
+            'email' => 'email',
+            'phone' => 'string',
+            'attn' => 'string',
+            'address' => 'string',
+            'address2' => 'string',
+            'city' => 'string',
+            'state' => 'string',
+            'zip' => 'string'
         ]);
         $vendor = Vendor::findOrFail($id);
         $vendor->update([
                 'name' => $request->input('name'),
                 'email' => $request->input('email'),
+                'phone' => $request->input('phone'),
+                'attn' => $request->input('attn'),
                 'address' => $request->input('address'),
-                'phone' => $request->input('phone')
+                'address2' => $request->input('address2'),
+                'city' => $request->input('city'),
+                'state' => $request->input('state'),
+                'zip' => $request->input('zip')
             ]);
         return redirect()->route('admin-vendors')->with('success','Vendor updated successfully');
     }

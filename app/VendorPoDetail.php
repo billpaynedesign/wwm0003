@@ -6,7 +6,14 @@ use Illuminate\Database\Eloquent\Model;
 
 class VendorPoDetail extends Model
 {
-    protected $fillable = ['quantity','product_id','uom_id','item_total'];
+    protected $fillable = [
+        'quantity',
+        'product_id',
+        'uom_id',
+        'item_total',
+        'note',
+        'reorder_number'
+    ];
 
     public function vendor_purchase_order(){
         return $this->belongsTo('App\VendorPurchaseOrder');

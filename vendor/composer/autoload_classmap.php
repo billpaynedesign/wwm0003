@@ -9,6 +9,8 @@ return array(
     'Absolute_Positioner' => $vendorDir . '/dompdf/dompdf/include/absolute_positioner.cls.php',
     'Abstract_Renderer' => $vendorDir . '/dompdf/dompdf/include/abstract_renderer.cls.php',
     'AddAccountIdToVendorBills' => $baseDir . '/database/migrations/2018_09_12_150337_add_account_id_to_vendor_bills.php',
+    'AddAdditionalFieldsToVendorPoDetails' => $baseDir . '/database/migrations/2018_10_19_144616_add_additional_fields_to_vendor_po_details.php',
+    'AddAddressFieldsToVendors' => $baseDir . '/database/migrations/2018_10_18_202900_add_address_fields_to_vendors.php',
     'AddBackorderDetailsTable' => $baseDir . '/database/migrations/2016_07_15_200754_add_backorder_details_table.php',
     'AddNoPricingToUserTable' => $baseDir . '/database/migrations/2017_10_05_133629_add_no_pricing_to_user_table.php',
     'AddQbIdProductsUsersOrdersTables' => $baseDir . '/database/migrations/2017_11_03_193924_add_qb_id_products_users_orders_tables.php',

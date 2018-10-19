@@ -411,6 +411,8 @@ class ComposerStaticInita864c481a4c3760e132aaf15a80c6e4b
         'Absolute_Positioner' => __DIR__ . '/..' . '/dompdf/dompdf/include/absolute_positioner.cls.php',
         'Abstract_Renderer' => __DIR__ . '/..' . '/dompdf/dompdf/include/abstract_renderer.cls.php',
         'AddAccountIdToVendorBills' => __DIR__ . '/../..' . '/database/migrations/2018_09_12_150337_add_account_id_to_vendor_bills.php',
+        'AddAdditionalFieldsToVendorPoDetails' => __DIR__ . '/../..' . '/database/migrations/2018_10_19_144616_add_additional_fields_to_vendor_po_details.php',
+        'AddAddressFieldsToVendors' => __DIR__ . '/../..' . '/database/migrations/2018_10_18_202900_add_address_fields_to_vendors.php',
         'AddBackorderDetailsTable' => __DIR__ . '/../..' . '/database/migrations/2016_07_15_200754_add_backorder_details_table.php',
         'AddNoPricingToUserTable' => __DIR__ . '/../..' . '/database/migrations/2017_10_05_133629_add_no_pricing_to_user_table.php',
         'AddQbIdProductsUsersOrdersTables' => __DIR__ . '/../..' . '/database/migrations/2017_11_03_193924_add_qb_id_products_users_orders_tables.php',

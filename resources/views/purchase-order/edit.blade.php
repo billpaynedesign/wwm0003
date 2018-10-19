@@ -4,24 +4,13 @@
 <div id="row-main" class="row">
     <div id="container-main" class="container">
         <div id="col-main" class="col-xs-12">
-            <h1>Create Purchase Order</h1>
-            <form action="{{ route('vendor-purchase-order-store') }}" method="post">
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <label for="vendor">Vendor:</label>
-                        <select id="vendor" name="vendor" class="form-control" required>
-                            <option value="">-- Select Vendor --</option>
-                            @foreach ($vendors as $vendor)
-                                <option value="{{ $vendor->id }}">{{ $vendor->name }}</option>
-                            @endforeach
-                        </select>
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <label for="date">Date:</label>
-                        <input type="date" id="date" name="date" class="form-control" required>
-                    </div>
+            <h1>Edit Purchase Order {{ $purchase_order->invoice_num }}</h1>
+            <h4>{{ $purchase_order->vendor->name }}</h4>
+
+            <form id="edit-form" action="{{ route('vendor-purchase-order-update',$purchase_order->id) }}" method="post">
+                <div class="form-group col-lg-3 col-md-6 col-sm-12">
+                    <label for="date">Date:</label>
+                    <input type="date" id="date" name="date" class="form-control" value="{{ $purchase_order->date->format('Y-m-d') }}" required>
                 </div>
                 <div class="col-xs-12">
                     <div class="form-group">
@@ -37,16 +26,53 @@
                                     <th>Qty</th>
                                     <th>Price</th>
                                     <th>Item Total</th>
-                                    {{-- <th>Action</th> --}}
+                                    <th></th>
                                 </tr>
                             </thead>
-                            <tbody>
-
+                            <tbody id="current-items">
+                                @foreach($purchase_order->details as $detail)
+                                    <tr id="oldrow-{{ $detail->id }}">
+                                        <td class="reordernum-cell">
+                                            <span>{{ $detail->reorder_number }}</span>
+                                            <input type="hidden" value="{{ $detail->reorder_number }}" name="old_reordernums[{{ $detail->id }}]">
+                                        </td>
+                                        <td>{{ $detail->product->name }}</td>
+                                        {{-- <td>{{ $detail->product->item_number }}</td> --}}
+                                        <td>{{ $detail->uom->name }}</td>
+                                        <td class="note-cell">
+                                            <span>{{ $detail->note }}</span>
+                                            <input type="hidden" value="{{ $detail->note }}" name="old_notes[{{ $detail->id }}]">
+                                        </td>
+                                        <td class="text-center quantity-cell">
+                                            <span>{{ $detail->quantity }}</span>
+                                            <input type="hidden" value="{{ $detail->quantity }}" name="old_quantities[{{ $detail->id }}]">
+                                        </td>
+                                        <td class="text-right price-cell">${{ number_format($detail->uom->price,2) }}</td>
+                                        <td class="text-right itemtotal-cell">${{ number_format($detail->item_total,2) }}</td>
+                                        <td>
+                                            <button
+                                                type="button"
+                                                class="btn btn-warning"
+                                                title="Edit row"
+                                                data-toggle="modal"
+                                                data-target="#edit-modal"
+                                                data-detailid="{{ $detail->id }}">
+                                                <span class="fa fa-edit"></span>
+                                            </button>
+                                            <button type="button" class="btn btn-danger" title="Delete row" onclick="delete_old_row({{ $detail->id }})">
+                                                <span class="fa fa-trash"></span>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                            <tbody id="new-items">
                             </tbody>
                             <tfoot>
                                 <tr>
                                     <th colspan="6"><strong>Total</strong></th>
-                                    <th id="cart-total" class="text-right">$0.00</th>
+                                    <th id="cart-total" class="text-right">${{ number_format($purchase_order->total,2) }}</th>
+                                    <th></th>
                                 </tr>
                             </tfoot>
                         </table>
@@ -54,14 +80,14 @@
                 </div>
                 <div class="col-xs-12">
                     <div class="form-group">
-                        <button type="button" id="add-cart-button" class="btn btn-success" data-toggle="modal" href="#AddCartItem" disabled>
+                        <button type="button" id="add-cart-button" class="btn btn-success" data-toggle="modal" href="#AddCartItem">
                             <span class="fa fa-plus"></span>&nbsp;Add Item
                         </button>
                     </div>
                     <div class="form-group">
                         <input type="hidden" name="_token" value="{{ csrf_token() }}">
                         <a href="{{ route('admin-vendors') }}" class="btn btn-cancel">Cancel</a>
-                        <button id="purchase-order-submit" type="submit" name="submit" value="true" class="btn btn-default" disabled>Submit</button>
+                        <button id="purchase-order-submit" type="submit" name="submit" value="true" class="btn btn-default">Submit</button>
                     </div>
                 </div>
             </form>
@@ -108,6 +134,34 @@
             </div>
         </div>
     </div>
+    <div class="modal fade" id="edit-modal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <a class="close" data-dismiss="modal">&times;</a>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="cart-edit-reordernum">Reorder #</label>
+                        <input id="cart-edit-reordernum" name="reordernum" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label for="cart-edit-quantity">Quantity</label>
+                        <input id="cart-edit-quantity" name="quantity" value="1" type="number" min="1" step="1" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label for="cart-edit-note">Note</label>
+                        <input id="cart-edit-note" name="note" class="form-control">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <input type="hidden" id="cart-edit-detailid" value="">
+                    <button type="button" data-dismiss="modal" class="btn btn-primary" id="edit-modal-submit">Save changes</button>
+                    <a class="btn btn-cancel" data-dismiss="modal">Close</a>
+                </div>
+            </div>
+        </div>
+    </div>
 @endsection
 
 
@@ -143,7 +197,11 @@
         <td class="text-right">
             {item_total}
         </td>
-        {{-- <td>{{action}}</td> --}}
+        <td>
+            <button type="button" class="btn btn-danger" title="Delete row" onclick="delete_new_row('{id}')">
+                <span class="fa fa-trash"></span>
+            </button>
+        </td>
     </tr>
 </template>
 <script type="text/javascript">
@@ -158,15 +216,6 @@
     var cartrows = {};
     var carttotal = $('#cart-total');
     $(function(){
-        // on vendor change check if vendor is selected and if so allow item adding
-        $('#vendor').on('change',function(){
-            if($(this).find(':selected').val() ===''){
-                $('#add-cart-button').prop('disabled',true);
-            }
-            else{
-                $('#add-cart-button').prop('disabled',false);
-            }
-        });
         var $selectizeCartEditSearch = $('#cart-edit-search').selectize({
 	        valueField: 'url',
 	        labelField: 'name',
@@ -264,7 +313,7 @@
                 };
 
                 // add to the table
-                carttable.querySelector('tbody').appendChild(clone);
+                carttable.querySelector('tbody#new-items').appendChild(clone);
 
                 // re-initialize inputs
                 $("#cart-add-uom-group").hide();
@@ -283,6 +332,44 @@
                 calculate_total();
             });
 		});
+        $('#edit-modal').on('show.bs.modal', function (event) {
+            var button = $(event.relatedTarget);
+            var detail_id = button.data('detailid');
+
+            var reordernum = $(`#oldrow-${detail_id} .reordernum-cell input`).val();
+            var note = $(`#oldrow-${detail_id} .note-cell input`).val();
+            var quantity = $(`#oldrow-${detail_id} .quantity-cell input`).val();
+
+            $('#cart-edit-reordernum').val(reordernum);
+            $('#cart-edit-quantity').val(quantity);
+            $('#cart-edit-note').val(note);
+            $('#cart-edit-detailid').val(detail_id);
+        });
+        $('#edit-modal-submit').click(function(event){
+            var button = $(event.relatedTarget);
+            var detail_id = $('#cart-edit-detailid').val();
+
+            var reordernum = $('#cart-edit-reordernum').val();
+            var note = $('#cart-edit-quantity').val();
+            var quantity = $('#cart-edit-note').val();
+
+            $(`#oldrow-${detail_id} .reordernum-cell input`).val(reordernum);
+            $(`#oldrow-${detail_id} .note-cell input`).val(quantity);
+            $(`#oldrow-${detail_id} .quantity-cell input`).val(note);
+
+            $(`#oldrow-${detail_id} .reordernum-cell span`).text(reordernum);
+            $(`#oldrow-${detail_id} .note-cell span`).text(quantity);
+            $(`#oldrow-${detail_id} .quantity-cell span`).text(note);
+
+            $('#cart-edit-detailid').val('');
+            $('#cart-edit-reordernum').val('');
+            $('#cart-edit-quantity').val('');
+            $('#cart-edit-note').val('');
+
+            calculate_total();
+        });
+
+        calculate_total();
     });
     function calculate_total(){
         var total = 0;
@@ -290,6 +377,14 @@
             let thisrow = cartrows[key];
             total += thisrow.item_total;
         }
+        $('#current-items tr').each(function(index,element){
+            var quantity = parseInt($(element).find('.quantity-cell input').val());
+            var price = parseFloat($(element).find('.price-cell').text().replace(/[^\d\.]+/g,''));
+            var itemtotal = quantity*price;
+            $(element).find('.itemtotal-cell').text('$'+itemtotal.format(2, 3, ',', '.'));
+            total += itemtotal;
+        });
+
         let total_string = '$'+total.format(2, 3, ',', '.');
         carttotal.html(total_string);
 
@@ -299,6 +394,17 @@
         else{
             $('#purchase-order-submit').prop('disabled',true);
         }
+    }
+    function delete_new_row(row_id){
+        document.querySelector(`#${row_id}`).remove();
+        delete cartrows[row_id]; 
+        calculate_total();
+    }
+    function delete_old_row(row_id){
+        document.querySelector(`#oldrow-${row_id}`).remove();
+        document.querySelector('#edit-form').innerHTML += `<input type='hidden' name='deletedetails[]' value='${row_id}'>`;
+
+        calculate_total();
     }
 </script>
 @endsection

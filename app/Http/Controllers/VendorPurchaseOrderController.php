@@ -32,7 +32,6 @@ class VendorPurchaseOrderController extends Controller
     public function create()
     {
         $vendors = Vendor::all();
-
         return view('purchase-order.create',compact('vendors'));
     }
 
@@ -57,6 +56,9 @@ class VendorPurchaseOrderController extends Controller
         $products = $request->input('products');
         $uoms = $request->input('uoms');
         $quantities = $request->input('quantities');
+        $notes = $request->input('notes');
+        $reordernums = $request->input('reordernums');
+
         $total = 0;
 
         foreach ($products as $key => $product) {
@@ -66,6 +68,8 @@ class VendorPurchaseOrderController extends Controller
                 'quantity' => $quantities[$key],
                 'product_id' => $products[$key],
                 'uom_id' => $uoms[$key],
+                'note' => $notes[$key],
+                'reorder_number' => $reordernums[$key],
                 'item_total' => $item_total
             ]);
             $total += $item_total;
@@ -109,7 +113,8 @@ class VendorPurchaseOrderController extends Controller
      */
     public function edit($id)
     {
-        //
+        $purchase_order = VendorPurchaseOrder::findOrFail($id);
+        return view('purchase-order.edit',compact('purchase_order'));
     }
 
     /**
@@ -121,7 +126,66 @@ class VendorPurchaseOrderController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $purchase_order = VendorPurchaseOrder::findOrFail($id);
+
+        $this->validate($request,[
+            'date' => 'required|date'
+        ]);
+
+        $total = 0;
+
+        if($request->has('old_quantities') && count($request->input('old_quantities'))){
+            $old_quantities = $request->input('old_quantities');
+            $old_notes = $request->input('old_notes');
+            $old_reordernums = $request->input('old_reordernums');
+
+            foreach ($old_quantities as $key => $quantity) {
+                $detail = VendorPoDetail::find($key);
+                if($detail){
+                    $item_total = (int)$quantity*(float)$detail->uom->price;
+
+                    $po_detail = $detail->update([
+                        'quantity' => $old_quantities[$key],
+                        'note' => $old_notes[$key],
+                        'reorder_number' => $old_reordernums[$key],
+                        'item_total' => $item_total
+                    ]);
+                    $total += $item_total;
+                }
+            }
+        }
+
+
+        if($request->has('products') && count($request->input('products'))){
+            $products = $request->input('products');
+            $uoms = $request->input('uoms');
+            $quantities = $request->input('quantities');
+            $notes = $request->input('notes');
+            $reordernums = $request->input('reordernums');
+
+            foreach ($products as $key => $product) {
+                $uom = UnitOfMeasure::find($uoms[$key]);
+                $item_total = (int)$quantities[$key]*(float)$uom->price;
+                $po_detail = VendorPoDetail::create([
+                    'quantity' => $quantities[$key],
+                    'product_id' => $products[$key],
+                    'uom_id' => $uoms[$key],
+                    'note' => $notes[$key],
+                    'reorder_number' => $reordernums[$key],
+                    'item_total' => $item_total
+                ]);
+                $total += $item_total;
+                $purchase_order->details()->save($po_detail);
+            }
+        }
+
+        $purchase_order->update(['date' => $request->input('date'), 'total' => $total]);
+
+        if($request->has('deletedetails') && count($request->input('deletedetails'))){
+            $purchase_order->details()->whereIn('id',$request->input('deletedetails'))->delete();
+        }
+
+        return redirect()->route('vendor-purchase-order-edit',$purchase_order->id);
     }
 
     /**
