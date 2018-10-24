@@ -44,7 +44,7 @@ class OrderController extends Controller {
 			return redirect()->route('admin-orders')->with('tab','orders');
 		}else{
 			$order = Order::find(intval($request->input('id')));
-			
+
 			$order->shippingname = $request->input('first_name').' '.$request->input('last_name');
 			$order->first_name = $request->input('first_name');
 			$order->last_name = $request->input('last_name');
@@ -80,33 +80,38 @@ class OrderController extends Controller {
 	}
 	public function statusUpdate(Request $request){
 		$order = Order::find($request->input('order_id'));
-		foreach($request->input('shipped') as $detail_id => $value) {
-			$detail = OrderDetail::find($detail_id);
-			if($detail->product->has_lot_expiry && empty($request->input('lot_number')[$detail_id]) && empty($request->input('expiration')[$detail_id])){
-				return redirect()->back()->with(['fail'=>'Lot number and expiration required before item can be marked as shipped.','order-status-failed'=>$order->id,'tab'=>'orders']);
+		if($request->has('shipped') && $request->has('lot_number')){
+			foreach($request->input('lot_number') as $detail_id => $value) {
+				$detail = OrderDetail::find($detail_id);
+				if($detail->product->has_lot_expiry && empty($request->input('lot_number')[$detail_id]) && empty($request->input('expiration')[$detail_id])){
+					return redirect()->back()->with(['fail'=>'Lot number and expiration required before item can be marked as shipped.','order-status-failed'=>$order->id,'tab'=>'orders']);
+				}
 			}
 		}
-		//dd($request->has('boxed'));
-		if($request->has('shipped')){
+		if($request->has('boxed') && $request->has('shipped')){
 			$box = new OrderDetailBox;
 			$box->order_id = $request->input('order_id');
 			$box->tracking = $request->input('tracking');
 			$box->save();
 		}
-		foreach($request->input('shipped') as $detail_id => $value) {
-			$detail = OrderDetail::find($detail_id);
-			$detail->expiration = $request->input('expiration')[$detail_id];
-			$detail->lot_number = $request->input('lot_number')[$detail_id];
-			$detail->shipped = 1;
-			$detail->shipped_date = Carbon::now();
-			$detail->box_id = $box->id;
-			$detail->save();
+		if($request->has('shipped')){
+			foreach($request->input('shipped') as $detail_id => $value) {
+				$detail = OrderDetail::find($detail_id);
+				$detail->expiration = $request->input('expiration')[$detail_id];
+				$detail->lot_number = $request->input('lot_number')[$detail_id];
+				$detail->shipped = 1;
+				$detail->shipped_date = Carbon::now();
+				$detail->box_id = $box->id;
+				$detail->save();
+			}
 		}
-		foreach($request->input('paid') as $detail_id => $value) {
-			$detail = OrderDetail::find($detail_id);
-			$detail->paid = 1;
-			$detail->paid_date = Carbon::now();
-			$detail->save();
+		if($request->has('paid')){
+			foreach($request->input('paid') as $detail_id => $value) {
+				$detail = OrderDetail::find($detail_id);
+				$detail->paid = 1;
+				$detail->paid_date = Carbon::now();
+				$detail->save();
+			}
 		}
 		if($request->has('invoice')){
 			$details = OrderDetail::whereIn('id',array_keys($request->input('shipped')))->get();
@@ -119,11 +124,8 @@ class OrderController extends Controller {
 	        $filename = $path.'/invoice-'.Carbon::now()->tz('America/New_York')->format('m-d-Y-h-i').'.pdf';
 			$pdf->save($filename);
 			//return view('order.invoice-details',compact('order','details'));
-			return redirect()->route('admin-orders')->with(['success'=>'Order Status updated.','tab'=>'orders']);
 		}
-		else{
-			return redirect()->route('admin-orders')->with(['success'=>'Order Status updated.','tab'=>'orders']);
-		}
+		return redirect()->back()->with(['success'=>'Order Status updated.','tab'=>'orders']);
 	}
 	public function delete($id){
 		$order = Order::destroy(intval($id));

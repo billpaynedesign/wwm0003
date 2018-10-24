@@ -14,9 +14,9 @@ class CreateVendorPoDetailsTable extends Migration
     {
         Schema::create('vendor_po_details', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('vendor_purchase_order_id');
-            $table->integer('product_id');
-            $table->integer('uom_id');
+            $table->integer('vendor_purchase_order_id')->unsigned();
+            $table->integer('product_id')->unsigned();
+            $table->integer('uom_id')->unsigned();
             $table->integer('quantity');
             $table->float('item_total');
             $table->timestamps();

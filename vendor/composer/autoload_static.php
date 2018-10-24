@@ -87,6 +87,10 @@ class ComposerStaticInita864c481a4c3760e132aaf15a80c6e4b
             'League\\Fractal\\' => 15,
             'League\\Flysystem\\' => 17,
         ),
+        'J' => 
+        array (
+            'JakubOnderka\\PhpConsoleColor\\' => 29,
+        ),
         'I' => 
         array (
             'Illuminate\\' => 11,
@@ -107,7 +111,6 @@ class ComposerStaticInita864c481a4c3760e132aaf15a80c6e4b
         'D' => 
         array (
             'Doctrine\\Instantiator\\' => 22,
-            'Doctrine\\Common\\Inflector\\' => 26,
             'Doctrine\\Common\\Annotations\\' => 28,
         ),
         'C' => 
@@ -115,6 +118,7 @@ class ComposerStaticInita864c481a4c3760e132aaf15a80c6e4b
             'Cviebrock\\EloquentSluggable\\' => 28,
             'Cron\\' => 5,
             'Collective\\Html\\' => 16,
+            'CodeItNow\\' => 10,
             'Cocur\\Slugify\\' => 14,
             'ClassPreloader\\' => 15,
         ),
@@ -259,6 +263,10 @@ class ComposerStaticInita864c481a4c3760e132aaf15a80c6e4b
         array (
             0 => __DIR__ . '/..' . '/league/flysystem/src',
         ),
+        'JakubOnderka\\PhpConsoleColor\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/jakub-onderka/php-console-color/src',
+        ),
         'Illuminate\\' => 
         array (
             0 => __DIR__ . '/..' . '/laravel/framework/src/Illuminate',
@@ -283,10 +291,6 @@ class ComposerStaticInita864c481a4c3760e132aaf15a80c6e4b
         array (
             0 => __DIR__ . '/..' . '/doctrine/instantiator/src/Doctrine/Instantiator',
         ),
-        'Doctrine\\Common\\Inflector\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/doctrine/inflector/lib/Doctrine/Common/Inflector',
-        ),
         'Doctrine\\Common\\Annotations\\' => 
         array (
             0 => __DIR__ . '/..' . '/doctrine/annotations/lib/Doctrine/Common/Annotations',
@@ -302,6 +306,10 @@ class ComposerStaticInita864c481a4c3760e132aaf15a80c6e4b
         'Collective\\Html\\' => 
         array (
             0 => __DIR__ . '/..' . '/laravelcollective/html/src',
+        ),
+        'CodeItNow\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/codeitnowin/barcode/CodeItNow',
         ),
         'Cocur\\Slugify\\' => 
         array (
@@ -377,10 +385,6 @@ class ComposerStaticInita864c481a4c3760e132aaf15a80c6e4b
             array (
                 0 => __DIR__ . '/..' . '/jakub-onderka/php-console-highlighter/src',
             ),
-            'JakubOnderka\\PhpConsoleColor' => 
-            array (
-                0 => __DIR__ . '/..' . '/jakub-onderka/php-console-color/src',
-            ),
             'JMS\\Serializer' => 
             array (
                 0 => __DIR__ . '/..' . '/jms/serializer/src',
@@ -399,6 +403,10 @@ class ComposerStaticInita864c481a4c3760e132aaf15a80c6e4b
             'Doctrine\\Common\\Lexer\\' => 
             array (
                 0 => __DIR__ . '/..' . '/doctrine/lexer/lib',
+            ),
+            'Doctrine\\Common\\Inflector\\' => 
+            array (
+                0 => __DIR__ . '/..' . '/doctrine/inflector/lib',
             ),
             'Diff' => 
             array (
@@ -424,36 +432,36 @@ class ComposerStaticInita864c481a4c3760e132aaf15a80c6e4b
         'AlterAddDeletedAtProductsTable' => __DIR__ . '/../..' . '/database/migrations/2017_01_19_143606_alter_add_deleted_at_products_table.php',
         'AlterRemovePriceMsrpProductsTable' => __DIR__ . '/../..' . '/database/migrations/2016_09_02_135249_alter_remove_price_msrp_products_table.php',
         'Attribute_Translator' => __DIR__ . '/..' . '/dompdf/dompdf/include/attribute_translator.cls.php',
-        'AuthorizeNetAIM' => __DIR__ . '/..' . '/authorizenet/authorizenet/lib/AuthorizeNetAIM.php',
-        'AuthorizeNetAIM_Response' => __DIR__ . '/..' . '/authorizenet/authorizenet/lib/AuthorizeNetAIM.php',
-        'AuthorizeNetARB' => __DIR__ . '/..' . '/authorizenet/authorizenet/lib/AuthorizeNetARB.php',
-        'AuthorizeNetARB_Response' => __DIR__ . '/..' . '/authorizenet/authorizenet/lib/AuthorizeNetARB.php',
-        'AuthorizeNetAddress' => __DIR__ . '/..' . '/authorizenet/authorizenet/lib/shared/AuthorizeNetTypes.php',
-        'AuthorizeNetBankAccount' => __DIR__ . '/..' . '/authorizenet/authorizenet/lib/shared/AuthorizeNetTypes.php',
-        'AuthorizeNetCIM' => __DIR__ . '/..' . '/authorizenet/authorizenet/lib/AuthorizeNetCIM.php',
-        'AuthorizeNetCIM_Response' => __DIR__ . '/..' . '/authorizenet/authorizenet/lib/AuthorizeNetCIM.php',
-        'AuthorizeNetCP' => __DIR__ . '/..' . '/authorizenet/authorizenet/lib/AuthorizeNetCP.php',
-        'AuthorizeNetCP_Response' => __DIR__ . '/..' . '/authorizenet/authorizenet/lib/AuthorizeNetCP.php',
-        'AuthorizeNetCreditCard' => __DIR__ . '/..' . '/authorizenet/authorizenet/lib/shared/AuthorizeNetTypes.php',
-        'AuthorizeNetCustomer' => __DIR__ . '/..' . '/authorizenet/authorizenet/lib/shared/AuthorizeNetTypes.php',
-        'AuthorizeNetDPM' => __DIR__ . '/..' . '/authorizenet/authorizenet/lib/AuthorizeNetDPM.php',
-        'AuthorizeNetException' => __DIR__ . '/..' . '/authorizenet/authorizenet/lib/shared/AuthorizeNetException.php',
-        'AuthorizeNetGetSubscriptionList' => __DIR__ . '/..' . '/authorizenet/authorizenet/lib/shared/AuthorizeNetTypes.php',
-        'AuthorizeNetLineItem' => __DIR__ . '/..' . '/authorizenet/authorizenet/lib/shared/AuthorizeNetTypes.php',
-        'AuthorizeNetPayment' => __DIR__ . '/..' . '/authorizenet/authorizenet/lib/shared/AuthorizeNetTypes.php',
-        'AuthorizeNetPaymentProfile' => __DIR__ . '/..' . '/authorizenet/authorizenet/lib/shared/AuthorizeNetTypes.php',
-        'AuthorizeNetRequest' => __DIR__ . '/..' . '/authorizenet/authorizenet/lib/shared/AuthorizeNetRequest.php',
-        'AuthorizeNetResponse' => __DIR__ . '/..' . '/authorizenet/authorizenet/lib/shared/AuthorizeNetResponse.php',
-        'AuthorizeNetSIM' => __DIR__ . '/..' . '/authorizenet/authorizenet/lib/AuthorizeNetSIM.php',
-        'AuthorizeNetSIM_Form' => __DIR__ . '/..' . '/authorizenet/authorizenet/lib/AuthorizeNetSIM.php',
-        'AuthorizeNetSOAP' => __DIR__ . '/..' . '/authorizenet/authorizenet/lib/AuthorizeNetSOAP.php',
-        'AuthorizeNetSubscriptionListPaging' => __DIR__ . '/..' . '/authorizenet/authorizenet/lib/shared/AuthorizeNetTypes.php',
-        'AuthorizeNetSubscriptionListSorting' => __DIR__ . '/..' . '/authorizenet/authorizenet/lib/shared/AuthorizeNetTypes.php',
-        'AuthorizeNetTD' => __DIR__ . '/..' . '/authorizenet/authorizenet/lib/AuthorizeNetTD.php',
-        'AuthorizeNetTD_Response' => __DIR__ . '/..' . '/authorizenet/authorizenet/lib/AuthorizeNetTD.php',
-        'AuthorizeNetTransaction' => __DIR__ . '/..' . '/authorizenet/authorizenet/lib/shared/AuthorizeNetTypes.php',
-        'AuthorizeNetXMLResponse' => __DIR__ . '/..' . '/authorizenet/authorizenet/lib/shared/AuthorizeNetXMLResponse.php',
-        'AuthorizeNet_Subscription' => __DIR__ . '/..' . '/authorizenet/authorizenet/lib/shared/AuthorizeNetTypes.php',
+        'AuthorizeNetAIM' => __DIR__ . '/..' . '/authorizenet/authorizenet/lib/deprecated/AuthorizeNetAIM.php',
+        'AuthorizeNetAIM_Response' => __DIR__ . '/..' . '/authorizenet/authorizenet/lib/deprecated/AuthorizeNetAIM.php',
+        'AuthorizeNetARB' => __DIR__ . '/..' . '/authorizenet/authorizenet/lib/deprecated/AuthorizeNetARB.php',
+        'AuthorizeNetARB_Response' => __DIR__ . '/..' . '/authorizenet/authorizenet/lib/deprecated/AuthorizeNetARB.php',
+        'AuthorizeNetAddress' => __DIR__ . '/..' . '/authorizenet/authorizenet/lib/deprecated/shared/AuthorizeNetTypes.php',
+        'AuthorizeNetBankAccount' => __DIR__ . '/..' . '/authorizenet/authorizenet/lib/deprecated/shared/AuthorizeNetTypes.php',
+        'AuthorizeNetCIM' => __DIR__ . '/..' . '/authorizenet/authorizenet/lib/deprecated/AuthorizeNetCIM.php',
+        'AuthorizeNetCIM_Response' => __DIR__ . '/..' . '/authorizenet/authorizenet/lib/deprecated/AuthorizeNetCIM.php',
+        'AuthorizeNetCP' => __DIR__ . '/..' . '/authorizenet/authorizenet/lib/deprecated/AuthorizeNetCP.php',
+        'AuthorizeNetCP_Response' => __DIR__ . '/..' . '/authorizenet/authorizenet/lib/deprecated/AuthorizeNetCP.php',
+        'AuthorizeNetCreditCard' => __DIR__ . '/..' . '/authorizenet/authorizenet/lib/deprecated/shared/AuthorizeNetTypes.php',
+        'AuthorizeNetCustomer' => __DIR__ . '/..' . '/authorizenet/authorizenet/lib/deprecated/shared/AuthorizeNetTypes.php',
+        'AuthorizeNetDPM' => __DIR__ . '/..' . '/authorizenet/authorizenet/lib/deprecated/AuthorizeNetDPM.php',
+        'AuthorizeNetException' => __DIR__ . '/..' . '/authorizenet/authorizenet/lib/deprecated/shared/AuthorizeNetException.php',
+        'AuthorizeNetGetSubscriptionList' => __DIR__ . '/..' . '/authorizenet/authorizenet/lib/deprecated/shared/AuthorizeNetTypes.php',
+        'AuthorizeNetLineItem' => __DIR__ . '/..' . '/authorizenet/authorizenet/lib/deprecated/shared/AuthorizeNetTypes.php',
+        'AuthorizeNetPayment' => __DIR__ . '/..' . '/authorizenet/authorizenet/lib/deprecated/shared/AuthorizeNetTypes.php',
+        'AuthorizeNetPaymentProfile' => __DIR__ . '/..' . '/authorizenet/authorizenet/lib/deprecated/shared/AuthorizeNetTypes.php',
+        'AuthorizeNetRequest' => __DIR__ . '/..' . '/authorizenet/authorizenet/lib/deprecated/shared/AuthorizeNetRequest.php',
+        'AuthorizeNetResponse' => __DIR__ . '/..' . '/authorizenet/authorizenet/lib/deprecated/shared/AuthorizeNetResponse.php',
+        'AuthorizeNetSIM' => __DIR__ . '/..' . '/authorizenet/authorizenet/lib/deprecated/AuthorizeNetSIM.php',
+        'AuthorizeNetSIM_Form' => __DIR__ . '/..' . '/authorizenet/authorizenet/lib/deprecated/AuthorizeNetSIM.php',
+        'AuthorizeNetSOAP' => __DIR__ . '/..' . '/authorizenet/authorizenet/lib/deprecated/AuthorizeNetSOAP.php',
+        'AuthorizeNetSubscriptionListPaging' => __DIR__ . '/..' . '/authorizenet/authorizenet/lib/deprecated/shared/AuthorizeNetTypes.php',
+        'AuthorizeNetSubscriptionListSorting' => __DIR__ . '/..' . '/authorizenet/authorizenet/lib/deprecated/shared/AuthorizeNetTypes.php',
+        'AuthorizeNetTD' => __DIR__ . '/..' . '/authorizenet/authorizenet/lib/deprecated/AuthorizeNetTD.php',
+        'AuthorizeNetTD_Response' => __DIR__ . '/..' . '/authorizenet/authorizenet/lib/deprecated/AuthorizeNetTD.php',
+        'AuthorizeNetTransaction' => __DIR__ . '/..' . '/authorizenet/authorizenet/lib/deprecated/shared/AuthorizeNetTypes.php',
+        'AuthorizeNetXMLResponse' => __DIR__ . '/..' . '/authorizenet/authorizenet/lib/deprecated/shared/AuthorizeNetXMLResponse.php',
+        'AuthorizeNet_Subscription' => __DIR__ . '/..' . '/authorizenet/authorizenet/lib/deprecated/shared/AuthorizeNetTypes.php',
         'Block_Frame_Decorator' => __DIR__ . '/..' . '/dompdf/dompdf/include/block_frame_decorator.cls.php',
         'Block_Frame_Reflower' => __DIR__ . '/..' . '/dompdf/dompdf/include/block_frame_reflower.cls.php',
         'Block_Positioner' => __DIR__ . '/..' . '/dompdf/dompdf/include/block_positioner.cls.php',
@@ -479,6 +487,7 @@ class ComposerStaticInita864c481a4c3760e132aaf15a80c6e4b
         'CreateProductGroupsTable' => __DIR__ . '/../..' . '/database/migrations/2016_09_14_151442_create_product_groups_table.php',
         'CreateProductHasOptionsTable' => __DIR__ . '/../..' . '/database/migrations/2016_09_13_210553_create_product_has_options_table.php',
         'CreateProductHasProductGroupsTable' => __DIR__ . '/../..' . '/database/migrations/2016_09_14_151502_create_product_has_product_groups_table.php',
+        'CreateProductVendorsTable' => __DIR__ . '/../..' . '/database/migrations/2018_10_24_163936_create_product_vendors_table.php',
         'CreateProductsTable' => __DIR__ . '/../..' . '/database/migrations/2015_06_12_031900_create_products_table.php',
         'CreateShoppingcartTable' => __DIR__ . '/../..' . '/database/migrations/2017_07_26_112302_create_shoppingcart_table.php',
         'CreateShoppingcartitemsTable' => __DIR__ . '/../..' . '/database/migrations/2017_07_26_112326_create_shoppingcartitems_table.php',
@@ -487,6 +496,7 @@ class ComposerStaticInita864c481a4c3760e132aaf15a80c6e4b
         'CreateTaxRatesTable' => __DIR__ . '/../..' . '/database/migrations/2018_10_24_024747_create_tax_rates_table.php',
         'CreateTransactionsTable' => __DIR__ . '/../..' . '/database/migrations/2015_06_12_031900_create_transactions_table.php',
         'CreateUnitsOfMeasureTable' => __DIR__ . '/../..' . '/database/migrations/2016_09_02_135212_create_units_of_measure_table.php',
+        'CreateUomVendorTable' => __DIR__ . '/../..' . '/database/migrations/2018_10_24_183927_create_uom_vendor_table.php',
         'CreateUserHasPricingTable' => __DIR__ . '/../..' . '/database/migrations/2016_08_29_031628_create_user_has_pricing_table.php',
         'CreateUserHasShiptoTable' => __DIR__ . '/../..' . '/database/migrations/2016_07_21_184707_create_user_has_shipto_table.php',
         'CreateUsersTable' => __DIR__ . '/../..' . '/database/migrations/2014_10_12_000000_create_users_table.php',

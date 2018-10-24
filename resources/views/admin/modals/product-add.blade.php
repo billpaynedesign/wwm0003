@@ -60,13 +60,13 @@
                         <input type="text" class="form-control" id="manufacturer" name="manufacturer" placeholder="Manufacturer" />
                     </div>
                     <div class="form-group">
-                        <label for="vendor">Vendor:</label>
-                        <select id="vendor" name="vendor" class="form-control">
-                            <option value="">-- Select Vendor --</option>
+                        <label for="vendors">Vendors:</label>
+                        <select id="vendors" name="vendors[]" class="form-control" multiple>
                             @foreach (App\Vendor::all() as $vendor)
                                 <option value="{{ $vendor->id }}">{{ $vendor->name }}</option>
                             @endforeach
                         </select>
+                        <p class="help-block">To select multiple categories, hold down the CTRL or SHIFT key while selecting</p>
                     </div>
                     <div class="checkbox">
                         <label>

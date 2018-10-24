@@ -577,4 +577,21 @@ class CartController extends Controller {
 		return redirect()->route('order-show',$order->token);
 
 	}
+
+	public function barcodes(Request $request){
+		return view('cart.barcodes');
+	}
+
+	public function barcodes_submit(Request $request){
+		$uom_quantities = $request->input('uom_quantities');
+		$uoms = UnitOfMeasure::has('product')->with('product')->whereIn('id',array_keys($uom_quantities))->get();
+		foreach ($uoms as $uom) {
+        	Cart::add($uom->product->id, $uom->id, $uom_quantities[$uom->id]);
+		}
+		return redirect()->route('cart')->with('success','Products uploaded successfully');
+	}
+
+	public function barcode_instructions(){
+		return view('cart.print.barcode-instructions');
+	}
 }

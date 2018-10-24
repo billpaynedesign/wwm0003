@@ -269,4 +269,12 @@ class UserController extends Controller {
 		$html = view('user.part.cart_content', compact('cart'))->render();
     	return response()->json(['html'=>$html, 'token'=>csrf_token()]);
     }
+
+    public function barcodes(Request $request,$id){
+        $frequent_products = User::find($id)->frequent_products;
+        $quantities = $frequent_products['quantities'];
+        $products = $frequent_products['products']->pluck('id')->toArray();
+        $uoms = UnitOfMeasure::has('products')->with('products')->whereIn('product_id',$products)->get()->sortBy('products.name');
+        return view('user.barcodes',compact('uoms','quantities'));
+    }
 }

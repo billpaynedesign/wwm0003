@@ -104,6 +104,9 @@ class DashboardController extends AdminController {
                     })
                     ->addColumn('action',function($product){
                         return '
+                        <a href="'.route('product-vendor-pricing-edit',$product->id).'" class="btn btn-primary" title="Edit vendor pricing">
+                          <span class="fa fa-dollar-sign"></span>
+                        </a>
                         <button class="btn btn-info" data-toggle="modal" data-target="#order-info" title="'.$product->name.' Product Information" onclick="product_information('.$product->id.');">
                           <span class="fa fa-info"></span>
                         </button>

@@ -13,7 +13,7 @@ class AddVendorIdProductsTable extends Migration
     public function up()
     {
         Schema::table('products', function ($table) {
-            $table->integer('vendor_id')->nullable();
+            $table->integer('vendor_id')->unsigned()->nullable();
         });
     }
 

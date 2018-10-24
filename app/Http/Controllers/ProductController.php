@@ -41,7 +41,7 @@ class ProductController extends Controller {
 	 */
 	public function show($slug){
 		$product = Product::findBySlug($slug);
-		if($product->active){
+		if($product){
 			return view('products.product',compact('product'));
 		}
 		else{
@@ -76,7 +76,6 @@ class ProductController extends Controller {
 			$product->description = $request->input('productdescription');
 			$product->short_description = $request->input('shortdescription');
 			$product->manufacturer = $request->input('manufacturer');
-			$product->vendor_id = $request->input('vendor');
 			$product->active = $request->has('active')?1:0;
 			$product->has_lot_expiry = $request->has('has_lot_expiry')?1:0;
 			$product->require_license = $request->has('require_license')?1:0;
@@ -92,6 +91,7 @@ class ProductController extends Controller {
 			$product->save();
 
 			$product->categories()->sync($request->input('category'));
+			$product->vendors()->sync($request->input('vendors'));
 
 			if($request->has('uom')){
 				foreach($request->input('uom') as $uom_id => $name){
@@ -143,7 +143,6 @@ class ProductController extends Controller {
 			$product->price = $request->input('price');
 			*/
 			$product->manufacturer = $request->input('manufacturer');
-			$product->vendor_id = $request->input('vendor');
 			$product->item_number = $request->input('item_number');
 			$product->short_description = $request->input('productshortdescription');
 			$product->description = $request->input('productdescription');
@@ -154,6 +153,7 @@ class ProductController extends Controller {
 			$product->save();
 
 			$product->categories()->sync($request->input('category'));
+			$product->vendors()->sync($request->input('vendors'));
 
 			foreach($request->input('uom') as $key => $name){
 				$uom = new UnitOfMeasure;
@@ -305,6 +305,50 @@ class ProductController extends Controller {
 		$review->save();
 
 		return back()->with(['success'=>'Thank you for your review!']);
+	}
 
+	public function barcodes(Request $request){
+        if($request->has('uoms')){
+            $uoms = UnitOfMeasure::has('products')->with('products')->whereIn('product_id',$request->input('uoms'))->get()->sortBy('products.name');
+            return view('products.barcodes',compact('uoms'));
+        }
+        else{
+			$uoms = UnitOfMeasure::has('products')->with('products')->get()->sortBy('products.name');
+			return view('products.barcodes',compact('uoms'));
+		}
+	}
+
+	public function vendor_pricing_edit($id){
+		$product = Product::findOrFail($id);
+		$vendors = $product->vendors()->orderBy('name','asc')->get();
+		$units_of_measure = $product->units_of_measure()->orderBy('name','asc')->get();
+		return view('products.vendor-pricing-edit',compact('product','vendors','units_of_measure'));
+	}
+	public function vendor_pricing_update(Request $request,$id){
+		$product = Product::findOrFail($id);
+
+		if($request->has('costs')){
+			$costs = $request->input('costs');
+			foreach($costs as $vendor_id => $cost){
+				if($vendor = Vendor::find($vendor_id)){
+					foreach($cost as $uom_id => $value){
+						if($vendor = UnitOfMeasure::find($uom_id)){
+							if($uom_vendor = DB::table('uom_vendor')->where('uom_id',$uom_id)->where('vendor_id',$vendor_id)->first()){
+								$uom_vendor->cost = (float)$value;
+								$uom_vendor->save();
+							}
+							else{
+								DB::table('uom_vendor')->insert([
+									'uom_id' => $uom_id,
+									'vendor_id' => $vendor_id,
+									'cost' => (float)$value
+								]);
+							}
+						}
+					}
+				}
+			}
+		}
+		return redirect()->route('product-vendor-pricing-edit',$id)->with('fail','An error occured while saving, please try again');
 	}
 }

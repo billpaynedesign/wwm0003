@@ -13,7 +13,7 @@ class AddAccountIdToVendorBills extends Migration
     public function up()
     {
         Schema::table('vendor_bills', function (Blueprint $table) {
-            $table->integer('bill_account_id');
+            $table->integer('bill_account_id')->unsigned();
         });
     }
 

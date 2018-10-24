@@ -14,7 +14,7 @@ class AddTaxColumnsToUsers extends Migration
     {
         Schema::table('users', function (Blueprint $table) {
             $table->tinyInteger('tax_exempt');
-            $table->integer('tax_rate_id')->nullable();
+            $table->integer('tax_rate_id')->unsigned()->nullable();
         });
     }
 

@@ -98,13 +98,13 @@
                         <input type="text" name="manufacturer" id="manufacturer" class="form-control" value="{{ $product->manufacturer }}" />
                     </div>
                     <div class="form-group">
-                        <label for="vendor">Vendor:</label>
-                        <select id="vendor" name="vendor" class="form-control">
-                            <option value="">-- Select Vendor --</option>
+                        <label for="vendors">Vendors:</label>
+                        <select id="vendors" name="vendors[]" class="form-control" multiple>
                             @foreach (App\Vendor::all() as $vendor)
-                                <option value="{{ $vendor->id }}" {{ $vendor->id==$product->vendor_id?'selected':'' }}>{{ $vendor->name }}</option>
+                                <option value="{{ $vendor->id }}" {{ $product->vendors->contains($vendor->id)?'selected':'' }}>{{ $vendor->name }}</option>
                             @endforeach
                         </select>
+                        <p class="help-block">To select multiple categories, hold down the CTRL or SHIFT key while selecting</p>
                     </div>
                     <div class="form-group">
                         <label for="shortdescription">Overview</label>

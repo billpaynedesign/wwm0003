@@ -18,9 +18,9 @@ class Vendor extends Model
         'zip'
     ];
 
-    public function products(){
-        return $this->hasMany('App\Product');
-    }
+	public function products(){
+		return $this->belongsToMany('App\Product');
+	}
     public function bills(){
         return $this->hasMany('App\VendorBill');
     }

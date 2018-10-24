@@ -181,6 +181,27 @@ class ApiSearchController  extends Controller {
 	public function getUsers(Request $request){
 		return response()->json(User::orderBy('first_name')->get());
 	}
+
+	public function getCartBarcodes(Request $request){
+        $uom = UnitOfMeasure::has('product')->with('product')->where('id',$request->input('q'))->first();
+        $uom->msrp = null;
+
+        //check if this item already exists and we just need to update that item
+        if(Auth::check()){
+            $user = Auth::user();
+            if(!$user->no_pricing){
+                if($user->product_price_check($uom->product_id)){
+                    if($price = $user->uom_price_check($uom->id)){
+                        $uom->price = (float)$price->price;
+                    }
+                }
+            }
+        }
+        else{
+            $uom->price = null;
+        }
+		return response()->json($uom);
+	}
 	public function getProductUomData(Request $request){
 		$product = Product::findOrFail($request->input('product_id'));
 		$uom = UnitOfMeasure::findOrFail($request->input('uom_id'));

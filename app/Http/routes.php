@@ -24,6 +24,7 @@ Route::get('/api/search', ['uses'=>'ApiSearchController@index']);
 Route::get('/api/product/add/search', ['uses'=>'ApiSearchController@addProduct']);
 Route::get('/api/cart/add/search', ['uses'=>'ApiSearchController@addUom']);
 Route::get('/api/get/cart/count',['uses'=>'ApiSearchController@getCartCount','as'=>'api-cart-get-count']);
+Route::get('/api/get/cart/barcodes',['uses'=>'ApiSearchController@getCartBarcodes','as'=>'api-cart-get-barcodes']);
 
 /*
  * ------------
@@ -70,7 +71,6 @@ Route::get('/sale',['uses'=>'ProductController@sale','as'=>'sale-products']);
 Route::get('/products',['uses'=>'ProductController@index','as'=>'product-all']);
 Route::group(['prefix'=>'product'],function(){
 	Route::get('/latest',['uses'=>'ProductController@latest','as'=>'product-latest']);
-	Route::get('/{slug}',['uses'=>'ProductController@show','as'=>'product-show']);
 	Route::post('/review/add',['uses'=>'ProductController@addReview','as'=>'product-review-add']);
 	//login routes
 	Route::group(['middleware'=>'auth'],function(){
@@ -89,8 +89,12 @@ Route::group(['prefix'=>'product'],function(){
 			Route::get('/edit/{id}',['uses'=>'ProductController@edit','as'=>'product-edit']);
 			Route::post('/edit',['uses'=>'ProductController@update','as'=>'product-update']);
 			Route::post('/info/modal',['uses'=>'ProductController@infoModal','as'=>'product-info-modal']);
+			Route::get('/barcodes',['uses'=>'ProductController@barcodes','as'=>'product-barcodes']);
+			Route::get('/vendor-pricing/edit/{id}',['uses'=>'ProductController@vendor_pricing_edit','as'=>'product-vendor-pricing-edit']);
+			Route::post('/vendor-pricing/update/{id}',['uses'=>'ProductController@vendor_pricing_update','as'=>'product-vendor-pricing-update']);
 		});
 	});
+	Route::get('/{slug}',['uses'=>'ProductController@show','as'=>'product-show']);
 });
 
 /*
@@ -131,6 +135,9 @@ Route::group(['prefix'=>'cart'],function(){
 	Route::get('/select/shipping', ['uses'=>'CartController@select_shipping','as'=>'cart-select-shipping']);
 	Route::post('/set/shipping', ['uses'=>'CartController@set_shipping','as'=>'cart-set-shipping']);
 	Route::get('/get/total',['uses'=>'CartController@get_cart_total','as'=>'cart-get-total']);
+	Route::get('/barcodes',['uses'=>'CartController@barcodes','as'=>'cart-barcodes']);
+	Route::post('/barcodes/submit',['uses'=>'CartController@barcodes_submit','as'=>'cart-barcodes-submit']);
+	Route::get('/barcode-instructions',['uses'=>'CartController@barcode_instructions','as'=>'barcode-instructions']);
 
 	Route::group(['middleware'=>'admin'],function(){
 		Route::get('/checkout/shipping/{id}/admin',['uses'=>'CartController@admin_shipping','as'=>'admin-cart-shipping']);
@@ -203,6 +210,7 @@ Route::group(['prefix'=>'user'],function(){
     		Route::post('/add/product/cart',['uses'=>'UserController@add_product_cart','as'=>'user-cart-add']);
     		Route::post('/update/product/cart',['uses'=>'UserController@update_product_cart','as'=>'user-cart-update']);
     		Route::post('/remove/product/cart',['uses'=>'UserController@remove_product_cart','as'=>'user-cart-remove']);
+    		Route::get('/barcodes/{id}',['uses'=>'UserController@barcodes','as'=>'user-barcodes']);
 		});
 	});
 });

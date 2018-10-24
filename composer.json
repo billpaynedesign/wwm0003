@@ -14,7 +14,8 @@
         "authorizenet/authorizenet": "~1.8",
         "barryvdh/laravel-dompdf": "0.6.*",
         "quickbooks/v3-php-sdk": "^3.4",
-        "yajra/laravel-datatables-oracle": "6.*"
+        "yajra/laravel-datatables-oracle": "6.*",
+        "codeitnowin/barcode": "3.0"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",

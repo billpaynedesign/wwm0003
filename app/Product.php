@@ -58,6 +58,9 @@ class Product extends Model{
     public function orders(){
     	return $this->hasManyThrough('App\Order','App\OrderDetails','id','product_id');
     }
+	public function vendors(){
+		return $this->belongsToMany('App\Vendor');
+	}
     /*public function category(){
         return $this->belongsTo('App\Category');
     }*/
