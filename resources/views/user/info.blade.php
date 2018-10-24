@@ -8,9 +8,43 @@
     return (c ? num.replace('.', c) : num).replace(new RegExp(re, 'g'), '$&' + (s || ','));
   };
 	var cart_id = {{ $cart_id?$cart_id:0 }};
-	var token = '{{ csrf_token() }}';	
+	var token = '{{ csrf_token() }}';
 	$(document).ready(function(){
-  		$('#items table').DataTable({"order": [[ 5, "desc" ]],columnDefs: [{ targets: [6],orderable: false}]});
+        $('#items table').DataTable({
+          searchDelay: 500,
+          serverSide: true,
+          ajax: '{{ route('user-info-api',$user->id) }}',
+          stateSave: true,
+          stateDuration: 1800,
+          "order": [[ 5, "desc" ]],
+          "columns": [
+            {
+              "data": "item_number",
+              "name": "item_number"
+            },
+            {
+              "data": "name",
+              "name": "name"
+            },
+            {
+              "data": "manufacturer",
+              "name": "manufacturer"
+            },
+            {
+              "data": "price_string",
+              "name": "price_string"
+            },
+            {
+              "data": "msrp_string",
+              "name": "msrp_string"
+            },
+            {
+              "data": "total_purchased",
+              "name": "total_purchased"
+            }
+          ]
+
+        });
   		$('#orders table').DataTable({"order": [[ 0, "desc" ]]});
   		$('#history table').DataTable({"order": [[ 0, "desc" ]],columnDefs: [{ targets: [7],orderable: false}]});
   		$('[data-toggle="popover"]').popover({html: true});
@@ -21,7 +55,7 @@
   			$('#admin_tab_panel a[href="#{{$_GET['tab']}}"]').tab('show');
         @endif
 
-        
+
         $('#cart-edit-search').selectize({
 	        valueField: 'url',
 	        labelField: 'name',
@@ -193,25 +227,9 @@
 									<th>Price</th>
 									<th>MSRP</th>
 									<th>Total Purchased</th>
-									<th>Picture</th>
 								</tr>
 							</thead>
 							<tbody>
-								@foreach($user->frequent_products['products'] as $product)
-									<tr>
-										<td>{{ $product->item_number }}</td>
-										<td>{{ $product->name }}</td>
-										<td>{{ $product->manufacturer }}</td>
-										<td>{{ $product->price_string }}</td>
-										<td>{{ $product->msrp_string }}</td>
-										<td>{{ $user->frequent_products['quantities'][$product->id] }}</td>
-										<td>
-											<a href="javascript:void(0);" class="btn btn-link" data-toggle="popover" data-trigger="hover" data-placement="top" data-content="<img src='{{ asset('/pictures/'.$product->picture) }}' class='img-responsive center-block' />"> 
-												<img src='{{ asset('/pictures/'.$product->picture) }}' class='img-responsive center-block'  style="max-height:40px;"/>
-											</a>
-										</td>
-									</tr>
-								@endforeach
 							</tbody>
 						</table>
 					</div>
@@ -242,7 +260,7 @@
 								          <button class="btn btn-sm btn-info" data-toggle="modal" data-target="#order-info" title="Order Information" onclick="order_information('{{ $order->id }}')">
 								            <span class="fa fa-info"></span>
 								          </button>
-								          <button class="btn btn-sm btn-success" title="Edit Status for #{{ $order->id }}" data-toggle="modal" data-target="#order-status" onclick="order_status('{{ $order->id }}')"> 
+								          <button class="btn btn-sm btn-success" title="Edit Status for #{{ $order->id }}" data-toggle="modal" data-target="#order-status" onclick="order_status('{{ $order->id }}')">
 								            <span class="fa fa-truck" aria-hidden="true"></span>
 								          </button>
 								          <a href="{{ route('order-edit',$order->id) }}" class="btn btn-sm btn-warning" title="Edit Shipping/Items for #{{ $order->id }}">
@@ -285,9 +303,11 @@
 								        <td>{{ $detail->product?$detail->product->msrp_string:'' }}</td>
 								        <td>{{ $detail->quantity }}</td>
 										<td>
-											<a href="javascript:void(0);" class="btn btn-link" data-toggle="popover" data-trigger="hover" data-placement="top" data-content="<img src='{{ asset('/pictures/'.$product->picture) }}' class='img-responsive center-block' />"> 
-												<img src='{{ asset('/pictures/'.$product->picture) }}' class='img-responsive center-block'  style="max-height:40px;"/>
+                                            @if($detail->product)
+											<a href="javascript:void(0);" class="btn btn-link" data-toggle="popover" data-trigger="hover" data-placement="top" data-content="<img src='{{ asset('/pictures/'.$detail->product->picture) }}' class='img-responsive center-block' />">
+												<img src='{{ asset('/pictures/'.$detail->product->picture) }}' class='img-responsive center-block'  style="max-height:40px;"/>
 											</a>
+                                            @endif
 										</td>
 								      </tr>
 								    @endforeach

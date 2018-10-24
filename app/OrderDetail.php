@@ -10,11 +10,11 @@ class OrderDetail extends Model {
 	 * @var string
 	 */
 	protected $table = 'orderdetails';
-	
+
 	public function order(){
 		return $this->belongsTo('App\Order');
 	}
 	public function product(){
-		return $this->belongsTo('App\Product');
+		return $this->belongsTo('App\Product')->withTrashed();
 	}
 }

@@ -48,7 +48,7 @@
                   @endforeach
                 </tbody>
                 <tfoot>
-                @if($transaction->state == 'FL')
+                @if(!$order->user->tax_exempt)
                   <tr>
                     <th colspan="3"><strong>SubTotal</strong></th>
                     <th>${{ \number_format($order->total,2) }}</th>
@@ -59,13 +59,13 @@
                   </tr>
                   <tr>
                     <th colspan="3"><strong>Total</strong></th>
-                    <th>${{ \number_format($order->total+round($order->total * .065,2),2) }}</th>
+                    <th>${{ \number_format($order->total+round($order->total * $order->user->tax,2),2) }}</th>
                   </tr>
                 @else
                   <tr>
                     <th colspan="3"><strong>Total</strong></th>
                     <th>${{ \number_format($order->total,2) }}</th>
-                  </tr>            
+                  </tr>
                 @endif
                 </tfoot>
               </table>

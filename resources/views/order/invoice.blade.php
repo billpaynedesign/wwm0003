@@ -139,7 +139,7 @@
           <th bgcolor="#CCC">LotNum</th>
           <th bgcolor="#CCC">Expiry Date</th>
           <!-- <th bgcolor="#CCC">Option</th> -->
-          <th bgcolor="#CCC">Qty</th> 
+          <th bgcolor="#CCC">Qty</th>
           <th bgcolor="#CCC">Size</th>
           <th bgcolor="#CCC">Backordered</th>
           <th bgcolor="#CCC">Price</th>
@@ -164,11 +164,13 @@
           <td style="text-align:center;">${{ \number_format($detail->subtotal,2) }}</td>
         </tr>
         @endforeach
+        @if(!$order->user->tax_exempt)
         <tr>
           <td colspan="7"></td>
           <th bgcolor="#CCC" align="right" style="padding-right:8px;"> State Tax + </th>
           <td style="text-align:center;">${{ \number_format($order->tax,2) }}</td>
         </tr>
+        @endif
         <tr>
           <td colspan="7"></td>
           <th bgcolor="#CCC" align="right" style="padding-right:8px;">Total</th>

@@ -62,7 +62,7 @@ $(document).ready(function(){
         "searchable":false,
       },
     ]
-              
+
   });
   $('#edit_category').on('show.bs.modal', function (event) {
     var button = $(event.relatedTarget);
@@ -125,7 +125,7 @@ function parent_category_change(){
       </div>
       <div id="admin_tab_panel" role="tabpanel">
 
-        @include('admin.partials.nav-tabs', ["adminActive"=>'Categories'])
+        @include('admin.partials.nav-tabs')
 
         <div class="tab-content">
           <div role="tabpanel" class="tab-pane tab-pane-admin active">

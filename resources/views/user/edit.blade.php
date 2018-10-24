@@ -93,6 +93,28 @@ $(document).ready(function(){
 					</div>
 				</div>
 				<hr/>
+				<h3 class="text-blue">Taxes</h3>
+				<hr/>
+				<div class="form-group">
+					<div class="checkbox">
+						<label>
+							<input type="checkbox" name="tax_exempt" value="true" {{ $user->tax_exempt?'checked':'' }}> Tax Exempt?
+						</label>
+					</div>
+				</div>
+				<div class="form-group">
+					<div class="col-md-3 no-padding">
+						<label for="tax_rate_id">Tax Rate</label>
+						<select id="tax_rate_id" name="tax_rate_id" class="form-control">
+							<option value=""></option>
+							@foreach(App\TaxRate::all() as $tax_rate)
+								<option value="{{ $tax_rate->id }}" {{ $tax_rate->id===auth()->user()->tax_rate_id?'selected':'' }}>{{ $tax_rate->name }} ({{ $tax_rate->tax }}%)</option>
+							@endforeach
+						</select>
+					</div>
+				</div>
+				<div class="clearfix"></div>
+				<hr/>
 				<h3 class="text-blue">License Information</h3>
 				<hr/>
 				<div class="form-group">

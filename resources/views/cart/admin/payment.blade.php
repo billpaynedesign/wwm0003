@@ -29,26 +29,6 @@
         $('#purchase_order_group').slideUp();
       }
     });
-    $('#state').on('change',function(){
-      if($('#state').val()){
-        $('.fl_tax').removeClass('hide');
-        for(var i = 0; i < states.length; i++) {
-          if (states[i].abbr == $('#state').val()) {
-            var tax = parseFloat(states[i].tax);
-            var tax_total = (tax/100)*total;
-            Math.round((tax_total*100)/100);
-            var final_total = tax_total+total;
-            Math.round((final_total*100)/100);
-            $('#tax').html(tax_total.format(2,3,',','.'));
-            $('#total_wtax').html(final_total.format(2,3,',','.'));
-            break;
-          }
-        }
-      }
-      else{
-        $('.fl_tax').addClass('hide');
-      }
-    });
     $('#same-as-shipping').on('change',function(){
       if($(this).is(':checked')){
         $('#name').val(name).prop('readonly',true);
@@ -57,19 +37,6 @@
         $('#city').val(city).prop('readonly',true);
         $('#state').val(state).prop('readonly',true);
         $('#zip').val(zip).prop('readonly',true);
-        for(var i = 0; i < states.length; i++) {
-          if (states[i].abbr == state) {
-            var tax = parseFloat(states[i].tax);
-            var tax_total = (tax/100)*total;
-            Math.round((tax_total*100)/100);
-            var final_total = tax_total+total;
-            Math.round((final_total*100)/100);
-            $('#tax').html(tax_total.format(2,3,',','.'));
-            $('#total_wtax').html(final_total.format(2,3,',','.'));
-            break;
-          }
-        }
-        $('.fl_tax').removeClass('hide');
       }
       else{
         $('#name').val('').prop('readonly',false);
@@ -78,7 +45,6 @@
         $('#city').val('').prop('readonly',false);
         $('#state').val('').prop('readonly',false);
         $('#zip').val('').prop('readonly',false);
-        $('.fl_tax').addClass('hide');
       }
     });
   });
@@ -187,7 +153,7 @@
         <h2 class="text-blue">Billing Information</h2>
         <div class="form-group">
           <div class="checkbox">
-            <label> 
+            <label>
               <input id="same-as-shipping" type="checkbox" name="same_as_shipping" value="true"> Same as shipping
             </label>
           </div>
@@ -224,8 +190,10 @@
         <div class="form-group">
           <br/>
           <p><strong>Total: ${{ \number_format($order->total,2) }}</strong></p>
-          <p class="fl_tax hide"><strong>Tax: +$<span id="tax"></span></strong></p>
-          <p class="fl_tax hide"><strong>Total After Tax: $<span id="total_wtax"></span></strong></p>
+          @if(!$order->user->tax_exempt && $order->user->tax>0)
+          <p><strong>Tax: +${{ number_format($order->tax,2) }}</strong></p>
+          <p><strong>Total After Tax: ${{ number_format($order->total_with_tax,2) }}</strong></p>
+          @endif
         </div>
         <input type="hidden" name="id" value="{{ $order->id }}" />
         <button type="submit" name="_token" value="{{ csrf_token() }}" class="btn btn-default">Complete Purchase</button>

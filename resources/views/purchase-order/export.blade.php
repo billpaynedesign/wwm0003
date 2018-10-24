@@ -96,7 +96,7 @@
 @else
 <body onload="window.print();">
     <div class="row print-hide">
-        <a href="{{ route('admin-vendors') }}" class="back-button">
+        <a href="javascript:window.history.back()" class="back-button">
             Back
         </a>
     </div>

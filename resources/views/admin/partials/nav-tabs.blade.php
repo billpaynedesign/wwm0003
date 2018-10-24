@@ -43,10 +43,14 @@
     'text' => "Accounts Payable",
     'route' => route('admin-accounts-payable')
   ],
+  [
+    'text' => "Tax Rates",
+    'route' => route('admin-tax-rates')
+  ],
 ];
 ?>
-<ul class="nav nav-tabs" role="tablist">
+<ul id="adminNavTabs" class="nav nav-tabs" role="tablist">
   @foreach($tabs as $t)
-    <li role="presentation" {!! $adminActive==$t['text']?'class="active"':'' !!}><a href="{{ $t['route'] }}#dashboard">{{ $t['text'] }}</a></li>
+    <li role="presentation" {!! \Request::url()==$t['route']?'class="active"':'' !!}><a href="{{ $t['route'] }}#adminNavTabs">{{ $t['text'] }}</a></li>
   @endforeach
 </ul>

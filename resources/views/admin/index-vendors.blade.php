@@ -14,7 +14,7 @@
             </div>
             <div id="admin_tab_panel" role="tabpanel">
 
-                @include('admin.partials.nav-tabs',  ["adminActive"=>'Vendors'])
+                @include('admin.partials.nav-tabs')
 
                 <div class="tab-content">
                     <div role="tabpanel" class="tab-pane tab-pane-admin active">

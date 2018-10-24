@@ -56,11 +56,13 @@ Secondary Phone:  {{ $order->secondary_phone }}<br/>
     <td style="text-align:center;">${{ \number_format($detail->subtotal,2) }}</td>
   </tr>
   @endforeach
+  @if(!$order->user->tax_exempt)
   <tr>
     <td colspan="3"></td>
     <th bgcolor="#CCC" align="right" style="padding-right:8px;"> State Tax + </th>
     <td style="text-align:center;">${{ \number_format($order->tax,2) }}</td>
   </tr>
+  @endif
   <tr>
     <td colspan="3"></td>
     <th bgcolor="#CCC" align="right" style="padding-right:8px;">Total</th>

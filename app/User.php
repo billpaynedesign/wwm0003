@@ -33,11 +33,19 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
 	 */
 	protected $hidden = ['password', 'remember_token'];
 
+	protected $casts = [
+        'tax_exempt' => 'boolean',
+		'float' => 'tax'
+    ];
+
 	public function getNameAttribute(){
 		return $this->first_name.' '.$this->last_name;
 	}
 	public function orders(){
         return $this->hasMany('App\Order');
+	}
+	public function tax_rate(){
+        return $this->belongsTo('App\TaxRate');
 	}
 	public function shipping(){
 		return $this->hasMany('App\ShipTo');
@@ -54,6 +62,14 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
 	public function uom_price_check($uom_id) {
         return $this->product_price()->where('uom_id', $uom_id)->first();
     }
+	public function getTaxAttribute(){
+		if(!$this->tax_exempt){
+			if($tax_rate = $this->tax_rate){
+				return ($tax_rate->tax/100);
+			}
+		}
+		return 0;
+	}
 	public function getFrequentProductsAttribute(){
 		$products = collect([]);
 		$quantities = [];
@@ -84,7 +100,7 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
 				}
 			}
 		}
-		
+
 		$customer = QBCustomer::create([
 		    "CompanyName" => $this->company,
 		    "DisplayName" => $this->name,

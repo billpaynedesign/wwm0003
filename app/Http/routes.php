@@ -57,6 +57,7 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth', 'namespace' => 'Admin
 	    Route::get('/accounts-receivable', ['uses'=>'DashboardController@accounts_receivable','as'=>'admin-accounts-receivable']);
 	    Route::get('/accounts-payable', ['uses'=>'DashboardController@accounts_payable','as'=>'admin-accounts-payable']);
 	    Route::get('/vendors', ['uses'=>'DashboardController@vendors','as'=>'admin-vendors']);
+	    Route::get('/tax-rates', ['uses'=>'DashboardController@tax_rates','as'=>'admin-tax-rates']);
 	});
 });
 
@@ -193,6 +194,7 @@ Route::group(['prefix'=>'user'],function(){
 			Route::get('/edit/{id}',['uses'=>'UserController@edit','as'=>'user-edit']);
 			Route::post('/update',['uses'=>'UserController@update','as'=>'user-update']);
 			Route::get('/info/{id}',['uses'=>'UserController@info','as'=>'user-info']);
+			Route::get('/api/info/{id}',['uses'=>'UserController@info_api','as'=>'user-info-api']);
 			Route::get('/product/{id}',['uses'=>'UserController@product', 'as'=>'user-product']);
 			Route::post('/product/{id}',['uses'=>'UserController@product_submit', 'as'=>'user-product-submit']);
 			Route::post('/product/add/{id}',['uses'=>'UserController@product_add','as'=>'user-product-add']);
@@ -311,4 +313,17 @@ Route::group(['prefix'=>'vendor-purchase-order'],function(){
 			Route::get('/export/{id}',['uses'=>'VendorPurchaseOrderController@export','as'=>'vendor-purchase-order-export']);
 		});
 	});
+});
+
+/*
+ * ------------
+ * Tax Rates
+ * ------------
+ */
+Route::group(['prefix'=>'tax-rates','middleware'=>['auth','admin']],function(){
+	Route::post('/new', ['uses'=>'TaxRateController@create','as' => 'tax-rate-new']);
+	Route::get('/delete/{id}', ['uses'=>'TaxRateController@delete','as' => 'tax-rate-delete']);
+	Route::get('/edit/{id}',['uses'=>'TaxRateController@edit','as'=>'tax-rate-edit']);
+	Route::post('/edit/{id}',['uses'=>'TaxRateController@update','as'=>'tax-rate-update']);
+	Route::post('/info/modal',['uses'=>'TaxRateController@infoModal','as'=>'tax-rate-info-modal']);
 });

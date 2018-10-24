@@ -125,6 +125,7 @@
             </tbody>
             @if(Auth::check() && !Auth::user()->no_pricing)
               <tfoot>
+                @if(!$order->user->tax_exempt)
                 <tr>
                   <th colspan="4" class="text-right"><strong>Sub-Total</strong></th>
                   <th>${{ \number_format($order->total,2) }}</th>
@@ -133,6 +134,7 @@
                   <th colspan="4" class="text-right"><strong>+ Tax</strong></th>
                   <th>${{ \number_format($order->tax,2) }}</th>
                 </tr>
+                @endif
                 <tr>
                   <th colspan="4" class="text-right"><strong>Total</strong></th>
                   <th>${{ \number_format($order->total_with_tax,2) }}</th>
@@ -146,9 +148,3 @@
   </div>
 </div>
 @stop
-
-
-
-
-
-

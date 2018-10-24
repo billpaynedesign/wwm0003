@@ -39,13 +39,15 @@ class Order extends Model {
       return $shipstatus;
 	}
 	public function getTotalWithTaxAttribute(){
-		$state = State::where('abbr',$this->state)->first();
-		$tax = ((float)$state->tax)/100;
+		// $state = State::where('abbr',$this->state)->first();
+		// $tax = ((float)$state->tax)/100;
+		$tax = (float)$this->user->tax;
 		return ((float)$this->total*$tax)+(float)$this->total;
 	}
 	public function getTaxAttribute(){
-		$state = State::where('abbr',$this->state)->first();
-		$tax = ((float)$state->tax)/100;
+		// $state = State::where('abbr',$this->state)->first();
+		// $tax = ((float)$state->tax)/100;
+		$tax = (float)$this->user->tax;
 		return (floatval($this->total)*$tax);
 	}
 	public function getInvoiceArrayAttribute(){
@@ -175,6 +177,6 @@ class Order extends Model {
 			return $response;
 		}
 		return false;
-		
+
 	}
 }

@@ -126,7 +126,7 @@ function add_option(){
       </div>
       <div id="admin_tab_panel" role="tabpanel">
 
-        @include('admin.partials.nav-tabs', ["adminActive"=>'Products'])
+        @include('admin.partials.nav-tabs')
 
         <div class="tab-content">
           <div role="tabpanel" class="tab-pane tab-pane-admin active">

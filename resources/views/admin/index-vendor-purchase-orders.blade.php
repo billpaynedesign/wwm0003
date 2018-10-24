@@ -35,7 +35,7 @@
                                     <td>${{ number_format($purchase_order->total,2) }}</td>
                                     <td>
                                         @if($purchase_order->vendor && $purchase_order->vendor->email)
-                                            <a href="mailto:{{ $purchase_order->vendor->email }}&subject=Purchase%20Order%20{{ $purchase_order->invoice_num }}%20from%20World%20Wide%20Medical%20Distributors&body=Dear%20{{ $purchase_order->vendor->name }},%0D%0APurchase%20Order%20{{ $purchase_order->invoice_num }}%20is%20attached.%20Please%20review%20and%20fill%20at%20your%20earliest%20convenience.%0D%0A%0D%0AThank%20You,%0D%0AWorld%20Wide%20Medical%20Distributors" class="btn btn-success">
+                                            <a href="mailto:{{ $purchase_order->vendor->email }}&subject=Purchase%20Order%20{{ $purchase_order->invoice_num }}%20from%20World%20Wide%20Medical%20Distributors&body=Dear%20{{ $purchase_order->vendor->name }}%0D%0APurchase%20Order%20{{ $purchase_order->invoice_num }}%20is%20attached.%20Please%20review%20and%20fill%20at%20your%20earliest%20convenience.%0D%0A%0D%0AThank%20You,%0D%0AWorld%20Wide%20Medical%20Distributors" class="btn btn-success">
                                                 <span class="fa fa-envelope"></span>
                                             </a>
                                         @endif

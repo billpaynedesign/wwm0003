@@ -12,6 +12,7 @@ use App\Picture;
 use App\Product;
 use App\ProductAttribute;
 use App\Special;
+use App\TaxRate;
 use App\User;
 use App\Vendor;
 use App\VendorBill;
@@ -165,5 +166,30 @@ class DashboardController extends AdminController {
         $payment_terms = PaymentTerm::all();
         $accounts = BillAccount::all();
         return view('admin.index-accounts-payable',compact('vendor_bills','vendors','payment_terms','accounts'));
+    }
+    public function tax_rates(){
+        if(request()->ajax()){
+            return Datatables::eloquent(TaxRate::query())
+                    ->addColumn('action',function($tax_rate){
+                        return "
+                        <button
+                            class='btn btn-warning'
+                            title='Edit {$tax_rate->name}'
+                            data-toggle='modal'
+                            data-target='#edit-tax-rate'
+                            data-trid='{$tax_rate->id}'
+                            data-name='{$tax_rate->name}'
+                            data-tax='{$tax_rate->tax}'
+                            >
+                          <span class='glyphicon glyphicon-edit' aria-hidden='true'></span>
+                        </button>
+                        <a href='".route('tax-rate-delete',$tax_rate->id)."' class='btn btn-danger' title='Remove {$tax_rate->name}' onclick='return confirm(\"Are you sure you want to remove this product?\"');'>
+                          <span class='glyphicon glyphicon-trash' aria-hidden='true'></span>
+                        </a>
+                        ";
+                    })
+                    ->make(true);
+        }
+        return view('admin.index-tax-rates');
     }
 }

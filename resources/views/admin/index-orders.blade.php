@@ -60,8 +60,7 @@ function order_information(id){
               <a href="{{ route('order-print-backordered') }}" target="_blank" class="btn btn-info" >Print Backorder&nbsp;&nbsp;<span class="glyphicon glyphicon-print"></span></a>
             </div>
             -->
-            <div class="table-responsive text-left">
-              <table id="orders_table" class="table table-striped table-hover">
+            <table id="orders_table" class="table table-striped table-hover">
                 <thead>
                   <tr>
                     <th>Order Date</th>
@@ -105,9 +104,7 @@ function order_information(id){
                   @endforeach
                   @endif
                 </tbody>
-              </table>
-            </div>
-
+            </table>
           </div>
         </div>
       </div>

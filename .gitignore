@@ -7,3 +7,4 @@ Homestead.json
 .env
 sftp-config.json
 wp-config.php
+.tags*

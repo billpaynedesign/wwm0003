@@ -8,6 +8,7 @@ use App\Product;
 use Cart;
 use App\ShoppingCartItem;
 use App\UnitOfMeasure;
+use Yajra\Datatables\Facades\Datatables;
 
 class UserController extends Controller {
 
@@ -34,18 +35,6 @@ class UserController extends Controller {
 		$user = User::find($id);
 		return view('user.edit',compact('user'));
 	}
-	public function info($id){
-		$user = User::find($id);
-		$cart_id = null;
-		$total = 0;
-		$cart = [];
-		if($user->cart){
-			$cart_id = $user->cart->id;
-			$cart = $user->cart->items;
-		}
-		if($cart_id) $total = Cart::total($cart_id);
-		return view('user.info',compact('user', 'cart', 'cart_id', 'total'));
-	}
 	public function update(Request $request){
 		if($request->has('cancel')){
 			return redirect()->route('admin-dashboard')->with('tab','users');
@@ -69,6 +58,8 @@ class UserController extends Controller {
 			$user->license_expire = $request->input('license_expire');
 
 			$user->no_pricing = $request->has('no_pricing');
+			$user->tax_exempt = $request->has('tax_exempt');
+			$user->tax_rate_id = $request->input('tax_rate_id');
 
 			$user->save();
 
@@ -97,6 +88,54 @@ class UserController extends Controller {
 		return redirect()->route('admin-dashboard')->with(['success'=>'User deleted successfully.','tab'=>'users']);
 	}
 
+	public function info($id){
+		$user = User::find($id);
+		$cart_id = null;
+		$total = 0;
+		$cart = [];
+		if($user->cart){
+			$cart_id = $user->cart->id;
+			$cart = $user->cart->items;
+		}
+		if($cart_id) $total = Cart::total($cart_id);
+		return view('user.info',compact('user', 'cart', 'cart_id', 'total'));
+	}
+	public function info_api($id){
+		if(request()->ajax()){
+			// @foreach( as $product)
+			// 	<tr>
+			// 		<td>{{ $product->item_number }}</td>
+			// 		<td>{{ $product->name }}</td>
+			// 		<td>{{ $product->manufacturer }}</td>
+			// 		<td>{{ $product->price_string }}</td>
+			// 		<td>{{ $product->msrp_string }}</td>
+			// 		<td>{{ $user->frequent_products['quantities'][$product->id] }}</td>
+			// 		<td>
+			// 			<a href="javascript:void(0);" class="btn btn-link" data-toggle="popover" data-trigger="hover" data-placement="top" data-content="<img src='{{ asset('/pictures/'.$product->picture) }}' class='img-responsive center-block' />">
+			// 				<img src='{{ asset('/pictures/'.$product->picture) }}' class='img-responsive center-block'  style="max-height:40px;"/>
+			// 			</a>
+			// 		</td>
+			// 	</tr>
+			// @endforeach
+			$user = User::findOrFail($id);
+			$frequent_products = $user->frequent_products;
+			$products = collect($frequent_products['products']);
+			$products = $products->map(function ($product) use($frequent_products) {
+				$product->total_purchased = $frequent_products['quantities'][$product->id];
+				return $product;
+			});
+
+			return Datatables::collection($products)
+								->addColumn('price_string',function($product){
+									return $product->price_string;
+								})
+								->addColumn('msrp_string',function($product){
+									return $product->msrp_string;
+								})
+								->make(true);
+		}
+		abort(404);
+	}
 	public function product($id){
 		$user = User::find($id);
 		return view('user.product',compact('user'));
