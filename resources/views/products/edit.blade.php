@@ -50,6 +50,13 @@
                         <p class="help-block">To select multiple categories, hold down the CTRL or SHIFT key while selecting</p>
                     </div>
                     <div class="form-group">
+                        <div class="checkbox">
+                            <label>
+                                <input type="checkbox" name="taxable" id="taxable" value="1" {{ $product->taxable?'checked':'' }}> Taxable?
+                            </label>
+                        </div>
+                    </div>
+                    <div class="form-group">
                         <label for="item_number">Item Number</label>
                         <input type="text" class="form-control" id="item_number" name="item_number" placeholder="Item Number" value="{{ $product->item_number }}" />
                     </div>
@@ -98,7 +105,7 @@
                         <input type="text" name="manufacturer" id="manufacturer" class="form-control" value="{{ $product->manufacturer }}" />
                     </div>
                     <div class="form-group">
-                        <label for="vendors">Vendors:</label>
+                        <label id="vendors-label" for="vendors">Vendors:</label>
                         <select id="vendors" name="vendors[]" class="form-control" multiple>
                             @foreach (App\Vendor::all() as $vendor)
                                 <option value="{{ $vendor->id }}" {{ $product->vendors->contains($vendor->id)?'selected':'' }}>{{ $vendor->name }}</option>

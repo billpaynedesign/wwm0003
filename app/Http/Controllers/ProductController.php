@@ -8,7 +8,9 @@ use App\Commands;
 use App\Category;
 use App\UnitOfMeasure;
 use App\Review;
+use App\Vendor;
 use Session;
+use DB;
 use App\Commands\CategoryHelper;
 
 class ProductController extends Controller {
@@ -70,28 +72,47 @@ class ProductController extends Controller {
 		if($request->has('cancel')){
 			return redirect()->route('admin-products')->with('tab','products');
 		}else{
+			$this->validate($request,[
+				'name' => 'required|string',
+				'manufacturer' => 'string',
+				'item_number' => 'string',
+				'short_description' => 'string',
+				'description' => 'string',
+				'note' => 'string',
+				'category' => 'required'
+			]);
+
 			$product = Product::find($request->input('id'));
-			$product->name = $request->input('name');
-			$product->item_number = $request->input('item_number');
-			$product->description = $request->input('productdescription');
-			$product->short_description = $request->input('shortdescription');
-			$product->manufacturer = $request->input('manufacturer');
-			$product->active = $request->has('active')?1:0;
-			$product->has_lot_expiry = $request->has('has_lot_expiry')?1:0;
-			$product->require_license = $request->has('require_license')?1:0;
+			$product->fill([
+				/* moved to unit of measure
+				'msrp' => $request->input('msrp'),
+				'price' => $request->input('price'),
+				*/
+				'name' => $request->input('name'),
+				'manufacturer' => $request->input('manufacturer'),
+				'item_number' => $request->input('item_number'),
+				'short_description' => $request->input('productshortdescription'),
+				'description' => $request->input('productdescription'),
+				'note' => $request->input('note'),
 
+				'has_lot_expiry' => $request->has('lot_expiry_check'),
+				'require_license' => $request->has('require_license'),
+				'active' => $request->has('active'),
+				'taxable' => $request->has('taxable')
+			]);
 
-			$product->note = $request->input('note');
 			if($request->hasFile('image')){
 				$destinationPath = public_path().'/pictures';
-				$filename = $request->file('image')->getClientOriginalName();
+				$filename = $product->slug.'.'.$request->file('image')->getClientOriginalExtension();
 				$request->file('image')->move($destinationPath, $filename);
 				$product->picture = $filename;
 			}
+
 			$product->save();
 
 			$product->categories()->sync($request->input('category'));
-			$product->vendors()->sync($request->input('vendors'));
+			if($request->has('vendors')) $product->vendors()->sync($request->input('vendors'));
+
 
 			if($request->has('uom')){
 				foreach($request->input('uom') as $uom_id => $name){
@@ -136,51 +157,62 @@ class ProductController extends Controller {
 	}
 	public function create(Request $request)
 	{
-			$product = new Product;
-			$product->name = $request->input('productname');
+		$this->validate($request,[
+			'name' => 'required|string',
+			'manufacturer' => 'string',
+			'item_number' => 'string',
+			'short_description' => 'string',
+			'description' => 'string',
+			'note' => 'string'
+		]);
+
+		$product = new Product();
+		$product->fill([
 			/* moved to unit of measure
-			$product->msrp = $request->input('msrp');
-			$product->price = $request->input('price');
+			'msrp' => $request->input('msrp'),
+			'price' => $request->input('price'),
 			*/
-			$product->manufacturer = $request->input('manufacturer');
-			$product->item_number = $request->input('item_number');
-			$product->short_description = $request->input('productshortdescription');
-			$product->description = $request->input('productdescription');
-			$product->has_lot_expiry = $request->has('lot_expiry_check');
-			$product->require_license = $request->has('require_license')?1:0;
-			$product->note = $request->input('note');
-			$product->active = 1;
-			$product->save();
+			'name' => $request->input('productname'),
+			'manufacturer' => $request->input('manufacturer'),
+			'item_number' => $request->input('item_number'),
+			'short_description' => $request->input('productshortdescription'),
+			'description' => $request->input('productdescription'),
 
-			$product->categories()->sync($request->input('category'));
-			$product->vendors()->sync($request->input('vendors'));
+			'has_lot_expiry' => $request->has('lot_expiry_check'),
+			'require_license' => $request->has('require_license'),
+			'note' => $request->input('note'),
+			'active' => 1
+		]);
 
-			foreach($request->input('uom') as $key => $name){
-				$uom = new UnitOfMeasure;
-				$uom->name = $name;
-				$uom->product_id = $product->id;
-				$uom->price = array_key_exists($key,$request->input('price'))?$request->input('price')[$key]:NULL;
-				$uom->msrp = array_key_exists($key,$request->input('msrp'))?$request->input('msrp')[$key]:NULL;
-                $weight = array_key_exists($key,$request->input('weight'))?$request->input('weight')[$key]:NULL;
-                if($weight){
-                    $weight_unit = array_key_exists($key,$request->input('weight_unit'))?$request->input('weight_unit')[$key]:NULL;
-                    if($weight_unit === 'oz'){
-                        $weight = $weight/16;
-                    }
+		if($request->hasFile('image')){
+			$destinationPath = public_path().'/pictures';
+			$filename = $product->slug.'.'.$request->file('image')->getClientOriginalExtension();
+			$request->file('image')->move($destinationPath, $filename);
+			$product->picture = $filename;
+		}
 
-                    $uom->weight = $weight;
+		$product->save();
+
+		$product->categories()->sync($request->input('category'));
+		if($request->has('vendors')) $product->vendors()->sync($request->input('vendors'));
+
+		foreach($request->input('uom') as $key => $name){
+			$uom = new UnitOfMeasure;
+			$uom->name = $name;
+			$uom->product_id = $product->id;
+			$uom->price = array_key_exists($key,$request->input('price'))?$request->input('price')[$key]:NULL;
+			$uom->msrp = array_key_exists($key,$request->input('msrp'))?$request->input('msrp')[$key]:NULL;
+            $weight = array_key_exists($key,$request->input('weight'))?$request->input('weight')[$key]:NULL;
+            if($weight){
+                $weight_unit = array_key_exists($key,$request->input('weight_unit'))?$request->input('weight_unit')[$key]:NULL;
+                if($weight_unit === 'oz'){
+                    $weight = $weight/16;
                 }
-				$uom->save();
-			}
 
-			if($request->hasFile('image')){
-				$destinationPath = public_path().'/pictures';
-				$filename = $product->slug.'.'.$request->file('image')->getClientOriginalExtension();
-				$request->file('image')->move($destinationPath, $filename);
-				$product->picture = $filename;
-			}
-			$product->save();
-			$product->categories()->attach($request->input('category'));
+                $uom->weight = $weight;
+            }
+			$uom->save();
+		}
 
 		return redirect()->route('admin-products')->with(['tab'=>'products','success'=>'Product created successfully.']);
 	}
@@ -326,29 +358,48 @@ class ProductController extends Controller {
 	}
 	public function vendor_pricing_update(Request $request,$id){
 		$product = Product::findOrFail($id);
-
+		$message_bag = null;
 		if($request->has('costs')){
 			$costs = $request->input('costs');
 			foreach($costs as $vendor_id => $cost){
 				if($vendor = Vendor::find($vendor_id)){
 					foreach($cost as $uom_id => $value){
 						if($vendor = UnitOfMeasure::find($uom_id)){
-							if($uom_vendor = DB::table('uom_vendor')->where('uom_id',$uom_id)->where('vendor_id',$vendor_id)->first()){
-								$uom_vendor->cost = (float)$value;
-								$uom_vendor->save();
+							$uom_query = DB::table('uom_vendor')->where('uom_id',$uom_id)->where('vendor_id',$vendor_id);
+							if($uom_query->exists()){
+								try {
+								    // Get the updated rows count here. Keep in mind that zero is a
+								    // valid value (not failure) if there were no updates needed
+								    $count = $uom_query->update([
+										'cost' => (float)$value
+									]);
+								} catch (\Illuminate\Database\QueryException $e) {
+									$message_bag->add('error', "Error updating {$vendor->name} {$uom->name} cost");
+								}
 							}
 							else{
-								DB::table('uom_vendor')->insert([
-									'uom_id' => $uom_id,
-									'vendor_id' => $vendor_id,
-									'cost' => (float)$value
-								]);
+								try {
+								    // Get the updated rows count here. Keep in mind that zero is a
+								    // valid value (not failure) if there were no updates needed
+								    $count = DB::table('uom_vendor')->insert([
+											'uom_id' => $uom_id,
+											'vendor_id' => $vendor_id,
+											'cost' => (float)$value
+										]);
+								} catch (\Illuminate\Database\QueryException $e) {
+									$message_bag->add('error', "Error creating {$vendor->name} {$uom->name} cost. {$e->message}");
+								}
 							}
 						}
 					}
 				}
 			}
 		}
-		return redirect()->route('product-vendor-pricing-edit',$id)->with('fail','An error occured while saving, please try again');
+		if(isset($message_bag)){
+			return redirect()->route('product-vendor-pricing-edit',$id)->withErrors($message_bag)->with('fail','An error occured while saving, please try again');
+		}
+		else{
+			return redirect()->route('product-vendor-pricing-edit',$id)->with('success','Product vendor pricing updated successfully');
+		}
 	}
 }

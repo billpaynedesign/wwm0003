@@ -219,7 +219,7 @@ class ShoppingCart extends Model
         $id = false;
         if(session()->has('cart_id')){
             $id = session()->get('cart_id');
-            
+
         }
         else{
             if(Auth::check()){

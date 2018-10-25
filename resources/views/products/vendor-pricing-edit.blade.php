@@ -13,21 +13,22 @@
                         <h4>Vendor: {{ $vendor->name }}</h4>
                         @if(count($units_of_measure))
                             @foreach($units_of_measure as $uom)
+                                <?php $uom_vendor = $uom->vendors->find($vendor->id); ?>
                                 <div class="form-group">
                                     <label for="price-{{ $vendor->id }}-{{ $uom->id }}">{{ $uom->name }} Costs:</label>
-                                    <input type="number" id="price-{{ $vendor->id }}-{{ $uom->id }}" name="costs[{{ $vendor->id }}][{{ $uom->id }}]" step="0.01" min="0" class="form-control" value="{{ $uom->price }}" required />
+                                    <input type="number" id="price-{{ $vendor->id }}-{{ $uom->id }}" name="costs[{{ $vendor->id }}][{{ $uom->id }}]" step="0.01" min="0" class="form-control" value="{{ $uom_vendor?$uom_vendor->pivot->cost:$uom->price }}" required />
                                 </div>
                             @endforeach
                         @else
                             <div class="alert alert-warning">
-                                Add units of measure to this product first
+                                <a href="{{ route('product-edit',$product->id) }}#vendors-label">Add units of measures</a> to this product first.
                             </div>
                         @endif
                         <hr>
                     @endforeach
                 @else
                     <div class="alert alert-warning">
-                        Add vendors to this product first
+                        <a href="{{ route('product-edit',$product->id) }}#vendors-label">Edit this product</a> to add vendors first.
                     </div>
                     <hr>
                 @endif

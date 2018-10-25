@@ -19,6 +19,36 @@ class Product extends Model{
 	 */
 	protected $table = 'products';
 
+
+    protected $dates = ['deleted_at'];
+
+	protected $casts = [
+		'manufacturer' => 'string',
+		'item_number' => 'string',
+		'productshortdescription' => 'string',
+		'productdescription' => 'string',
+		'note' => 'string',
+		'picture' => 'string',
+		'active' => 'boolean',
+		'has_lot_expiry' => 'boolean',
+		'require_license' => 'boolean',
+		'taxable' => 'boolean'
+	];
+
+	protected $fillable = [
+		'name',
+		'manufacturer',
+		'item_number',
+		'short_description',
+		'description',
+		'note',
+		'picture',
+		'active',
+		'has_lot_expiry',
+		'require_license',
+		'taxable'
+	];
+
     /**
      * Sluggable configuration.
      *
@@ -31,8 +61,6 @@ class Product extends Model{
             ]
         ];
     }
-
-    protected $dates = ['deleted_at'];
 
     public function groups(){
         return  $this->belongsToMany('App\ProductGroup','product_has_product_groups','product_id','product_group_id');

@@ -239,12 +239,19 @@ class CartController extends Controller {
 				$orderDetail->quantity = $item->quantity;
 				$orderDetail->subtotal = $item->sub_total;
 	            $orderDetail->options = $item->uom->name;
+				if($product->taxable && !$user->tax_exempt){
+					$orderDetail->tax = (float)$item->sub_total*$user->tax;
+				}
 				$order->details()->save($orderDetail);
 			}
 		}
+
+		$order->total_tax = (float)$order->details()->sum('tax');
+		$order->save();
+
 		$cart = Cart::find(Cart::id());
-		$cart->delete();
 		$cart->items()->delete();
+		$cart->delete();
 		if(session()->has('cart_id')) session()->forget('cart_id');
 		if(session()->has('order')) session()->forget('order');
 

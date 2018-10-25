@@ -13,7 +13,6 @@ class Order extends Model {
 	 * @var string
 	 */
 	protected $table = 'orders';
-
 	public function details(){
 		return $this->hasMany('App\OrderDetail');
 	}
@@ -48,7 +47,7 @@ class Order extends Model {
 		// $state = State::where('abbr',$this->state)->first();
 		// $tax = ((float)$state->tax)/100;
 		$tax = (float)$this->user->tax;
-		return (floatval($this->total)*$tax);
+		return (floatval($this->total_taxable)*$tax);
 	}
 	public function getInvoiceArrayAttribute(){
 		$ds = DIRECTORY_SEPARATOR;
