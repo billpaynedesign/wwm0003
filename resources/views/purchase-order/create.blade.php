@@ -15,6 +15,11 @@
                                 <option value="{{ $vendor->id }}">{{ $vendor->name }}</option>
                             @endforeach
                         </select>
+						@if($vendors->count()===0)
+							<div class="alert alert-warning">
+								<a href="{{ route('admin-vendors') }}" target="_blank" rel="nofollow noreferrer">Add a vendor</a> first.
+							</div>
+						@endif
                     </div>
                 </div>
                 <div class="col-md-6">
@@ -91,6 +96,10 @@
                         <label for="cart-add-uom">UOM</label>
                         <select id="cart-add-uom" name="uom_id" class="form-control"></select>
                     </div>
+                    <div id="cart-add-vendor-cost-group" class="form-group" style="display:none;">
+                        <label for="cart-add-vendor-cost">Vendor Cost</label>
+                        <input id="cart-add-vendor-cost" name="vendor_cost" value="1" type="number" min="1" step="1" class="form-control">
+                    </div>
                     <div id="cart-add-quantity-group" class="form-group" style="display:none;">
                         <label for="cart-add-quantity">Quantity</label>
                         <input id="cart-add-quantity" name="quantity" value="1" type="number" min="1" step="1" class="form-control">
@@ -138,7 +147,8 @@
             <input type="hidden" value="{quantity}" name="quantities['{id}']">
         </td>
         <td class="text-right">
-            {price}
+            {cost_string}
+            <input type="hidden" value="{cost}" name="cost['{id}']">
         </td>
         <td class="text-right">
             {item_total}
@@ -157,14 +167,37 @@
     var carttable = document.querySelector('#cart-table');
     var cartrows = {};
     var carttotal = $('#cart-total');
+    var product_id;
+    var uom_id;
+    var vendor_id;
+    var product;
+    var uom;
     $(function(){
         // on vendor change check if vendor is selected and if so allow item adding
         $('#vendor').on('change',function(){
-            if($(this).find(':selected').val() ===''){
+            vendor_id = $(this).find(':selected').val();
+            if(vendor_id ===''){
                 $('#add-cart-button').prop('disabled',true);
             }
             else{
                 $('#add-cart-button').prop('disabled',false);
+            }
+        });
+        $('#cart-add-uom').on('change',function(){
+            uom_id = $(this).find(':selected').val();
+            if(product_id !=='' && uom_id !=='' && vendor_id !==''){
+                let parameters = {
+                    product_id: product_id,
+                    uom_id: uom_id,
+                    vendor_id: vendor_id
+                };
+                $.get('{{ route('api-product-uom-vendor-get-data') }}', parameters, response => response.data)
+                    .then(data => {
+                        product = data.product;
+                        uom = data.uom;
+                        $("#cart-add-vendor-cost-group").show();
+                        $("#cart-add-vendor-cost").val(data.price);
+                    });
             }
         });
         var $selectizeCartEditSearch = $('#cart-edit-search').selectize({
@@ -212,10 +245,11 @@
 	        },
             onChange: function(value){
                 // get the item id and add it to the modal window
-                $("#cart-add-product").val(this.items[0]);
+                product_id = this.items[0];
+                $("#cart-add-product").val(product_id);
 
                 // get the uom select dropdown for this product
-				$.get('{{ route('api-get-uom-product-options-html') }}', {product_id: this.items[0]}, function(data){
+				$.get('{{ route('api-get-uom-product-options-html') }}', {product_id: product_id}, function(data){
                		$("#cart-add-uom-group").show();
                		$("#cart-add-quantity-group").show();
                     $("#cart-add-uom").html(data);
@@ -226,8 +260,6 @@
             var clone = document.importNode(cartrow.content, true);
             var el = clone.querySelector("tr");
 
-            var product_id = $('#cart-add-product').val();
-			var uom_id = $('#cart-add-uom').find(':selected').val();
 			var quantity = $('#cart-add-quantity').val();
             var note = $('#cart-add-note').val();
             var reordernum = $('#cart-add-reordernum').val();
@@ -235,53 +267,57 @@
             var thisid = 'row-'+product_id+'-'+uom_id;
             el.id = thisid;
 
-            $.get('{{ route('api-product-uom-get-data') }}', {product_id: product_id,uom_id: uom_id}, function(data){
-                // make sure our returned price is a float
-                let price = new Number(data.uom.price);
-                // calculate line total
-                let item_total = price*quantity;
+            // $.get('{{ route('api-product-uom-get-data') }}', {product_id: product_id,uom_id: uom_id}, function(data){
+            //
+            // });
+            // make sure our returned price is a float
+            let cost = parseFloat($("#cart-add-vendor-cost").val());
+            // calculate line total
+            let item_total = cost*quantity;
 
-                // set all the appropriate data to the template tag
-                el.innerHTML = el.innerHTML.replace(/{item_name}/g,data.product.name);
-                el.innerHTML = el.innerHTML.replace(/{product_id}/g,product_id);
-                el.innerHTML = el.innerHTML.replace(/{uom_id}/g,uom_id);
-                el.innerHTML = el.innerHTML.replace(/{id}/g,thisid);
-                el.innerHTML = el.innerHTML.replace(/{price}/g,'$'+price.format(2, 3, ',', '.'));
-                el.innerHTML = el.innerHTML.replace(/{quantity}/g,quantity);
-                el.innerHTML = el.innerHTML.replace(/{uom}/g,data.uom.name);
-                el.innerHTML = el.innerHTML.replace(/{item_total}/g,'$'+item_total.format(2, 3, ',', '.'));
-                el.innerHTML = el.innerHTML.replace(/{note}/g,note);
-                el.innerHTML = el.innerHTML.replace(/{reordernum}/g,reordernum);
+            // set all the appropriate data to the template tag
+            el.innerHTML = el.innerHTML.replace(/{item_name}/g,product.name);
+            el.innerHTML = el.innerHTML.replace(/{product_id}/g,product_id);
+            el.innerHTML = el.innerHTML.replace(/{uom_id}/g,uom_id);
+            el.innerHTML = el.innerHTML.replace(/{id}/g,thisid);
+            el.innerHTML = el.innerHTML.replace(/{cost_string}/g,'$'+cost.format(2, 3, ',', '.'));
+            el.innerHTML = el.innerHTML.replace(/{cost}/g,cost);
+            el.innerHTML = el.innerHTML.replace(/{quantity}/g,quantity);
+            el.innerHTML = el.innerHTML.replace(/{uom}/g,uom.name);
+            el.innerHTML = el.innerHTML.replace(/{item_total}/g,'$'+item_total.format(2, 3, ',', '.'));
+            el.innerHTML = el.innerHTML.replace(/{note}/g,note);
+            el.innerHTML = el.innerHTML.replace(/{reordernum}/g,reordernum);
 
-                // keep record of data
-                cartrows[thisid] = {
-                    'product': data.product,
-                    'uom': data.uom,
-                    'price': price,
-                    'item_total': item_total,
-                    'note': note,
-                    'reordernum': reordernum
-                };
+            // keep record of data
+            cartrows[thisid] = {
+                'product': product,
+                'uom': uom,
+                'cost': cost,
+                'item_total': item_total,
+                'note': note,
+                'reordernum': reordernum
+            };
 
-                // add to the table
-                carttable.querySelector('tbody').appendChild(clone);
+            // add to the table
+            carttable.querySelector('tbody').appendChild(clone);
 
-                // re-initialize inputs
-                $("#cart-add-uom-group").hide();
-                $("#cart-add-quantity-group").hide();
-                $("#cart-add-uom").html('');
-                $('#cart-add-product').val('');
-                $('#cart-add-quantity').val('1');
-                $('#cart-add-note').val('');
-                $('#cart-add-reordernum').val('');
+            // re-initialize inputs
+            $("#cart-add-uom-group").hide();
+            $("#cart-add-quantity-group").hide();
+            $("#cart-add-vendor-cost-group").hide();
+            $("#cart-add-uom").html('');
+            $('#cart-add-product').val('');
+            $('#cart-add-quantity').val('1');
+            $('#cart-add-note').val('');
+            $('#cart-add-reordernum').val('');
+            $("#cart-add-vendor-cost").val('');
 
-                // reset selectize input
-                let control = $selectizeCartEditSearch[0].selectize;
-                control.clear();
+            // reset selectize input
+            let control = $selectizeCartEditSearch[0].selectize;
+            control.clear();
 
-                // calculate purchase order total
-                calculate_total();
-            });
+            // calculate purchase order total
+            calculate_total();
 		});
     });
     function calculate_total(){

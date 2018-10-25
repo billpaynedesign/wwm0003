@@ -111,6 +111,11 @@ $(document).ready(function(){
 								<option value="{{ $tax_rate->id }}" {{ $tax_rate->id===auth()->user()->tax_rate_id?'selected':'' }}>{{ $tax_rate->name }} ({{ $tax_rate->tax }}%)</option>
 							@endforeach
 						</select>
+						@if(App\TaxRate::count()===0)
+							<div class="alert alert-warning">
+								<a href="{{ route('admin-tax-rates') }}" target="_blank" rel="nofollow noreferrer">Add a tax rate</a> first.
+							</div>
+						@endif
 					</div>
 				</div>
 				<div class="clearfix"></div>

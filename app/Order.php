@@ -13,6 +13,45 @@ class Order extends Model {
 	 * @var string
 	 */
 	protected $table = 'orders';
+
+	protected $fillable = [
+		'purchase_order_num',
+		'shippingname',
+		'first_name',
+		'last_name',
+		'address1',
+		'address2',
+		'city',
+		'state',
+		'zip',
+		'phone',
+		'secondary_phone',
+		'total',
+		'total_taxable'
+	];
+
+	protected $casts = [
+		'purchase_order_num' => 'string',
+		'shippingname' => 'string',
+		'first_name' => 'string',
+		'last_name' => 'string',
+		'address1' => 'string',
+		'address2' => 'string',
+		'city' => 'string',
+		'state' => 'string',
+		'zip' => 'string',
+		'phone' => 'string',
+		'secondary_phone' => 'string',
+		'token' => 'string',
+
+		'user_id' => 'integer',
+		'transaction_id' => 'integer',
+		'qb_id' => 'integer',
+
+		'total' => 'float',
+		'total_taxable' => 'float'
+	];
+
 	public function details(){
 		return $this->hasMany('App\OrderDetail');
 	}
@@ -38,10 +77,7 @@ class Order extends Model {
       return $shipstatus;
 	}
 	public function getTotalWithTaxAttribute(){
-		// $state = State::where('abbr',$this->state)->first();
-		// $tax = ((float)$state->tax)/100;
-		$tax = (float)$this->user->tax;
-		return ((float)$this->total*$tax)+(float)$this->total;
+		return ((float)$this->total)+(float)$this->tax;
 	}
 	public function getTaxAttribute(){
 		// $state = State::where('abbr',$this->state)->first();

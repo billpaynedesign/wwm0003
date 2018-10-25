@@ -129,6 +129,17 @@ class CartController extends Controller {
 
 		$order->orderDate = Carbon::now()->toDateTimeString();
 		$order->total = Cart::total();
+		$items = Cart::content();
+		$total_taxable = 0;
+		foreach ($items as $item) {
+			$product = Product::find($item->product_id);
+			if($product && $product->taxable && !$user->tax_exempt){
+				$total_taxable += (float)$item->sub_total;
+			}
+		}
+		if($total_taxable>0){
+			$order->total_taxable = $total_taxable;
+		}
 		//$order->save();
 		session(['order'=>$order]);
 		session()->reflash();
@@ -231,6 +242,7 @@ class CartController extends Controller {
 		$order->save();
 
 		$items = Cart::content();
+		$total_taxable = 0;
 		foreach ($items as $item) {
 			$product = Product::find($item->product_id);
 			if($product){
@@ -239,15 +251,9 @@ class CartController extends Controller {
 				$orderDetail->quantity = $item->quantity;
 				$orderDetail->subtotal = $item->sub_total;
 	            $orderDetail->options = $item->uom->name;
-				if($product->taxable && !$user->tax_exempt){
-					$orderDetail->tax = (float)$item->sub_total*$user->tax;
-				}
 				$order->details()->save($orderDetail);
 			}
 		}
-
-		$order->total_tax = (float)$order->details()->sum('tax');
-		$order->save();
 
 		$cart = Cart::find(Cart::id());
 		$cart->items()->delete();

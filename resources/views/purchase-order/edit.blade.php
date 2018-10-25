@@ -4,8 +4,10 @@
 <div id="row-main" class="row">
     <div id="container-main" class="container">
         <div id="col-main" class="col-xs-12">
-            <h1>Edit Purchase Order {{ $purchase_order->invoice_num }}</h1>
-            <h4>{{ $purchase_order->vendor->name }}</h4>
+            <div class="col-xs-12">
+                <h1>Edit Purchase Order {{ $purchase_order->invoice_num }}</h1>
+                <h3>{{ $purchase_order->vendor->name }}</h3>
+            </div>
 
             <form id="edit-form" action="{{ route('vendor-purchase-order-update',$purchase_order->id) }}" method="post">
                 <div class="form-group col-lg-3 col-md-6 col-sm-12">
@@ -47,7 +49,10 @@
                                             <span>{{ $detail->quantity }}</span>
                                             <input type="hidden" value="{{ $detail->quantity }}" name="old_quantities[{{ $detail->id }}]">
                                         </td>
-                                        <td class="text-right price-cell">${{ number_format($detail->uom->price,2) }}</td>
+                                        <td class="text-center cost-cell">
+                                            <span>${{ number_format($detail->cost,2) }}</span>
+                                            <input type="hidden" value="{{ $detail->cost }}" name="old_cost[{{ $detail->id }}]">
+                                        </td>
                                         <td class="text-right itemtotal-cell">${{ number_format($detail->item_total,2) }}</td>
                                         <td>
                                             <button
@@ -117,6 +122,10 @@
                         <label for="cart-add-uom">UOM</label>
                         <select id="cart-add-uom" name="uom_id" class="form-control"></select>
                     </div>
+                    <div id="cart-add-vendor-cost-group" class="form-group" style="display:none;">
+                        <label for="cart-add-vendor-cost">Vendor Cost</label>
+                        <input id="cart-add-vendor-cost" name="vendor_cost" value="1" type="number" min="1" step="1" class="form-control">
+                    </div>
                     <div id="cart-add-quantity-group" class="form-group" style="display:none;">
                         <label for="cart-add-quantity">Quantity</label>
                         <input id="cart-add-quantity" name="quantity" value="1" type="number" min="1" step="1" class="form-control">
@@ -144,6 +153,10 @@
                     <div class="form-group">
                         <label for="cart-edit-reordernum">Reorder #</label>
                         <input id="cart-edit-reordernum" name="reordernum" class="form-control">
+                    </div>
+                    <div id="cart-edit-vendor-cost-group" class="form-group">
+                        <label for="cart-edit-vendor-cost">Vendor Cost</label>
+                        <input id="cart-edit-vendor-cost" name="vendor_cost" value="1" type="number" min="1" step="1" class="form-control">
                     </div>
                     <div class="form-group">
                         <label for="cart-edit-quantity">Quantity</label>
@@ -192,7 +205,8 @@
             <input type="hidden" value="{quantity}" name="quantities['{id}']">
         </td>
         <td class="text-right">
-            {price}
+            {cost_string}
+            <input type="hidden" value="{cost}" name="cost['{id}']">
         </td>
         <td class="text-right">
             {item_total}
@@ -215,7 +229,29 @@
     var carttable = document.querySelector('#cart-table');
     var cartrows = {};
     var carttotal = $('#cart-total');
+    var product_id;
+    var uom_id;
+    var vendor_id = {{ $purchase_order->vendor_id }};
+    var product;
+    var uom;
     $(function(){
+        $('#cart-add-uom').on('change',function(){
+            uom_id = $(this).find(':selected').val();
+            if(product_id !=='' && uom_id !=='' && vendor_id !==''){
+                let parameters = {
+                    product_id: product_id,
+                    uom_id: uom_id,
+                    vendor_id: vendor_id
+                };
+                $.get('{{ route('api-product-uom-vendor-get-data') }}', parameters, response => response.data)
+                    .then(data => {
+                        product = data.product;
+                        uom = data.uom;
+                        $("#cart-add-vendor-cost-group").show();
+                        $("#cart-add-vendor-cost").val(data.price);
+                    });
+            }
+        });
         var $selectizeCartEditSearch = $('#cart-edit-search').selectize({
 	        valueField: 'url',
 	        labelField: 'name',
@@ -261,10 +297,11 @@
 	        },
             onChange: function(value){
                 // get the item id and add it to the modal window
-                $("#cart-add-product").val(this.items[0]);
+                product_id = this.items[0];
+                $("#cart-add-product").val(product_id);
 
                 // get the uom select dropdown for this product
-				$.get('{{ route('api-get-uom-product-options-html') }}', {product_id: this.items[0]}, function(data){
+				$.get('{{ route('api-get-uom-product-options-html') }}', {product_id: product_id}, function(data){
                		$("#cart-add-uom-group").show();
                		$("#cart-add-quantity-group").show();
                     $("#cart-add-uom").html(data);
@@ -275,8 +312,6 @@
             var clone = document.importNode(cartrow.content, true);
             var el = clone.querySelector("tr");
 
-            var product_id = $('#cart-add-product').val();
-			var uom_id = $('#cart-add-uom').find(':selected').val();
 			var quantity = $('#cart-add-quantity').val();
             var note = $('#cart-add-note').val();
             var reordernum = $('#cart-add-reordernum').val();
@@ -284,53 +319,57 @@
             var thisid = 'row-'+product_id+'-'+uom_id;
             el.id = thisid;
 
-            $.get('{{ route('api-product-uom-get-data') }}', {product_id: product_id,uom_id: uom_id}, function(data){
-                // make sure our returned price is a float
-                let price = new Number(data.uom.price);
-                // calculate line total
-                let item_total = price*quantity;
+            // $.get('{{ route('api-product-uom-get-data') }}', {product_id: product_id,uom_id: uom_id}, function(data){
+            //
+            // });
+            // make sure our returned price is a float
+            let cost = parseFloat($("#cart-add-vendor-cost").val());
+            // calculate line total
+            let item_total = cost*quantity;
 
-                // set all the appropriate data to the template tag
-                el.innerHTML = el.innerHTML.replace(/{item_name}/g,data.product.name);
-                el.innerHTML = el.innerHTML.replace(/{product_id}/g,product_id);
-                el.innerHTML = el.innerHTML.replace(/{uom_id}/g,uom_id);
-                el.innerHTML = el.innerHTML.replace(/{id}/g,thisid);
-                el.innerHTML = el.innerHTML.replace(/{price}/g,'$'+price.format(2, 3, ',', '.'));
-                el.innerHTML = el.innerHTML.replace(/{quantity}/g,quantity);
-                el.innerHTML = el.innerHTML.replace(/{uom}/g,data.uom.name);
-                el.innerHTML = el.innerHTML.replace(/{item_total}/g,'$'+item_total.format(2, 3, ',', '.'));
-                el.innerHTML = el.innerHTML.replace(/{note}/g,note);
-                el.innerHTML = el.innerHTML.replace(/{reordernum}/g,reordernum);
+            // set all the appropriate data to the template tag
+            el.innerHTML = el.innerHTML.replace(/{item_name}/g,product.name);
+            el.innerHTML = el.innerHTML.replace(/{product_id}/g,product_id);
+            el.innerHTML = el.innerHTML.replace(/{uom_id}/g,uom_id);
+            el.innerHTML = el.innerHTML.replace(/{id}/g,thisid);
+            el.innerHTML = el.innerHTML.replace(/{cost_string}/g,'$'+cost.format(2, 3, ',', '.'));
+            el.innerHTML = el.innerHTML.replace(/{cost}/g,cost);
+            el.innerHTML = el.innerHTML.replace(/{quantity}/g,quantity);
+            el.innerHTML = el.innerHTML.replace(/{uom}/g,uom.name);
+            el.innerHTML = el.innerHTML.replace(/{item_total}/g,'$'+item_total.format(2, 3, ',', '.'));
+            el.innerHTML = el.innerHTML.replace(/{note}/g,note);
+            el.innerHTML = el.innerHTML.replace(/{reordernum}/g,reordernum);
 
-                // keep record of data
-                cartrows[thisid] = {
-                    'product': data.product,
-                    'uom': data.uom,
-                    'price': price,
-                    'item_total': item_total,
-                    'note': note,
-                    'reordernum': reordernum
-                };
+            // keep record of data
+            cartrows[thisid] = {
+                'product': product,
+                'uom': uom,
+                'cost': cost,
+                'item_total': item_total,
+                'note': note,
+                'reordernum': reordernum
+            };
 
-                // add to the table
-                carttable.querySelector('tbody#new-items').appendChild(clone);
+            // add to the table
+            carttable.querySelector('tbody#new-items').appendChild(clone);
 
-                // re-initialize inputs
-                $("#cart-add-uom-group").hide();
-                $("#cart-add-quantity-group").hide();
-                $("#cart-add-uom").html('');
-                $('#cart-add-product').val('');
-                $('#cart-add-quantity').val('1');
-                $('#cart-add-note').val('');
-                $('#cart-add-reordernum').val('');
+            // re-initialize inputs
+            $("#cart-add-uom-group").hide();
+            $("#cart-add-quantity-group").hide();
+            $("#cart-add-vendor-cost-group").hide();
+            $("#cart-add-uom").html('');
+            $('#cart-add-product').val('');
+            $('#cart-add-quantity').val('1');
+            $('#cart-add-note').val('');
+            $('#cart-add-reordernum').val('');
+            $("#cart-add-vendor-cost").val('');
 
-                // reset selectize input
-                let control = $selectizeCartEditSearch[0].selectize;
-                control.clear();
+            // reset selectize input
+            let control = $selectizeCartEditSearch[0].selectize;
+            control.clear();
 
-                // calculate purchase order total
-                calculate_total();
-            });
+            // calculate purchase order total
+            calculate_total();
 		});
         $('#edit-modal').on('show.bs.modal', function (event) {
             var button = $(event.relatedTarget);
@@ -339,32 +378,38 @@
             var reordernum = $(`#oldrow-${detail_id} .reordernum-cell input`).val();
             var note = $(`#oldrow-${detail_id} .note-cell input`).val();
             var quantity = $(`#oldrow-${detail_id} .quantity-cell input`).val();
+            var cost = parseFloat($(`#oldrow-${detail_id} .cost-cell input`).val());
 
+            $('#cart-edit-detailid').val(detail_id);
             $('#cart-edit-reordernum').val(reordernum);
             $('#cart-edit-quantity').val(quantity);
+            $('#cart-edit-vendor-cost').val(cost);
             $('#cart-edit-note').val(note);
-            $('#cart-edit-detailid').val(detail_id);
         });
         $('#edit-modal-submit').click(function(event){
             var button = $(event.relatedTarget);
             var detail_id = $('#cart-edit-detailid').val();
 
             var reordernum = $('#cart-edit-reordernum').val();
-            var note = $('#cart-edit-quantity').val();
-            var quantity = $('#cart-edit-note').val();
+            var note = $('#cart-edit-note').val();
+            var quantity = $('#cart-edit-quantity').val();
+            var cost = parseFloat($('#cart-edit-vendor-cost').val());
 
             $(`#oldrow-${detail_id} .reordernum-cell input`).val(reordernum);
-            $(`#oldrow-${detail_id} .note-cell input`).val(quantity);
-            $(`#oldrow-${detail_id} .quantity-cell input`).val(note);
+            $(`#oldrow-${detail_id} .note-cell input`).val(note);
+            $(`#oldrow-${detail_id} .quantity-cell input`).val(quantity);
+            $(`#oldrow-${detail_id} .cost-cell input`).val(cost);
 
             $(`#oldrow-${detail_id} .reordernum-cell span`).text(reordernum);
-            $(`#oldrow-${detail_id} .note-cell span`).text(quantity);
-            $(`#oldrow-${detail_id} .quantity-cell span`).text(note);
+            $(`#oldrow-${detail_id} .note-cell span`).text(note);
+            $(`#oldrow-${detail_id} .quantity-cell span`).text(quantity);
+            $(`#oldrow-${detail_id} .cost-cell span`).html('$'+cost.format(2, 3, ',', '.'));
 
             $('#cart-edit-detailid').val('');
             $('#cart-edit-reordernum').val('');
             $('#cart-edit-quantity').val('');
             $('#cart-edit-note').val('');
+            $("#cart-edit-vendor-cost").val('');
 
             calculate_total();
         });
@@ -375,14 +420,16 @@
         var total = 0;
         for (var key in cartrows) {
             let thisrow = cartrows[key];
-            total += thisrow.item_total;
+            total += parseFloat(thisrow.item_total);
+            console.log([thisrow.item_total,total]);
         }
         $('#current-items tr').each(function(index,element){
             var quantity = parseInt($(element).find('.quantity-cell input').val());
-            var price = parseFloat($(element).find('.price-cell').text().replace(/[^\d\.]+/g,''));
-            var itemtotal = quantity*price;
-            $(element).find('.itemtotal-cell').text('$'+itemtotal.format(2, 3, ',', '.'));
+            var cost = parseFloat($(element).find('.cost-cell input').val());
+            var itemtotal = quantity*cost;
+            $(element).find('.itemtotal-cell').html('$'+itemtotal.format(2, 3, ',', '.'));
             total += itemtotal;
+            console.log([quantity,cost,itemtotal,total]);
         });
 
         let total_string = '$'+total.format(2, 3, ',', '.');
@@ -397,7 +444,7 @@
     }
     function delete_new_row(row_id){
         document.querySelector(`#${row_id}`).remove();
-        delete cartrows[row_id]; 
+        delete cartrows[row_id];
         calculate_total();
     }
     function delete_old_row(row_id){

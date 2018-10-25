@@ -21,14 +21,14 @@
                             @endforeach
                         @else
                             <div class="alert alert-warning">
-                                <a href="{{ route('product-edit',$product->id) }}#vendors-label">Add units of measures</a> to this product first.
+                                <a href="{{ route('product-edit',$product->id) }}#vendors-label" target="_blank" rel="nofollow noreferrer">Add units of measures</a> to this product first.
                             </div>
                         @endif
                         <hr>
                     @endforeach
                 @else
                     <div class="alert alert-warning">
-                        <a href="{{ route('product-edit',$product->id) }}#vendors-label">Edit this product</a> to add vendors first.
+                        <a href="{{ route('product-edit',$product->id) }}#vendors-label" target="_blank" rel="nofollow noreferrer">Edit this product</a> to add vendors first.
                     </div>
                     <hr>
                 @endif

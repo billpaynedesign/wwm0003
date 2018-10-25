@@ -35,6 +35,7 @@ Route::group(['middleware'=>'admin'],function(){
 	Route::get('/api/get/users',['uses'=>'ApiSearchController@getUsers','as'=>'api-users-get']);
 	Route::get('/api/get/uom/product/option/html',['uses'=>'ApiSearchController@getUomProductOptionsHtml','as'=>'api-get-uom-product-options-html']);
 	Route::get('/api/get/product/uom/data',['uses'=>'ApiSearchController@getProductUomData','as'=>'api-product-uom-get-data']);
+	Route::get('/api/get/product/uom/vendor/data',['uses'=>'ApiSearchController@getProductUomVendorData','as'=>'api-product-uom-vendor-get-data']);
 });
 
 /*

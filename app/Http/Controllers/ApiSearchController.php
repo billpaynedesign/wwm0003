@@ -207,4 +207,16 @@ class ApiSearchController  extends Controller {
 		$uom = UnitOfMeasure::findOrFail($request->input('uom_id'));
 		return response()->json(['product' =>$product,'uom'=>$uom]);
 	}
+	public function getProductUomVendorData(Request $request){
+		$product = Product::findOrFail($request->input('product_id'));
+		$uom = UnitOfMeasure::findOrFail($request->input('uom_id'));
+		$uom_vendor = $uom->vendors->find($request->input('vendor_id'));
+		if($uom_vendor){
+			$price = (float)$uom_vendor->pivot->cost;
+		}
+		else{
+			$price = $uom->price;
+		}
+		return response()->json(['product' =>$product,'uom'=>$uom,'price'=>$price]);
+	}
 }

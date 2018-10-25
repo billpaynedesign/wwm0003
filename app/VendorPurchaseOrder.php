@@ -6,7 +6,16 @@ use Illuminate\Database\Eloquent\Model;
 
 class VendorPurchaseOrder extends Model
 {
-    protected $fillable = ['vendor_id','date'];
+    protected $fillable = [
+        'vendor_id',
+        'date',
+        'total'
+    ];
+    protected $casts = [
+        'vendor_id' => 'integer',
+        'total' => 'float'
+    ];
+
     protected $dates = ['date'];
 
     public function vendor(){

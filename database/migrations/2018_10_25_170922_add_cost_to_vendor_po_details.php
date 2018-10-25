@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class AddTaxColumnOrderdetailsTable extends Migration
+class AddCostToVendorPoDetails extends Migration
 {
     /**
      * Run the migrations.
@@ -12,8 +12,8 @@ class AddTaxColumnOrderdetailsTable extends Migration
      */
     public function up()
     {
-        Schema::table('orderdetails', function (Blueprint $table) {
-            $table->string('tax')->nullable();
+        Schema::table('vendor_po_details', function (Blueprint $table) {
+            $table->float('cost');
         });
     }
 
@@ -24,8 +24,8 @@ class AddTaxColumnOrderdetailsTable extends Migration
      */
     public function down()
     {
-        Schema::table('orderdetails', function (Blueprint $table) {
-            $table->dropColumn('tax');
+        Schema::table('vendor_po_details', function (Blueprint $table) {
+            $table->dropColumn('cost');
         });
     }
 }

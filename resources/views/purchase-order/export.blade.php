@@ -196,7 +196,7 @@
                         <td>{{ $detail->uom->name }}</td>
                         <td>{{ $detail->note }}</td>
                         <td class="text-center">{{ $detail->quantity }}</td>
-                        <td class="text-right">${{ number_format($detail->uom->price,2) }}</td>
+                        <td class="text-right">${{ number_format($detail->cost,2) }}</td>
                         <td class="text-right">${{ number_format($detail->item_total,2) }}</td>
                     </tr>
                 @endforeach

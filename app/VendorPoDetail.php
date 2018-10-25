@@ -12,7 +12,18 @@ class VendorPoDetail extends Model
         'uom_id',
         'item_total',
         'note',
-        'reorder_number'
+        'reorder_number',
+        'cost'
+    ];
+
+    protected $casts = [
+        'quantity' => 'integer',
+        'product_id' => 'integer',
+        'uom_id' => 'integer',
+        'note' => 'string',
+        'reorder_number' => 'string',
+        'item_total' => 'float',
+        'cost' => 'float'
     ];
 
     public function vendor_purchase_order(){

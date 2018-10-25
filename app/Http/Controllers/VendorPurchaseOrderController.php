@@ -58,18 +58,20 @@ class VendorPurchaseOrderController extends Controller
         $quantities = $request->input('quantities');
         $notes = $request->input('notes');
         $reordernums = $request->input('reordernums');
+        $cost = $request->input('cost');
 
         $total = 0;
 
         foreach ($products as $key => $product) {
             $uom = UnitOfMeasure::find($uoms[$key]);
-            $item_total = (int)$quantities[$key]*(float)$uom->price;
+            $item_total = (int)$quantities[$key]*(float)$cost[$key];
             $po_detail = VendorPoDetail::create([
                 'quantity' => $quantities[$key],
                 'product_id' => $products[$key],
                 'uom_id' => $uoms[$key],
                 'note' => $notes[$key],
                 'reorder_number' => $reordernums[$key],
+                'cost' => $cost[$key],
                 'item_total' => $item_total
             ]);
             $total += $item_total;
@@ -138,19 +140,21 @@ class VendorPurchaseOrderController extends Controller
             $old_quantities = $request->input('old_quantities');
             $old_notes = $request->input('old_notes');
             $old_reordernums = $request->input('old_reordernums');
+            $old_cost = $request->input('old_cost');
 
             foreach ($old_quantities as $key => $quantity) {
                 $detail = VendorPoDetail::find($key);
                 if($detail){
-                    $item_total = (int)$quantity*(float)$detail->uom->price;
+                    $item_total = (int)$old_quantities[$key]*(float)$old_cost[$key];
 
                     $po_detail = $detail->update([
                         'quantity' => $old_quantities[$key],
                         'note' => $old_notes[$key],
                         'reorder_number' => $old_reordernums[$key],
+                        'cost' => $old_cost[$key],
                         'item_total' => $item_total
                     ]);
-                    $total += $item_total;
+                    $total += (float)$item_total;
                 }
             }
         }
@@ -162,19 +166,21 @@ class VendorPurchaseOrderController extends Controller
             $quantities = $request->input('quantities');
             $notes = $request->input('notes');
             $reordernums = $request->input('reordernums');
+            $cost = $request->input('cost');
 
             foreach ($products as $key => $product) {
                 $uom = UnitOfMeasure::find($uoms[$key]);
-                $item_total = (int)$quantities[$key]*(float)$uom->price;
+                $item_total = (int)$quantities[$key]*(float)$cost[$key];
                 $po_detail = VendorPoDetail::create([
                     'quantity' => $quantities[$key],
                     'product_id' => $products[$key],
                     'uom_id' => $uoms[$key],
                     'note' => $notes[$key],
                     'reorder_number' => $reordernums[$key],
+                    'cost' => $cost[$key],
                     'item_total' => $item_total
                 ]);
-                $total += $item_total;
+                $total += (float)$item_total;
                 $purchase_order->details()->save($po_detail);
             }
         }

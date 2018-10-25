@@ -13,7 +13,7 @@ class AddTaxableColumnOrdersTable extends Migration
     public function up()
     {
         Schema::table('orders', function (Blueprint $table) {
-            $table->string('taxable')->nullable();
+            $table->string('total_taxable')->nullable();
         });
     }
 
@@ -25,7 +25,7 @@ class AddTaxableColumnOrdersTable extends Migration
     public function down()
     {
         Schema::table('orders', function (Blueprint $table) {
-            $table->dropColumn('taxable');
+            $table->dropColumn('total_taxable');
         });
     }
 }
