@@ -112,6 +112,11 @@
                             @endforeach
                         </select>
                         <p class="help-block">To select multiple categories, hold down the CTRL or SHIFT key while selecting</p>
+						@if(App\Vendor::count()===0)
+							<div class="alert alert-warning">
+								<a href="{{ route('admin-vendors') }}" target="_blank" rel="nofollow noreferrer">Add a vendor</a> first.
+							</div>
+						@endif
                     </div>
                     <div class="form-group">
                         <label for="shortdescription">Overview</label>
