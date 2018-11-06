@@ -1,6 +1,7 @@
 <html>
 
 <head>
+    <title>Purchase Order {{ $purchase_order->invoice_num }}</title>
     <style>
         .clearfix {
             clear: both;

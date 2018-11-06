@@ -108,7 +108,7 @@ $(document).ready(function(){
 						<select id="tax_rate_id" name="tax_rate_id" class="form-control">
 							<option value=""></option>
 							@foreach(App\TaxRate::all() as $tax_rate)
-								<option value="{{ $tax_rate->id }}" {{ $tax_rate->id===auth()->user()->tax_rate_id?'selected':'' }}>{{ $tax_rate->name }} ({{ $tax_rate->tax }}%)</option>
+								<option value="{{ $tax_rate->id }}" {{ ($tax_rate->id==$user->tax_rate_id)?'selected':'' }}>{{ $tax_rate->name }} ({{ $tax_rate->tax }}%)</option>
 							@endforeach
 						</select>
 						@if(App\TaxRate::count()===0)

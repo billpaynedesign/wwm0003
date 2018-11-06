@@ -22,35 +22,13 @@
                             <thead>
                                 <tr>
                                     <th>PO #</th>
+                                    <th>Vendor</th>
                                     <th>Date</th>
                                     <th>Total</th>
                                     <th>Actions</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach($purchase_orders  as $purchase_order)
-                                <tr>
-                                    <td>{{ $purchase_order->invoice_num }}</td>
-                                    <td>{{ $purchase_order->date->format('m-d-Y') }}</td>
-                                    <td>${{ number_format($purchase_order->total,2) }}</td>
-                                    <td>
-                                        @if($purchase_order->vendor && $purchase_order->vendor->email)
-                                            <a href="mailto:{{ $purchase_order->vendor->email }}&subject=Purchase%20Order%20{{ $purchase_order->invoice_num }}%20from%20World%20Wide%20Medical%20Distributors&body=Dear%20{{ $purchase_order->vendor->name }}%0D%0APurchase%20Order%20{{ $purchase_order->invoice_num }}%20is%20attached.%20Please%20review%20and%20fill%20at%20your%20earliest%20convenience.%0D%0A%0D%0AThank%20You,%0D%0AWorld%20Wide%20Medical%20Distributors" class="btn btn-success">
-                                                <span class="fa fa-envelope"></span>
-                                            </a>
-                                        @endif
-                                        <a href="#order-info" data-toggle="modal" data-target="#order-info"  data-poid="{{ $purchase_order->id }}" class="btn btn-info">
-                                            <span class="fa fa-info"></span>
-                                        </a>
-                                        <a href="{{ route('vendor-purchase-order-export',$purchase_order->id) }}" class="btn btn-primary">
-                                            <span class="fa fa-file-pdf"></span>
-                                        </a>
-                                        <a href="{{ route('vendor-purchase-order-edit',$purchase_order->id) }}" class="btn btn-warning">
-                                            <span class="fa fa-edit"></span>
-                                        </a>
-                                    </td>
-                                </tr>
-                                @endforeach
                             </tbody>
                         </table>
                         <div class="form-group"></div>
@@ -69,8 +47,49 @@
 
 @section('scripts')
 <script>
+/*
+(1).pad(3) // => "001"
+(10).pad(3) // => "010"
+(100).pad(3) // => "100"
+ */
+Number.prototype.pad = function(size) {
+  var s = String(this);
+  while (s.length < (size || 2)) {s = "0" + s;}
+  return s;
+}
 $(function(){
-    $('#purchase_orders_table').DataTable({"order": [[ 0, "desc" ]]});
+    $('#purchase_orders_table').DataTable({
+        searchDelay: 500,
+        serverSide: true,
+        ajax: '{{ $ajax_url }}',
+        stateSave: true,
+        stateDuration: 1800,
+        order: [[ 0, "desc" ]],
+        columns: [{
+                "data": "id",
+                "name": "id"
+            },
+            {
+                "data": "vendor.name",
+                "name": "vendor.name"
+            },
+            {
+                "data": "date",
+                "name": "date"
+            },
+            {
+                "data": "total",
+                "name": "total"
+            },
+            {
+                "data": "action",
+                "name": "action",
+                "orderable": false,
+                "searchable": false,
+            },
+        ]
+
+    });
     $('#order-info').on('show.bs.modal',function(event){
         let button = $(event.relatedTarget);
         let poid = button.data('poid')

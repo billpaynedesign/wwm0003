@@ -52,7 +52,7 @@
                     <div class="form-group">
                         <div class="checkbox">
                             <label>
-                                <input type="checkbox" name="taxable" id="taxable" value="1" {{ $product->taxable?'checked':'' }}> Taxable?
+                                <input type="checkbox" name="taxable" id="taxable" value="1" {{ $product->taxable?'':'checked' }}> Tax exempt?
                             </label>
                         </div>
                     </div>

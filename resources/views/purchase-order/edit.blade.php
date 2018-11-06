@@ -49,7 +49,7 @@
                                             <span>{{ $detail->quantity }}</span>
                                             <input type="hidden" value="{{ $detail->quantity }}" name="old_quantities[{{ $detail->id }}]">
                                         </td>
-                                        <td class="text-center cost-cell">
+                                        <td class="text-right cost-cell">
                                             <span>${{ number_format($detail->cost,2) }}</span>
                                             <input type="hidden" value="{{ $detail->cost }}" name="old_cost[{{ $detail->id }}]">
                                         </td>
@@ -175,6 +175,38 @@
             </div>
         </div>
     </div>
+    <div class="modal fade" id="edit-new-modal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <a class="close" data-dismiss="modal">&times;</a>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="cart-edit-new-reordernum">Reorder #</label>
+                        <input id="cart-edit-new-reordernum" name="reordernum" class="form-control">
+                    </div>
+                    <div id="cart-edit-new-vendor-cost-group" class="form-group">
+                        <label for="cart-edit-new-vendor-cost">Vendor Cost</label>
+                        <input id="cart-edit-new-vendor-cost" name="vendor_cost" value="1" type="number" min="1" step="1" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label for="cart-edit-new-quantity">Quantity</label>
+                        <input id="cart-edit-new-quantity" name="quantity" value="1" type="number" min="1" step="1" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label for="cart-edit-new-note">Note</label>
+                        <input id="cart-edit-new-note" name="note" class="form-control">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <input type="hidden" id="cart-edit-new-detailid" value="">
+                    <button type="button" data-dismiss="modal" class="btn btn-primary" id="edit-new-modal-submit">Save changes</button>
+                    <a class="btn btn-cancel" data-dismiss="modal">Close</a>
+                </div>
+            </div>
+        </div>
+    </div>
 @endsection
 
 
@@ -184,8 +216,8 @@
 <![endif]-->
 <template id="cart-row">
     <tr>
-        <td>
-            {reordernum}
+        <td class="reordernum-cell">
+            <span>{reordernum}</span>
             <input type="hidden" value="{reordernum}" name="reordernums['{id}']">
         </td>
         <td>
@@ -196,22 +228,31 @@
             {uom}
             <input type="hidden" value="{uom_id}" name="uoms['{id}']">
         </td>
-        <td>
-            {note}
+        <td class="note-cell">
+            <span>{note}</span>
             <input type="hidden" value="{note}" name="notes['{id}']">
         </td>
-        <td class="text-center">
-            {quantity}
+        <td class="quantity-cell text-center">
+            <span>{quantity}</span>
             <input type="hidden" value="{quantity}" name="quantities['{id}']">
         </td>
-        <td class="text-right">
-            {cost_string}
+        <td class="cost-cell text-right">
+            <span>{cost_string}</span>
             <input type="hidden" value="{cost}" name="cost['{id}']">
         </td>
-        <td class="text-right">
+        <td class="itemtotal-cell text-right">
             {item_total}
         </td>
         <td>
+            <button
+                type="button"
+                class="btn btn-warning"
+                title="Edit row"
+                data-toggle="modal"
+                data-target="#edit-new-modal"
+                data-detailid="{id}">
+                <span class="fa fa-edit"></span>
+            </button>
             <button type="button" class="btn btn-danger" title="Delete row" onclick="delete_new_row('{id}')">
                 <span class="fa fa-trash"></span>
             </button>
@@ -339,6 +380,7 @@
             el.innerHTML = el.innerHTML.replace(/{item_total}/g,'$'+item_total.format(2, 3, ',', '.'));
             el.innerHTML = el.innerHTML.replace(/{note}/g,note);
             el.innerHTML = el.innerHTML.replace(/{reordernum}/g,reordernum);
+            el.innerHTML = el.innerHTML.replace(/{detailid}/g,thisid);
 
             // keep record of data
             cartrows[thisid] = {
@@ -413,23 +455,66 @@
 
             calculate_total();
         });
+        $('#edit-new-modal').on('show.bs.modal', function (event) {
+            var button = $(event.relatedTarget);
+            var detail_id = button.attr('data-detailid');
+
+            var reordernum = $(`#${detail_id} [name="reordernums['${detail_id}']"]`).val();
+            var note = $(`#${detail_id} [name="notes['${detail_id}']"]`).val();
+            var quantity = $(`#${detail_id} [name="quantities['${detail_id}']"]`).val();
+            var cost = parseFloat($(`#${detail_id} [name="cost['${detail_id}']"]`).val());
+
+            $('#cart-edit-new-detailid').val(detail_id);
+            $('#cart-edit-new-reordernum').val(reordernum);
+            $('#cart-edit-new-quantity').val(quantity);
+            $('#cart-edit-new-vendor-cost').val(cost);
+            $('#cart-edit-new-note').val(note);
+        });
+        $('#edit-new-modal-submit').click(function(event){
+            var button = $(event.relatedTarget);
+            var detail_id = $('#cart-edit-new-detailid').val();
+
+            var reordernum = $('#cart-edit-new-reordernum').val();
+            var note = $('#cart-edit-new-note').val();
+            var quantity = $('#cart-edit-new-quantity').val();
+            var cost = parseFloat($('#cart-edit-new-vendor-cost').val());
+
+            $(`#${detail_id} .reordernum-cell input`).val(reordernum);
+            $(`#${detail_id} .note-cell input`).val(note);
+            $(`#${detail_id} .quantity-cell input`).val(quantity);
+            $(`#${detail_id} .cost-cell input`).val(cost);
+
+            $(`#${detail_id} .reordernum-cell span`).text(reordernum);
+            $(`#${detail_id} .note-cell span`).text(note);
+            $(`#${detail_id} .quantity-cell span`).text(quantity);
+            $(`#${detail_id} .cost-cell span`).html('$'+cost.format(2, 3, ',', '.'));
+
+            $('#cart-edit-new-detailid').val('');
+            $('#cart-edit-new-reordernum').val('');
+            $('#cart-edit-new-quantity').val('');
+            $('#cart-edit-new-note').val('');
+            $("#cart-edit-new-vendor-cost").val('');
+
+            calculate_total();
+        });
 
         calculate_total();
     });
     function calculate_total(){
         var total = 0;
-        for (var key in cartrows) {
-            let thisrow = cartrows[key];
-            total += parseFloat(thisrow.item_total);
-            console.log([thisrow.item_total,total]);
-        }
         $('#current-items tr').each(function(index,element){
             var quantity = parseInt($(element).find('.quantity-cell input').val());
             var cost = parseFloat($(element).find('.cost-cell input').val());
             var itemtotal = quantity*cost;
             $(element).find('.itemtotal-cell').html('$'+itemtotal.format(2, 3, ',', '.'));
             total += itemtotal;
-            console.log([quantity,cost,itemtotal,total]);
+        });
+        $('#new-items tr').each(function(index,element){
+            var quantity = parseInt($(element).find('.quantity-cell input').val());
+            var cost = parseFloat($(element).find('.cost-cell input').val());
+            var itemtotal = quantity*cost;
+            $(element).find('.itemtotal-cell').html('$'+itemtotal.format(2, 3, ',', '.'));
+            total += itemtotal;
         });
 
         let total_string = '$'+total.format(2, 3, ',', '.');

@@ -82,7 +82,7 @@ class ProductController extends Controller {
 				'category' => 'required'
 			]);
 
-			$product = Product::find($request->input('id'));
+			$product = Product::findOrFail($request->input('id'));
 			$product->fill([
 				/* moved to unit of measure
 				'msrp' => $request->input('msrp'),
@@ -98,7 +98,7 @@ class ProductController extends Controller {
 				'has_lot_expiry' => $request->has('lot_expiry_check'),
 				'require_license' => $request->has('require_license'),
 				'active' => $request->has('active'),
-				'taxable' => $request->has('taxable')
+				'taxable' => !$request->has('taxable')
 			]);
 
 			if($request->hasFile('image')){
@@ -109,7 +109,6 @@ class ProductController extends Controller {
 			}
 
 			$product->save();
-
 			$product->categories()->sync($request->input('category'));
 			if($request->has('vendors')) $product->vendors()->sync($request->input('vendors'));
 

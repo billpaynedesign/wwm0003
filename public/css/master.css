@@ -170,6 +170,10 @@ body {
 .input-group-select select.form-control{
     max-width: 25%;
 }
+/* bug fix for date inputs and custom font */
+input[type="date"].form-control, input[type="time"].form-control, input[type="datetime-local"].form-control, input[type="month"].form-control{
+    line-height: 20px;
+}
 /*================================
 ==================================
 Row-Top Bar

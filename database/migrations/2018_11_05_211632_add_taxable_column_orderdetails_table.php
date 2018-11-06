@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class AddTaxableColumnProductsTable extends Migration
+class AddTaxableColumnOrderdetailsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -12,7 +12,7 @@ class AddTaxableColumnProductsTable extends Migration
      */
     public function up()
     {
-        Schema::table('products', function (Blueprint $table) {
+        Schema::table('orderdetails', function (Blueprint $table) {
             $table->tinyInteger('taxable')->default(1);
         });
     }
@@ -24,7 +24,7 @@ class AddTaxableColumnProductsTable extends Migration
      */
     public function down()
     {
-        Schema::table('products', function (Blueprint $table) {
+        Schema::table('orderdetails', function (Blueprint $table) {
             $table->dropColumn('taxable');
         });
     }

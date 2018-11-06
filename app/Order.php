@@ -80,8 +80,6 @@ class Order extends Model {
 		return ((float)$this->total)+(float)$this->tax;
 	}
 	public function getTaxAttribute(){
-		// $state = State::where('abbr',$this->state)->first();
-		// $tax = ((float)$state->tax)/100;
 		$tax = (float)$this->user->tax;
 		return (floatval($this->total_taxable)*$tax);
 	}

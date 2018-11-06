@@ -17,4 +17,7 @@ class OrderDetail extends Model {
 	public function product(){
 		return $this->belongsTo('App\Product')->withTrashed();
 	}
+	public function getUomAttribute(){
+		return UnitOfMeasure::where('product_id',$this->product_id)->where('name',$this->options)->first();
+	}
 }

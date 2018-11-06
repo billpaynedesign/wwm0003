@@ -99,6 +99,7 @@
 								<th>Price</th>
 								<th>Lot #</th>
 								<th>Expiration Date</th>
+								<th>Tax exempt?</th>
 								<th>Split Line</th>
 							</tr>
 						</thead>
@@ -136,6 +137,11 @@
 											<input type="text" name="expiration[{{ $detail->id }}]" class="form-control datepicker" value="{{ $detail->expiration }}" />
 										@else
 											{{ $detail->expiration }}
+										@endif
+									</td>
+									<td class="text-center">
+										@if(!$detail->shipped)
+											<input type="checkbox" name="tax_exempt[{{ $detail->id }}]" {{ $detail->taxable?'':'checked' }} value="1" />
 										@endif
 									</td>
 									<td>

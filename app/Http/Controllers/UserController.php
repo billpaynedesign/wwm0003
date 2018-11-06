@@ -39,7 +39,7 @@ class UserController extends Controller {
 		if($request->has('cancel')){
 			return redirect()->route('admin-dashboard')->with('tab','users');
 		}else{
-			$user = User::find($request->input('id'));
+			$user = User::findOrFail($request->input('id'));
 			$user->email = $request->input('email');
 			if(!empty($request->input('password'))){
 				$user->password = \Hash::make($request->input('password'));

@@ -426,6 +426,7 @@ class ComposerStaticInita864c481a4c3760e132aaf15a80c6e4b
         'AddNoPricingToUserTable' => __DIR__ . '/../..' . '/database/migrations/2017_10_05_133629_add_no_pricing_to_user_table.php',
         'AddQbIdProductsUsersOrdersTables' => __DIR__ . '/../..' . '/database/migrations/2017_11_03_193924_add_qb_id_products_users_orders_tables.php',
         'AddTaxColumnsToUsers' => __DIR__ . '/../..' . '/database/migrations/2018_10_24_020400_add_tax_columns_to_users.php',
+        'AddTaxableColumnOrderdetailsTable' => __DIR__ . '/../..' . '/database/migrations/2018_11_05_211632_add_taxable_column_orderdetails_table.php',
         'AddTaxableColumnOrdersTable' => __DIR__ . '/../..' . '/database/migrations/2018_10_25_034902_add_taxable_column_orders_table.php',
         'AddTaxableColumnProductsTable' => __DIR__ . '/../..' . '/database/migrations/2018_10_25_023848_add_taxable_column_products_table.php',
         'AddVendorIdProductsTable' => __DIR__ . '/../..' . '/database/migrations/2018_09_04_200131_add_vendor_id_products_table.php',

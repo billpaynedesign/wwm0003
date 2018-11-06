@@ -16,6 +16,7 @@ return array(
     'AddNoPricingToUserTable' => $baseDir . '/database/migrations/2017_10_05_133629_add_no_pricing_to_user_table.php',
     'AddQbIdProductsUsersOrdersTables' => $baseDir . '/database/migrations/2017_11_03_193924_add_qb_id_products_users_orders_tables.php',
     'AddTaxColumnsToUsers' => $baseDir . '/database/migrations/2018_10_24_020400_add_tax_columns_to_users.php',
+    'AddTaxableColumnOrderdetailsTable' => $baseDir . '/database/migrations/2018_11_05_211632_add_taxable_column_orderdetails_table.php',
     'AddTaxableColumnOrdersTable' => $baseDir . '/database/migrations/2018_10_25_034902_add_taxable_column_orders_table.php',
     'AddTaxableColumnProductsTable' => $baseDir . '/database/migrations/2018_10_25_023848_add_taxable_column_products_table.php',
     'AddVendorIdProductsTable' => $baseDir . '/database/migrations/2018_09_04_200131_add_vendor_id_products_table.php',

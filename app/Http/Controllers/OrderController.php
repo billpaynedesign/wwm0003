@@ -53,16 +53,36 @@ class OrderController extends Controller {
 			$order->city = $request->input('city');
 			$order->state = $request->input('state');
 			$order->zip = $request->input('zip');
-			$order->save();
 
+			$tax_exempts = $request->has('tax_exempt')?$request->input('tax_exempt'):[];
+
+			$total_taxable = 0;
 			foreach ($request->input('item_qty') as $qty_id => $qty) {
 				$detail = OrderDetail::find(intval($qty_id));
 				$detail->quantity = intval($qty);
 				$detail->backordered = array_key_exists($qty_id, $request->input('backordered'))?$request->input('backordered')[$qty_id]:null;
 				$detail->lot_number = array_key_exists($qty_id, $request->input('lot_number'))?$request->input('lot_number')[$qty_id]:null;
 				$detail->expiration = array_key_exists($qty_id, $request->input('expiration'))?$request->input('expiration')[$qty_id]:null;
+				$detail->taxable = !array_key_exists($qty_id, $tax_exempts);
+
+				$uom = $detail->uom;
+                $item_cost = $uom?$uom->price:0;
+				if($order->user->product_price_check($detail->product_id) && $uom){
+					if($price = $order->user->uom_price_check($uom->id)){
+						$item_cost = (float) $price->price;
+					}
+				}
+				$detail->subtotal = (float)$detail->quantity*(float)$item_cost;
 				$detail->save();
+
+				$product = $detail->product;
+				if($product && $product->taxable && $detail->taxable && !$order->user->tax_exempt){
+					$total_taxable += $detail->subtotal;
+				}
 			}
+			$order->total = (float)$order->details()->sum('subtotal');
+			$order->total_taxable = $total_taxable;
+			$order->save();
 
 			if($request->has('item_delete')){
 				foreach ($request->input('item_delete') as $delete_id) {

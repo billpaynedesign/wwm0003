@@ -28,7 +28,7 @@
         <!-- Fonts -->
         <link href="https://fonts.googleapis.com/css?family=Oswald:300,500|Poppins:300,700" rel="stylesheet">
 
-        <link href="{{ asset('/css/master.css') }}?v=20180904" rel="stylesheet">
+        <link href="{{ asset('/css/master.css') }}?v=20181026" rel="stylesheet">
 
         @yield('head')
 
