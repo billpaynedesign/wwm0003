@@ -194,7 +194,7 @@
             <br/>
             <p><strong>Total: ${{ \number_format($order->total,2) }}</strong></p>
             @if(!auth()->user()->tax_exempt && auth()->user()->tax>0)
-            <p><strong>Tax: +${{ number_format($order->tax,2) }}</strong></p>
+            <p><strong>Estimated Tax: +${{ number_format($order->tax,2) }}</strong></p>
             <p><strong>Total After Tax: ${{ number_format($order->total_with_tax,2) }}</strong></p>
             @endif
           </div>
