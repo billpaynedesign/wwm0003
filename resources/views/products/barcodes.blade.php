@@ -19,13 +19,16 @@
         width: 8.5in;
         height: 10in;
         border-collapse: collapse;
-        text-align: center;
-        vertical-align: middle;
+        vertical-align: top;
       }
       td:first-child{
+        vertical-align: top;
+        text-align: right;
         padding-left: 0.5in;
       }
       td:last-child{
+        vertical-align: top;
+        text-align: left;
         padding-right: 0.5in;
       }
       td{
@@ -54,17 +57,15 @@
   <body>
     @if($count = $uoms->count())
       <?php $i = 1; ?>
-      @if($count>=30)
-        @foreach ($uoms->chunk(30) as $sheet)
+      @if($count>=15)
+        @foreach ($uoms->chunk(15) as $row)
           <table>
-            @foreach ($sheet->chunk(2) as $row)
-              <tr>
-                @foreach($row as $uom)
+            @foreach ($row as $uom)
+                <tr>
                   <?php $i++; ?>
-                  <td>{{ str_limit($uom->products->name, 40) }} - {{ str_limit($uom->name, 10) }}</td>
+                  <td>{{ $uom->products->name }} - {{ $uom->name }}</td>
                   <td><img src="{!! $uom->barcode !!}"></td>
-                @endforeach
-              </tr>
+                </tr>
             @endforeach
           </table>
           @if($i !== $count)
@@ -73,17 +74,15 @@
         @endforeach
       @else
         <table>
-          @foreach ($uoms->chunk(2) as $row)
+          @foreach ($uoms as $uom)
             <tr>
-              @foreach($row as $uom)
                 <?php $i++; ?>
-                <td>{{ str_limit($uom->products->name, 40) }} - {{ str_limit($uom->name, 10) }}</td>
+                <td>{{ $uom->products->name }} - {{ $uom->name }}</td>
                 <td><img src="{!! $uom->barcode !!}"></td>
-              @endforeach
             </tr>
           @endforeach
           {{-- fill in rest of page becuase it borks otherwise --}}
-          @for($k=$i; $k < 30; $k=$k+2)
+          @for($k=$i; $k < 15; $k++)
             <tr>
               <td></td>
               <td></td>
