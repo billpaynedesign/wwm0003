@@ -45,7 +45,7 @@
                     </div>
                     <div class="form-group">
                         <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                        <a href="{{ route('admin-vendors') }}" class="btn btn-cancel">Cancel</button>
+                        <a href="{{ route('admin-vendors') }}" class="btn btn-cancel">Cancel</a>
                         <button type="submit" name="submit" value="true" class="btn btn-default">Submit</button>
                     </div>
                 </form>

@@ -71,15 +71,29 @@
 <script>
 $(function(){
     $('#bill_table').DataTable({"order": [[ 0, "desc" ]]});
-    $newaccountgroup = $('#new-account-group');
-    $('#account').on('change',function(e){
-        $select = $(this);
-        if($select.val()==='other'){
-            $newaccountgroup.show();
-        }
-        else{
-            $newaccountgroup.hide();
-            $newaccountgroup.find('input').val('');
+    // $newaccountgroup = $('#new-account-group');
+    // $('#account').on('change',function(e){
+    //     $select = $(this);
+    //     if($select.val()==='other'){
+    //         $newaccountgroup.show();
+    //     }
+    //     else{
+    //         $newaccountgroup.hide();
+    //         $newaccountgroup.find('input').val('');
+    //     }
+    // });
+    $('#bill_date').change(function(){
+        $('#payment_terms :selected').each(function(index,element){
+            $(element).prop('selected',false);
+        });
+    });
+    $('#payment_terms').change(function(){
+        if($(this).val() !== ''){
+            var termDays = $(this).find(':selected').data('termdays');
+            var currentDate = new Date();
+            currentDate.setDate(currentDate.getDate() + termDays);
+            var newDate = currentDate.toISOString().split('T')[0];
+            $('#bill_date').val(newDate);
         }
     });
 });

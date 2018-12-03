@@ -23,10 +23,10 @@
                             </select>
                         </div>
                         <div class="form-group">
-                            <label for="date">Due Date:</label>
-                            <input type="date" class="form-control" id="date" name="date" value="{{ old('date')?old('date'):'' }}" required>
+                            <label for="bill_date">Due Date:</label>
+                            <input type="date" class="form-control" id="bill_date" name="date" value="{{ old('date')?old('date'):'' }}" required>
                         </div>
-                        <div class="form-group">
+                        {{-- <div class="form-group">
                             <label for="account">Account</label>
                             <select id="account" name="account" class="form-control" required>
                                 <option value="">-- Select Account</option>
@@ -39,7 +39,7 @@
                         <div id="new-account-group" class="form-group" style="display:none;">
                             <label for="account_name">New Account:</label>
                             <input type="text" class="form-control" id="account_name" name="account_name" value="{{ old('account_name')?old('account_name'):'' }}">
-                        </div>
+                        </div> --}}
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
@@ -55,7 +55,7 @@
                             <select id="payment_terms" name="payment_terms" class="form-control" required>
                                 <option value="">-- Select Terms --</option>
                                 @foreach ($payment_terms as $term)
-                                    <option value="{{ $term->id }}">{{ $term->name }}</option>
+                                    <option value="{{ $term->id }}" data-termdays="{{ $term->days }}">{{ $term->name }}</option>
                                 @endforeach
                             </select>
                         </div>

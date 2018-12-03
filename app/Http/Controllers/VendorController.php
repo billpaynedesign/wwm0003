@@ -86,17 +86,17 @@ class VendorController extends Controller
                         return $purchase_order->date->format('m-d-Y');
                     })
                     ->addColumn('action',function($purchase_order){
-                        $html = '<a href="'.route('vendor-purchase-order-export',$purchase_order->id).'" class="btn btn-primary">
+                        $html = '<a href="'.route('vendor-purchase-order-export',$purchase_order->id).'" class="btn btn-primary" title="Print Purchase Order #'.$purchase_order->invoice_num.'">
                             <span class="fa fa-file-pdf"></span>
                         </a> ';
                         if($purchase_order->vendor && $purchase_order->vendor->email){
-                            $html .= "<a href='mailto:{$purchase_order->vendor->email}&subject=".rawurlencode("Purchase Order #{$purchase_order->invoice_num} from World Wide Medical Distributors")."&body=".rawurlencode("Dear {$purchase_order->vendor->name}\n\nPurchase Order #{$purchase_order->invoice_num} is attached. Please review and fill at your earliest convenience.\n\nThank You,\nWorld Wide Medical Distributors")."' class='btn btn-success'><span class='fa fa-envelope'></span></a> ";
+                            $html .= "<a href='mailto:{$purchase_order->vendor->email}?subject=".rawurlencode("Purchase Order #{$purchase_order->invoice_num} from World Wide Medical Distributors")."&body=".rawurlencode("Dear {$purchase_order->vendor->name}\n\nPurchase Order #{$purchase_order->invoice_num} is attached. Please review and fill at your earliest convenience.\n\nThank You,\nWorld Wide Medical Distributors")."' class='btn btn-success' title='Send email to {$purchase_order->vendor->name} {$purchase_order->vendor->email}'><span class='fa fa-envelope'></span></a> ";
                         }
                         $html .= '
-                        <a href="#order-info" data-toggle="modal" data-target="#order-info"  data-poid="'.$purchase_order->id.'" class="btn btn-info">
+                        <a href="#order-info" data-toggle="modal" data-target="#order-info"  data-poid="'.$purchase_order->id.'" class="btn btn-info" title="View Purchase Order #'.$purchase_order->invoice_num.'">
                             <span class="fa fa-info"></span>
                         </a>
-                        <a href="'.route('vendor-purchase-order-edit',$purchase_order->id).'" class="btn btn-warning">
+                        <a href="'.route('vendor-purchase-order-edit',$purchase_order->id).'" class="btn btn-warning" title="Edit Purchase Order #'.$purchase_order->invoice_num.'">
                             <span class="fa fa-edit"></span>
                         </a>
                         ';
