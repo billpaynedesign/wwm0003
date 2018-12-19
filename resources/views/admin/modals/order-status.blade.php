@@ -40,21 +40,19 @@
     <td>{{ $detail->product->name }}</td>
     <td>{{ $detail->quantity }}</td>
     <td>{{ $detail->backordered }}</th>
-    <!--
-    <td>
-      {{ $detail->size.' '.$detail->color.' ' }}
-      @if($detail->other)
-        @foreach(explode(',',$detail->other) as $other)
-          {{ explode(":",$other)[1].' ' }}
-        @endforeach
-      @endif
-    </td>
-    -->
     <td>${{ \number_format($detail->subtotal,2) }}</td>
     <td><input type="checkbox" name="paid[{{ $detail->id }}]" value="true" {!! $detail->paid?'checked':'' !!} /></td>
     <td><input type="checkbox" name="shipped[{{ $detail->id }}]" value="true" {!! $detail->shipped?'checked':'' !!} /></td>
-    <td><input type="text" name="lot_number[{{ $detail->id }}]" class="form-control" /></td>
-    <td><input type="text" name="expiration[{{ $detail->id }}]" class="form-control orderstatus-datepicker" /></td>
+    <td>
+        @if($detail->product->has_lot_expiry)
+            <input type="text" name="lot_number[{{ $detail->id }}]" class="form-control" />
+        @endif
+    </td>
+    <td>
+        @if($detail->product->has_lot_expiry)
+            <input type="text" name="expiration[{{ $detail->id }}]" class="form-control orderstatus-datepicker" />
+        @endif
+    </td>
   </tr>
   @endforeach
 </tbody>

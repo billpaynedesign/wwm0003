@@ -101,9 +101,9 @@ class OrderController extends Controller {
 	public function statusUpdate(Request $request){
 		$order = Order::find($request->input('order_id'));
 		if($request->has('shipped') && $request->has('lot_number')){
-			foreach($request->input('lot_number') as $detail_id => $value) {
+			foreach($request->input('shipped') as $detail_id => $value) {
 				$detail = OrderDetail::find($detail_id);
-				if($detail->product->has_lot_expiry && empty($request->input('lot_number')[$detail_id]) && empty($request->input('expiration')[$detail_id])){
+				if($detail->product->has_lot_expiry && (empty($request->input('lot_number')[$detail_id]) && empty($request->input('expiration')[$detail_id]))){
 					return redirect()->back()->with(['fail'=>'Lot number and expiration required before item can be marked as shipped.','order-status-failed'=>$order->id,'tab'=>'orders']);
 				}
 			}
@@ -117,11 +117,13 @@ class OrderController extends Controller {
 		if($request->has('shipped')){
 			foreach($request->input('shipped') as $detail_id => $value) {
 				$detail = OrderDetail::find($detail_id);
-				$detail->expiration = $request->input('expiration')[$detail_id];
-				$detail->lot_number = $request->input('lot_number')[$detail_id];
+				$detail->expiration = array_key_exists($detail_id,$request->input('expiration'))?$request->input('expiration')[$detail_id]:null;
+				$detail->lot_number = array_key_exists($detail_id,$request->input('lot_number'))?$request->input('lot_number')[$detail_id]:null;
 				$detail->shipped = 1;
 				$detail->shipped_date = Carbon::now();
-				$detail->box_id = $box->id;
+                if($request->has('boxed') && isset($box)){
+				    $detail->box_id = $box->id;
+                }
 				$detail->save();
 			}
 		}
