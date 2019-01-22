@@ -13,7 +13,7 @@ $(document).ready(function(){
     }
   });
   $('.html-popover').popover({html:true});
-  $('#orders_table').DataTable({"order": [[ 0, "desc" ]]});
+  $('#orders_table').DataTable({"order": [[ 1, "desc" ]]});
   @if(session()->has('order-status-failed'))
   order_status({{ session()->get('order-status-failed') }});
   $('#order-status').modal('show')
@@ -65,9 +65,11 @@ function order_information(id){
                   <tr>
                     <th>Order Date</th>
                     <th>Invoice #</th>
+                    <th>PO #</th>
+                    <th>Solicitation #</th>
                     <th>Ship Status</th>
                     <th>Name</th>
-                    <th>Address</th>
+                    <th>Shipping</th>
                     <th>Phone #</th>
                     <th>Action</th>
                   </tr>
@@ -76,8 +78,10 @@ function order_information(id){
                   @if($orders)
                   @foreach($orders as $order)
                   <tr id="{{ $order->id }}">
-                    <td>{{ $order->created_at->format('m-d-Y H:i:s') }}</td>
+                    <td>{{ $order->created_at->format('m-d-Y') }}</td>
                     <td>{{ $order->invoice_num }}</td>
+                    <td>{{ $order->transaction?$order->transaction->purchase_order_num:'' }}</td>
+                    <td>{{ $order->solicitation_number }}</td>
                     <td>{{ $order->shipstatus }}</td>
                     <td>{{ $order->shippingname }}</td>
                     <td>{{ $order->address1.' '.$order->address2.' '.$order->city.', '.$order->state.' '.$order->zip }}</td>

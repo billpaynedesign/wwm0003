@@ -118,7 +118,12 @@ class ShoppingCart extends Model
         else{
             if(session()->has('cart_id')){
                 $cart = self::find(session()->get('cart_id'));
-                $count = $cart->items()->sum('quantity');
+                if(!$cart){
+                    session()->forget('cart_id');
+                }
+                else{
+                    $count = $cart->items()->sum('quantity');
+                }
             }
             else{
                 if(Auth::check()){

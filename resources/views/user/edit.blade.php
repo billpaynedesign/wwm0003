@@ -92,6 +92,13 @@ $(document).ready(function(){
 						</label>
 					</div>
 				</div>
+				<div class="form-group">
+					<div class="checkbox">
+					    <label>
+					      <input type="checkbox" name="gsa" value="true" {{ $user->gsa?'checked':'' }}> GSA?
+						</label>
+					</div>
+				</div>
 				<hr/>
 				<h3 class="text-blue">Taxes</h3>
 				<hr/>

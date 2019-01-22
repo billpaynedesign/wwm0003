@@ -35,7 +35,8 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
 
 	protected $casts = [
         'tax_exempt' => 'boolean',
-		'float' => 'tax'
+		'float' => 'tax',
+        'gsa' => 'boolean'
     ];
 
 	public function getNameAttribute(){

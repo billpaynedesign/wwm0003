@@ -60,6 +60,7 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth', 'namespace' => 'Admin
 	    Route::get('/accounts-payable', ['uses'=>'DashboardController@accounts_payable','as'=>'admin-accounts-payable']);
 	    Route::get('/vendors', ['uses'=>'DashboardController@vendors','as'=>'admin-vendors']);
 	    Route::get('/tax-rates', ['uses'=>'DashboardController@tax_rates','as'=>'admin-tax-rates']);
+        Route::get('/gsa-report', ['uses'=>'DashboardController@gsa_report','as'=>'admin-gsa-report']);
 	});
 });
 

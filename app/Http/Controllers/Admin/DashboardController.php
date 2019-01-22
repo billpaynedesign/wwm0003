@@ -18,6 +18,7 @@ use App\Vendor;
 use App\VendorBill;
 use Illuminate\Http\Request;
 use Yajra\Datatables\Facades\Datatables;
+use Carbon\Carbon;
 
 class DashboardController extends AdminController {
     public function __construct()
@@ -194,5 +195,55 @@ class DashboardController extends AdminController {
                     ->make(true);
         }
         return view('admin.index-tax-rates');
+    }
+    public function gsa_report(Request $request){
+        $now = Carbon::now();
+        $format = 'Y-m-d';
+        if($request->has('date_range')){
+            switch ($request->input('date_range')) {
+                case 'This Month':
+                    $start_date = $now->firstOfMonth()->format($format);
+                    $end_date = $now->lastOfMonth()->format($format);
+                    break;
+                case 'Last Month':
+                    $now->subMonth();
+                    $start_date = $now->firstOfMonth()->format($format);
+                    $end_date = $now->lastOfMonth()->format($format);
+                    break;
+                case 'This Quarter':
+                    $start_date = $now->firstOfQuarter()->format($format);
+                    $end_date = $now->lastOfQuarter()->format($format);
+                    break;
+                case 'Last Quarter':
+                    $now->subQuarter();
+                    $start_date = $now->firstOfQuarter()->format($format);
+                    $end_date = $now->lastOfQuarter()->format($format);
+                    break;
+                case 'YTD':
+                    $start_date = $now->startOfYear()->format($format);
+                    $end_date = $now->today()->format($format);
+                    break;
+                case 'Last Year':
+                    $now->subYear();
+                    $start_date = $now->startOfYear()->format($format);
+                    $end_date = $now->endOfYear()->format($format);
+                    break;
+                default:
+                    $start_date = $now->firstOfMonth()->format($format);
+                    $end_date = $now->lastOfMonth()->format($format);
+                    break;
+            }
+            $orders = Order::whereHas('user', function($query){
+                $query->where('gsa', '1');
+            })->whereBetween('created_at',[$start_date,$end_date])->orderBy('created_at','=','DESC')->get();
+        }
+        else{
+            $start_date = ($now->copy())->firstOfMonth()->format($format);
+            $end_date = ($now->copy())->lastOfMonth()->format($format);
+            $orders = Order::whereHas('user', function($query){
+                $query->where('gsa', '1');
+            })->whereBetween('created_at',[$start_date,$end_date])->orderBy('created_at','=','DESC')->get();
+        }
+        return view('admin.index-gsa-report',compact('orders'));
     }
 }

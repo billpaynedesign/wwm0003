@@ -47,6 +47,10 @@
     'text' => "Tax Rates",
     'route' => route('admin-tax-rates')
   ],
+  [
+    'text' => "GSA Report",
+    'route' => route('admin-gsa-report')
+  ],
 ];
 ?>
 <ul id="adminNavTabs" class="nav nav-tabs" role="tablist">

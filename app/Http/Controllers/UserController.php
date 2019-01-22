@@ -60,6 +60,7 @@ class UserController extends Controller {
 			$user->no_pricing = $request->has('no_pricing');
 			$user->tax_exempt = $request->has('tax_exempt');
 			$user->tax_rate_id = $request->input('tax_rate_id');
+            $user->gsa = $request->has('gsa');
 
 			$user->save();
 

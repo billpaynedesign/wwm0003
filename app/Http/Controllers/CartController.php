@@ -236,7 +236,10 @@ class CartController extends Controller {
 
 			}
 		}
-
+        if($request->has('solicitation_number')){
+            $order->solicitation_number = $request->input('solicitation_number');
+        }
+        
 		$order->transaction_id = $transaction->id;
 		$order->token = Hashids::encode($order->id);
 		$order->save();
