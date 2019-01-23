@@ -157,13 +157,13 @@ class ProductController extends Controller {
 	public function create(Request $request)
 	{
 		$this->validate($request,[
-			'name' => 'required|string',
+			'productname' => 'required|string',
 			'manufacturer' => 'string',
 			'item_number' => 'string',
 			'short_description' => 'string',
 			'description' => 'string',
 			'note' => 'string'
-		]);
+		],['productname.required' => 'The Product Name field is required.']);
 
 		$product = new Product();
 		$product->fill([
@@ -232,7 +232,6 @@ class ProductController extends Controller {
 		}
 	}
 	public function import(){
-
 	}
 	public function import_preview(Request $request){
 		/** @var String The mimetype of the file uploaded */
