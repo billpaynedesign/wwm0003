@@ -495,6 +495,8 @@ class ComposerStaticInita864c481a4c3760e132aaf15a80c6e4b
         'CreateProductHasProductGroupsTable' => __DIR__ . '/../..' . '/database/migrations/2016_09_14_151502_create_product_has_product_groups_table.php',
         'CreateProductVendorsTable' => __DIR__ . '/../..' . '/database/migrations/2018_10_24_163936_create_product_vendors_table.php',
         'CreateProductsTable' => __DIR__ . '/../..' . '/database/migrations/2015_06_12_031900_create_products_table.php',
+        'CreateQuoteProductTable' => __DIR__ . '/../..' . '/database/migrations/2019_02_21_165842_create_quote_product_table.php',
+        'CreateQuotesTable' => __DIR__ . '/../..' . '/database/migrations/2019_02_21_162640_create_quotes_table.php',
         'CreateShoppingcartTable' => __DIR__ . '/../..' . '/database/migrations/2017_07_26_112302_create_shoppingcart_table.php',
         'CreateShoppingcartitemsTable' => __DIR__ . '/../..' . '/database/migrations/2017_07_26_112326_create_shoppingcartitems_table.php',
         'CreateSpecialsTable' => __DIR__ . '/../..' . '/database/migrations/2018_01_09_181806_create_specials_table.php',

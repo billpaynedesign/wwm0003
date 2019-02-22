@@ -85,6 +85,8 @@ return array(
     'CreateProductHasProductGroupsTable' => $baseDir . '/database/migrations/2016_09_14_151502_create_product_has_product_groups_table.php',
     'CreateProductVendorsTable' => $baseDir . '/database/migrations/2018_10_24_163936_create_product_vendors_table.php',
     'CreateProductsTable' => $baseDir . '/database/migrations/2015_06_12_031900_create_products_table.php',
+    'CreateQuoteProductTable' => $baseDir . '/database/migrations/2019_02_21_165842_create_quote_product_table.php',
+    'CreateQuotesTable' => $baseDir . '/database/migrations/2019_02_21_162640_create_quotes_table.php',
     'CreateShoppingcartTable' => $baseDir . '/database/migrations/2017_07_26_112302_create_shoppingcart_table.php',
     'CreateShoppingcartitemsTable' => $baseDir . '/database/migrations/2017_07_26_112326_create_shoppingcartitems_table.php',
     'CreateSpecialsTable' => $baseDir . '/database/migrations/2018_01_09_181806_create_specials_table.php',

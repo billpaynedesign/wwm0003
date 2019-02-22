@@ -11,6 +11,7 @@ use App\OrderDetails;
 use App\Picture;
 use App\Product;
 use App\ProductAttribute;
+use App\Quote;
 use App\Special;
 use App\TaxRate;
 use App\User;
@@ -245,5 +246,55 @@ class DashboardController extends AdminController {
             })->whereBetween('created_at',[$start_date,$end_date])->orderBy('created_at','=','DESC')->get();
         }
         return view('admin.index-gsa-report',compact('orders'));
+    }
+    public function quotes(){
+        if(request()->ajax()){
+            $quote_query = Quote::query();
+            if(request()->has('archived')){
+                $quote_query->withTrashed();
+            }
+            return Datatables::eloquent($quote_query)
+                    ->editColumn('id',function($quote){
+                        return $quote->quote_num;
+                    })
+                    ->editColumn('created_at',function($quote){
+                        return $quote->created_at->format('m-d-Y');
+                    })
+                    ->editColumn('email',function($quote){
+                        return "<a href='mailto:{$quote->email}?subject=Quote%20{$quote->quote_num}%20From%20World%20Wide%20Medical%20Distributors'>{$quote->email}</a>";
+                    })
+                    ->addColumn('pdf_download',function($quote){
+                        return "
+                            <a href='".route('quote-export',$quote->id)."'
+                                class='btn btn-primary'
+                                title='Download PDF'
+                            >
+                                <span class='fa fa-file-pdf'></span>
+                            </a>
+                        ";
+                    })
+                    ->editColumn('status',function($quote){
+                        return "
+                            <select class='form-control status-select' style='max-width:150px' data-quoteid='{$quote->id}'>
+                                <option value='Open' ".($quote->status=='Open'?'selected':'').">Open</option>
+                                <option value='Accepted' ".($quote->status=='Accepted'?'selected':'').">Accepted</option>
+                                <option value='Declined' ".($quote->status=='Declined'?'selected':'').">Declined</option>
+                                <option value='Archived' ".($quote->status=='Archived'?'selected':'').">Archived</option>
+                            </select>
+                        ";
+                    })
+                    ->addColumn('action',function($quote){
+                        return "
+                        <a href='".route('quote-edit',$quote->id)."'
+                            class='btn btn-warning'
+                            title='Edit Quote # {$quote->quote_num}'
+                            >
+                          <span class='glyphicon glyphicon-edit' aria-hidden='true'></span>
+                        </a>
+                        ";
+                    })
+                    ->make(true);
+        }
+        return view('admin.index-quotes');
     }
 }

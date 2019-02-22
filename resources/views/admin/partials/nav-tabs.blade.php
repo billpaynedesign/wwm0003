@@ -51,6 +51,10 @@
     'text' => "GSA Report",
     'route' => route('admin-gsa-report')
   ],
+  [
+    'text' => "Quotes",
+    'route' => route('admin-quotes')
+  ],
 ];
 ?>
 <ul id="adminNavTabs" class="nav nav-tabs" role="tablist">

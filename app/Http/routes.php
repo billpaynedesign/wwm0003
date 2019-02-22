@@ -61,6 +61,7 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth', 'namespace' => 'Admin
 	    Route::get('/vendors', ['uses'=>'DashboardController@vendors','as'=>'admin-vendors']);
 	    Route::get('/tax-rates', ['uses'=>'DashboardController@tax_rates','as'=>'admin-tax-rates']);
         Route::get('/gsa-report', ['uses'=>'DashboardController@gsa_report','as'=>'admin-gsa-report']);
+        Route::get('/quotes', ['uses'=>'DashboardController@quotes','as'=>'admin-quotes']);
 	});
 });
 
@@ -319,6 +320,27 @@ Route::group(['prefix'=>'vendor-purchase-order'],function(){
 			Route::get('/edit/{id}',['uses'=>'VendorPurchaseOrderController@edit','as'=>'vendor-purchase-order-edit']);
 			Route::post('/update/{id}',['uses'=>'VendorPurchaseOrderController@update','as'=>'vendor-purchase-order-update']);
 			Route::get('/export/{id}',['uses'=>'VendorPurchaseOrderController@export','as'=>'vendor-purchase-order-export']);
+		});
+	});
+});
+
+/*
+ * ------------
+ * Quotes
+ * ------------
+ */
+Route::group(['prefix'=>'quotes'],function(){
+	//login routes
+	Route::group(['middleware'=>'auth'],function(){
+		//admin routes
+		Route::group(['middleware'=>'admin'],function(){
+			Route::get('/create',['uses'=>'QuoteController@create','as'=>'quote-create']);
+			Route::post('/store',['uses'=>'QuoteController@store','as'=>'quote-store']);
+			Route::post('/delete',['uses'=>'QuoteController@delete','as'=>'quote-delete']);
+			Route::get('/edit/{id}',['uses'=>'QuoteController@edit','as'=>'quote-edit']);
+			Route::post('/update/{id}',['uses'=>'QuoteController@update','as'=>'quote-update']);
+			Route::get('/export/{id}',['uses'=>'QuoteController@export','as'=>'quote-export']);
+            Route::post('/status/update/{id}',['uses'=>'QuoteController@statusUpdate','as'=>'quote-status-update']);
 		});
 	});
 });
