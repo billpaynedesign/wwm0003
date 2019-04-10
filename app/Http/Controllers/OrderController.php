@@ -44,7 +44,7 @@ class OrderController extends Controller {
 			return redirect()->route('admin-orders')->with('tab','orders');
 		}else{
 			$order = Order::find(intval($request->input('id')));
-
+			$order->qb_invoice_number = $request->input('qb_invoice_number');
 			$order->shippingname = $request->input('first_name').' '.$request->input('last_name');
 			$order->first_name = $request->input('first_name');
 			$order->last_name = $request->input('last_name');

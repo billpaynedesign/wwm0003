@@ -61,28 +61,46 @@
 			<h1>Edit # {{ $order->invoice_num }}</h1>
 			<form action="{{ route('order-update') }}" method="post" enctype="multipart/form-data">
 				<div class="form-group">
+					<label for="qb_invoice_number">QB Invoice #: </label>
+					<input type="text" name="qb_invoice_number" id="qb_invoice_number" class="form-control" value="{{ $order->qb_invoice_number }}">
+				</div>
+				<div class="form-group">
 					<label for="first_name">First Name: </label>
-					<input type="text" name="first_name" id="first_name" class="form-control" value="{{ $order->first_name }}" />
+					<input type="text" name="first_name" id="first_name" class="form-control" value="{{ $order->first_name }}">
+				</div>
+				<div class="form-group">
 					<label for="last_name">Last Name: </label>
-					<input type="text" name="last_name" id="last_name" class="form-control" value="{{ $order->last_name }}" />
+					<input type="text" name="last_name" id="last_name" class="form-control" value="{{ $order->last_name }}">
+				</div>
+				<div class="form-group">
 					<label for="name">Shipping Name: </label>
-					<input type="text" name="name" id="name" class="form-control" value="{{ $order->shippingname }}" />
+					<input type="text" name="name" id="name" class="form-control" value="{{ $order->shippingname }}">
+				</div>
+				<div class="form-group">
 					<label for="address1">Address 1: </label>
-					<input type="text" name="address1" id="address1" class="form-control" value="{{ $order->address1 }}" />
+					<input type="text" name="address1" id="address1" class="form-control" value="{{ $order->address1 }}">
+				</div>
+				<div class="form-group">
 					<label for="address2">Address 2: </label>
-					<input type="text" name="address2" id="address2" class="form-control" value="{{ $order->address2 }}" />
+					<input type="text" name="address2" id="address2" class="form-control" value="{{ $order->address2 }}">
+				</div>
+				<div class="form-group">
 					<label for="city">City: </label>
-					<input type="text" name="city" id="city" class="form-control" value="{{ $order->city }}" />
+					<input type="text" name="city" id="city" class="form-control" value="{{ $order->city }}">
+				</div>
+				<div class="form-group">
 					<label for="state">State: </label>
 			          <select name="state" id="state" class="form-control">
 				          @foreach(App\State::all() as $state)
 				          <option value="{{ $state->abbr }}" {{ $state->abbr==$order->state?'selected':'' }}>{{ $state->state }}</option>
 				          @endforeach
 			          </select>
+				</div>
+				<div class="form-group">
 					<label for="zip">Zip: </label>
-					<input type="text" name="zip" id="zip" class="form-control" value="{{ $order->zip }}" />
+					<input type="text" name="zip" id="zip" class="form-control" value="{{ $order->zip }}">
 
-					<input type="hidden" name="id" value="{{ $order->id }}"/>
+					<input type="hidden" name="id" value="{{ $order->id }}">
 
 				</div>
 
@@ -108,7 +126,7 @@
 								<tr>
 									<td>
 										@if(!$detail->shipped)
-											<input type="checkbox" name="item_delete[]" value="{{ $detail->id }}" />
+											<input type="checkbox" name="item_delete[]" value="{{ $detail->id }}">
 										@endif
 									</td>
 									<td>{{ $detail->product->category?$detail->product->category->name:'Uncategorized' }} - {{ $detail->product->name }}</td>

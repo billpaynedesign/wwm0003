@@ -76,8 +76,8 @@ class ProductController extends Controller {
 				'name' => 'required|string',
 				'manufacturer' => 'string',
 				'item_number' => 'string',
-				'short_description' => 'string',
-				'description' => 'string',
+				'productshortdescription' => 'string',
+				'productdescription' => 'string',
 				'note' => 'string',
 				'category' => 'required'
 			]);
@@ -182,6 +182,7 @@ class ProductController extends Controller {
 			'note' => $request->input('note'),
 			'active' => 1
 		]);
+		$product->save();
 
 		if($request->hasFile('image')){
 			$destinationPath = public_path().'/pictures';

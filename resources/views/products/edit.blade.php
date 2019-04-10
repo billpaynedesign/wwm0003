@@ -119,8 +119,8 @@
 						@endif
                     </div>
                     <div class="form-group">
-                        <label for="shortdescription">Overview</label>
-                        <textarea class="form-control" id="shortdescription" name="shortdescription" placeholder="Overview">{{ $product->short_description }}</textarea>
+                        <label for="productshortdescription">Overview</label>
+                        <textarea class="form-control" id="productshortdescription" name="productshortdescription" placeholder="Overview">{{ $product->short_description }}</textarea>
                     </div>
                     <div class="form-group">
                         <label for="productdescription">Details</label>

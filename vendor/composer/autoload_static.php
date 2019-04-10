@@ -426,6 +426,7 @@ class ComposerStaticInita864c481a4c3760e132aaf15a80c6e4b
         'AddGsaToUsers' => __DIR__ . '/../..' . '/database/migrations/2019_01_21_203013_add_gsa_to_users.php',
         'AddNoPricingToUserTable' => __DIR__ . '/../..' . '/database/migrations/2017_10_05_133629_add_no_pricing_to_user_table.php',
         'AddQbIdProductsUsersOrdersTables' => __DIR__ . '/../..' . '/database/migrations/2017_11_03_193924_add_qb_id_products_users_orders_tables.php',
+        'AddQbInvoiceNumberToOrders' => __DIR__ . '/../..' . '/database/migrations/2019_04_10_140920_add_qb_invoice_number_to_orders.php',
         'AddSolicitationNumberToOrders' => __DIR__ . '/../..' . '/database/migrations/2019_01_21_204354_add_solicitation_number_to_orders.php',
         'AddTaxColumnsToUsers' => __DIR__ . '/../..' . '/database/migrations/2018_10_24_020400_add_tax_columns_to_users.php',
         'AddTaxableColumnOrderdetailsTable' => __DIR__ . '/../..' . '/database/migrations/2018_11_05_211632_add_taxable_column_orderdetails_table.php',
