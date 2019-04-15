@@ -117,8 +117,12 @@ class OrderController extends Controller {
 		if($request->has('shipped')){
 			foreach($request->input('shipped') as $detail_id => $value) {
 				$detail = OrderDetail::find($detail_id);
-				$detail->expiration = array_key_exists($detail_id,$request->input('expiration'))?$request->input('expiration')[$detail_id]:null;
-				$detail->lot_number = array_key_exists($detail_id,$request->input('lot_number'))?$request->input('lot_number')[$detail_id]:null;
+				if($request->has('expiration')){
+					$detail->expiration = array_key_exists($detail_id,$request->input('expiration'))?$request->input('expiration')[$detail_id]:null;
+				}
+				if($request->has('lot_number')){
+					$detail->lot_number = array_key_exists($detail_id,$request->input('lot_number'))?$request->input('lot_number')[$detail_id]:null;
+				}
 				$detail->shipped = 1;
 				$detail->shipped_date = Carbon::now();
                 if($request->has('boxed') && isset($box)){
