@@ -3,6 +3,7 @@ use Illuminate\Http\Request;
 use Illuminate\Html\FormBuilder;
 use App\User;
 use App\Product;
+use App\UnitOfMeasure;
 use App\Picture;
 use App\Commands;
 use App\Category;
@@ -90,7 +91,7 @@ class OrderController extends Controller {
 				}
 			}
 
-			return redirect()->route('admin-orders')->with(['success'=>'Order Updated successfully','tab'=>'orders']);
+			return redirect()->route('order-edit',$order->id)->with(['success'=>'Order Updated successfully','tab'=>'orders']);
 		}
 
 	}
@@ -202,13 +203,22 @@ class OrderController extends Controller {
 		return view('order.backordered',compact('orders'));
 	}
 	public function productAdd(Request $request, $id){
-		//dd($request->all());
-		$product = Product::find($request->input('product_id'));
+		$this->validate($request, [
+			'product_id' => 'required|exists:products,id',
+			'uom_id' => 'required|exists:units_of_measure,id',
+			'quantity' => 'required|min:1|integer'
+		]);
+
+		$product = Product::findOrFail($request->input('product_id'));
+		$uom = UnitOfMeasure::findOrFail($request->input('uom_id'));
+	            
+
 		$detail = new OrderDetail;
 		$detail->product_id = $request->input('product_id');
 		$detail->order_id = $id;
-		$detail->quantity = 1;
+		$detail->quantity = $request->input('quantity');
 		$detail->subtotal = $product->price;
+		$detail->options = $uom->name;
 		$detail->save();
 		return redirect()->route('order-edit',$id)->with('success','Item added successfully!');
 	}

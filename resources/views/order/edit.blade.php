@@ -1,59 +1,5 @@
 @extends('layout')
 
-@section('scripts')
-<script type="text/javascript">
-	$(document).ready(function(){
-		$('.datepicker').datepicker();
-		$('#order-edit-search').selectize({
-	        valueField: 'url',
-	        labelField: 'name',
-	        searchField: ['name'],
-	        maxOptions: 10,
-	        options: [],
-	        create: false,
-	        render: {
-	            option: function(item, escape) {
-	            	var picturespath  = '{{ asset("/pictures") }}/';
-	            	var noimage = '{{ asset("/images") }}/noimg.gif';
-	            	if(item.picture){
-	            		var picture = picturespath+item.picture;
-	            	}
-	            	else{
-	            		var picture = noimage;
-	            	}
-	                return '<div><img src="'+picture+'" style="max-width:50px; max-height: 50px; margin-right:5px;">' +item.name+'</div>';
-	            }
-	        },
-	        optgroups: [
-	            {value: 'product', label: 'Products'},
-	            {value: 'item_number', label: 'Item-Num'}
-	        ],
-	        optgroupField: 'class',
-	        optgroupOrder: ['product','item_number'],
-	        load: function(query, callback) {
-	            if (!query.length) return callback();
-	            $.ajax({
-	                url: root+'/api/product/add/search',
-	                type: 'GET',
-	                dataType: 'json',
-	                data: {
-	                    q: query
-	                },
-	                error: function() {
-	                    callback();
-	                },
-	                success: function(res) {
-	                    callback(res.data);
-	                }
-	            });
-	        },
-	        onChange: function(){
-	            $("#add_product_id").val(this.items);
-	        }
-	    });
-	});
-</script>
-@endsection
 @section('content')
 <div id="row-main" class="row">
   	<div id="container-main" class="container">
@@ -193,8 +139,16 @@
 					<a class="close" data-dismiss="modal">&times;</a>
 				</div>
 				<div class="modal-body">
+					<div class="form-group">
+						<select id="order-edit-search" name="q" placeholder="Search Keyword or Item #" class="form-control" required></select>
+					</div>
+					<div class="form-group">
+						<select id="order-add-uom" name="uom_id" class="form-control" style="display:none;"></select>
+					</div>
+					<div class="form-group">
+						<input id="order-add-quantity" name="quantity" value="1" type="number" min="1" step="1" class="form-control" style="display:none;">
+					</div>
 					<input type="hidden" id="add_product_id" name="product_id" value="" />
-					<select id="order-edit-search" name="q" placeholder="Search Keyword or Item #" class="form-control" required></select>
 				</div>
 				<div class="modal-footer">
 					{!! csrf_field() !!}
@@ -205,4 +159,65 @@
 		</div>
 	</div>
 </div>
+@endsection
+
+@section('scripts')
+<script type="text/javascript">
+	$(document).ready(function(){
+		$('.datepicker').datepicker();
+        $('#order-edit-search').selectize({
+	        valueField: 'url',
+	        labelField: 'name',
+            searchField: ['name','item_number'],
+	        maxOptions: 1000,
+	        options: [],
+	        create: false,
+	        render: {
+	            option: function(item, escape) {
+	            	var picturespath  = '{{ asset("/pictures") }}/';
+	            	var noimage = '{{ asset("/images") }}/noimg.gif';
+	            	if(item.picture){
+	            		var picture = picturespath+item.picture;
+	            	}
+	            	else{
+	            		var picture = noimage;
+	            	}
+	            	item.name = item.name+' - #'+item.item_number;
+	                return '<div><img src="'+picture+'" style="max-width:50px; max-height: 50px; margin-right:5px;">' +item.name+'</div>';
+	            }
+	        },
+	        optgroups: [
+	            {value: 'product', label: 'Products'}
+	        ],
+	        optgroupField: 'class',
+	        optgroupOrder: ['product'],
+	        load: function(query, callback) {
+	            if (!query.length) return callback();
+	            $.ajax({
+	                url: root+'/api/product/add/search',
+	                type: 'GET',
+	                dataType: 'json',
+	                data: {
+	                    q: query
+	                },
+	                error: function() {
+	                    callback();
+	                },
+	                success: function(res) {
+	                    callback(res.data);
+	                }
+	            });
+	        },
+            onChange: function(value){
+	            $("#add_product_id").val(this.items[0]);
+
+				$.get('{{ route('api-get-uom-product-options-html') }}', {product_id: this.items[0]}, function(data){
+					console.log(data);
+               		$("#order-add-uom").show().html(data);
+               		$("#order-add-quantity").show();
+				});
+            }
+        });
+	});
+</script>
 @endsection
