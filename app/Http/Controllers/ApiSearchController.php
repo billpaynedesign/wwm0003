@@ -7,6 +7,7 @@ use App\Picture;
 use App\Commands;
 use App\Category;
 use App\ProductAttribute;
+use App\UnitOfMeasure;
 use Session;
 class ApiSearchController  extends Controller {
 
@@ -39,10 +40,10 @@ class ApiSearchController  extends Controller {
 		// If the input is empty, return an error response
 		if(!$query && $query == '') return response()->json(array(), 400);
 
-		$products = Product::active()->where('name','like','%'.$query.'%')->orderBy('name','asc')->take(5)->get(['slug','name','picture','item_number'])->toArray();
-		$productsByNumber = Product::active()->where('item_number','=',strtoupper($query))->orderBy('name','asc')->take(5)->get(['slug','name','picture','item_number'])->toArray();
-		$productsByNumber = array_merge(Product::active()->where('item_number','=',strtolower($query))->orderBy('name','asc')->take(5)->get(['slug','name','picture','item_number'])->toArray(), $productsByNumber);
-		$categories = Category::active()->where('name','like','%'.$query.'%')->orderBy('name','asc')->take(5)->get(['slug','name','picture'])->toArray();
+		$products = Product::active()->where('name','like','%'.$query.'%')->orderBy('name','asc')->take(50)->get(['slug','name','picture','item_number'])->toArray();
+		$productsByNumber = Product::active()->where('item_number','=',strtoupper($query))->orderBy('name','asc')->take(50)->get(['slug','name','picture','item_number'])->toArray();
+		$productsByNumber = array_merge(Product::active()->where('item_number','=',strtolower($query))->orderBy('name','asc')->take(50)->get(['slug','name','picture','item_number'])->toArray(), $productsByNumber);
+		$categories = Category::active()->where('name','like','%'.$query.'%')->orderBy('name','asc')->take(50)->get(['slug','name','picture'])->toArray();
 
 		// Normalize data
 		$products = $this->appendURL($products, 'product');
@@ -89,9 +90,9 @@ class ApiSearchController  extends Controller {
 		// If the input is empty, return an error response
 		if(!$query && $query == '') return response()->json(array(), 400);
 
-		$products = Product::active()->where('name','like','%'.$query.'%')->orderBy('name','asc')->take(5)->get(['id','slug','name','picture','item_number'])->toArray();
-		$productsByNumber = Product::active()->where('item_number','=',strtoupper($query))->orderBy('name','asc')->take(5)->get(['id','slug','name','picture','item_number'])->toArray();
-		$productsByNumber = array_merge(Product::active()->where('item_number','=',strtolower($query))->orderBy('name','asc')->take(5)->get(['id','slug','name','picture','item_number'])->toArray(), $productsByNumber);
+		$products = Product::active()->where('name','like','%'.$query.'%')->orderBy('name','asc')->take(50)->get(['id','slug','name','picture','item_number'])->toArray();
+		$productsByNumber = Product::active()->where('item_number','=',strtoupper($query))->orderBy('name','asc')->take(50)->get(['id','slug','name','picture','item_number'])->toArray();
+		$productsByNumber = array_merge(Product::active()->where('item_number','=',strtolower($query))->orderBy('name','asc')->take(50)->get(['id','slug','name','picture','item_number'])->toArray(), $productsByNumber);
 
 		// Normalize data
 		$products = $this->appendID($products, 'product');
@@ -117,5 +118,105 @@ class ApiSearchController  extends Controller {
 			$item['url'] = $item['id'];
 		}
 		return $data;
+	}
+
+    /**
+     * @method addUom
+     *
+     * Used by the selectize plugin to query products in the DB. This method
+     * returns all UOM's with an active product.
+     *
+     * @param Request $request
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+	public function addUom(Request $request) {
+        // Retrieve the user's input and escape it
+        $query = e($request->input('q',''));
+
+        // If the input is empty, return an error response
+        if(!$query && $query == '') return response()->json(array(), 400);
+
+        $products = UnitOfMeasure::whereHas('product', function($q)use($query) {
+                        $q->where('active', 1);
+                        $q->where('name','like','%'.$query.'%');
+                        $q->orWhere('item_number','like','%'.$query.'%');
+                        $q->orderBy('name','asc');
+                    })->with('product')->get();
+
+        $products = $this->appendProductName($products);
+
+        return response()->json(['data' => $products], 200);
+    }
+
+    /**
+     * @method appendProductName
+     *
+     * Used by addUom() to get the related products name and attach it to the UOM array as a top level property.
+     * This is so the selectize plugin is able to access the property.
+     *
+     * @param Collection $uoms - the UOM's with attached products
+     *
+     * @return Collection - the updated collection
+     */
+    private function appendProductName($uoms) {
+        return $uoms->map(function($item, $key) {
+                    $item['product_name'] = $item['product']['name'];
+                    return $item;
+                });
+    }
+
+	public function getUomProductOptionsHtml(Request $request){
+		$product = Product::find($request->input('product_id'));
+		$html = '<option value="">-- Select a UOM --</option>';
+		foreach ($product->units_of_measure as $uom) {
+			$html .= '<option value="'.$uom->id.'">'.$uom->name.'</option>';
+		}
+		return $html;
+	}
+
+	public function getCartCount(Request $request){
+		return response()->json(Cart::count());
+	}
+	public function getUsers(Request $request){
+		return response()->json(User::orderBy('first_name')->get());
+	}
+
+	public function getCartBarcodes(Request $request){
+        $uom = UnitOfMeasure::has('product')->with('product')->where('id',$request->input('q'))->first();
+        $uom->msrp = null;
+
+        //check if this item already exists and we just need to update that item
+        if(Auth::check()){
+            $user = Auth::user();
+            if(!$user->no_pricing){
+                if($user->product_price_check($uom->product_id)){
+                    if($price = $user->uom_price_check($uom->id)){
+                        $uom->price = (float)$price->price;
+                    }
+                }
+            }
+        }
+        else{
+            $uom->price = null;
+        }
+		return response()->json($uom);
+	}
+	public function getProductUomData(Request $request){
+		$product = Product::findOrFail($request->input('product_id'));
+		$uom = UnitOfMeasure::findOrFail($request->input('uom_id'));
+		return response()->json(['product' =>$product,'uom'=>$uom]);
+	}
+	public function getProductUomVendorData(Request $request){
+		$product = Product::findOrFail($request->input('product_id'));
+		$uom = UnitOfMeasure::findOrFail($request->input('uom_id'));
+		$uom_vendor = $uom->vendors->find($request->input('vendor_id'));
+		if($uom_vendor){
+			$price = (float)$uom_vendor->pivot->cost;
+		}
+		else{
+			$price = $uom->price;
+		}
+		return response()->json(['product' =>$product,'uom'=>$uom,'price'=>$price]);
 	}
 }

@@ -143,11 +143,16 @@ return [
         App\Providers\AppServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
+
+        /*
+         * Vendor Service Providers...
+         */
         Maatwebsite\Excel\ExcelServiceProvider::class,
-        Cviebrock\EloquentSluggable\SluggableServiceProvider::class,
-        Gloudemans\Shoppingcart\ShoppingcartServiceProvider::class,
+        Cviebrock\EloquentSluggable\ServiceProvider::class,
         Vinkla\Hashids\HashidsServiceProvider::class,
         Barryvdh\DomPDF\ServiceProvider::class,
+        Yajra\Datatables\DatatablesServiceProvider::class,
+        
     ],
 
     /*
@@ -195,10 +200,19 @@ return [
         'URL'       => Illuminate\Support\Facades\URL::class,
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View'      => Illuminate\Support\Facades\View::class,
+        
         'Excel'     => Maatwebsite\Excel\Facades\Excel::class,
-        'Cart'      => Gloudemans\Shoppingcart\Facades\Cart::class,
+        'Cart'      => App\ShoppingCart::class,
         'Hashids'   => Vinkla\Hashids\Facades\Hashids::class,
         'PDF'       => Barryvdh\DomPDF\Facade::class,
+        'DataTables'=> Yajra\Datatables\Facades\Datatables::class,
+
+        //quickbooks
+        //QuickBooksOnline\API\Facades\{Facade_Class_Name}
+        'QBInvoice' => QuickBooksOnline\API\Facades\Invoice::class,
+        'QBCustomer' => QuickBooksOnline\API\Facades\Customer::class,
+        'QBItem' => QuickBooksOnline\API\Facades\Item::class,
+
     ],
 
     'statesarray' =>[

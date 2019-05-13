@@ -8,7 +8,9 @@ use App\Commands;
 use App\Category;
 use App\UnitOfMeasure;
 use App\Review;
+use App\Vendor;
 use Session;
+use DB;
 use App\Commands\CategoryHelper;
 
 class ProductController extends Controller {
@@ -41,7 +43,7 @@ class ProductController extends Controller {
 	 */
 	public function show($slug){
 		$product = Product::findBySlug($slug);
-		if($product->active){
+		if($product){
 			return view('products.product',compact('product'));
 		}
 		else{
@@ -63,33 +65,53 @@ class ProductController extends Controller {
 	public function edit($id){
 		$product = Product::find($id);
         $categories = Category::all();
-        $categoryHelper = new CategoryHelper($categories);
-		return view('products.edit',compact('product','categoryHelper'));
+        //$categoryHelper = new CategoryHelper($categories);
+		return view('products.edit',compact('product','categories'));
 	}
 	public function update(Request $request){
 		if($request->has('cancel')){
-			return redirect()->route('admin-dashboard')->with('tab','products');
+			return redirect()->route('admin-products')->with('tab','products');
 		}else{
-			$product = Product::find($request->input('id'));
-			$product->name = $request->input('name');
-			$product->category_id = $request->input('category');
-			$product->item_number = $request->input('item_number');
-			$product->description = $request->input('productdescription');
-			$product->short_description = $request->input('shortdescription');
-			$product->manufacturer = $request->input('manufacturer');
-			$product->active = $request->has('active')?1:0;
-			$product->has_lot_expiry = $request->has('has_lot_expiry')?1:0;
-			$product->require_license = $request->has('require_license')?1:0;
-			
+			$this->validate($request,[
+				'name' => 'required|string',
+				'manufacturer' => 'string',
+				'item_number' => 'string',
+				'productshortdescription' => 'string',
+				'productdescription' => 'string',
+				'note' => 'string',
+				'category' => 'required'
+			]);
 
-			$product->note = $request->input('note');
+			$product = Product::findOrFail($request->input('id'));
+			$product->fill([
+				/* moved to unit of measure
+				'msrp' => $request->input('msrp'),
+				'price' => $request->input('price'),
+				*/
+				'name' => $request->input('name'),
+				'manufacturer' => $request->input('manufacturer'),
+				'item_number' => $request->input('item_number'),
+				'short_description' => $request->input('productshortdescription'),
+				'description' => $request->input('productdescription'),
+				'note' => $request->input('note'),
+
+				'has_lot_expiry' => $request->has('lot_expiry_check'),
+				'require_license' => $request->has('require_license'),
+				'active' => $request->has('active'),
+				'taxable' => !$request->has('taxable')
+			]);
+
 			if($request->hasFile('image')){
 				$destinationPath = public_path().'/pictures';
-				$filename = $request->file('image')->getClientOriginalName();
+				$filename = $product->slug.'.'.$request->file('image')->getClientOriginalExtension();
 				$request->file('image')->move($destinationPath, $filename);
 				$product->picture = $filename;
 			}
+
 			$product->save();
+			$product->categories()->sync($request->input('category'));
+			if($request->has('vendors')) $product->vendors()->sync($request->input('vendors'));
+
 
 			if($request->has('uom')){
 				foreach($request->input('uom') as $uom_id => $name){
@@ -97,6 +119,15 @@ class ProductController extends Controller {
 					$uom->name = $name;
 					$uom->price = array_key_exists($uom_id,$request->input('price'))?$request->input('price')[$uom_id]:NULL;
 					$uom->msrp = array_key_exists($uom_id,$request->input('msrp'))?$request->input('msrp')[$uom_id]:NULL;
+                    $weight = array_key_exists($uom_id,$request->input('weight'))?$request->input('weight')[$uom_id]:NULL;
+                    if($weight){
+                        $weight_unit = array_key_exists($uom_id,$request->input('weight_unit'))?$request->input('weight_unit')[$uom_id]:NULL;
+                        if($weight_unit === 'oz'){
+                            $weight = $weight/16;
+                        }
+
+                        $uom->weight = $weight;
+                    }
 					$uom->save();
 				}
 			}
@@ -107,50 +138,83 @@ class ProductController extends Controller {
 					$uom->product_id = $product->id;
 					$uom->price = array_key_exists($key,$request->input('price_new'))?$request->input('price_new')[$key]:NULL;
 					$uom->msrp = array_key_exists($key,$request->input('msrp_new'))?$request->input('msrp_new')[$key]:NULL;
+                    $weight = array_key_exists($key,$request->input('weight_new'))?$request->input('weight_new')[$key]:NULL;
+                    if($weight){
+                        $weight_unit = array_key_exists($key,$request->input('weight_unit_new'))?$request->input('weight_unit_new')[$key]:NULL;
+                        if($weight_unit === 'oz'){
+                            $weight = $weight/16;
+                        }
+
+                        $uom->weight = $weight;
+                    }
 					$uom->save();
 				}
 			}
 
-			return redirect()->route('admin-dashboard')->with(['tab'=>'products','success'=>'Product updated successfully.']);
+			return redirect()->route('product-edit', $product->id)->with(['tab'=>'products','success'=>'Product updated successfully.']);
 		}
 	}
 	public function create(Request $request)
 	{
-			$product = new Product;
-			$product->name = $request->input('productname');
-			$product->category_id = $request->input('category');
+		$this->validate($request,[
+			'productname' => 'required|string',
+			'manufacturer' => 'string',
+			'item_number' => 'string',
+			'short_description' => 'string',
+			'description' => 'string',
+			'note' => 'string'
+		],['productname.required' => 'The Product Name field is required.']);
+
+		$product = new Product();
+		$product->fill([
 			/* moved to unit of measure
-			$product->msrp = $request->input('msrp');
-			$product->price = $request->input('price');
+			'msrp' => $request->input('msrp'),
+			'price' => $request->input('price'),
 			*/
-			$product->manufacturer = $request->input('manufacturer');
-			$product->item_number = $request->input('item_number');
-			$product->short_description = $request->input('productshortdescription');
-			$product->description = $request->input('productdescription');
-			$product->has_lot_expiry = $request->has('lot_expiry_check');
-			$product->require_license = $request->has('require_license')?1:0;
-			$product->note = $request->input('note');
-			$product->active = 1;
-			$product->save();
+			'name' => $request->input('productname'),
+			'manufacturer' => $request->input('manufacturer'),
+			'item_number' => $request->input('item_number'),
+			'short_description' => $request->input('productshortdescription'),
+			'description' => $request->input('productdescription'),
 
-			foreach($request->input('uom') as $key => $name){
-				$uom = new UnitOfMeasure;
-				$uom->name = $name;
-				$uom->product_id = $product->id;
-				$uom->price = array_key_exists($key,$request->input('price'))?$request->input('price')[$key]:NULL;
-				$uom->msrp = array_key_exists($key,$request->input('msrp'))?$request->input('msrp')[$key]:NULL;
-				$uom->save();
-			}
+			'has_lot_expiry' => $request->has('lot_expiry_check'),
+			'require_license' => $request->has('require_license'),
+			'note' => $request->input('note'),
+			'active' => 1
+		]);
+		$product->save();
 
-			if($request->hasFile('image')){
-				$destinationPath = public_path().'/pictures';
-				$filename = $product->slug.'.'.$request->file('image')->getClientOriginalExtension();
-				$request->file('image')->move($destinationPath, $filename);
-				$product->picture = $filename;
-			}
-			$product->save();
+		if($request->hasFile('image')){
+			$destinationPath = public_path().'/pictures';
+			$filename = $product->slug.'.'.$request->file('image')->getClientOriginalExtension();
+			$request->file('image')->move($destinationPath, $filename);
+			$product->picture = $filename;
+		}
 
-		return redirect()->route('admin-dashboard')->with(['tab'=>'products','success'=>'Product created successfully.']);
+		$product->save();
+
+		$product->categories()->sync($request->input('category'));
+		if($request->has('vendors')) $product->vendors()->sync($request->input('vendors'));
+
+		foreach($request->input('uom') as $key => $name){
+			$uom = new UnitOfMeasure;
+			$uom->name = $name;
+			$uom->product_id = $product->id;
+			$uom->price = array_key_exists($key,$request->input('price'))?$request->input('price')[$key]:NULL;
+			$uom->msrp = array_key_exists($key,$request->input('msrp'))?$request->input('msrp')[$key]:NULL;
+            $weight = array_key_exists($key,$request->input('weight'))?$request->input('weight')[$key]:NULL;
+            if($weight){
+                $weight_unit = array_key_exists($key,$request->input('weight_unit'))?$request->input('weight_unit')[$key]:NULL;
+                if($weight_unit === 'oz'){
+                    $weight = $weight/16;
+                }
+
+                $uom->weight = $weight;
+            }
+			$uom->save();
+		}
+
+		return redirect()->route('admin-products')->with(['tab'=>'products','success'=>'Product created successfully.']);
 	}
 
 	public function postDelete(Request $request){
@@ -169,7 +233,6 @@ class ProductController extends Controller {
 		}
 	}
 	public function import(){
-
 	}
 	public function import_preview(Request $request){
 		/** @var String The mimetype of the file uploaded */
@@ -201,7 +264,7 @@ class ProductController extends Controller {
 			$k = 0;
 			//cycle through each column in the row to match the column in the database
 			foreach ($row as $key => $value) {
-				if($columns[$k] == 'sku'){  
+				if($columns[$k] == 'sku'){
 					$product = Product::where('sku','=',$value)->first();
 					if(is_null($product)){
 						$product = new Product;
@@ -242,9 +305,9 @@ class ProductController extends Controller {
 		//get rid of the csv array in the session
 		Session::forget('csv');
 		//redirect back to merchant management home with success message
-		return redirect()->route('admin-dashboard')->with('success','Import successfully uploaded.');
+		return redirect()->route('admin-products')->with('success','Import successfully uploaded.');
 	}
-	
+
 	public function toggleActive(Request $request){
 		$product = Product::find($request->input('id'));
 		$product->active = $product->active?0:1;
@@ -273,6 +336,69 @@ class ProductController extends Controller {
 		$review->save();
 
 		return back()->with(['success'=>'Thank you for your review!']);
+	}
 
+	public function barcodes(Request $request){
+        if($request->has('uoms')){
+            $uoms = UnitOfMeasure::has('products')->with('products')->whereIn('product_id',$request->input('uoms'))->get()->sortBy('products.name');
+            return view('products.barcodes',compact('uoms'));
+        }
+        else{
+			$uoms = UnitOfMeasure::has('products')->with('products')->get()->sortBy('products.name');
+			return view('products.barcodes',compact('uoms'));
+		}
+	}
+
+	public function vendor_pricing_edit($id){
+		$product = Product::findOrFail($id);
+		$vendors = $product->vendors()->orderBy('name','asc')->get();
+		$units_of_measure = $product->units_of_measure()->orderBy('name','asc')->get();
+		return view('products.vendor-pricing-edit',compact('product','vendors','units_of_measure'));
+	}
+	public function vendor_pricing_update(Request $request,$id){
+		$product = Product::findOrFail($id);
+		$message_bag = null;
+		if($request->has('costs')){
+			$costs = $request->input('costs');
+			foreach($costs as $vendor_id => $cost){
+				if($vendor = Vendor::find($vendor_id)){
+					foreach($cost as $uom_id => $value){
+						if($vendor = UnitOfMeasure::find($uom_id)){
+							$uom_query = DB::table('uom_vendor')->where('uom_id',$uom_id)->where('vendor_id',$vendor_id);
+							if($uom_query->exists()){
+								try {
+								    // Get the updated rows count here. Keep in mind that zero is a
+								    // valid value (not failure) if there were no updates needed
+								    $count = $uom_query->update([
+										'cost' => (float)$value
+									]);
+								} catch (\Illuminate\Database\QueryException $e) {
+									$message_bag->add('error', "Error updating {$vendor->name} {$uom->name} cost");
+								}
+							}
+							else{
+								try {
+								    // Get the updated rows count here. Keep in mind that zero is a
+								    // valid value (not failure) if there were no updates needed
+								    $count = DB::table('uom_vendor')->insert([
+											'uom_id' => $uom_id,
+											'vendor_id' => $vendor_id,
+											'cost' => (float)$value
+										]);
+								} catch (\Illuminate\Database\QueryException $e) {
+									$message_bag->add('error', "Error creating {$vendor->name} {$uom->name} cost. {$e->message}");
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+		if(isset($message_bag)){
+			return redirect()->route('product-vendor-pricing-edit',$id)->withErrors($message_bag)->with('fail','An error occured while saving, please try again');
+		}
+		else{
+			return redirect()->route('product-vendor-pricing-edit',$id)->with('success','Product vendor pricing updated successfully');
+		}
 	}
 }

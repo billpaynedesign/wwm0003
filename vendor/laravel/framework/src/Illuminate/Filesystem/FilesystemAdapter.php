@@ -7,8 +7,8 @@ use Illuminate\Support\Collection;
 use League\Flysystem\AdapterInterface;
 use League\Flysystem\FilesystemInterface;
 use League\Flysystem\FileNotFoundException;
-use Illuminate\Contracts\Filesystem\Filesystem as FilesystemContract;
 use Illuminate\Contracts\Filesystem\Cloud as CloudFilesystemContract;
+use Illuminate\Contracts\Filesystem\Filesystem as FilesystemContract;
 use Illuminate\Contracts\Filesystem\FileNotFoundException as ContractFileNotFoundException;
 
 class FilesystemAdapter implements FilesystemContract, CloudFilesystemContract
@@ -69,7 +69,11 @@ class FilesystemAdapter implements FilesystemContract, CloudFilesystemContract
      */
     public function put($path, $contents, $visibility = null)
     {
-        $config = ['visibility' => $this->parseVisibility($visibility)];
+        if ($visibility = $this->parseVisibility($visibility)) {
+            $config = ['visibility' => $visibility];
+        } else {
+            $config = [];
+        }
 
         if (is_resource($contents)) {
             return $this->driver->putStream($path, $contents, $config);
@@ -313,7 +317,7 @@ class FilesystemAdapter implements FilesystemContract, CloudFilesystemContract
      * Parse the given visibility value.
      *
      * @param  string|null  $visibility
-     * @return string
+     * @return string|null
      * @throws \InvalidArgumentException
      */
     protected function parseVisibility($visibility)
@@ -325,7 +329,6 @@ class FilesystemAdapter implements FilesystemContract, CloudFilesystemContract
         switch ($visibility) {
             case FilesystemContract::VISIBILITY_PUBLIC:
                 return AdapterInterface::VISIBILITY_PUBLIC;
-
             case FilesystemContract::VISIBILITY_PRIVATE:
                 return AdapterInterface::VISIBILITY_PRIVATE;
         }

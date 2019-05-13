@@ -27,6 +27,16 @@ class FingerPrintType
     private $timestamp = null;
 
     /**
+     * @property string $currencyCode
+     */
+    private $currencyCode = null;
+
+    /**
+     * @property string $amount
+     */
+    private $amount = null;
+
+    /**
      * Gets as hashValue
      *
      * @return string
@@ -89,6 +99,50 @@ class FingerPrintType
     public function setTimestamp($timestamp)
     {
         $this->timestamp = $timestamp;
+        return $this;
+    }
+
+    /**
+     * Gets as currencyCode
+     *
+     * @return string
+     */
+    public function getCurrencyCode()
+    {
+        return $this->currencyCode;
+    }
+
+    /**
+     * Sets a new currencyCode
+     *
+     * @param string $currencyCode
+     * @return self
+     */
+    public function setCurrencyCode($currencyCode)
+    {
+        $this->currencyCode = $currencyCode;
+        return $this;
+    }
+
+    /**
+     * Gets as amount
+     *
+     * @return string
+     */
+    public function getAmount()
+    {
+        return $this->amount;
+    }
+
+    /**
+     * Sets a new amount
+     *
+     * @param string $amount
+     * @return self
+     */
+    public function setAmount($amount)
+    {
+        $this->amount = $amount;
         return $this;
     }
 

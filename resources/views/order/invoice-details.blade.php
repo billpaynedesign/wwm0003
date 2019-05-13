@@ -28,7 +28,7 @@
       </tr>
       <tr>
           <td>Name:</td>
-          <td>{{ $order->transaction->first_name.' '.$order->transaction->last_name }}</td>
+          <td>{{ $order->transaction->name }}</td>
           <td>Name:</td>
           <td>{{ $order->shippingname }}</td>
       </tr>
@@ -61,6 +61,7 @@
         <thead>
           <tr>
             <th>Product Name</th>
+            <th>Product Detail</th>
             <th>LotNum</th>
             <th>Expiry Date</th>
             <!-- <th>Option</th> -->
@@ -75,6 +76,7 @@
         @foreach($details as $detail)
         <tr>
           <td>{{ $detail->product->name }}</td>
+          <td>{{ $detail->product->item_number }} {{ $detail->product->options()->select('option')->get()->implode('option',',') }}</td>
           <td style="text-align:center;">{{ $detail->lot_number }}</td>
           <td style="text-align:center;">{{ $detail->expiration }}</td>
           <!-- <td></td> -->
@@ -86,17 +88,17 @@
         <?php $total += floatval($detail->product->price)*intval($detail->quantity); ?>
         @endforeach
         <tr>
-          <td colspan="5"></td>
+          <td colspan="7"></td>
           <th align="right"> State Tax + </th>
           <td style="text-align:center;">${{ \number_format($total*0.0888,2) }}</td>
         </tr>
         <tr>
-          <td colspan="5"></td>
+          <td colspan="7"></td>
           <th bgcolor="#CCC" align="right">Total</th>
           <td style="text-align:center;">${{ \number_format(($total*0.0888)+$total,2) }}</td>
         </tr>
       </tbody>
     </table>
-    <p class="footer">bw&#64;wwmdusa.com   |   914-358-9878</p>
+    <p class="footer">brent&#64;wwmdusa.com   |   914-358-9878</p>
   </body>
 </html>

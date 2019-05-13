@@ -5,11 +5,11 @@ namespace Illuminate\Log;
 use Closure;
 use RuntimeException;
 use InvalidArgumentException;
-use Monolog\Handler\SyslogHandler;
 use Monolog\Handler\StreamHandler;
-use Monolog\Logger as MonologLogger;
+use Monolog\Handler\SyslogHandler;
 use Monolog\Formatter\LineFormatter;
 use Monolog\Handler\ErrorLogHandler;
+use Monolog\Logger as MonologLogger;
 use Monolog\Handler\RotatingFileHandler;
 use Illuminate\Contracts\Support\Jsonable;
 use Illuminate\Contracts\Events\Dispatcher;
@@ -238,7 +238,7 @@ class Writer implements LogContract, PsrLoggerInterface
      *
      * @param  string  $name
      * @param  string  $level
-     * @return void
+     * @return \Psr\Log\LoggerInterface
      */
     public function useSyslog($name = 'laravel', $level = 'debug')
     {
@@ -300,7 +300,7 @@ class Writer implements LogContract, PsrLoggerInterface
      * Format the parameters for the logger.
      *
      * @param  mixed  $message
-     * @return void
+     * @return mixed
      */
     protected function formatMessage($message)
     {

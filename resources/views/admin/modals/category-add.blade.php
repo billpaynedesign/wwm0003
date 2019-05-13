@@ -10,6 +10,8 @@
           <div class="form-group">
             <label for="category_name">Name</label>
             <input type="text" class="form-control" id="category_name" name="category_name" placeholder="" required>
+          </div>
+          <div class="form-group">
             <label for="parent_category">Parent</label>
             <select name="parent_category" id="parent_category" class="form-control" onchange="parent_category_change();">
               <option value="">-- None --</option>
@@ -20,7 +22,11 @@
             <label for="image">Picture</label>
             <input type="file" id="image" name="image">
           </div>
+          <div class="form-group">
+            <label for="description">Description</label>
+            <textarea name="description" id="description" class="form-control"></textarea>
           </div>
+        </div>
         <div class="modal-footer">
           <button type="button" class="btn" data-dismiss="modal" onsubmit="return false;">Close</button>
           <button type="submit" name="_token" value="{{ csrf_token() }}" class="btn btn-default">Save</button>

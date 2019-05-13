@@ -130,7 +130,7 @@ class ProfileTransAmountType
      * @return self
      * @param \net\authorize\api\contract\v1\LineItemType $lineItems
      */
-    public function addLineItemsToLineItems(\net\authorize\api\contract\v1\LineItemType $lineItems)
+    public function addToLineItems(\net\authorize\api\contract\v1\LineItemType $lineItems)
     {
         $this->lineItems[] = $lineItems;
         return $this;

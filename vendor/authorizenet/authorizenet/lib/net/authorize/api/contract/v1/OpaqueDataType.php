@@ -22,6 +22,11 @@ class OpaqueDataType
     private $dataValue = null;
 
     /**
+     * @property string $dataKey
+     */
+    private $dataKey = null;
+
+    /**
      * Gets as dataDescriptor
      *
      * @return string
@@ -62,6 +67,28 @@ class OpaqueDataType
     public function setDataValue($dataValue)
     {
         $this->dataValue = $dataValue;
+        return $this;
+    }
+
+    /**
+     * Gets as dataKey
+     *
+     * @return string
+     */
+    public function getDataKey()
+    {
+        return $this->dataKey;
+    }
+
+    /**
+     * Sets a new dataKey
+     *
+     * @param string $dataKey
+     * @return self
+     */
+    public function setDataKey($dataKey)
+    {
+        $this->dataKey = $dataKey;
         return $this;
     }
 

@@ -1,4 +1,4 @@
-@extends('app')
+@extends('layout')
 @section('scripts')
 <script type="text/javascript">
 $(document).ready(function(){
@@ -66,82 +66,124 @@ $(document).ready(function(){
 </style>
 @endsection
 @section('content')
-<div class="container main-container no-padding">
-	<div class="col-xs-12 main-col">
-	<h1>Edit User: {{ $user->name }}</h1>
-		<form action="{{ route('user-update') }}" method="post" onsubmit="return user_form_validate();">
-			<div class="form-group">
-				<div class="checkbox">
-				    <label>
-				      <input type="checkbox" name="admin" value="true" {{ $user->admin?'checked':'' }}> Admin?
-					</label>
+<div id="row-main" class="row">
+  	<div id="container-main" class="container">
+  		<div id="col-main" class="col-xs-12">
+			<h1>Edit User: {{ $user->name }}</h1>
+			<form action="{{ route('user-update') }}" method="post" onsubmit="return user_form_validate();">
+				<div class="form-group">
+					<div class="checkbox">
+					    <label>
+					      <input type="checkbox" name="admin" value="true" {{ $user->admin?'checked':'' }}> Admin?
+						</label>
+					</div>
 				</div>
-			</div>
-			<div class="form-group">
-				<div class="checkbox">
-				    <label>
-				      <input type="checkbox" name="verified" value="true" {{ $user->verified?'checked':'' }}> Verified?
-					</label>
+				<div class="form-group">
+					<div class="checkbox">
+					    <label>
+					      <input type="checkbox" name="verified" value="true" {{ $user->verified?'checked':'' }}> Verified?
+						</label>
+					</div>
 				</div>
-			</div>
-			<hr/>
-			<h3 class="text-blue">License Information</h3>
-			<hr/>
-			<div class="form-group">
-				<label for="account">Account Name</label>
-				<input type="text" name="account" id="account" class="form-control" value="{{ $user->account }}" />
-			</div>
-			<div class="form-group">
-				<label for="license_number">License Number</label>
-				<input type="text" name="license_number" id="license_number" class="form-control" value="{{ $user->license_number }}" />
-			</div>
-			<div class="form-group">
-				<label for="license_expire">Expiration Date</label>
-				<input type="text" name="license_expire" id="license_expire" class="form-control datepicker" value="{{ $user->license_expire }}" />
-			</div>
-			<hr/>
-			<h3 class="text-blue">User Information</h3>
-			<hr/>
-			<div class="form-group">
-				<label for="company">Organization Name</label>
-				<input type="text" name="company" id="company" class="form-control" value="{{ $user->company }}" />
-			</div>
-			<div class="form-group">
-				<label for="first_name">First Name</label>
-				<input type="text" name="first_name" id="first_name" class="form-control" value="{{ $user->first_name }}" required />
-			</div>
-			<div class="form-group">
-				<label for="last_name">Last Name</label>
-				<input type="text" name="last_name" id="last_name" class="form-control" value="{{ $user->last_name }}" required />
-			</div>
-			<div class="form-group">
-				<label for="email">Email</label>
-				<input type="text" name="email" id="email" class="form-control" value="{{ $user->email }}" required />
-			</div>
-			<div class="form-group">
-				<label for="password">Password</label>
-				<input type="password" name="password" id="password" class="form-control" />
-			</div>
-			<div class="form-group">
-				<p class="help-block">Leave blank to stay the same</p>
-				<label for="password_confirmation">Confirm Password</label>
-				<input type="password" name="password_confirmation" id="password_confirmation" class="form-control" />
-			</div>
-			<div class="form-group">
-				<label for="phone">Phone</label>
-				<input type="text" name="phone" id="phone" class="form-control" value="{{ $user->phone }}" />
-			</div>
-			<div class="form-group">
-				<label for="secondary_phone">Alternate Phone</label>
-				<input type="text" name="secondary_phone" id="secondary_phone" class="form-control" value="{{ $user->secondary_phone }}" />
-			</div>
-			<div class="form-group">
-				<input type="hidden" name="id" value="{{ $user->id }}" />
-				<input type="hidden" name="_token" value="{{ csrf_token() }}" />
-				<button type="submit" name="cancel" value="true" class="btn">Cancel</button>
-				<button type="submit" name="submit" value="true" class="btn btn-default">Submit</button>
-			</div>
-		</form>
+				<div class="form-group">
+					<div class="checkbox">
+					    <label>
+					      <input type="checkbox" name="no_pricing" value="true" {{ $user->no_pricing?'checked':'' }}> Hide Pricing?
+						</label>
+					</div>
+				</div>
+				<div class="form-group">
+					<div class="checkbox">
+					    <label>
+					      <input type="checkbox" name="gsa" value="true" {{ $user->gsa?'checked':'' }}> GSA?
+						</label>
+					</div>
+				</div>
+				<hr/>
+				<h3 class="text-blue">Taxes</h3>
+				<hr/>
+				<div class="form-group">
+					<div class="checkbox">
+						<label>
+							<input type="checkbox" name="tax_exempt" value="true" {{ $user->tax_exempt?'checked':'' }}> Tax Exempt?
+						</label>
+					</div>
+				</div>
+				<div class="form-group">
+					<div class="col-md-3 no-padding">
+						<label for="tax_rate_id">Tax Rate</label>
+						<select id="tax_rate_id" name="tax_rate_id" class="form-control">
+							<option value=""></option>
+							@foreach(App\TaxRate::all() as $tax_rate)
+								<option value="{{ $tax_rate->id }}" {{ ($tax_rate->id==$user->tax_rate_id)?'selected':'' }}>{{ $tax_rate->name }} ({{ $tax_rate->tax }}%)</option>
+							@endforeach
+						</select>
+						@if(App\TaxRate::count()===0)
+							<div class="alert alert-warning">
+								<a href="{{ route('admin-tax-rates') }}" target="_blank" rel="nofollow noreferrer">Add a tax rate</a> first.
+							</div>
+						@endif
+					</div>
+				</div>
+				<div class="clearfix"></div>
+				<hr/>
+				<h3 class="text-blue">License Information</h3>
+				<hr/>
+				<div class="form-group">
+					<label for="account">Account Name</label>
+					<input type="text" name="account" id="account" class="form-control" value="{{ $user->account }}" />
+				</div>
+				<div class="form-group">
+					<label for="license_number">License Number</label>
+					<input type="text" name="license_number" id="license_number" class="form-control" value="{{ $user->license_number }}" />
+				</div>
+				<div class="form-group">
+					<label for="license_expire">Expiration Date</label>
+					<input type="text" name="license_expire" id="license_expire" class="form-control datepicker" value="{{ $user->license_expire }}" />
+				</div>
+				<hr/>
+				<h3 class="text-blue">User Information</h3>
+				<hr/>
+				<div class="form-group">
+					<label for="company">Organization Name</label>
+					<input type="text" name="company" id="company" class="form-control" value="{{ $user->company }}" />
+				</div>
+				<div class="form-group">
+					<label for="first_name">First Name</label>
+					<input type="text" name="first_name" id="first_name" class="form-control" value="{{ $user->first_name }}" required />
+				</div>
+				<div class="form-group">
+					<label for="last_name">Last Name</label>
+					<input type="text" name="last_name" id="last_name" class="form-control" value="{{ $user->last_name }}" required />
+				</div>
+				<div class="form-group">
+					<label for="email">Email</label>
+					<input type="text" name="email" id="email" class="form-control" value="{{ $user->email }}" required />
+				</div>
+				<div class="form-group">
+					<label for="password">Password</label>
+					<input type="password" name="password" id="password" class="form-control" />
+				</div>
+				<div class="form-group">
+					<p class="help-block">Leave blank to stay the same</p>
+					<label for="password_confirmation">Confirm Password</label>
+					<input type="password" name="password_confirmation" id="password_confirmation" class="form-control" />
+				</div>
+				<div class="form-group">
+					<label for="phone">Phone</label>
+					<input type="text" name="phone" id="phone" class="form-control" value="{{ $user->phone }}" />
+				</div>
+				<div class="form-group">
+					<label for="secondary_phone">Alternate Phone</label>
+					<input type="text" name="secondary_phone" id="secondary_phone" class="form-control" value="{{ $user->secondary_phone }}" />
+				</div>
+				<div class="form-group">
+					<input type="hidden" name="id" value="{{ $user->id }}" />
+					<input type="hidden" name="_token" value="{{ csrf_token() }}" />
+					<button type="submit" name="cancel" value="true" class="btn">Cancel</button>
+					<button type="submit" name="submit" value="true" class="btn btn-default">Submit</button>
+				</div>
+			</form>
 			@if(count($user->shipping)>0)
 				<div class="form-group">
 					<h2>Shipping:</h2>
@@ -180,6 +222,7 @@ $(document).ready(function(){
 					</table>
 				</div>
 			@endif
+		</div>
 	</div>
 </div>
 @endsection

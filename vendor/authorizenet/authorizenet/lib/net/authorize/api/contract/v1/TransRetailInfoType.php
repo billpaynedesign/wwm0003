@@ -22,6 +22,16 @@ class TransRetailInfoType
     private $deviceType = null;
 
     /**
+     * @property string $customerSignature
+     */
+    private $customerSignature = null;
+
+    /**
+     * @property string $terminalNumber
+     */
+    private $terminalNumber = null;
+
+    /**
      * Gets as marketType
      *
      * @return string
@@ -62,6 +72,50 @@ class TransRetailInfoType
     public function setDeviceType($deviceType)
     {
         $this->deviceType = $deviceType;
+        return $this;
+    }
+
+    /**
+     * Gets as customerSignature
+     *
+     * @return string
+     */
+    public function getCustomerSignature()
+    {
+        return $this->customerSignature;
+    }
+
+    /**
+     * Sets a new customerSignature
+     *
+     * @param string $customerSignature
+     * @return self
+     */
+    public function setCustomerSignature($customerSignature)
+    {
+        $this->customerSignature = $customerSignature;
+        return $this;
+    }
+
+    /**
+     * Gets as terminalNumber
+     *
+     * @return string
+     */
+    public function getTerminalNumber()
+    {
+        return $this->terminalNumber;
+    }
+
+    /**
+     * Sets a new terminalNumber
+     *
+     * @param string $terminalNumber
+     * @return self
+     */
+    public function setTerminalNumber($terminalNumber)
+    {
+        $this->terminalNumber = $terminalNumber;
         return $this;
     }
 

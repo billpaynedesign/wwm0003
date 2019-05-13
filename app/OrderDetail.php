@@ -10,11 +10,14 @@ class OrderDetail extends Model {
 	 * @var string
 	 */
 	protected $table = 'orderdetails';
-	
+
 	public function order(){
 		return $this->belongsTo('App\Order');
 	}
 	public function product(){
-		return $this->belongsTo('App\Product');
+		return $this->belongsTo('App\Product')->withTrashed();
+	}
+	public function getUomAttribute(){
+		return UnitOfMeasure::where('product_id',$this->product_id)->where('name',$this->options)->first();
 	}
 }

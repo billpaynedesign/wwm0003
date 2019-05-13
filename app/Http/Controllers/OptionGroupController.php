@@ -43,7 +43,7 @@ class OptionGroupController extends Controller
             $option->save();
         }
 
-        return redirect()->route('admin-dashboard')->with(['success'=>'Product options added successfully','tab'=>'products']);
+        return redirect()->route('admin-products')->with(['success'=>'Product options added successfully','tab'=>'products']);
     }
 
     /**
@@ -92,7 +92,35 @@ class OptionGroupController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $option_group = OptionGroup::destroy($id);
+        return redirect()->route('admin-options')->with('success','Option Group deleted successfully.');
+    }
+
+    public function group_edit($id){
+        $option_group = OptionGroup::find($id);
+        return view('option_group.group_edit',compact('option_group'));
+    }
+
+    public function group_update(Request $request, $id){
+        $option_group = OptionGroup::find($id);
+        $option_group->name = $request->input('name');
+        $option_group->save();
+        if($request->has('options')){
+            foreach ($request->input('options') as $option_id => $value) {
+                $option = Option::find($option_id);
+                $option->option = $value;
+                $option->save();
+            }
+        }
+        if($request->has('option_name')){
+            foreach ($request->input('option_names') as $value) {
+                $option = new Option;
+                $option->option_group_id = $id;
+                $option->option = $value;
+                $option->save();
+            }
+        }
+        return redirect()->route('option-group-edit', $id)->with('success','Option group edited successfully.');
     }
 
     public function group_product_select_group(Request $request){
@@ -124,7 +152,7 @@ class OptionGroupController extends Controller
             $product->options()->attach($option_id);
         }
         
-        return redirect()->route('admin-dashboard')->with(['success'=>'Products grouped successfully','tab'=>'products']);
+        return redirect()->route('admin-products')->with(['success'=>'Products grouped successfully','tab'=>'products']);
     }
 
     public function group_product_option_add(Request $request, $id){
@@ -157,7 +185,7 @@ class OptionGroupController extends Controller
         $option->products()->detach($request->input('product_id'));
         if(count($product_group->products)===0){
             $product_group->delete();
-            return redirect()->route('admin-dashboard')->with(['tab'=>'products']);
+            return redirect()->route('admin-products')->with(['tab'=>'products']);
         }
         return redirect()->route('option.edit', $id)->with(['success'=>'Product deleted successfully']);
     }

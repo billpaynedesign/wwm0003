@@ -22,7 +22,7 @@ class ArrayOfSettingType
      * @return self
      * @param \net\authorize\api\contract\v1\SettingType $setting
      */
-    public function addSettingToSetting(\net\authorize\api\contract\v1\SettingType $setting)
+    public function addToSetting(\net\authorize\api\contract\v1\SettingType $setting)
     {
         $this->setting[] = $setting;
         return $this;

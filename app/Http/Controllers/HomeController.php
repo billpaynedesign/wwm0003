@@ -1,20 +1,13 @@
 <?php namespace App\Http\Controllers;
-use App\Product;
 use App\Category;
+use App\OrderDetail;
+use App\Product;
+use App\Special;
 use Illuminate\Http\Request;
 use Mail;
-class HomeController extends Controller {
+use QuickBooksOnline\API\DataService\DataService;
 
-	/*
-	|--------------------------------------------------------------------------
-	| Home Controller
-	|--------------------------------------------------------------------------
-	|
-	| This controller renders your application's "dashboard" for users that
-	| are authenticated. Of course, you are free to change or remove the
-	| controller as you wish. It is just here to get your app started!
-	|
-	*/
+class HomeController extends Controller {
 
 	/**
 	 * Create a new controller instance.
@@ -33,8 +26,10 @@ class HomeController extends Controller {
 	 */
 	public function index()
 	{
-        $featured = Category::featured()->active()->get();
-		return view('home',compact('featured'));
+        $top_categories = Category::featured()->active()->orderBy('updated_at','desc')->take(4)->get();
+        // $top_products = Product::featured()->active()->orderBy('updated_at','desc')->take(4)->get();
+        $top_products = OrderDetail::with('product')->has('product')->groupBy('product_id')->orderByRaw('SUM(quantity) DESC')->take(3)->get();
+		return view('home',compact('top_categories','top_products'));
 	}
 	public function contact(Request $request){
 		if($request->has('email')){
@@ -44,10 +39,11 @@ class HomeController extends Controller {
 		}
 		else{
 			Mail::send('emails.contact', compact('request'), function ($m) use ($request) {
-            	$m->to('bw@wwmdusa.com', 'Brent Weintraub')->subject('WWMD Contact Form');
-            	$m->to('bw.wwmd@gmail.com', 'Brent Weintraub')->subject('WWMD Contact Form');
-            	$m->to('wwmdusa@gmail.com', 'Brent Weintraub')->subject('WWMD Contact Form');
-            	$m->bcc('lbodden@drivegroupllc.com', 'Leopold Bodden')->subject('WWMD Contact Form');
+                $m->subject('WWMD Contact Form');
+            	$m->to('brent@wwmdusa.com', 'Brent Weintraub');
+            	$m->to('bw.wwmd@gmail.com', 'Brent Weintraub');
+            	$m->to('wwmdusa@gmail.com', 'Brent Weintraub');
+            	$m->bcc('lbodden@drivegroupllc.com', 'Leopold Bodden');
             	$m->replyTo($request->input('real_email'));
         	});
 		}

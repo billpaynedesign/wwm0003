@@ -1,12 +1,16 @@
 <?php namespace App;
 
+use Cviebrock\EloquentSluggable\Sluggable;
+use Cviebrock\EloquentSluggable\SluggableScopeHelpers;
 use Illuminate\Database\Eloquent\Model;
-use Cviebrock\EloquentSluggable\SluggableInterface;
-use Cviebrock\EloquentSluggable\SluggableTrait;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Category extends Model implements SluggableInterface{
+class Category extends Model{
 
-	use SluggableTrait;
+    use SoftDeletes;
+	use Sluggable;
+    use SluggableScopeHelpers;
+    
 	static $getCategorySelect;
 	/**
 	 * The database table used by the model.
@@ -15,10 +19,19 @@ class Category extends Model implements SluggableInterface{
 	 */
 	protected $table = 'categories';
 
-	protected $sluggable = [
-        'build_from' => 'name',
-        'save_to'    => 'slug',
-    ];
+    /**
+     * Sluggable configuration.
+     *
+     * @var array
+     */
+    public function sluggable() {
+        return [
+            'slug' => [
+                'source' => 'name'
+            ]
+        ];
+    }
+    protected $dates = ['deleted_at'];
 	/**
 	 * The attributes that are mass assignable.
 	 *
@@ -38,9 +51,9 @@ class Category extends Model implements SluggableInterface{
 	public function children(){
 		return $this->hasMany('App\Category','parent_id');
 	}
-	public function products(){
-		return $this->hasMany('App\Product');
-	}
+    public function products(){
+        return $this->belongsToMany('App\Product');
+    }
 	public function scopeFeatured($query){
 		return $query->where('featured',1);
 	}

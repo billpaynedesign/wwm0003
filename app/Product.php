@@ -1,12 +1,17 @@
 <?php namespace App;
 
+use Cviebrock\EloquentSluggable\Sluggable;
+use Cviebrock\EloquentSluggable\SluggableScopeHelpers;
 use Illuminate\Database\Eloquent\Model;
-use Cviebrock\EloquentSluggable\SluggableInterface;
-use Cviebrock\EloquentSluggable\SluggableTrait;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Log;
+use QBItem;
 
-class Product extends Model implements SluggableInterface{
+class Product extends Model{
 
-	use SluggableTrait;
+	use Sluggable;
+    use SoftDeletes;
+    use SluggableScopeHelpers;
 	/**
 	 * The database table used by the model.
 	 *
@@ -14,10 +19,48 @@ class Product extends Model implements SluggableInterface{
 	 */
 	protected $table = 'products';
 
-	protected $sluggable = [
-	'build_from' => 'name',
-	'save_to'    => 'slug',
+
+    protected $dates = ['deleted_at'];
+
+	protected $casts = [
+		'manufacturer' => 'string',
+		'item_number' => 'string',
+		'productshortdescription' => 'string',
+		'productdescription' => 'string',
+		'note' => 'string',
+		'picture' => 'string',
+		'active' => 'boolean',
+		'has_lot_expiry' => 'boolean',
+		'require_license' => 'boolean',
+		'taxable' => 'boolean'
 	];
+
+	protected $fillable = [
+		'name',
+		'manufacturer',
+		'item_number',
+		'short_description',
+		'description',
+		'note',
+		'picture',
+		'active',
+		'has_lot_expiry',
+		'require_license',
+		'taxable'
+	];
+
+    /**
+     * Sluggable configuration.
+     *
+     * @var array
+     */
+    public function sluggable() {
+        return [
+            'slug' => [
+                'source' => 'name'
+            ]
+        ];
+    }
 
     public function groups(){
         return  $this->belongsToMany('App\ProductGroup','product_has_product_groups','product_id','product_group_id');
@@ -43,12 +86,23 @@ class Product extends Model implements SluggableInterface{
     public function orders(){
     	return $this->hasManyThrough('App\Order','App\OrderDetails','id','product_id');
     }
-    public function category()
-    {
-    	return $this->belongsTo('App\Category');
+	public function vendors(){
+		return $this->belongsToMany('App\Vendor');
+	}
+    /*public function category(){
+        return $this->belongsTo('App\Category');
+    }*/
+    public function getCategoryAttribute(){
+        return $this->categories()->first();
+    }
+    public function categories(){
+        return $this->belongsToMany('App\Category');
     }
     public function reviews(){
         return $this->hasMany('App\Review');
+    }
+    public function getPriceStringAttribute(){
+        return '$'.\number_format((float)$this->price,2);
     }
     public function getMinPriceAttribute(){
         $min_uom = $this->units_of_measure()->orderBy('price','desc')->first();
@@ -63,7 +117,7 @@ class Product extends Model implements SluggableInterface{
         return '$'.\number_format((float)$this->min_price,2);
     }
     public function getMinMsrpAttribute(){
-        $min_uom = $this->units_of_measure()->orderBy('msrp','desc')->first();
+        $min_uom = $this->units_of_measure()->orderBy('msrp','asc')->first();
         if($min_uom){
             return $min_uom->msrp;
         }
@@ -73,6 +127,9 @@ class Product extends Model implements SluggableInterface{
     }
     public function getMinMsrpStringAttribute(){
         return '$'.\number_format((float)$this->min_msrp,2);
+    }
+    public function scopeFeatured($query){
+        return $query->where('featured',1);
     }
     public function scopeActive($query){
         return $query->where('active',1);
@@ -87,5 +144,41 @@ class Product extends Model implements SluggableInterface{
     	}
     	krsort($html);
     	return implode($html);
+    }
+    public function qbCheckOrCreate($dataService){
+        if($this->qb_id){
+            $entities = $dataService->Query("select * from Item where Id='{$this->qb_id}'");
+            if($entities != null){
+                if(!empty($entities) && sizeof($entities) == 1){
+                    $item = current($entities);
+                    return $item;
+                }
+            }
+        }
+        $item = QBItem::create([
+            "Type" => "NonInventory",
+            "Name" => $this->name,
+            "Sku" => $this->item_number,
+            "IncomeAccountRef" => [
+                "value" => "79",
+                "name" => "Sales of Product Income"
+            ],
+            "ExpenseAccountRef" => [
+                "value" => "80",
+                "name" => "Cost of Goods Sold"
+            ]
+        ]);
+        $response = $dataService->Add($item);
+        if (null != $error = $dataService->getLastError()) {
+            $errormessage = "Item Creation Error: \n";
+            $errormessage .= "The Status code is: " . $error->getHttpStatusCode() . "\n";
+            $errormessage .= "The Helper message is: " . $error->getOAuthHelperError() . "\n";
+            $errormessage .= "The Response message is: " . $error->getResponseBody() . "\n";
+            Log::error($errormessage);
+            return false;
+        }
+        $this->qb_id = $response->Id;
+        $this->save();
+        return $response;
     }
 }

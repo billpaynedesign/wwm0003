@@ -4,11 +4,15 @@ cocur/slugify
 > Converts a string into a slug.
 
 [![Build Status](https://img.shields.io/travis/cocur/slugify.svg?style=flat)](https://travis-ci.org/cocur/slugify)
+[![Windows Build status](https://ci.appveyor.com/api/projects/status/9yv498ff61byp742?svg=true)](https://ci.appveyor.com/project/florianeckerstorfer/slugify)
 [![Scrutinizer Quality Score](https://img.shields.io/scrutinizer/g/cocur/slugify.svg?style=flat)](https://scrutinizer-ci.com/g/cocur/slugify/)
-[![Code Coverage](http://img.shields.io/coveralls/cocur/slugify.svg?style=flat)](https://coveralls.io/r/cocur/slugify)
-[![Monthly Downloads](http://img.shields.io/packagist/dm/cocur/slugify.svg?style=flat)](https://packagist.org/packages/cocur/slugify)
+[![Code Coverage](https://scrutinizer-ci.com/g/cocur/slugify/badges/coverage.png?b=master&style=flat-square)](https://scrutinizer-ci.com/g/cocur/slugify/?branch=master)
 
-Developed by [Florian Eckerstorfer](https://florian.ec) in Vienna, Europe with the help of 
+[![Latest Release](https://img.shields.io/packagist/v/cocur/slugify.svg)](https://packagist.org/packages/cocur/slugify)
+[![MIT License](https://img.shields.io/packagist/l/cocur/slugify.svg)](http://opensource.org/licenses/MIT)
+[![Total Downloads](https://img.shields.io/packagist/dt/cocur/slugify.svg)](https://packagist.org/packages/cocur/slugify)
+
+Developed by [Florian Eckerstorfer](https://florian.ec) in Vienna, Europe with the help of
 [many great contributors](https://github.com/cocur/slugify/graphs/contributors).
 
 
@@ -16,17 +20,14 @@ Features
 --------
 
 - Removes all special characters from a string.
-- Provides custom replacements for German, French, Spanish, Russian, Ukrainian, Polish, Czech, Latvian, Greek,
-Esperanto¹, Arabian, Vietnamese and Burmese special characters. Instead of removing these characters, Slugify
-approximates them (e.g., `ae` replaces `ä`).
+- Provides custom replacements for Arabic, Austrian, Azerbaijani, Bulgarian, Burmese, Croatian, Czech, Esperanto, Estonian, Finnish, French, Georgian, German, Greek, Hindi, Italien, Latvian, Lithuanian, Norwegian, Polish, Romanian, Russian, Serbian, Spanish, Swedish, Turkish, Ukrainian and Vietnamese special characters. Instead of
+removing these characters, Slugify approximates them (e.g., `ae` replaces `ä`).
 - No external dependencies.
 - PSR-4 compatible.
-- Compatible with PHP >= 5.3.3 and [HHVM](http://hhvm.com).
-- Integrations for [Symfony2](http://symfony.com), [Silex](http://silex.sensiolabs.org), [Laravel](http://laravel.com),
-[Twig](http://twig.sensiolabs.org), [Zend Framework 2](http://framework.zend.com/), [Nette Framework](http://nette.org/)
-and [Latte](http://latte.nette.org/).
-
-¹ Some Esperanto transliterations conflict with others. You need to enable the Esperanto ruleset to use these transliterations.
+- Compatible with PHP >= 5.5.9, PHP 7 and [HHVM](http://hhvm.com).
+- Integrations for [Symfony (2 and 3)](http://symfony.com), [Silex (1 and 2)](http://silex.sensiolabs.org), [Laravel](http://laravel.com),
+[Twig (1 and 2)](http://twig.sensiolabs.org), [Zend Framework 2](http://framework.zend.com/), [Nette Framework](http://nette.org/),
+[Latte](http://latte.nette.org/) and [Plum](https://github.com/plumphp/plum).
 
 
 Installation
@@ -69,28 +70,80 @@ echo $slugify->slugify('Hi'); // hey
 
 ### Rulesets
 
-In addition Slugify also supports rulesets. A ruleset contains a set of rules that are not part of the default rules.
-Currently one ruleset exists for Esperanto since some of the transliterations conflict with those for other languages.
-The `activateRuleset()` method activates a ruleset with the given name.
+Many of the transliterations rules used in Slugify are specific to a language. These rules are therefore categorized
+using rulesets. Rules for the most popular are activated by default in a specific order. You can change which rulesets
+are activated and the order in which they are activated. The order is important when there are conflicting rules in
+different languages. For example, in German `ä` is transliterated with `ae`, in Turkish the correct transliteration is
+`a`. By default the German transliteration is used since German is used more often on the internet. If you want to use
+prefer the Turkish transliteration you have to possibilities. You can activate it after creating the constructor:
 
 ```php
-$slugify->activateRuleset('esperanto');
-echo $slugify->slugify('serĉi manĝi'); // sercxi-mangxi
+$slugify = new Slugify();
+$slugify->slugify('ä'); // -> "ae"
+$slugify->activateRuleset('turkish');
+$slugify->slugify('ä'); // -> "a"
 ```
 
-You can add rulesets by using `Slugify::addRuleset()` and retrieve all rulesets with `Slugify::getRuleset()`.
-
-### Further Customization
-
-You can also change the regular expression that is used to replace characters with the separator.
+An alternative way would be to pass the rulesets and their order to the constructor.
 
 ```php
-$slugify = new Slugify('/([^a-z0-9]|-)+/');
-// or
-$slugify->setRegExp('/([^a-z0-9]|-)+/');
+$slugify = new Slugify(['rulesets' => ['default', 'turkish']]);
+$slugify->slugify('ä'); // -> "a"
+```
+
+You can find a list of the available rulesets in `Resources/rules`.
+
+### More options
+
+The constructor takes an options array, you have already seen the `rulesets` options above. You can also change the
+regular expression that is used to replace characters with the separator.
+
+```php
+$slugify = new Slugify(['regexp' => '/([^A-Za-z0-9]|-)+/']);
 ```
 
 *(The regular expression used in the example above is the default one.)*
+
+By default Slugify will convert the slug to lowercase. If you want to preserve the case of the string you can set the
+`lowercase` option to false.
+
+```php
+$slugify = new Slugify(['lowercase' => false]);
+$slugify->slugify('Hello World'); // -> "Hello-World"
+```
+
+By default Slugify will use dashes as separators. If you want to use a different default separator, you can set the
+`separator` option.
+
+```php
+$slugify = new Slugify(['separator' => '_']);
+$slugify->slugify('Hello World'); // -> "hello_world"
+```
+
+### Changing options on the fly
+
+You can overwrite any of the above options on the fly by passing an options array as second argument to the `slugify()`
+method. For example:
+
+```php
+$slugify = new Slugify();
+$slugify->slugify('Hello World', ['lowercase' => false]); // -> "Hello-World"
+```
+
+You can also modify the separator this way:
+
+```php
+$slugify = new Slugify();
+$slugify->slugify('Hello World', ['separator' => '_']); // -> "hello_world"
+```
+
+You can even activate a custom ruleset without touching the default rules:
+
+```php
+$slugify = new Slugify();
+$slugify->slugify('für', ['ruleset' => 'turkish']); // -> "fur"
+$slugify->slugify('für'); // -> "fuer"
+```
 
 ### Contributing
 
@@ -109,9 +162,9 @@ All you need to do is:
 Integrations
 ------------
 
-### Symfony2
+### Symfony
 
-Slugify contains a Symfony2 bundle and service definition that allow you to use it as a service in your Symfony2
+Slugify contains a Symfony bundle and service definition that allow you to use it as a service in your Symfony
 application. The code resides in the `Cocur\Slugify\Bridge\Symfony` namespace and you only need to add the bundle class
 to your `AppKernel.php`:
 
@@ -145,16 +198,26 @@ The bundle also provides an alias `slugify` for the `cocur_slugify` service:
 $slug = $this->get('slugify')->slugify('Hello World!');
 ```
 
+You can set the following configuration settings in `app/config.yml` to adjust the slugify service:
+
+```yaml
+cocur_slugify:
+    lowercase: <boolean>
+    separator: <string>
+    regexp: <string>
+    rulesets: { }
+```
+
 ### Twig
 
-If you use the Symfony2 framework with Twig you can use the Twig filter `slugify` in your templates after you have setup
-Symfony2 integrations (see above).
+If you use the Symfony framework with Twig you can use the Twig filter `slugify` in your templates after you have setup
+Symfony integrations (see above).
 
 ```twig
 {{ 'Hällo Wörld'|slugify }}
 ```
 
-If you use Twig outside of the Symfony2 framework you first need to add the extension to your environment:
+If you use Twig outside of the Symfony framework you first need to add the extension to your environment:
 
 ```php
 use Cocur\Slugify\Bridge\Twig\SlugifyExtension;
@@ -178,7 +241,7 @@ Slugify extension using a closure:
 ),
 ```
 
-You can find more information about registering extensions in the 
+You can find more information about registering extensions in the
 [Twig documentation](http://twig.sensiolabs.org/doc/advanced.html#creating-an-extension).
 
 ### Silex
@@ -186,7 +249,13 @@ You can find more information about registering extensions in the
 Slugify also provides a service provider to integrate into Silex.
 
 ```php
+// For Silex version 1
 $app->register(new Cocur\Slugify\Bridge\Silex\SlugifyServiceProvider());
+```
+
+```php
+// For Silex version 2
+$app->register(new Cocur\Slugify\Bridge\Silex2\SlugifyServiceProvider());
 ```
 
 You can use the `slugify` method in your controllers:
@@ -197,16 +266,10 @@ $app->get('/', function () {
 });
 ```
 
-And if you use Silex in combination with Twig you can also use it in your templates:
+And if you use Silex in combination with Twig register the `SlugifyServiceProvider` after the `Silex\Provider\TwigServiceProvider` to add the Twig extension to your environment and use the `slugify` filter in your templates.
 
 ```twig
-{{ app.slugify.slugify('welcome to the homepage') }}
-```
-
-Of course you can also add the Twig extension to your environment and use the `slugify` filter:
-
-```php
-$app['twig']->addExtension(new SlugifyExtension(Slugify::create()));
+{{ 'welcome to the homepage'|slugify }}
 ```
 
 ### Mustache.php
@@ -219,7 +282,7 @@ use Cocur\Slugify\Slugify;
 
 $mustache = new Mustache_Engine(array(
     // ...
-    'helpers' => array('slugify' => function($string, $separator = '-') {
+    'helpers' => array('slugify' => function($string, $separator = null) {
         return Slugify::create()->slugify($string, $separator);
     }),
 ));
@@ -347,9 +410,154 @@ $latte = new Latte\Engine();
 $latte->addFilter('slugify', array(new SlugifyHelper(Slugify::create()), 'slugify'));
 ```
 
+### Slim 3
 
-Changelog
----------
+Slugify does not need a specific bridge to work with [Slim 3](http://www.slimframework.com), just add the following configuration:
+
+```php
+$container['view'] = function ($c) {
+    $settings = $c->get('settings');
+    $view = new \Slim\Views\Twig($settings['view']['template_path'], $settings['view']['twig']);
+    $view->addExtension(new Slim\Views\TwigExtension($c->get('router'), $c->get('request')->getUri()));
+    $view->addExtension(new Cocur\Slugify\Bridge\Twig\SlugifyExtension(Cocur\Slugify\Slugify::create()));
+    return $view;
+};
+```
+
+In a template you can use it like this:
+
+```twig
+<a href="/blog/{{ post.title|slugify }}">{{ post.title|raw }}</a></h5>
+```
+
+### League
+
+Slugify provides a service provider for use with `league/container`:
+
+```php
+use Cocur\Slugify;
+use League\Container;
+
+/* @var Container\ContainerInterface $container */
+$container->addServiceProvider(new Slugify\Bridge\League\SlugifyServiceProvider());
+
+/* @var Slugify\Slugify $slugify */
+$slugify = $container->get(Slugify\SlugifyInterface::class);
+```
+
+You can configure it by sharing the required options:
+
+```php
+use Cocur\Slugify;
+use League\Container;
+
+/* @var Container\ContainerInterface $container */
+$container->share('config.slugify.options', [
+    'lowercase' => false,
+    'rulesets' => [
+        'default',
+        'german',
+    ],
+]);
+
+$container->addServiceProvider(new Slugify\Bridge\League\SlugifyServiceProvider());
+
+/* @var Slugify\Slugify $slugify */
+$slugify = $container->get(Slugify\SlugifyInterface::class);
+```
+
+You can configure which rule provider to use by sharing it:
+
+```php
+use Cocur\Slugify;
+use League\Container;
+
+/* @var Container\ContainerInterface $container */
+$container->share(Slugify\RuleProvider\RuleProviderInterface::class, function () {
+    return new Slugify\RuleProvider\FileRuleProvider(__DIR__ . '/../../rules');
+]);
+
+$container->addServiceProvider(new Slugify\Bridge\League\SlugifyServiceProvider());
+
+/* @var Slugify\Slugify $slugify */
+$slugify = $container->get(Slugify\SlugifyInterface::class);
+```
+
+Change Log
+----------
+
+### Version 2.5 (23 March 2017)
+
+- [#150](https://github.com/cocur/slugify/pull/150) Add Romanian rules (by [gabiudrescu](https://github.com/gabiudrescu))
+- [#154](https://github.com/cocur/slugify/pull/154) Add French rules (by [SuN-80](https://github.com/SuN-80))
+- [#159](https://github.com/cocur/slugify/pull/159) Add Estonian rules (by [erkimiilberg](https://github.com/erkimiilberg))
+- [#162](https://github.com/cocur/slugify/pull/162) Add support for Twig 2 (by [JakeFr](https://github.com/JakeFr))
+
+### Version 2.4 (9 February 2017)
+
+- [#133](https://github.com/cocur/slugify/pull/133) Allow to modify options without creating a new object (by [leofeyer](https://github.com/leofeyer))
+- [#135](https://github.com/cocur/slugify/pull/135) Add support for Danish (by [izehose](https://github.com/izehose))
+- [#140](https://github.com/cocur/slugify/pull/140) Update Hindi support (by [arunlodhi](https://github.com/arunlodhi))
+- [#146](https://github.com/cocur/slugify/pull/146) Add support for Italien (by [gianiaz](https://github.com/gianiaz))
+- [#151](https://github.com/cocur/slugify/pull/151) Add support for Serbian (by [cvetan](https://github.com/cvetan))
+- [#155](https://github.com/cocur/slugify/pull/155) Update support for Lithuanian (by [s4uliu5](https://github.com/s4uliu5))
+
+### Version 2.3 (9 August 2016)
+
+- [#124](https://github.com/cocur/slugify/issues/124) Fix support for Bulgarian
+- [#125](https://github.com/cocur/slugify/pull/125) Update Silex 2 provider (by [JakeFr](https://github.com/JakeFr))
+- [#129](https://github.com/cocur/slugify/pull/129) Add support for Croatian (by [napravicukod](https://github.com/napravicukod))
+
+### Version 2.2 (10 July 2016)
+
+- [#102](https://github.com/cocur/slugify/pull/102) Add transliterations for Azerbaijani (by [seferov](https://github.com/seferov))
+- [#109](https://github.com/cocur/slugify/pull/109) Made integer values into strings (by [JonathanMH](https://github.com/JonathanMH))
+- [#114](https://github.com/cocur/slugify/pull/114) Provide SlugifyServiceProvider for league/container (by [localheinz](https://github.com/localheinz))
+- [#120](https://github.com/cocur/slugify/issues/120) Add compatibility with Silex 2 (by [shamotj](https://github.com/shamotj))
+
+### Version 2.1.1 (8 April 2016)
+
+- Do not activate Swedish rules by default (fixes broken v2.1 release)
+
+### Version 2.1.0 (8 April 2016)
+
+- [#104](https://github.com/cocur/slugify/pull/104) Add Symfony configuration (by [estahn](https://github.com/estahn))
+- [#107](https://github.com/cocur/slugify/issues/107) Fix Swedish rules
+
+### Version 2.0.0 (24 February 2016)
+
+- [#78](https://github.com/cocur/slugify/pull/78) Use multibyte-safe case convention (by [Koc](https://github.com/Koc))
+- [#81](https://github.com/cocur/slugify/pull/81) Move rules into JSON files (by [florianeckerstorfer](https://github.com/florianeckerstorfer))
+- [#84](https://github.com/cocur/slugify/pull/84) Add tests for very long strings containing umlauts (by [florianeckerstorfer](https://github.com/florianeckerstorfer))
+- [#88](https://github.com/cocur/slugify/pull/88) Add rules for Hindi (by [florianeckerstorfer](https://github.com/florianeckerstorfer))
+- [#89](https://github.com/cocur/slugify/pull/89) Add rules for Norwegian (by [tsmes](https://github.com/tsmes))
+- [#90](https://github.com/cocur/slugify/pull/90) Replace `bindShared` with `singleton` in Laravel bridge (by [sunspikes](https://github.com/sunspikes))
+- [#97](https://github.com/cocur/slugify/pull/97) Set minimum PHP version to 5.5.9 (by [florianeckerstorfer](https://github.com/florianeckerstorfer))
+- [#98](https://github.com/cocur/slugify/pull/98) Add rules for Bulgarian (by [RoumenDamianoff](https://github.com/RoumenDamianoff))
+
+
+### Version 1.4.1 (11 February 2016)
+
+- [#90](https://github.com/cocur/slugify/pull/90) Replace `bindShared` with `singleton` in Laravel bridge (by [sunspikes](https://github.com/sunspikes))
+
+### Version 1.4 (29 September 2015)
+
+- [#75](https://github.com/cocur/slugify/pull/75) Remove a duplicate array entry (by [irfanevrens](https://github.com/irfanevrens))
+- [#76](https://github.com/cocur/slugify/pull/76) Add support for Georgian (by [TheGIBSON](https://github.com/TheGIBSON))
+- [#77](https://github.com/cocur/slugify/pull/77) Fix Danish transliterations (by [kafoso](https://github.com/kafoso))
+
+### Version 1.3 (2 September 2015)
+
+- [#70](https://github.com/cocur/slugify/pull/70) Add missing superscript and subscript digits (by [BlueM](https://github.com/BlueM))
+- [#71](https://github.com/cocur/slugify/pull/71) Improve Greek language support (by [kostaspt](https://github.com/kostaspt))
+- [#72](https://github.com/cocur/slugify/pull/72) Improve Silex integration (by [CarsonF](https://github.com/CarsonF))
+- [#73](https://github.com/cocur/slugify/pull/73) Improve Russian language support (by [akost](https://github.com/akost))
+
+### Version 1.2 (2 July 2015)
+
+- Add integration for [Plum](https://github.com/plumphp/plum) (by [florianeckerstorfer](https://github.com/florianeckerstorfer))
+- [#64](https://github.com/cocur/slugify/pull/64) Fix Nette integration (by [lookyman](https://github.com/lookyman))
+- Add option to not convert slug to lowercase (by [florianeckerstorfer](https://github.com/florianeckerstorfer) and [GDmac](https://github.com/GDmac))
 
 ### Version 1.1 (18 March 2015)
 
@@ -435,6 +643,26 @@ Authors
 - [Ivo Bathke](https://github.com/ivoba)
 - [Marchenko Alexandr](http://mac-blog.org.ua)
 - And many [great contributors](https://github.com/cocur/slugify/graphs/contributors)
+
+> Slugify is a project of [Cocur](http://cocur.co). You can contact us on Twitter:
+> [**@cocurco**](https://twitter.com/cocurco)
+
+
+Support
+-------
+
+If you need support you can ask on [Twitter](https://twitter.com/cocurco) (well, only if your question is short) or you
+can join our chat on Gitter.
+
+[![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/cocur/slugify)
+
+In case you want to support the development of Slugify you can help us with providing additional transliterations or
+inform us if a transliteration is wrong. We would highly appreciate it if you can send us directly a Pull Request on
+Github. If you have never contributed to a project on Github we are happy to help you. Just ask on Twitter or directly
+join our Gitter.
+
+You always can help me (Florian, the original developer and maintainer) out by
+[sending me an Euro or two](https://paypal.me/florianec/2).
 
 
 License

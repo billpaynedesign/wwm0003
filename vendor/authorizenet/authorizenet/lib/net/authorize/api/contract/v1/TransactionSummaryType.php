@@ -87,6 +87,16 @@ class TransactionSummaryType
     private $hasReturnedItems = null;
 
     /**
+     * @property \net\authorize\api\contract\v1\FraudInformationType $fraudInformation
+     */
+    private $fraudInformation = null;
+
+    /**
+     * @property \net\authorize\api\contract\v1\CustomerProfileIdType $profile
+     */
+    private $profile = null;
+
+    /**
      * Gets as transId
      *
      * @return string
@@ -413,6 +423,50 @@ class TransactionSummaryType
     public function setHasReturnedItems($hasReturnedItems)
     {
         $this->hasReturnedItems = $hasReturnedItems;
+        return $this;
+    }
+
+    /**
+     * Gets as fraudInformation
+     *
+     * @return \net\authorize\api\contract\v1\FraudInformationType
+     */
+    public function getFraudInformation()
+    {
+        return $this->fraudInformation;
+    }
+
+    /**
+     * Sets a new fraudInformation
+     *
+     * @param \net\authorize\api\contract\v1\FraudInformationType $fraudInformation
+     * @return self
+     */
+    public function setFraudInformation(\net\authorize\api\contract\v1\FraudInformationType $fraudInformation)
+    {
+        $this->fraudInformation = $fraudInformation;
+        return $this;
+    }
+
+    /**
+     * Gets as profile
+     *
+     * @return \net\authorize\api\contract\v1\CustomerProfileIdType
+     */
+    public function getProfile()
+    {
+        return $this->profile;
+    }
+
+    /**
+     * Sets a new profile
+     *
+     * @param \net\authorize\api\contract\v1\CustomerProfileIdType $profile
+     * @return self
+     */
+    public function setProfile(\net\authorize\api\contract\v1\CustomerProfileIdType $profile)
+    {
+        $this->profile = $profile;
         return $this;
     }
 

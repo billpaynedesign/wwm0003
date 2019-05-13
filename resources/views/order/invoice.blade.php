@@ -75,15 +75,19 @@
           </tr>
           <tr>
             <td>Name:</td>
-            <td>{{ $order->transaction->first_name.' '.$order->transaction->last_name }}</td>
+            <td>{{ $order->transaction->name }}</td>
           </tr>
           <tr>
             <td>Location:</td>
             <td>{{ $order->transaction->address1.($order->transaction->address2?' '.$order->transaction->address2:'') }}</td>
           </tr>
           <tr>
-            <td>City, State:</td>
-            <td>{{ $order->transaction->city }}, {{ $order->transaction->state }}</td>
+            <td>City:</td>
+            <td>{{ $order->transaction->city }}</td>
+          </tr>
+          <tr>
+            <td>State:</td>
+            <td>{{ $order->transaction->state }}</td>
           </tr>
           <tr>
             <td>Country:</td>
@@ -109,8 +113,12 @@
             <td>{{ $order->address1.($order->address2?' '.$order->address2:'') }}</td>
           </tr>
           <tr>
-            <td>City,State:</td>
-            <td>{{ $order->city }},{{ $order->state }}</td>
+            <td>City:</td>
+            <td>{{ $order->city }}</td>
+          </tr>
+          <tr>
+            <td>State:</td>
+            <td>{{ $order->state }}</td>
           </tr>
           <tr>
             <td>Country:</td>
@@ -127,11 +135,12 @@
       <table id="product_table" width="100%" cellpadding="0" border="1" cellspacing="0" style="margin-top:15px;padding:0px 0px 0px 0px;border:1px solid #CCC;font-size:10px;">
         <tbody><tr>
           <th bgcolor="#CCC">Product Name</th>
+          <th bgcolor="#CCC">Product Detail</th>
           <th bgcolor="#CCC">LotNum</th>
           <th bgcolor="#CCC">Expiry Date</th>
           <!-- <th bgcolor="#CCC">Option</th> -->
-          <th bgcolor="#CCC">Qty</th> 
-          <th bgcolor="#CCC">Options</th>
+          <th bgcolor="#CCC">Qty</th>
+          <th bgcolor="#CCC">Size</th>
           <th bgcolor="#CCC">Backordered</th>
           <th bgcolor="#CCC">Price</th>
           <th bgcolor="#CCC">Total</th>
@@ -139,31 +148,31 @@
         @foreach($order->details as $detail)
         <tr>
           <td>{{ $detail->product->name }}</td>
+          <td>{{ $detail->product->item_number }} {{ $detail->product->options()->select('option')->get()->implode('option',',') }}</td>
           <td style="text-align:center;">{{ $detail->lot_number }}</td>
           <td style="text-align:center;">{{ $detail->expiration }}</td>
-          <!-- <td></td> -->
           <td style="text-align:center;">{{ $detail->quantity }}</td>
           <td style="text-align:center;">{{ $detail->options }}</td>
           <td style="text-align:center;">{{ $detail->backordered }}</td>
-          @if($order->user)
+          <td style="text-align:center;">
             @if($order->user->product_price_check($detail->product->id))
-              <td style="text-align:center;">{{ $order->user->product_price_check($detail->product->id)->price_string }}</td>
+              {{ $order->user->product_price_check($detail->product->id)->price_string }}
             @else
-              <td style="text-align:center;">{{ $detail->product->price_string }}</td>
+              {{ $detail->product->min_price_string }}
             @endif
-          @else
-          <td style="text-align:center;">{{ $detail->product->price_string }}</td>
-          @endif
+          </td>
           <td style="text-align:center;">${{ \number_format($detail->subtotal,2) }}</td>
         </tr>
         @endforeach
+        @if(!$order->user->tax_exempt)
         <tr>
-          <td colspan="5"></td>
+          <td colspan="7"></td>
           <th bgcolor="#CCC" align="right" style="padding-right:8px;"> State Tax + </th>
           <td style="text-align:center;">${{ \number_format($order->tax,2) }}</td>
         </tr>
+        @endif
         <tr>
-          <td colspan="5"></td>
+          <td colspan="7"></td>
           <th bgcolor="#CCC" align="right" style="padding-right:8px;">Total</th>
           <td style="text-align:center;">${{ \number_format($order->total_with_tax,2) }}</td>
         </tr>
@@ -176,7 +185,7 @@
       </div>
     </div>
     <div class="row text-center bold" style="margin-top: 15px;">
-      <p>bw&#64;wwmdusa.com   |   914-358-9878</p>
+      <p>brent&#64;wwmdusa.com   |   914-358-9878</p>
     </div>
   </body>
 </html>

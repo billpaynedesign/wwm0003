@@ -11,12 +11,15 @@ class UserPricing extends Model {
 	 */
 	protected $table = 'user_has_pricing';
 
+
 	public function product(){
 		return $this->belongsTo('App\Product');
 	}
-
 	public function user(){
 		return $this->belongsTo('App\User');
+	}
+	public function uom(){
+		return $this->belongsTo('App\UnitOfMeasure');
 	}
 
     public function getPriceStringAttribute(){

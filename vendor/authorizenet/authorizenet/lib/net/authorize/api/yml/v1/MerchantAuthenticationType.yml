@@ -60,6 +60,26 @@ net\authorize\api\contract\v1\MerchantAuthenticationType:
                 getter: getFingerPrint
                 setter: setFingerPrint
             type: net\authorize\api\contract\v1\FingerPrintType
+        clientKey:
+            expose: true
+            access_type: public_method
+            serialized_name: clientKey
+            xml_element:
+                namespace: AnetApi/xml/v1/schema/AnetApiSchema.xsd
+            accessor:
+                getter: getClientKey
+                setter: setClientKey
+            type: string
+        accessToken:
+            expose: true
+            access_type: public_method
+            serialized_name: accessToken
+            xml_element:
+                namespace: AnetApi/xml/v1/schema/AnetApiSchema.xsd
+            accessor:
+                getter: getAccessToken
+                setter: setAccessToken
+            type: string
         mobileDeviceId:
             expose: true
             access_type: public_method

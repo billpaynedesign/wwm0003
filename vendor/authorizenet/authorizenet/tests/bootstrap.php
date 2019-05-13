@@ -13,8 +13,13 @@ if (!defined('AUTHORIZENET_LOG_FILE'))
 }
 
 // Append to log file
-date_default_timezone_set('UTC'); //necessary for the following date to set timezone
-file_put_contents(AUTHORIZENET_LOG_FILE, sprintf("Logging Started: %s\n", date( DATE_RFC2822)), FILE_APPEND);
+$logMessage = sprintf("Logging Started: %s\n", date(DATE_RFC2822));
+if (AUTHORIZENET_LOG_FILE)
+{
+    file_put_contents(AUTHORIZENET_LOG_FILE, $logMessage, FILE_APPEND);
+} else {
+    echo $logMessage;
+}
 
 // validate existence of available extensions
 if (!function_exists('simplexml_load_file'))
@@ -43,7 +48,7 @@ if (null == $global_transaction_key || "" == $global_transaction_key)
 }
 
 ini_set('error_reporting', E_ALL);
-
+PHPUnit_Framework_Error_Deprecated::$enabled = false;
 /*
 $loader = require '../vendor/autoload.php';
 if (!isset($loader))

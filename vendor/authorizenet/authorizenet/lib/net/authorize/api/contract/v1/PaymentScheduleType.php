@@ -5,7 +5,7 @@ namespace net\authorize\api\contract\v1;
 /**
  * Class representing PaymentScheduleType
  *
- * 
+ *
  * XSD Type: paymentScheduleType
  */
 class PaymentScheduleType
@@ -73,7 +73,8 @@ class PaymentScheduleType
      */
     public function setStartDate(\DateTime $startDate)
     {
-        $this->startDate = $startDate;
+        $strDateOnly = $startDate->format('Y-m-d');
+        $this->startDate = \DateTime::createFromFormat('!Y-m-d', $strDateOnly); 
         return $this;
     }
 
